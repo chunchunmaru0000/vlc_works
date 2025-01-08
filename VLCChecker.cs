@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -250,7 +251,6 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				//clientForm.vlcControl.Stop();
 				clientForm.vlcControl.Play(victoryVideoUri);
 			}));
 		}
@@ -264,7 +264,6 @@ namespace vlc_works
 			clientForm.BeginInvoke(new Action(() =>
 			{
 				videoGameTimeWas = clientForm.vlcControl.Time;
-				//clientForm.vlcControl.Stop();
 				clientForm.vlcControl.Play(errorVideoUri);
 			}));
 			print($"TIME BEFORE DEFEAT WAS: {videoGameTimeWas}");
@@ -279,6 +278,8 @@ namespace vlc_works
 				EndVictoryVideo();
 			else if (endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
+			else
+				SafeStop();
 		}
 
 		void EndDefeatVideo()
@@ -287,7 +288,6 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				//clientForm.vlcControl.Stop();
 				clientForm.vlcControl.Play(gameVideoUri);
 				clientForm.vlcControl.Time = videoGameTimeWas;
 			}));
@@ -308,6 +308,7 @@ namespace vlc_works
 		void EndVictoryVideo()
 		{
 			// to do; he said smthng about idle video
+			SafeStop();
 		}
 
 		void EndGameVideo()
@@ -319,8 +320,10 @@ namespace vlc_works
 				{
 					blockInput = true;
 					print("BLOCKED INPUT");
+					print($"BAD ENDING");
+					gameEnded = true; // bad ending
+					SafeStop();
 				}
-
 				print($"PROCEEDS GAME BUT ERROR");
 				DeleteInput();
 			}
@@ -332,12 +335,30 @@ namespace vlc_works
 			else
 			{
 				print($"BAD ENDING");
+				print("GAME ENDED");
 				DeleteInput();
 				gameEnded = true; // bad ending
-				print("GAME ENDED");
+				SafeStop();
 				// also here idle video if will be
 			}
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
+		}
+
+		void StopPlayer()
+		{
+			clientForm.BeginInvoke(new Action(() =>
+			{
+				clientForm.vlcControl.Stop();
+			}));
+		}
+
+		void SafeStop()
+		{
+			new Thread(() =>
+			{
+				Thread.Sleep(500);
+				StopPlayer();
+			}).Start();
 		}
 	}
 }
