@@ -30,6 +30,11 @@ namespace vlc_works
 			});
 		}
 
+		public void DEBUG(string mesasge)
+		{
+			debugLabel.Text = mesasge;
+		}
+
 		public void DeleteInput()
 		{
 			inputLabel.Text = "";

@@ -39,8 +39,9 @@
 			this.foreColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.backToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.fontDialog = new System.Windows.Forms.FontDialog();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.fontDialog = new System.Windows.Forms.FontDialog();
+			this.debugLabel = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -154,12 +155,24 @@
 			this.saveToolStripMenuItem.Text = "Save / Сохранить";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
+			// debugLabel
+			// 
+			this.debugLabel.AutoSize = true;
+			this.debugLabel.Font = new System.Drawing.Font("Cascadia Code", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.debugLabel.ForeColor = System.Drawing.Color.LightGray;
+			this.debugLabel.Location = new System.Drawing.Point(12, 561);
+			this.debugLabel.Name = "debugLabel";
+			this.debugLabel.Size = new System.Drawing.Size(264, 49);
+			this.debugLabel.TabIndex = 7;
+			this.debugLabel.Text = "DEBUG PLACE";
+			// 
 			// OperatorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(1147, 570);
+			this.ClientSize = new System.Drawing.Size(1147, 741);
+			this.Controls.Add(this.debugLabel);
 			this.Controls.Add(this.videoLabel);
 			this.Controls.Add(this.errorLabel);
 			this.Controls.Add(this.winLabel);
@@ -192,5 +205,6 @@
 		private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;
 		private System.Windows.Forms.FontDialog fontDialog;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+		private System.Windows.Forms.Label debugLabel;
 	}
 }

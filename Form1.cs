@@ -32,7 +32,12 @@ namespace vlc_works
 		DateTime lastInput = DateTime.Now;
 		// some
 		bool isFullScreen { get; set; } = false;
-		void print(object str = null) => Console.WriteLine(str);
+		void print(object str = null)
+		{
+			string stroke = str == null ? "" : str.ToString();
+			Console.WriteLine(stroke);
+			operatorForm.BeginInvoke(new Action(() => { operatorForm.DEBUG(stroke); }));
+		}
 		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(3);
 		public static Uri url2mrl(string url) => new Uri(url);
 

@@ -56,7 +56,12 @@ namespace vlc_works
 		// some
 		public static event EventHandler ProcessCommandLineChanged;
 		protected virtual void OnProcessCommandLineChanged() => ProcessCommandLineChanged?.Invoke(this, EventArgs.Empty);
-		void print(object str = null) => Console.WriteLine(str.ToString());
+		void print(object str = null)
+		{
+			string stroke = str == null ? "" : str.ToString();
+			Console.WriteLine(stroke);
+			operatorForm.BeginInvoke(new Action(() => { operatorForm.DEBUG(stroke); }));
+		}
 		void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
 
 		public VLCChecker(Form1 clientForm, OperatorForm operatorForm)
@@ -197,7 +202,7 @@ namespace vlc_works
 		void PlaySomeVideo(string videoUrl)
 		{
 			vlcProcess = lastVlcProcess;
-			print("KIIIIL");
+			print($"PLAY: {videoUrl}");
 			KillVLC();
 			clientForm.BeginInvoke(new Action(() =>
 			{
@@ -276,7 +281,7 @@ namespace vlc_works
 				EndDefeatVideo();
 			else if (endedVideoMrl == victoryVideoUri.AbsoluteUri)
 				EndVictoryVideo();
-			else if (endedVideoMrl == gameVideoUri.AbsoluteUri)
+			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
 			else
 				SafeStop();
@@ -344,21 +349,12 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		void StopPlayer()
+		void SafeStop()
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Stop();
+				ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Stop());
 			}));
-		}
-
-		void SafeStop()
-		{
-			new Thread(() =>
-			{
-				Thread.Sleep(500);
-				StopPlayer();
-			}).Start();
 		}
 	}
 }
