@@ -20,8 +20,9 @@ namespace vlc_works
 	{
 		// global
 		IKeyboardEvents hook { get; set; }
-		VLCChecker VLCChecker { get; set; }
-		OperatorForm operatorForm { get; set; }
+		public VLCChecker VLCChecker { get; set; }
+		public OperatorForm operatorForm { get; set; }
+		public AccountingForm accountingForm { get; set; }
 		// consts
 		Keys[] NumKeys { get; } = new Keys[] {
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
@@ -52,6 +53,9 @@ namespace vlc_works
 			// operator form
 			operatorForm = new OperatorForm(this);
 			operatorForm.Show();
+			// accounting form
+			accountingForm = new AccountingForm(this);
+			accountingForm.Show();
 			// set vlc
 			vlcControl.EndReached += EndReached;
 			// cheker
