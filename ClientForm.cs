@@ -126,6 +126,8 @@ namespace vlc_works
 			operatorForm.Invoke((MethodInvoker)delegate {
 				operatorForm.DeleteInput();
 			});
+			foreach(InputKey key in keysStream)
+				key.Dispose();
 			keysStream.Clear();
 		}
 
