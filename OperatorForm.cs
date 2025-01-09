@@ -12,10 +12,10 @@ namespace vlc_works
 {
 	public partial class OperatorForm : Form
 	{
-		Form1 clientForm { get; set; }
+		ClientForm clientForm { get; set; }
 		TextSettings settings { get; set; }
 
-		public OperatorForm(Form1 clientForm)
+		public OperatorForm(ClientForm clientForm)
 		{
 			InitializeComponent();
 

@@ -16,7 +16,7 @@ using Vlc.DotNet.Core;
 
 namespace vlc_works
 {
-	public partial class Form1 : Form
+	public partial class ClientForm : Form
 	{
 		// global
 		IKeyboardEvents hook { get; set; }
@@ -27,25 +27,24 @@ namespace vlc_works
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
+		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10);
 		// input
-		List<Keys> keysStream { get; set; } = new List<Keys>();
-		DateTime lastInput = DateTime.Now;
+		public List<InputKey> keysStream { get; set; } = new List<InputKey>();
 		// some
 		bool isFullScreen { get; set; } = false;
-		void print(object str = null)
+		public void print(object str = null)
 		{
 			string stroke = str == null ? "" : str.ToString();
 			Console.WriteLine(stroke);
 			operatorForm.BeginInvoke(new Action(() => { operatorForm.DEBUG(stroke); }));
 		}
-		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(3);
+		public string keysStreamtos() => string.Join("", keysStream.Select(k => VLCChecker.ktos[k.Key]));
 		public static Uri url2mrl(string url) => new Uri(url);
 
-		public Form1()
+		public ClientForm()
 		{
 			//this.vlcControl.VlcLibDirectory = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libvlc\\win-x86"));
 			InitializeComponent();
-			new Thread(() => { Thread.Sleep(3000); AutoDelete(); }).Start();
 			Show();
 			// key logger
 			hook = Hook.GlobalEvents();
@@ -107,16 +106,17 @@ namespace vlc_works
 
 		void ProceedInput()
 		{
+			print($"TRYED TO INPUT: {keysStreamtos()}");
+
 			if (VLCChecker.blockInput || VLCChecker.gameEnded)
 				return;
 
-			VLCChecker.ProceedKeys(keysStream.ToArray());
+			VLCChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
 		}
 
 		void DrawNum(Keys key)
 		{
-			keysStream.Add(key);
-			lastInput = DateTime.Now + fadeTime;
+			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
 			inputLabel.Text += VLCChecker.ktos[key];
 		}
 
@@ -127,19 +127,6 @@ namespace vlc_works
 				operatorForm.DeleteInput();
 			});
 			keysStream.Clear();
-		}
-
-		void AutoDelete()
-		{
-			new Thread(() =>
-			{
-				while (true)
-				{
-					if (DateTime.Now >= lastInput)
-						this.Invoke((MethodInvoker)delegate { DeleteInput(); });
-					Thread.Sleep(30);
-				}
-			}).Start();
 		}
 
 		void FullScreen()

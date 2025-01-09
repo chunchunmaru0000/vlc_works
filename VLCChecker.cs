@@ -17,7 +17,7 @@ namespace vlc_works
 	public class VLCChecker
 	{
 		// forms
-		Form1 clientForm { get; set; }
+		ClientForm clientForm { get; set; }
 		OperatorForm operatorForm { get; set; }
 		// media
 		long videoGameTimeWas { get; set; }
@@ -64,7 +64,7 @@ namespace vlc_works
 		}
 		void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
 
-		public VLCChecker(Form1 clientForm, OperatorForm operatorForm)
+		public VLCChecker(ClientForm clientForm, OperatorForm operatorForm)
 		{
 			// forms
 			this.clientForm = clientForm;
@@ -88,10 +88,10 @@ namespace vlc_works
 				string[] lines = fileText.Split('\n');
 
 				winPath = lines[0].TrimEnd('\r');
-				victoryVideoUri = Form1.url2mrl(winPath);
+				victoryVideoUri = ClientForm.url2mrl(winPath);
 
 				defeatPath = lines[1];
-				errorVideoUri = Form1.url2mrl(defeatPath);
+				errorVideoUri = ClientForm.url2mrl(defeatPath);
 
 				operatorForm.Invoke((MethodInvoker)delegate {
 					operatorForm.GotWinErrPaths(winPath, defeatPath);
@@ -180,7 +180,7 @@ namespace vlc_works
 				if (char.IsNumber(GetSafeFileName(commandArgs[3])[0]))// game name starts with number
 				{
 					videoFileName = commandArgs[3]; // game video path
-					gameVideoUri = Form1.url2mrl(videoFileName);
+					gameVideoUri = ClientForm.url2mrl(videoFileName);
 					if (lastCommandLine != videoFileName)
 					{
 						vlcPath = commandArgs[1]; // vlc path
@@ -206,7 +206,7 @@ namespace vlc_works
 			KillVLC();
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Play(Form1.url2mrl(videoUrl));
+				clientForm.vlcControl.Play(ClientForm.url2mrl(videoUrl));
 			}));
 		}
 

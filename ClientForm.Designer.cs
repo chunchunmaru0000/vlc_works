@@ -3,7 +3,7 @@ using System;
 
 namespace vlc_works
 {
-	partial class Form1
+	partial class ClientForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,7 +31,7 @@ namespace vlc_works
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
 			this.vlcControl = new Vlc.DotNet.Forms.VlcControl();
 			this.inputLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.vlcControl)).BeginInit();
