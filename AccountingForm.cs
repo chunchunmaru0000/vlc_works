@@ -15,7 +15,7 @@ namespace vlc_works
 	{
 		ClientForm clientForm { get; set; }
 		// some
-		long Now() => DateTimeOffset.Now.ToUnixTimeSeconds();
+		long Now { get { return DateTimeOffset.Now.ToUnixTimeSeconds(); } }
 		DateTimeOffset SecToTime(long unixSeconds) => DateTimeOffset.FromUnixTimeSeconds(unixSeconds);
 
 		public AccountingForm(ClientForm clientForm)
@@ -29,7 +29,7 @@ namespace vlc_works
 
 		private void StartTables()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
