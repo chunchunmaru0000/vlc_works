@@ -7,7 +7,7 @@ using System.Text;
 
 namespace vlc_works
 {
-	public class DbSelectGamesItem
+	public struct DbSelectGamesItem
 	{
 		public long Id { get; set; }
 		public long GameAward { get; set; }
