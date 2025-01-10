@@ -81,7 +81,7 @@ namespace vlc_works
 				(screens.Length > 1 ? screens[0].Bounds.Width : 0) + hmh(screen.Bounds.Width), 0));
 			*/
 			// need right monitor
-			Location = new Point(1000, 100);
+			Location = new Point(2000, 100);
 			print($"X: {Location.X}");
 			FullScreen();
 		}

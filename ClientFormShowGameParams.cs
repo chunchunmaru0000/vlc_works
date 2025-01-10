@@ -26,6 +26,8 @@ namespace vlc_works
 
 		internal void ShowGameParams(long prize, long cost)
 		{
+			prizeLabel.BringToFront();
+			costLabel.BringToFront();
 			prizeLabel.Hide();
 			costLabel.Hide();
 
