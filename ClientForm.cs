@@ -81,19 +81,9 @@ namespace vlc_works
 				(screens.Length > 1 ? screens[0].Bounds.Width : 0) + hmh(screen.Bounds.Width), 0));
 			*/
 			// need right monitor
-			Location = new Point(2000, 100);
+			Location = new Point(1000, 100);
 			print($"X: {Location.X}");
 			FullScreen();
-		}
-
-		internal void ShowGameParams()
-		{
-			//throw new NotImplementedException();
-			print(
-				$"COST:  {accountingForm.SelectedPrice}\n" +
-				$"PRIZE: {accountingForm.SelectedAward}\n" +
-				$"LEVEL: {accountingForm.SelectedLevel}\n" +
-				"NOT IMPLEMENTED YET");
 		}
 
 		private void EndReached(object sender, VlcMediaPlayerEndReachedEventArgs e)

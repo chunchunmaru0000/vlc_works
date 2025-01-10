@@ -74,7 +74,7 @@ insert into games
 values
 ({gameAward}, {gamePrice}, {gameLevel}, {gameStartTime});", SqLiteConnection))
 			{
-				Console.WriteLine($"INSERTED: {command.ExecuteNonQuery()} ROWS");
+				command.ExecuteNonQuery();
 			}
 		}
 

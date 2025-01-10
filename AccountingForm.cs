@@ -169,7 +169,6 @@ namespace vlc_works
 					winsDataGridView.Rows.Add(GetRowWithTextCell(game.GameAward.ToString()));
 				
 				priceDataGridView.Rows.Add(GetRowWithTextCell(game.GamePrice.ToString()));
-				Console.WriteLine(priceDataGridView.Rows[0].Cells[0].Value);
 			}
 		}
 
@@ -189,7 +188,10 @@ namespace vlc_works
 			{
 				Db.Insert(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
 				StartTables();
-				clientForm.ShowGameParams();
+				clientForm.Invoke(new Action(() =>
+				{
+					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
+				}));
 			}
 			else
 				MessageBox.Show(

@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.titleLabel = new System.Windows.Forms.Label();
 			this.goldInSafeLabel = new System.Windows.Forms.Label();
 			this.balanceTextLabel = new System.Windows.Forms.Label();
@@ -55,42 +55,42 @@
 			this.winSumLabel = new System.Windows.Forms.Label();
 			this.priceSumLabel = new System.Windows.Forms.Label();
 			this.winsDataGridView = new System.Windows.Forms.DataGridView();
+			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.priceDataGridView = new System.Windows.Forms.DataGridView();
+			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.awardButsPanel = new System.Windows.Forms.Panel();
+			this.award3000But = new System.Windows.Forms.Button();
+			this.award1000But = new System.Windows.Forms.Button();
+			this.award500But = new System.Windows.Forms.Button();
+			this.award300But = new System.Windows.Forms.Button();
+			this.award200But = new System.Windows.Forms.Button();
+			this.award150But = new System.Windows.Forms.Button();
+			this.award100But = new System.Windows.Forms.Button();
+			this.award80But = new System.Windows.Forms.Button();
+			this.award50But = new System.Windows.Forms.Button();
+			this.award30But = new System.Windows.Forms.Button();
 			this.awardSelectTextLabel = new System.Windows.Forms.Label();
 			this.selectLevelTextLabel = new System.Windows.Forms.Label();
 			this.selectPayTextLabel = new System.Windows.Forms.Label();
 			this.levelButsPanel = new System.Windows.Forms.Panel();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.award30But = new System.Windows.Forms.Button();
-			this.award50But = new System.Windows.Forms.Button();
-			this.award80But = new System.Windows.Forms.Button();
-			this.award100But = new System.Windows.Forms.Button();
-			this.award150But = new System.Windows.Forms.Button();
-			this.award200But = new System.Windows.Forms.Button();
-			this.award300But = new System.Windows.Forms.Button();
-			this.award500But = new System.Windows.Forms.Button();
-			this.award1000But = new System.Windows.Forms.Button();
-			this.award3000But = new System.Windows.Forms.Button();
-			this.lvl0But = new System.Windows.Forms.Button();
-			this.lvl1But = new System.Windows.Forms.Button();
-			this.lvl2But = new System.Windows.Forms.Button();
-			this.lvl4But = new System.Windows.Forms.Button();
-			this.lvl3But = new System.Windows.Forms.Button();
-			this.lvl5But = new System.Windows.Forms.Button();
-			this.lvl6But = new System.Windows.Forms.Button();
-			this.lvl7But = new System.Windows.Forms.Button();
-			this.lvl8But = new System.Windows.Forms.Button();
 			this.lvl9But = new System.Windows.Forms.Button();
-			this.price0But = new System.Windows.Forms.Button();
-			this.price20But = new System.Windows.Forms.Button();
-			this.price40But = new System.Windows.Forms.Button();
-			this.price30But = new System.Windows.Forms.Button();
-			this.price50But = new System.Windows.Forms.Button();
-			this.price100But = new System.Windows.Forms.Button();
+			this.lvl8But = new System.Windows.Forms.Button();
+			this.lvl7But = new System.Windows.Forms.Button();
+			this.lvl6But = new System.Windows.Forms.Button();
+			this.lvl5But = new System.Windows.Forms.Button();
+			this.lvl3But = new System.Windows.Forms.Button();
+			this.lvl4But = new System.Windows.Forms.Button();
+			this.lvl2But = new System.Windows.Forms.Button();
+			this.lvl1But = new System.Windows.Forms.Button();
+			this.lvl0But = new System.Windows.Forms.Button();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.price200But = new System.Windows.Forms.Button();
-			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.price100But = new System.Windows.Forms.Button();
+			this.price50But = new System.Windows.Forms.Button();
+			this.price30But = new System.Windows.Forms.Button();
+			this.price40But = new System.Windows.Forms.Button();
+			this.price20But = new System.Windows.Forms.Button();
+			this.price0But = new System.Windows.Forms.Button();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -139,7 +139,7 @@
 			this.balanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.balanceLabel.Location = new System.Drawing.Point(660, 62);
 			this.balanceLabel.Name = "balanceLabel";
-			this.balanceLabel.Size = new System.Drawing.Size(140, 32);
+			this.balanceLabel.Size = new System.Drawing.Size(108, 32);
 			this.balanceLabel.TabIndex = 3;
 			this.balanceLabel.Text = "#####";
 			// 
@@ -328,32 +328,32 @@
 			this.winsDataGridView.AllowUserToAddRows = false;
 			this.winsDataGridView.AllowUserToDeleteRows = false;
 			this.winsDataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.winsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.winsDataGridView.BackgroundColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
 			this.winsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.winsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.winsDataGridView.ColumnHeadersVisible = false;
 			this.winsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.LightCoral;
-			dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.DarkRed;
-			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightCoral;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkRed;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
 			this.winsDataGridView.GridColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.Location = new System.Drawing.Point(192, 256);
 			this.winsDataGridView.Name = "winsDataGridView";
@@ -366,6 +366,12 @@
 			this.winsDataGridView.Size = new System.Drawing.Size(160, 416);
 			this.winsDataGridView.TabIndex = 13;
 			// 
+			// Column1
+			// 
+			this.Column1.HeaderText = "Column1";
+			this.Column1.Name = "Column1";
+			this.Column1.ReadOnly = true;
+			// 
 			// priceDataGridView
 			// 
 			this.priceDataGridView.AllowUserToAddRows = false;
@@ -377,14 +383,14 @@
 			this.priceDataGridView.ColumnHeadersVisible = false;
 			this.priceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle8.BackColor = System.Drawing.Color.YellowGreen;
-			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FloralWhite;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.Color.YellowGreen;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FloralWhite;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
 			this.priceDataGridView.GridColor = System.Drawing.Color.YellowGreen;
 			this.priceDataGridView.Location = new System.Drawing.Point(416, 256);
 			this.priceDataGridView.Name = "priceDataGridView";
@@ -396,6 +402,12 @@
 			this.priceDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.priceDataGridView.Size = new System.Drawing.Size(224, 416);
 			this.priceDataGridView.TabIndex = 14;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			this.dataGridViewTextBoxColumn1.HeaderText = "Column1";
+			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			this.dataGridViewTextBoxColumn1.ReadOnly = true;
 			// 
 			// awardButsPanel
 			// 
@@ -416,6 +428,107 @@
 			this.awardButsPanel.Name = "awardButsPanel";
 			this.awardButsPanel.Size = new System.Drawing.Size(192, 416);
 			this.awardButsPanel.TabIndex = 15;
+			// 
+			// award3000But
+			// 
+			this.award3000But.BackColor = System.Drawing.Color.Khaki;
+			this.award3000But.Location = new System.Drawing.Point(0, 288);
+			this.award3000But.Name = "award3000But";
+			this.award3000But.Size = new System.Drawing.Size(192, 32);
+			this.award3000But.TabIndex = 9;
+			this.award3000But.Text = "3000";
+			this.award3000But.UseVisualStyleBackColor = false;
+			// 
+			// award1000But
+			// 
+			this.award1000But.BackColor = System.Drawing.Color.Khaki;
+			this.award1000But.Location = new System.Drawing.Point(0, 256);
+			this.award1000But.Name = "award1000But";
+			this.award1000But.Size = new System.Drawing.Size(192, 32);
+			this.award1000But.TabIndex = 8;
+			this.award1000But.Text = "1000";
+			this.award1000But.UseVisualStyleBackColor = false;
+			// 
+			// award500But
+			// 
+			this.award500But.BackColor = System.Drawing.Color.Khaki;
+			this.award500But.Location = new System.Drawing.Point(0, 224);
+			this.award500But.Name = "award500But";
+			this.award500But.Size = new System.Drawing.Size(192, 32);
+			this.award500But.TabIndex = 7;
+			this.award500But.Text = "500";
+			this.award500But.UseVisualStyleBackColor = false;
+			// 
+			// award300But
+			// 
+			this.award300But.BackColor = System.Drawing.Color.Khaki;
+			this.award300But.Location = new System.Drawing.Point(0, 192);
+			this.award300But.Name = "award300But";
+			this.award300But.Size = new System.Drawing.Size(192, 32);
+			this.award300But.TabIndex = 6;
+			this.award300But.Text = "300";
+			this.award300But.UseVisualStyleBackColor = false;
+			// 
+			// award200But
+			// 
+			this.award200But.BackColor = System.Drawing.Color.Khaki;
+			this.award200But.Location = new System.Drawing.Point(0, 160);
+			this.award200But.Name = "award200But";
+			this.award200But.Size = new System.Drawing.Size(192, 32);
+			this.award200But.TabIndex = 5;
+			this.award200But.Text = "200";
+			this.award200But.UseVisualStyleBackColor = false;
+			// 
+			// award150But
+			// 
+			this.award150But.BackColor = System.Drawing.Color.Khaki;
+			this.award150But.Location = new System.Drawing.Point(0, 128);
+			this.award150But.Name = "award150But";
+			this.award150But.Size = new System.Drawing.Size(192, 32);
+			this.award150But.TabIndex = 4;
+			this.award150But.Text = "150";
+			this.award150But.UseVisualStyleBackColor = false;
+			// 
+			// award100But
+			// 
+			this.award100But.BackColor = System.Drawing.Color.Khaki;
+			this.award100But.Location = new System.Drawing.Point(0, 96);
+			this.award100But.Name = "award100But";
+			this.award100But.Size = new System.Drawing.Size(192, 32);
+			this.award100But.TabIndex = 3;
+			this.award100But.Text = "100";
+			this.award100But.UseVisualStyleBackColor = false;
+			// 
+			// award80But
+			// 
+			this.award80But.BackColor = System.Drawing.Color.Khaki;
+			this.award80But.Location = new System.Drawing.Point(0, 64);
+			this.award80But.Name = "award80But";
+			this.award80But.Size = new System.Drawing.Size(192, 32);
+			this.award80But.TabIndex = 2;
+			this.award80But.Text = "80";
+			this.award80But.UseVisualStyleBackColor = false;
+			// 
+			// award50But
+			// 
+			this.award50But.BackColor = System.Drawing.Color.Khaki;
+			this.award50But.Location = new System.Drawing.Point(0, 32);
+			this.award50But.Name = "award50But";
+			this.award50But.Size = new System.Drawing.Size(192, 32);
+			this.award50But.TabIndex = 1;
+			this.award50But.Text = "50";
+			this.award50But.UseVisualStyleBackColor = false;
+			// 
+			// award30But
+			// 
+			this.award30But.BackColor = System.Drawing.Color.Khaki;
+			this.award30But.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.award30But.Location = new System.Drawing.Point(0, 0);
+			this.award30But.Name = "award30But";
+			this.award30But.Size = new System.Drawing.Size(192, 32);
+			this.award30But.TabIndex = 0;
+			this.award30But.Text = "30";
+			this.award30But.UseVisualStyleBackColor = false;
 			// 
 			// awardSelectTextLabel
 			// 
@@ -467,6 +580,106 @@
 			this.levelButsPanel.Size = new System.Drawing.Size(224, 416);
 			this.levelButsPanel.TabIndex = 19;
 			// 
+			// lvl9But
+			// 
+			this.lvl9But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl9But.Location = new System.Drawing.Point(0, 288);
+			this.lvl9But.Name = "lvl9But";
+			this.lvl9But.Size = new System.Drawing.Size(224, 32);
+			this.lvl9But.TabIndex = 9;
+			this.lvl9But.Text = "Уровень 9";
+			this.lvl9But.UseVisualStyleBackColor = false;
+			// 
+			// lvl8But
+			// 
+			this.lvl8But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl8But.Location = new System.Drawing.Point(0, 256);
+			this.lvl8But.Name = "lvl8But";
+			this.lvl8But.Size = new System.Drawing.Size(224, 32);
+			this.lvl8But.TabIndex = 8;
+			this.lvl8But.Text = "Уровень 8";
+			this.lvl8But.UseVisualStyleBackColor = false;
+			// 
+			// lvl7But
+			// 
+			this.lvl7But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl7But.Location = new System.Drawing.Point(0, 224);
+			this.lvl7But.Name = "lvl7But";
+			this.lvl7But.Size = new System.Drawing.Size(224, 32);
+			this.lvl7But.TabIndex = 7;
+			this.lvl7But.Text = "Уровень 7";
+			this.lvl7But.UseVisualStyleBackColor = false;
+			// 
+			// lvl6But
+			// 
+			this.lvl6But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl6But.Location = new System.Drawing.Point(0, 192);
+			this.lvl6But.Name = "lvl6But";
+			this.lvl6But.Size = new System.Drawing.Size(224, 32);
+			this.lvl6But.TabIndex = 6;
+			this.lvl6But.Text = "Уровень 6";
+			this.lvl6But.UseVisualStyleBackColor = false;
+			// 
+			// lvl5But
+			// 
+			this.lvl5But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl5But.Location = new System.Drawing.Point(0, 160);
+			this.lvl5But.Name = "lvl5But";
+			this.lvl5But.Size = new System.Drawing.Size(224, 32);
+			this.lvl5But.TabIndex = 5;
+			this.lvl5But.Text = "Уровень 5";
+			this.lvl5But.UseVisualStyleBackColor = false;
+			// 
+			// lvl3But
+			// 
+			this.lvl3But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl3But.Location = new System.Drawing.Point(0, 96);
+			this.lvl3But.Name = "lvl3But";
+			this.lvl3But.Size = new System.Drawing.Size(224, 32);
+			this.lvl3But.TabIndex = 4;
+			this.lvl3But.Text = "Уровень 3";
+			this.lvl3But.UseVisualStyleBackColor = false;
+			// 
+			// lvl4But
+			// 
+			this.lvl4But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl4But.Location = new System.Drawing.Point(0, 128);
+			this.lvl4But.Name = "lvl4But";
+			this.lvl4But.Size = new System.Drawing.Size(224, 32);
+			this.lvl4But.TabIndex = 3;
+			this.lvl4But.Text = "Уровень 4";
+			this.lvl4But.UseVisualStyleBackColor = false;
+			// 
+			// lvl2But
+			// 
+			this.lvl2But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl2But.Location = new System.Drawing.Point(0, 64);
+			this.lvl2But.Name = "lvl2But";
+			this.lvl2But.Size = new System.Drawing.Size(224, 32);
+			this.lvl2But.TabIndex = 2;
+			this.lvl2But.Text = "Уровень 2";
+			this.lvl2But.UseVisualStyleBackColor = false;
+			// 
+			// lvl1But
+			// 
+			this.lvl1But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl1But.Location = new System.Drawing.Point(0, 32);
+			this.lvl1But.Name = "lvl1But";
+			this.lvl1But.Size = new System.Drawing.Size(224, 32);
+			this.lvl1But.TabIndex = 1;
+			this.lvl1But.Text = "Уровень 1";
+			this.lvl1But.UseVisualStyleBackColor = false;
+			// 
+			// lvl0But
+			// 
+			this.lvl0But.BackColor = System.Drawing.Color.Khaki;
+			this.lvl0But.Location = new System.Drawing.Point(0, 0);
+			this.lvl0But.Name = "lvl0But";
+			this.lvl0But.Size = new System.Drawing.Size(224, 32);
+			this.lvl0But.TabIndex = 0;
+			this.lvl0But.Text = "Уровень 0";
+			this.lvl0But.UseVisualStyleBackColor = false;
+			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.Khaki;
@@ -484,256 +697,15 @@
 			this.panel1.Size = new System.Drawing.Size(256, 416);
 			this.panel1.TabIndex = 20;
 			// 
-			// award30But
+			// price200But
 			// 
-			this.award30But.BackColor = System.Drawing.Color.Khaki;
-			this.award30But.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.award30But.Location = new System.Drawing.Point(0, 0);
-			this.award30But.Name = "award30But";
-			this.award30But.Size = new System.Drawing.Size(192, 32);
-			this.award30But.TabIndex = 0;
-			this.award30But.Text = "30";
-			this.award30But.UseVisualStyleBackColor = false;
-			// 
-			// award50But
-			// 
-			this.award50But.BackColor = System.Drawing.Color.Khaki;
-			this.award50But.Location = new System.Drawing.Point(0, 32);
-			this.award50But.Name = "award50But";
-			this.award50But.Size = new System.Drawing.Size(192, 32);
-			this.award50But.TabIndex = 1;
-			this.award50But.Text = "50";
-			this.award50But.UseVisualStyleBackColor = false;
-			// 
-			// award80But
-			// 
-			this.award80But.BackColor = System.Drawing.Color.Khaki;
-			this.award80But.Location = new System.Drawing.Point(0, 64);
-			this.award80But.Name = "award80But";
-			this.award80But.Size = new System.Drawing.Size(192, 32);
-			this.award80But.TabIndex = 2;
-			this.award80But.Text = "80";
-			this.award80But.UseVisualStyleBackColor = false;
-			// 
-			// award100But
-			// 
-			this.award100But.BackColor = System.Drawing.Color.Khaki;
-			this.award100But.Location = new System.Drawing.Point(0, 96);
-			this.award100But.Name = "award100But";
-			this.award100But.Size = new System.Drawing.Size(192, 32);
-			this.award100But.TabIndex = 3;
-			this.award100But.Text = "100";
-			this.award100But.UseVisualStyleBackColor = false;
-			// 
-			// award150But
-			// 
-			this.award150But.BackColor = System.Drawing.Color.Khaki;
-			this.award150But.Location = new System.Drawing.Point(0, 128);
-			this.award150But.Name = "award150But";
-			this.award150But.Size = new System.Drawing.Size(192, 32);
-			this.award150But.TabIndex = 4;
-			this.award150But.Text = "150";
-			this.award150But.UseVisualStyleBackColor = false;
-			// 
-			// award200But
-			// 
-			this.award200But.BackColor = System.Drawing.Color.Khaki;
-			this.award200But.Location = new System.Drawing.Point(0, 160);
-			this.award200But.Name = "award200But";
-			this.award200But.Size = new System.Drawing.Size(192, 32);
-			this.award200But.TabIndex = 5;
-			this.award200But.Text = "200";
-			this.award200But.UseVisualStyleBackColor = false;
-			// 
-			// award300But
-			// 
-			this.award300But.BackColor = System.Drawing.Color.Khaki;
-			this.award300But.Location = new System.Drawing.Point(0, 192);
-			this.award300But.Name = "award300But";
-			this.award300But.Size = new System.Drawing.Size(192, 32);
-			this.award300But.TabIndex = 6;
-			this.award300But.Text = "300";
-			this.award300But.UseVisualStyleBackColor = false;
-			// 
-			// award500But
-			// 
-			this.award500But.BackColor = System.Drawing.Color.Khaki;
-			this.award500But.Location = new System.Drawing.Point(0, 224);
-			this.award500But.Name = "award500But";
-			this.award500But.Size = new System.Drawing.Size(192, 32);
-			this.award500But.TabIndex = 7;
-			this.award500But.Text = "500";
-			this.award500But.UseVisualStyleBackColor = false;
-			// 
-			// award1000But
-			// 
-			this.award1000But.BackColor = System.Drawing.Color.Khaki;
-			this.award1000But.Location = new System.Drawing.Point(0, 256);
-			this.award1000But.Name = "award1000But";
-			this.award1000But.Size = new System.Drawing.Size(192, 32);
-			this.award1000But.TabIndex = 8;
-			this.award1000But.Text = "1000";
-			this.award1000But.UseVisualStyleBackColor = false;
-			// 
-			// award3000But
-			// 
-			this.award3000But.BackColor = System.Drawing.Color.Khaki;
-			this.award3000But.Location = new System.Drawing.Point(0, 288);
-			this.award3000But.Name = "award3000But";
-			this.award3000But.Size = new System.Drawing.Size(192, 32);
-			this.award3000But.TabIndex = 9;
-			this.award3000But.Text = "3000";
-			this.award3000But.UseVisualStyleBackColor = false;
-			// 
-			// lvl0But
-			// 
-			this.lvl0But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl0But.Location = new System.Drawing.Point(0, 0);
-			this.lvl0But.Name = "lvl0But";
-			this.lvl0But.Size = new System.Drawing.Size(224, 32);
-			this.lvl0But.TabIndex = 0;
-			this.lvl0But.Text = "Уровень 0";
-			this.lvl0But.UseVisualStyleBackColor = false;
-			// 
-			// lvl1But
-			// 
-			this.lvl1But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl1But.Location = new System.Drawing.Point(0, 32);
-			this.lvl1But.Name = "lvl1But";
-			this.lvl1But.Size = new System.Drawing.Size(224, 32);
-			this.lvl1But.TabIndex = 1;
-			this.lvl1But.Text = "Уровень 1";
-			this.lvl1But.UseVisualStyleBackColor = false;
-			// 
-			// lvl2But
-			// 
-			this.lvl2But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl2But.Location = new System.Drawing.Point(0, 64);
-			this.lvl2But.Name = "lvl2But";
-			this.lvl2But.Size = new System.Drawing.Size(224, 32);
-			this.lvl2But.TabIndex = 2;
-			this.lvl2But.Text = "Уровень 2";
-			this.lvl2But.UseVisualStyleBackColor = false;
-			// 
-			// lvl4But
-			// 
-			this.lvl4But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl4But.Location = new System.Drawing.Point(0, 128);
-			this.lvl4But.Name = "lvl4But";
-			this.lvl4But.Size = new System.Drawing.Size(224, 32);
-			this.lvl4But.TabIndex = 3;
-			this.lvl4But.Text = "Уровень 4";
-			this.lvl4But.UseVisualStyleBackColor = false;
-			// 
-			// lvl3But
-			// 
-			this.lvl3But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl3But.Location = new System.Drawing.Point(0, 96);
-			this.lvl3But.Name = "lvl3But";
-			this.lvl3But.Size = new System.Drawing.Size(224, 32);
-			this.lvl3But.TabIndex = 4;
-			this.lvl3But.Text = "Уровень 3";
-			this.lvl3But.UseVisualStyleBackColor = false;
-			// 
-			// lvl5But
-			// 
-			this.lvl5But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl5But.Location = new System.Drawing.Point(0, 160);
-			this.lvl5But.Name = "lvl5But";
-			this.lvl5But.Size = new System.Drawing.Size(224, 32);
-			this.lvl5But.TabIndex = 5;
-			this.lvl5But.Text = "Уровень 5";
-			this.lvl5But.UseVisualStyleBackColor = false;
-			// 
-			// lvl6But
-			// 
-			this.lvl6But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl6But.Location = new System.Drawing.Point(0, 192);
-			this.lvl6But.Name = "lvl6But";
-			this.lvl6But.Size = new System.Drawing.Size(224, 32);
-			this.lvl6But.TabIndex = 6;
-			this.lvl6But.Text = "Уровень 6";
-			this.lvl6But.UseVisualStyleBackColor = false;
-			// 
-			// lvl7But
-			// 
-			this.lvl7But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl7But.Location = new System.Drawing.Point(0, 224);
-			this.lvl7But.Name = "lvl7But";
-			this.lvl7But.Size = new System.Drawing.Size(224, 32);
-			this.lvl7But.TabIndex = 7;
-			this.lvl7But.Text = "Уровень 7";
-			this.lvl7But.UseVisualStyleBackColor = false;
-			// 
-			// lvl8But
-			// 
-			this.lvl8But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl8But.Location = new System.Drawing.Point(0, 256);
-			this.lvl8But.Name = "lvl8But";
-			this.lvl8But.Size = new System.Drawing.Size(224, 32);
-			this.lvl8But.TabIndex = 8;
-			this.lvl8But.Text = "Уровень 8";
-			this.lvl8But.UseVisualStyleBackColor = false;
-			// 
-			// lvl9But
-			// 
-			this.lvl9But.BackColor = System.Drawing.Color.Khaki;
-			this.lvl9But.Location = new System.Drawing.Point(0, 288);
-			this.lvl9But.Name = "lvl9But";
-			this.lvl9But.Size = new System.Drawing.Size(224, 32);
-			this.lvl9But.TabIndex = 9;
-			this.lvl9But.Text = "Уровень 9";
-			this.lvl9But.UseVisualStyleBackColor = false;
-			// 
-			// price0But
-			// 
-			this.price0But.BackColor = System.Drawing.Color.Khaki;
-			this.price0But.Location = new System.Drawing.Point(0, 0);
-			this.price0But.Name = "price0But";
-			this.price0But.Size = new System.Drawing.Size(256, 32);
-			this.price0But.TabIndex = 0;
-			this.price0But.Text = "0";
-			this.price0But.UseVisualStyleBackColor = false;
-			// 
-			// price20But
-			// 
-			this.price20But.BackColor = System.Drawing.Color.Khaki;
-			this.price20But.Location = new System.Drawing.Point(0, 32);
-			this.price20But.Name = "price20But";
-			this.price20But.Size = new System.Drawing.Size(256, 32);
-			this.price20But.TabIndex = 1;
-			this.price20But.Text = "20";
-			this.price20But.UseVisualStyleBackColor = false;
-			// 
-			// price40But
-			// 
-			this.price40But.BackColor = System.Drawing.Color.Khaki;
-			this.price40But.Location = new System.Drawing.Point(0, 96);
-			this.price40But.Name = "price40But";
-			this.price40But.Size = new System.Drawing.Size(256, 32);
-			this.price40But.TabIndex = 2;
-			this.price40But.Text = "40";
-			this.price40But.UseVisualStyleBackColor = false;
-			// 
-			// price30But
-			// 
-			this.price30But.BackColor = System.Drawing.Color.Khaki;
-			this.price30But.Location = new System.Drawing.Point(0, 64);
-			this.price30But.Name = "price30But";
-			this.price30But.Size = new System.Drawing.Size(256, 32);
-			this.price30But.TabIndex = 3;
-			this.price30But.Text = "30";
-			this.price30But.UseVisualStyleBackColor = false;
-			// 
-			// price50But
-			// 
-			this.price50But.BackColor = System.Drawing.Color.Khaki;
-			this.price50But.Location = new System.Drawing.Point(0, 128);
-			this.price50But.Name = "price50But";
-			this.price50But.Size = new System.Drawing.Size(256, 32);
-			this.price50But.TabIndex = 4;
-			this.price50But.Text = "50";
-			this.price50But.UseVisualStyleBackColor = false;
+			this.price200But.BackColor = System.Drawing.Color.Khaki;
+			this.price200But.Location = new System.Drawing.Point(0, 192);
+			this.price200But.Name = "price200But";
+			this.price200But.Size = new System.Drawing.Size(256, 32);
+			this.price200But.TabIndex = 6;
+			this.price200But.Text = "200";
+			this.price200But.UseVisualStyleBackColor = false;
 			// 
 			// price100But
 			// 
@@ -745,27 +717,55 @@
 			this.price100But.Text = "100";
 			this.price100But.UseVisualStyleBackColor = false;
 			// 
-			// price200But
+			// price50But
 			// 
-			this.price200But.BackColor = System.Drawing.Color.Khaki;
-			this.price200But.Location = new System.Drawing.Point(0, 192);
-			this.price200But.Name = "price200But";
-			this.price200But.Size = new System.Drawing.Size(256, 32);
-			this.price200But.TabIndex = 6;
-			this.price200But.Text = "200";
-			this.price200But.UseVisualStyleBackColor = false;
+			this.price50But.BackColor = System.Drawing.Color.Khaki;
+			this.price50But.Location = new System.Drawing.Point(0, 128);
+			this.price50But.Name = "price50But";
+			this.price50But.Size = new System.Drawing.Size(256, 32);
+			this.price50But.TabIndex = 4;
+			this.price50But.Text = "50";
+			this.price50But.UseVisualStyleBackColor = false;
 			// 
-			// Column1
+			// price30But
 			// 
-			this.Column1.HeaderText = "Column1";
-			this.Column1.Name = "Column1";
-			this.Column1.ReadOnly = true;
+			this.price30But.BackColor = System.Drawing.Color.Khaki;
+			this.price30But.Location = new System.Drawing.Point(0, 64);
+			this.price30But.Name = "price30But";
+			this.price30But.Size = new System.Drawing.Size(256, 32);
+			this.price30But.TabIndex = 3;
+			this.price30But.Text = "30";
+			this.price30But.UseVisualStyleBackColor = false;
 			// 
-			// dataGridViewTextBoxColumn1
+			// price40But
 			// 
-			this.dataGridViewTextBoxColumn1.HeaderText = "Column1";
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.ReadOnly = true;
+			this.price40But.BackColor = System.Drawing.Color.Khaki;
+			this.price40But.Location = new System.Drawing.Point(0, 96);
+			this.price40But.Name = "price40But";
+			this.price40But.Size = new System.Drawing.Size(256, 32);
+			this.price40But.TabIndex = 2;
+			this.price40But.Text = "40";
+			this.price40But.UseVisualStyleBackColor = false;
+			// 
+			// price20But
+			// 
+			this.price20But.BackColor = System.Drawing.Color.Khaki;
+			this.price20But.Location = new System.Drawing.Point(0, 32);
+			this.price20But.Name = "price20But";
+			this.price20But.Size = new System.Drawing.Size(256, 32);
+			this.price20But.TabIndex = 1;
+			this.price20But.Text = "20";
+			this.price20But.UseVisualStyleBackColor = false;
+			// 
+			// price0But
+			// 
+			this.price0But.BackColor = System.Drawing.Color.Khaki;
+			this.price0But.Location = new System.Drawing.Point(0, 0);
+			this.price0But.Name = "price0But";
+			this.price0But.Size = new System.Drawing.Size(256, 32);
+			this.price0But.TabIndex = 0;
+			this.price0But.Text = "0";
+			this.price0But.UseVisualStyleBackColor = false;
 			// 
 			// AccountingForm
 			// 

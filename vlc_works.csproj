@@ -90,6 +90,9 @@
     <Compile Include="ClientForm.Designer.cs">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientFormShowGameParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Db.cs" />
     <Compile Include="InputKey.cs" />
     <Compile Include="OperatorForm.cs">

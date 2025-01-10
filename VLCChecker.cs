@@ -206,12 +206,15 @@ namespace vlc_works
 			KillVLC();
 			clientForm.BeginInvoke(new Action(() =>
 			{
+				clientForm.prizeLabel.Hide();
+				clientForm.costLabel.Hide();
 				clientForm.vlcControl.Play(ClientForm.url2mrl(videoUrl));
 			}));
 		}
 
 		void VlcChanged(object sender, EventArgs e)
 		{
+
 			print($"LAST: {lastCommandLine}\n\tCURRENT: {videoFileName}");
 			code = GetCodeFromName(GetSafeFileName(videoFileName)).TrimEnd(' ') + "E";
 
@@ -224,6 +227,8 @@ namespace vlc_works
 			videoGameTimeWas = 0;
 			clientForm.BeginInvoke(new Action(() =>
 			{
+				clientForm.prizeLabel.Hide();
+				clientForm.costLabel.Hide();
 				clientForm.vlcControl.Play(gameVideoUri);
 			}));
 
@@ -283,8 +288,15 @@ namespace vlc_works
 				EndVictoryVideo();
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
+			else if (endedVideoMrl == ClientForm.ParamsVideoUri.AbsoluteUri)
+				EndParamsShowVideo();
 			else
 				SafeStop();
+		}
+
+		void EndParamsShowVideo()
+		{
+
 		}
 
 		void EndDefeatVideo()
