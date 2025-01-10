@@ -49,11 +49,11 @@
 			// 
 			this.inputLabel.AutoSize = true;
 			this.inputLabel.BackColor = System.Drawing.Color.Black;
-			this.inputLabel.Font = new System.Drawing.Font("Cascadia Code", 108F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.inputLabel.Font = new System.Drawing.Font("Cascadia Code", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.inputLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.inputLabel.Location = new System.Drawing.Point(12, 370);
+			this.inputLabel.Location = new System.Drawing.Point(0, 174);
 			this.inputLabel.Name = "inputLabel";
-			this.inputLabel.Size = new System.Drawing.Size(920, 191);
+			this.inputLabel.Size = new System.Drawing.Size(614, 127);
 			this.inputLabel.TabIndex = 0;
 			this.inputLabel.Text = "INPUT HERE";
 			// 
@@ -61,11 +61,11 @@
 			// 
 			this.codeLabel.AutoSize = true;
 			this.codeLabel.BackColor = System.Drawing.Color.Black;
-			this.codeLabel.Font = new System.Drawing.Font("Cascadia Code", 108F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.codeLabel.Font = new System.Drawing.Font("Cascadia Code", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.codeLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.codeLabel.Location = new System.Drawing.Point(12, 171);
+			this.codeLabel.Location = new System.Drawing.Point(0, 48);
 			this.codeLabel.Name = "codeLabel";
-			this.codeLabel.Size = new System.Drawing.Size(920, 191);
+			this.codeLabel.Size = new System.Drawing.Size(614, 127);
 			this.codeLabel.TabIndex = 1;
 			this.codeLabel.Text = " CODE HERE";
 			// 
@@ -75,7 +75,7 @@
 			this.winLabel.BackColor = System.Drawing.Color.Black;
 			this.winLabel.Font = new System.Drawing.Font("Cascadia Code", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.winLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.winLabel.Location = new System.Drawing.Point(12, 54);
+			this.winLabel.Location = new System.Drawing.Point(0, 288);
 			this.winLabel.Name = "winLabel";
 			this.winLabel.Size = new System.Drawing.Size(357, 39);
 			this.winLabel.TabIndex = 2;
@@ -87,7 +87,7 @@
 			this.errorLabel.BackColor = System.Drawing.Color.Black;
 			this.errorLabel.Font = new System.Drawing.Font("Cascadia Code", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.errorLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.errorLabel.Location = new System.Drawing.Point(12, 93);
+			this.errorLabel.Location = new System.Drawing.Point(0, 327);
 			this.errorLabel.Name = "errorLabel";
 			this.errorLabel.Size = new System.Drawing.Size(323, 39);
 			this.errorLabel.TabIndex = 3;
@@ -99,7 +99,7 @@
 			this.videoLabel.BackColor = System.Drawing.Color.Black;
 			this.videoLabel.Font = new System.Drawing.Font("Cascadia Code", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.videoLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.videoLabel.Location = new System.Drawing.Point(12, 132);
+			this.videoLabel.Location = new System.Drawing.Point(0, 366);
 			this.videoLabel.Name = "videoLabel";
 			this.videoLabel.Size = new System.Drawing.Size(306, 39);
 			this.videoLabel.TabIndex = 4;
@@ -160,7 +160,7 @@
 			this.debugLabel.AutoSize = true;
 			this.debugLabel.Font = new System.Drawing.Font("Cascadia Code", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.debugLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.debugLabel.Location = new System.Drawing.Point(12, 561);
+			this.debugLabel.Location = new System.Drawing.Point(0, 416);
 			this.debugLabel.Name = "debugLabel";
 			this.debugLabel.Size = new System.Drawing.Size(264, 49);
 			this.debugLabel.TabIndex = 7;
@@ -171,7 +171,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(1147, 741);
+			this.ClientSize = new System.Drawing.Size(1147, 477);
 			this.Controls.Add(this.debugLabel);
 			this.Controls.Add(this.videoLabel);
 			this.Controls.Add(this.errorLabel);

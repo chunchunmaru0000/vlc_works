@@ -160,8 +160,10 @@ namespace vlc_works
 
 			GamesItems = Db.SelectAllGames().ToList();
 			//LogData();
-			winSumLabel.Text = GamesItems.Select(g => g.GameAward).Sum().ToString();
-			priceSumLabel.Text = GamesItems.Select(g => g.GamePrice).Sum().ToString();
+			WinsSum = GamesItems.Select(g => g.GameAward).Sum();
+			PaysSum = GamesItems.Select(g => g.GamePrice).Sum();
+			winSumLabel.Text = WinsSum.ToString();
+			priceSumLabel.Text = PaysSum.ToString();
 
 			foreach (DbSelectGamesItem game in GamesItems)
 			{
@@ -170,6 +172,7 @@ namespace vlc_works
 				
 				priceDataGridView.Rows.Add(GetRowWithTextCell(game.GamePrice.ToString()));
 			}
+			balanceLabel.Text = (PaysSum - WinsSum).ToString();
 		}
 
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
