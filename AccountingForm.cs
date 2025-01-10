@@ -17,27 +17,36 @@ namespace vlc_works
 		// sql
 		List<DbSelectGamesItem> GamesItems { get; set; }
 		// selects
-		long SelectedAward { get; set; }
-		long SelectedLevel { get; set; }
-		long SelectedPrice { get; set; }
+		public long SelectedAward { get; set; }
+		public long SelectedLevel { get; set; }
+		public long SelectedPrice { get; set; }
+		// some long values
+		long Balance { get; set; }
+		long WinsSum { get; set; }
+		long PaysSum { get; set; }
 		// consts
+		const string NullText = "####";
 		Dictionary<Button, long> AwardBut2long { get; set; }
 		Dictionary<Button, long> LevelBut2long { get; set; }
 		Dictionary<Button, long> PriceBut2long { get; set; }
 		// some
-		long Now { get { return DateTimeOffset.Now.ToUnixTimeSeconds(); } }
-		DateTimeOffset SecToTime(long unixSeconds) => DateTimeOffset.FromUnixTimeSeconds(unixSeconds);
 
 		public AccountingForm(ClientForm clientForm)
 		{
 			InitializeComponent();
 			InitDictionares();
 			InitButtons();
+			InitBalance();
 
 			this.clientForm = clientForm;
 
 			Db.BeginSQL();
 			StartTables();
+		}
+
+		private void InitBalance()
+		{
+			//throw new NotImplementedException();
 		}
 
 		private void InitDictionares()
@@ -69,7 +78,35 @@ namespace vlc_works
 
 		private void InitButtons()
 		{
-			award30But.Click += OnAwardButClicked;
+			award30But.Click +=   OnAwardButClicked;
+			award50But.Click +=   OnAwardButClicked;
+			award80But.Click +=   OnAwardButClicked;
+			award100But.Click +=  OnAwardButClicked;
+			award150But.Click +=  OnAwardButClicked;
+			award200But.Click +=  OnAwardButClicked;
+			award300But.Click +=  OnAwardButClicked;
+			award500But.Click +=  OnAwardButClicked;
+			award1000But.Click += OnAwardButClicked;
+			award3000But.Click += OnAwardButClicked;
+
+			lvl0But.Click += OnLevelButClicked;
+			lvl1But.Click += OnLevelButClicked;
+			lvl2But.Click += OnLevelButClicked;
+			lvl3But.Click += OnLevelButClicked;
+			lvl4But.Click += OnLevelButClicked;
+			lvl5But.Click += OnLevelButClicked;
+			lvl6But.Click += OnLevelButClicked;
+			lvl7But.Click += OnLevelButClicked;
+			lvl8But.Click += OnLevelButClicked;
+			lvl9But.Click += OnLevelButClicked;
+
+			price0But.Click +=   OnPriceButClicked;
+			price20But.Click +=  OnPriceButClicked;
+			price30But.Click +=  OnPriceButClicked;
+			price40But.Click +=  OnPriceButClicked;
+			price50But.Click +=  OnPriceButClicked;
+			price100But.Click += OnPriceButClicked;
+			price200But.Click += OnPriceButClicked;
 		}
 
 		private void OnAwardButClicked(object sender, EventArgs e)
@@ -110,8 +147,10 @@ namespace vlc_works
 		private void StartTables()
 		{
 			GamesItems = Db.SelectAllGames().ToList();
-
-			foreach(DbSelectGamesItem game in GamesItems)
+			Console.WriteLine("<------- DATABASE DATA ------->");
+			Console.WriteLine(string.Join("\n", GamesItems.Select(g => g.ToString())));
+			Console.WriteLine("<------- DATABASE  END ------->");
+			foreach (DbSelectGamesItem game in GamesItems)
 			{
 				if (game.GameAward > 0)
 					winsDataGridView.Rows.Add(GetRowWithTextCell(game.GameAward.ToString()));
@@ -124,6 +163,25 @@ namespace vlc_works
 		{
 			Db.EndSQL();
 			Environment.Exit(0);
+		}
+
+		private void showButton_Click(object sender, EventArgs e)
+		{
+			if (
+				awardLabel.Text != NullText &&
+				levelLabel.Text != NullText &&
+				priceLabel.Text != NullText
+				)
+			{
+				Db.Insert(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
+				clientForm.ShowGameParams();
+			}
+			else
+				MessageBox.Show(
+					$"НЕ ВСЕ ЗНАЧЕНИЯ ВЫБРАНЫ\n" +
+					$"ПРИЗ:      {awardLabel.Text}\n" + 
+					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
+					$"СТОИМОСТЬ: {priceLabel.Text}");
 		}
 	}
 }

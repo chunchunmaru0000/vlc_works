@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.titleLabel = new System.Windows.Forms.Label();
 			this.goldInSafeLabel = new System.Windows.Forms.Label();
 			this.balanceTextLabel = new System.Windows.Forms.Label();
@@ -153,7 +153,7 @@
 			// 
 			// selectedPanel
 			// 
-			this.selectedPanel.BackColor = System.Drawing.Color.Silver;
+			this.selectedPanel.BackColor = System.Drawing.Color.Gainsboro;
 			this.selectedPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.selectedPanel.Controls.Add(this.pricePanel);
 			this.selectedPanel.Controls.Add(this.levelPanel);
@@ -259,6 +259,7 @@
 			this.showButton.TabIndex = 6;
 			this.showButton.Text = "Показать";
 			this.showButton.UseVisualStyleBackColor = false;
+			this.showButton.Click += new System.EventHandler(this.showButton_Click);
 			// 
 			// accountTextLabel
 			// 
@@ -329,14 +330,14 @@
 			this.winsDataGridView.ColumnHeadersVisible = false;
 			this.winsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.singleColunm});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCoral;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkRed;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle9.BackColor = System.Drawing.Color.LightCoral;
+			dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.DarkRed;
+			dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle9;
 			this.winsDataGridView.GridColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.Location = new System.Drawing.Point(192, 256);
 			this.winsDataGridView.Name = "winsDataGridView";
@@ -357,14 +358,14 @@
 			this.priceDataGridView.ColumnHeadersVisible = false;
 			this.priceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.singleColumn});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.YellowGreen;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FloralWhite;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle10.BackColor = System.Drawing.Color.YellowGreen;
+			dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+			dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FloralWhite;
+			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle10;
 			this.priceDataGridView.GridColor = System.Drawing.Color.YellowGreen;
 			this.priceDataGridView.Location = new System.Drawing.Point(416, 256);
 			this.priceDataGridView.Name = "priceDataGridView";
@@ -422,9 +423,9 @@
 			this.selectPayTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.selectPayTextLabel.Location = new System.Drawing.Point(1248, 192);
 			this.selectPayTextLabel.Name = "selectPayTextLabel";
-			this.selectPayTextLabel.Size = new System.Drawing.Size(189, 31);
+			this.selectPayTextLabel.Size = new System.Drawing.Size(259, 31);
 			this.selectPayTextLabel.TabIndex = 18;
-			this.selectPayTextLabel.Text = "Выбрать цену";
+			this.selectPayTextLabel.Text = "Выбрать стоимость";
 			// 
 			// levelButsPanel
 			// 
@@ -460,7 +461,7 @@
 			this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.panel1.Location = new System.Drawing.Point(1248, 256);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(192, 416);
+			this.panel1.Size = new System.Drawing.Size(256, 416);
 			this.panel1.TabIndex = 20;
 			// 
 			// award30But
@@ -669,7 +670,7 @@
 			this.price0But.BackColor = System.Drawing.Color.Khaki;
 			this.price0But.Location = new System.Drawing.Point(0, 0);
 			this.price0But.Name = "price0But";
-			this.price0But.Size = new System.Drawing.Size(192, 32);
+			this.price0But.Size = new System.Drawing.Size(256, 32);
 			this.price0But.TabIndex = 0;
 			this.price0But.Text = "0";
 			this.price0But.UseVisualStyleBackColor = false;
@@ -679,7 +680,7 @@
 			this.price20But.BackColor = System.Drawing.Color.Khaki;
 			this.price20But.Location = new System.Drawing.Point(0, 32);
 			this.price20But.Name = "price20But";
-			this.price20But.Size = new System.Drawing.Size(192, 32);
+			this.price20But.Size = new System.Drawing.Size(256, 32);
 			this.price20But.TabIndex = 1;
 			this.price20But.Text = "20";
 			this.price20But.UseVisualStyleBackColor = false;
@@ -689,7 +690,7 @@
 			this.price40But.BackColor = System.Drawing.Color.Khaki;
 			this.price40But.Location = new System.Drawing.Point(0, 96);
 			this.price40But.Name = "price40But";
-			this.price40But.Size = new System.Drawing.Size(192, 32);
+			this.price40But.Size = new System.Drawing.Size(256, 32);
 			this.price40But.TabIndex = 2;
 			this.price40But.Text = "40";
 			this.price40But.UseVisualStyleBackColor = false;
@@ -699,7 +700,7 @@
 			this.price30But.BackColor = System.Drawing.Color.Khaki;
 			this.price30But.Location = new System.Drawing.Point(0, 64);
 			this.price30But.Name = "price30But";
-			this.price30But.Size = new System.Drawing.Size(192, 32);
+			this.price30But.Size = new System.Drawing.Size(256, 32);
 			this.price30But.TabIndex = 3;
 			this.price30But.Text = "30";
 			this.price30But.UseVisualStyleBackColor = false;
@@ -709,7 +710,7 @@
 			this.price50But.BackColor = System.Drawing.Color.Khaki;
 			this.price50But.Location = new System.Drawing.Point(0, 128);
 			this.price50But.Name = "price50But";
-			this.price50But.Size = new System.Drawing.Size(192, 32);
+			this.price50But.Size = new System.Drawing.Size(256, 32);
 			this.price50But.TabIndex = 4;
 			this.price50But.Text = "50";
 			this.price50But.UseVisualStyleBackColor = false;
@@ -719,7 +720,7 @@
 			this.price100But.BackColor = System.Drawing.Color.Khaki;
 			this.price100But.Location = new System.Drawing.Point(0, 160);
 			this.price100But.Name = "price100But";
-			this.price100But.Size = new System.Drawing.Size(192, 32);
+			this.price100But.Size = new System.Drawing.Size(256, 32);
 			this.price100But.TabIndex = 5;
 			this.price100But.Text = "100";
 			this.price100But.UseVisualStyleBackColor = false;
@@ -729,7 +730,7 @@
 			this.price200But.BackColor = System.Drawing.Color.Khaki;
 			this.price200But.Location = new System.Drawing.Point(0, 192);
 			this.price200But.Name = "price200But";
-			this.price200But.Size = new System.Drawing.Size(192, 32);
+			this.price200But.Size = new System.Drawing.Size(256, 32);
 			this.price200But.TabIndex = 6;
 			this.price200But.Text = "200";
 			this.price200But.UseVisualStyleBackColor = false;
@@ -752,7 +753,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1502, 692);
+			this.ClientSize = new System.Drawing.Size(1536, 692);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.levelButsPanel);
 			this.Controls.Add(this.selectPayTextLabel);

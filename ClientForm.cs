@@ -21,6 +21,7 @@ namespace vlc_works
 		// global
 		IKeyboardEvents hook { get; set; }
 		public VLCChecker VLCChecker { get; set; }
+		// forms
 		public OperatorForm operatorForm { get; set; }
 		public AccountingForm accountingForm { get; set; }
 		// consts
@@ -83,6 +84,16 @@ namespace vlc_works
 			Location = new Point(2000, 100);
 			print($"X: {Location.X}");
 			FullScreen();
+		}
+
+		internal void ShowGameParams()
+		{
+			//throw new NotImplementedException();
+			print(
+				$"COST:  {accountingForm.SelectedPrice}\n" +
+				$"PRIZE: {accountingForm.SelectedAward}\n" +
+				$"LEVEL: {accountingForm.SelectedLevel}\n" +
+				"NOT IMPLEMENTED YET");
 		}
 
 		private void EndReached(object sender, VlcMediaPlayerEndReachedEventArgs e)
@@ -177,5 +188,6 @@ namespace vlc_works
 		{
 			Environment.Exit(0);
 		}
+
 	}
 }
