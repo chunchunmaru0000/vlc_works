@@ -133,6 +133,13 @@ namespace vlc_works
 			priceLabel.Text = SelectedPrice.ToString();
 		}
 
+		private void LogData()
+		{
+			Console.WriteLine("<------- DATABASE DATA ------->");
+			Console.WriteLine(string.Join("\n", GamesItems.Select(g => g.ToString())));
+			Console.WriteLine("<------- DATABASE  END ------->");
+		}
+
 		private DataGridViewRow GetRowWithTextCell(string cellText)
 		{
 			DataGridViewRow row = new DataGridViewRow();
@@ -141,21 +148,28 @@ namespace vlc_works
 				Value = cellText,
 			};
 			row.Cells.Add(rowCell);
+			row.Height = 32;
+			
 			return row;
 		}
 
 		private void StartTables()
 		{
+			winsDataGridView.Rows.Clear();
+			priceDataGridView.Rows.Clear();
+
 			GamesItems = Db.SelectAllGames().ToList();
-			Console.WriteLine("<------- DATABASE DATA ------->");
-			Console.WriteLine(string.Join("\n", GamesItems.Select(g => g.ToString())));
-			Console.WriteLine("<------- DATABASE  END ------->");
+			//LogData();
+			winSumLabel.Text = GamesItems.Select(g => g.GameAward).Sum().ToString();
+			priceSumLabel.Text = GamesItems.Select(g => g.GamePrice).Sum().ToString();
+
 			foreach (DbSelectGamesItem game in GamesItems)
 			{
 				if (game.GameAward > 0)
 					winsDataGridView.Rows.Add(GetRowWithTextCell(game.GameAward.ToString()));
-
+				
 				priceDataGridView.Rows.Add(GetRowWithTextCell(game.GamePrice.ToString()));
+				Console.WriteLine(priceDataGridView.Rows[0].Cells[0].Value);
 			}
 		}
 
@@ -174,6 +188,7 @@ namespace vlc_works
 				)
 			{
 				Db.Insert(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
+				StartTables();
 				clientForm.ShowGameParams();
 			}
 			else

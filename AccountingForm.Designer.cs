@@ -28,8 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.titleLabel = new System.Windows.Forms.Label();
 			this.goldInSafeLabel = new System.Windows.Forms.Label();
 			this.balanceTextLabel = new System.Windows.Forms.Label();
@@ -51,7 +53,7 @@
 			this.winsTextLabel = new System.Windows.Forms.Label();
 			this.payedGamesTextLabel = new System.Windows.Forms.Label();
 			this.winSumLabel = new System.Windows.Forms.Label();
-			this.payedSumLabel = new System.Windows.Forms.Label();
+			this.priceSumLabel = new System.Windows.Forms.Label();
 			this.winsDataGridView = new System.Windows.Forms.DataGridView();
 			this.priceDataGridView = new System.Windows.Forms.DataGridView();
 			this.awardButsPanel = new System.Windows.Forms.Panel();
@@ -87,8 +89,8 @@
 			this.price50But = new System.Windows.Forms.Button();
 			this.price100But = new System.Windows.Forms.Button();
 			this.price200But = new System.Windows.Forms.Button();
-			this.singleColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.singleColunm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -160,7 +162,7 @@
 			this.selectedPanel.Controls.Add(this.awardPanel);
 			this.selectedPanel.Controls.Add(this.labelNowSelected);
 			this.selectedPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectedPanel.Location = new System.Drawing.Point(832, 32);
+			this.selectedPanel.Location = new System.Drawing.Point(864, 32);
 			this.selectedPanel.Name = "selectedPanel";
 			this.selectedPanel.Size = new System.Drawing.Size(480, 96);
 			this.selectedPanel.TabIndex = 5;
@@ -253,7 +255,7 @@
 			// 
 			this.showButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.showButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.showButton.Location = new System.Drawing.Point(1312, 32);
+			this.showButton.Location = new System.Drawing.Point(1344, 32);
 			this.showButton.Name = "showButton";
 			this.showButton.Size = new System.Drawing.Size(160, 96);
 			this.showButton.TabIndex = 6;
@@ -311,37 +313,52 @@
 			this.winSumLabel.TabIndex = 11;
 			this.winSumLabel.Text = "###";
 			// 
-			// payedSumLabel
+			// priceSumLabel
 			// 
-			this.payedSumLabel.AutoSize = true;
-			this.payedSumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.payedSumLabel.Location = new System.Drawing.Point(416, 224);
-			this.payedSumLabel.Name = "payedSumLabel";
-			this.payedSumLabel.Size = new System.Drawing.Size(59, 31);
-			this.payedSumLabel.TabIndex = 12;
-			this.payedSumLabel.Text = "###";
+			this.priceSumLabel.AutoSize = true;
+			this.priceSumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.priceSumLabel.Location = new System.Drawing.Point(416, 224);
+			this.priceSumLabel.Name = "priceSumLabel";
+			this.priceSumLabel.Size = new System.Drawing.Size(59, 31);
+			this.priceSumLabel.TabIndex = 12;
+			this.priceSumLabel.Text = "###";
 			// 
 			// winsDataGridView
 			// 
 			this.winsDataGridView.AllowUserToAddRows = false;
 			this.winsDataGridView.AllowUserToDeleteRows = false;
+			this.winsDataGridView.AllowUserToResizeRows = false;
+			dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+			this.winsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.winsDataGridView.BackgroundColor = System.Drawing.Color.LightCoral;
+			this.winsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+			this.winsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this.winsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.winsDataGridView.ColumnHeadersVisible = false;
 			this.winsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.singleColunm});
-			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle9.BackColor = System.Drawing.Color.LightCoral;
-			dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.DarkRed;
-			dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Column1});
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.LightCoral;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.DarkRed;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle7;
 			this.winsDataGridView.GridColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.Location = new System.Drawing.Point(192, 256);
 			this.winsDataGridView.Name = "winsDataGridView";
 			this.winsDataGridView.ReadOnly = true;
+			this.winsDataGridView.RowHeadersVisible = false;
 			this.winsDataGridView.RowTemplate.Height = 32;
 			this.winsDataGridView.RowTemplate.ReadOnly = true;
 			this.winsDataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -353,23 +370,26 @@
 			// 
 			this.priceDataGridView.AllowUserToAddRows = false;
 			this.priceDataGridView.AllowUserToDeleteRows = false;
+			this.priceDataGridView.AllowUserToResizeRows = false;
+			this.priceDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.priceDataGridView.BackgroundColor = System.Drawing.Color.YellowGreen;
 			this.priceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.priceDataGridView.ColumnHeadersVisible = false;
 			this.priceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.singleColumn});
-			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle10.BackColor = System.Drawing.Color.YellowGreen;
-			dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-			dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FloralWhite;
-			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGridViewTextBoxColumn1});
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle8.BackColor = System.Drawing.Color.YellowGreen;
+			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FloralWhite;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle8;
 			this.priceDataGridView.GridColor = System.Drawing.Color.YellowGreen;
 			this.priceDataGridView.Location = new System.Drawing.Point(416, 256);
 			this.priceDataGridView.Name = "priceDataGridView";
 			this.priceDataGridView.ReadOnly = true;
+			this.priceDataGridView.RowHeadersVisible = false;
 			this.priceDataGridView.RowTemplate.Height = 32;
 			this.priceDataGridView.RowTemplate.ReadOnly = true;
 			this.priceDataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -735,19 +755,17 @@
 			this.price200But.Text = "200";
 			this.price200But.UseVisualStyleBackColor = false;
 			// 
-			// singleColumn
+			// Column1
 			// 
-			this.singleColumn.HeaderText = "Column1";
-			this.singleColumn.Name = "singleColumn";
-			this.singleColumn.ReadOnly = true;
-			this.singleColumn.Visible = false;
+			this.Column1.HeaderText = "Column1";
+			this.Column1.Name = "Column1";
+			this.Column1.ReadOnly = true;
 			// 
-			// singleColunm
+			// dataGridViewTextBoxColumn1
 			// 
-			this.singleColunm.HeaderText = "";
-			this.singleColunm.Name = "singleColunm";
-			this.singleColunm.ReadOnly = true;
-			this.singleColunm.Visible = false;
+			this.dataGridViewTextBoxColumn1.HeaderText = "Column1";
+			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			this.dataGridViewTextBoxColumn1.ReadOnly = true;
 			// 
 			// AccountingForm
 			// 
@@ -762,7 +780,7 @@
 			this.Controls.Add(this.awardButsPanel);
 			this.Controls.Add(this.priceDataGridView);
 			this.Controls.Add(this.winsDataGridView);
-			this.Controls.Add(this.payedSumLabel);
+			this.Controls.Add(this.priceSumLabel);
 			this.Controls.Add(this.winSumLabel);
 			this.Controls.Add(this.payedGamesTextLabel);
 			this.Controls.Add(this.winsTextLabel);
@@ -818,7 +836,7 @@
 		private System.Windows.Forms.Label winsTextLabel;
 		private System.Windows.Forms.Label payedGamesTextLabel;
 		private System.Windows.Forms.Label winSumLabel;
-		private System.Windows.Forms.Label payedSumLabel;
+		private System.Windows.Forms.Label priceSumLabel;
 		private System.Windows.Forms.DataGridView winsDataGridView;
 		private System.Windows.Forms.DataGridView priceDataGridView;
 		private System.Windows.Forms.Panel awardButsPanel;
@@ -854,7 +872,7 @@
 		private System.Windows.Forms.Button price40But;
 		private System.Windows.Forms.Button price20But;
 		private System.Windows.Forms.Button price0But;
-		private System.Windows.Forms.DataGridViewTextBoxColumn singleColunm;
-		private System.Windows.Forms.DataGridViewTextBoxColumn singleColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 	}
 }
