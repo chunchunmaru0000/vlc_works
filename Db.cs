@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
-using System.Management;
-using System.Text;
 
 namespace vlc_works
 {
@@ -37,12 +35,12 @@ namespace vlc_works
 		const string dbName = "goldInSafe.db";
 		const string connectionString = "Data Source=" + dbName + ";Version=3;";
 		const string createGamesTable = @"
-create table if not exists games (
-	id               integer    prymary key auto_increment,
-	gameAward        integer    not null,
-	gamePrice        integer    not null,
-	gameLevel        integer    not null,
-	gameStartTime    integer    not null
+CREATE TABLE IF NOT EXISTS games (
+	id               INTEGER PRIMARY KEY,
+	gameAward        INTEGER NOT NULL,
+	gamePrice        INTEGER NOT NULL,
+	gameLevel        INTEGER NOT NULL,
+	gameStartTime    INTEGER NOT NULL
 );";
 		public const string selectAll = "select * from games";
 		// sql
@@ -53,13 +51,14 @@ create table if not exists games (
 
 		public static void BeginSQL()
 		{
-			SQLiteConnection.CreateFile(dbName);
-			SqLiteConnection = new SQLiteConnection(connectionString);
+			if (!File.Exists(dbName))
+				SQLiteConnection.CreateFile(dbName);
 
+			SqLiteConnection = new SQLiteConnection(connectionString);
 			SqLiteConnection.Open();
+
 			using (SQLiteCommand command = new SQLiteCommand(createGamesTable, SqLiteConnection))
 				command.ExecuteNonQuery();
-			SqLiteConnection.Close();
 		}
 
 		public static void EndSQL()
@@ -69,24 +68,18 @@ create table if not exists games (
 
 		public static void Insert(long gameAward, long gamePrice, long gameLevel, long gameStartTime)
 		{
-			SqLiteConnection.Open();
-			using (SQLiteTransaction transaction = SqLiteConnection.BeginTransaction())
-			{
-				using (SQLiteCommand command = new SQLiteCommand($@"
+			using (SQLiteCommand command = new SQLiteCommand($@"
 insert into games 
 ( gameAward,   gamePrice,   gameLevel,   gameStartTime)
 values
 ({gameAward}, {gamePrice}, {gameLevel}, {gameStartTime});", SqLiteConnection))
-					command.ExecuteNonQuery();
-
-				transaction.Commit();
+			{
+				Console.WriteLine($"INSERTED: {command.ExecuteNonQuery()} ROWS");
 			}
-			SqLiteConnection.Close();
 		}
 
 		public static DbSelectGamesItem[] SelectAllGames()
 		{
-			SqLiteConnection.Open();
 			DbSelectGamesItem[] selectItems;
 
 			using (SQLiteCommand command = new SQLiteCommand(selectAll, SqLiteConnection))
@@ -102,7 +95,6 @@ values
 				foreach(DataRow row in table.Rows)
 					selectItems[i++] = DbSelectGamesItem.Arr2GamesItem(row.ItemArray.Select(r => (long)r).ToArray());
 			}
-			SqLiteConnection.Close();
 			return selectItems.ToArray();
 		}
 	}
