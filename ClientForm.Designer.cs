@@ -57,7 +57,7 @@ namespace vlc_works
 			this.inputLabel.BackColor = System.Drawing.SystemColors.Desktop;
 			this.inputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 159.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.inputLabel.ForeColor = System.Drawing.Color.Red;
-			this.inputLabel.Location = new System.Drawing.Point(352, 288);
+			this.inputLabel.Location = new System.Drawing.Point(224, 128);
 			this.inputLabel.Name = "inputLabel";
 			this.inputLabel.Size = new System.Drawing.Size(552, 241);
 			this.inputLabel.TabIndex = 1;
@@ -67,11 +67,11 @@ namespace vlc_works
 			// 
 			this.costLabel.AutoSize = true;
 			this.costLabel.BackColor = System.Drawing.Color.Black;
-			this.costLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.costLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 81.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.costLabel.ForeColor = System.Drawing.Color.Red;
 			this.costLabel.Location = new System.Drawing.Point(288, 32);
 			this.costLabel.Name = "costLabel";
-			this.costLabel.Size = new System.Drawing.Size(257, 108);
+			this.costLabel.Size = new System.Drawing.Size(296, 124);
 			this.costLabel.TabIndex = 2;
 			this.costLabel.Text = "0000";
 			this.costLabel.Visible = false;
@@ -80,11 +80,11 @@ namespace vlc_works
 			// 
 			this.prizeLabel.AutoSize = true;
 			this.prizeLabel.BackColor = System.Drawing.Color.Black;
-			this.prizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.prizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 81.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.prizeLabel.ForeColor = System.Drawing.Color.Red;
 			this.prizeLabel.Location = new System.Drawing.Point(288, 160);
 			this.prizeLabel.Name = "prizeLabel";
-			this.prizeLabel.Size = new System.Drawing.Size(257, 108);
+			this.prizeLabel.Size = new System.Drawing.Size(296, 124);
 			this.prizeLabel.TabIndex = 3;
 			this.prizeLabel.Text = "1111";
 			this.prizeLabel.Visible = false;
@@ -94,9 +94,9 @@ namespace vlc_works
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(909, 542);
+			this.Controls.Add(this.inputLabel);
 			this.Controls.Add(this.prizeLabel);
 			this.Controls.Add(this.costLabel);
-			this.Controls.Add(this.inputLabel);
 			this.Controls.Add(this.vlcControl);
 			this.Name = "ClientForm";
 			this.Text = "Form1";

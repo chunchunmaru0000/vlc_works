@@ -10,23 +10,27 @@ namespace vlc_works
 	public partial class ClientForm : Form
 	{
 		// consts
+		const string paramsSpaces = "     ";
 		const string paramsVideoPath = "showParamsVideo.mp4";
 		public static readonly Uri ParamsVideoUri = new Uri(
 			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, paramsVideoPath));
 
-		const int heightCostOffset = 108 * 2;
-		const int heightPrizeOffset = - 108 * 4;
+		const int heightCostOffset = 400;
+		const int heightPrizeOffset = -452;
 
-		readonly TimeSpan TimeToShowCost = TimeSpan.FromMilliseconds(8800);
-		readonly TimeSpan TimeToShowPrize = TimeSpan.FromMilliseconds(9500);
+		readonly TimeSpan TimeToShowCost = TimeSpan.FromMilliseconds(6900);
+		readonly TimeSpan TimeToShowPrize = TimeSpan.FromMilliseconds(9700);
 		// time
 		System.Threading.Timer CostShowTimer { get; set; }
 		System.Threading.Timer PrizeShowTimer { get; set; }
 
 		internal void ShowGameParams(long prize, long cost)
 		{
-			prizeLabel.Text = prize.ToString();
-			costLabel.Text = cost.ToString();
+			prizeLabel.Hide();
+			costLabel.Hide();
+
+			prizeLabel.Text = paramsSpaces + prize.ToString() + paramsSpaces;
+			costLabel.Text = paramsSpaces + cost.ToString() + paramsSpaces;
 
 			Size vs = vlcControl.Size;
 
