@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -32,6 +34,7 @@ namespace vlc_works
 		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10);
 		// input
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>();
+		bool IsSelectingLanguage { get; set; }
 		// some
 		bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -119,12 +122,21 @@ namespace vlc_works
 				return;
 			}
 
+			if (IsSelectingLanguage)
+			{
+				ProceedSelectLang(k);
+				return;
+			}
+
 			if (NumKeys.Contains(k) || k == Keys.Enter)
 				DrawNum(k);
 			if (k == Keys.Enter)
 				ProceedInput();
 
-			print($"\tKEY DOWN: {k}\n\t\tBLOCKED: {VLCChecker.blockInput}\n\t\tGAME ENDED: {VLCChecker.gameEnded}");
+			try
+			{ // can error if you press keyboard while app is launching
+				print($"\tKEY DOWN: {k}\n\t\tBLOCKED: {VLCChecker.blockInput}\n\t\tGAME ENDED: {VLCChecker.gameEnded}");
+			} catch { }
 		}
 
 		void ProceedInput()
@@ -152,6 +164,28 @@ namespace vlc_works
 			foreach(InputKey key in keysStream)
 				key.Dispose();
 			keysStream.Clear();
+		}
+
+		private void BeginLanguageInput()
+		{
+			IsSelectingLanguage = true;
+			DeleteInput();
+		}
+
+		private void ProceedSelectLang(Keys key)
+		{
+			DeleteInput();
+			if (VLCChecker.ktol.ContainsKey(key))
+				VLCChecker.language = VLCChecker.ktol[key];
+			else
+				return;
+
+			IsSelectingLanguage = false;
+
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.ltour[VLCChecker.language]));
+			}));
 		}
 		#endregion
 		#region SOME
@@ -246,12 +280,40 @@ namespace vlc_works
 			}));
 		}
 		#endregion
-		#region REPLAY_BUTON
+		#region UPPER_PART_BUTTONS
 		public void Replay()
 		{
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Time = 0);
+				ThreadPool.QueueUserWorkItem(_ => {
+					vlcControl.Time = 0;
+					vlcControl.Play();
+				});
+			}));
+		}
+
+		public void PlayIdle()
+		{
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.idleUri));
+			}));
+		}
+
+		public void Stop()
+		{
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop());
+			}));
+		}
+
+		private void startGameBut_Click(object sender, EventArgs e)
+		{
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.selectLangUri));
+				BeginLanguageInput();
 			}));
 		}
 		#endregion

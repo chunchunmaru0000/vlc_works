@@ -45,14 +45,12 @@ namespace vlc_works
 			InitBalance();
 			StartTables();
 
-			new Thread(() => { while (true) 
+			new Thread(() => { 
+				Thread.Sleep(1500);
+				while (true) 
 				{
-					Thread.Sleep(1000);
-					Invoke(new Action(() =>
-					{
-						ClearFocus();
-					}));
-					Thread.Sleep(33); 
+					Invoke(new Action(() => { ClearFocus(); })); // who even created focus in the first place
+					Thread.Sleep(1000); 
 				} }).Start();
 		}
 
@@ -141,7 +139,6 @@ namespace vlc_works
 
 			SelectedAward = AwardBut2long[awardButton];
 			awardLabel.Text = SelectedAward.ToString();
-			ClearFocus();
 		}
 
 		private void OnLevelButClicked(object sender, EventArgs e)
@@ -150,7 +147,6 @@ namespace vlc_works
 
 			SelectedLevel = LevelBut2long[levelButton];
 			levelLabel.Text = SelectedLevel.ToString();
-			ClearFocus();
 		}
 
 		private void OnPriceButClicked(object sender, EventArgs e)
@@ -159,7 +155,6 @@ namespace vlc_works
 
 			SelectedPrice = PriceBut2long[priceButton];
 			priceLabel.Text = SelectedPrice.ToString();
-			ClearFocus();
 		}
 		#endregion
 		#region TABLES
@@ -309,7 +304,6 @@ namespace vlc_works
 					$"ПРИЗ:      {awardLabel.Text}\n" + 
 					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
 					$"СТОИМОСТЬ: {priceLabel.Text}");
-			ClearFocus();
 		}
 
 		private void dropWinsBut_Click(object sender, EventArgs e)
@@ -319,7 +313,6 @@ namespace vlc_works
 
 			Db.DropTable("awards");
 			StartTables();
-			ClearFocus();
 		}
 
 		private void dropPriceBut_Click(object sender, EventArgs e)
@@ -329,7 +322,6 @@ namespace vlc_works
 
 			Db.DropTable("prices");
 			StartTables();
-			ClearFocus();
 		}
 
 		private void payBut_Click(object sender, EventArgs e)
@@ -345,7 +337,6 @@ namespace vlc_works
 			Db.InsertPrice(Game_id, SelectedPrice);
 			
 			StartTables(); // refresh tables
-			ClearFocus();
 		}
 
 		private void giveCardBut_Click(object sender, EventArgs e)
@@ -353,25 +344,29 @@ namespace vlc_works
 			// gives card but its not even know
 			// will it be or not in the future
 			// throw new NotImplementedException();
-			ClearFocus();
 		}
 
 		private void returnMoneyBut_Click(object sender, EventArgs e)
 		{
 			// also should be used via COM port
 			// throw new NotImplementedException();
-			ClearFocus();
 		}
 		#endregion
 		#region UPPER_PART_BUTTONS
 		private void playIdleBut_Click(object sender, EventArgs e)
 		{
-			ClearFocus();
+			clientForm.Invoke(new Action(() =>
+			{
+				clientForm.PlayIdle();
+			}));
 		}
 
 		private void stopBut_Click(object sender, EventArgs e)
 		{
-			ClearFocus();
+			clientForm.Invoke(new Action(() =>
+			{
+				clientForm.Stop();
+			}));
 		}
 
 		private void replayBut_Click(object sender, EventArgs e)
@@ -380,17 +375,16 @@ namespace vlc_works
 			{
 				clientForm.Replay();
 			}));
-			ClearFocus();
 		}
 
 		private void startGameBut_Click(object sender, EventArgs e)
 		{
-			ClearFocus();
+
 		}
 
 		private void skipStageBut_Click(object sender, EventArgs e)
 		{
-			ClearFocus();
+
 		}
 		#endregion
 	}

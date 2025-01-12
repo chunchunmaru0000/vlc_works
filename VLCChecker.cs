@@ -14,7 +14,7 @@ using Vlc.DotNet.Forms;
 
 namespace vlc_works
 {
-	enum Langs
+	public enum Langs
 	{
 		RUSSIAN,
 		ENGLISH,
@@ -48,6 +48,14 @@ namespace vlc_works
 			{ Keys.D8, "8" }, { Keys.D9, "9" },
 			{ Keys.Enter, "E" }
 		};
+		public static readonly Dictionary<Keys, Langs> ktol = new Dictionary<Keys, Langs>()
+		{
+			{ Keys.D1, Langs.RUSSIAN },
+			{ Keys.D2, Langs.ENGLISH },
+			{ Keys.D3, Langs.HEBREW },
+		};
+		public Dictionary<Langs, Uri> ltour;
+		public Dictionary<Langs, Uri> ltoup;
 		// video paths
 		string videoFileName { get; set; } = string.Empty;
 		string winPath { get; set; }
@@ -64,23 +72,23 @@ namespace vlc_works
 		string paramsEngPath { get; set; }
 		string paramsHebPath { get; set; }
 		// uri
-		Uri gameVideoUri { get; set; }
-		Uri victoryVideoUri { get; set; }
-		Uri errorVideoUri { get; set; }
+		public Uri gameVideoUri { get; set; }
+		public Uri victoryVideoUri { get; set; }
+		public Uri errorVideoUri { get; set; }
 
-		Uri idleUri { get; set; }
-		Uri selectLangUri { get; set; }
+		public Uri idleUri { get; set; }
+		public Uri selectLangUri { get; set; }
 
-		Uri rulesRusUri { get; set; }
-		Uri rulesEngUri { get; set; }
+		public Uri rulesRusUri { get; set; }
+		public Uri rulesEngUri { get; set; }
 
-		Uri rulesHebUri { get; set; }
-		Uri paramsRusUri { get; set; }
-		Uri paramsEngUri { get; set; }
-		Uri paramsHebUri { get; set; }
+		public Uri rulesHebUri { get; set; }
+		public Uri paramsRusUri { get; set; }
+		public Uri paramsEngUri { get; set; }
+		public Uri paramsHebUri { get; set; }
 		// game things
 		string code { get; set; }
-		Langs language { get; set; }
+		public Langs language { get; set; }
 		public bool blockInput { get; set; } = false;
 		public bool gameEnded { get; set; } = true;
 		// some
@@ -141,6 +149,20 @@ namespace vlc_works
 			paramsRusPath =  lines[7]; paramsRusUri =    ClientForm.url2mrl(paramsRusPath);
 			paramsEngPath =  lines[8]; paramsEngUri =    ClientForm.url2mrl(paramsEngPath);
 			paramsHebPath =  lines[9]; paramsHebUri =    ClientForm.url2mrl(paramsHebPath);
+
+			ltour = new Dictionary<Langs, Uri>()
+			{
+				{ Langs.RUSSIAN, rulesRusUri },
+				{ Langs.ENGLISH, rulesEngUri },
+				{ Langs.HEBREW,  rulesHebUri },
+			};
+
+			ltoup = new Dictionary<Langs, Uri>()
+			{
+				{ Langs.RUSSIAN, paramsRusUri },
+				{ Langs.ENGLISH, paramsEngUri },
+				{ Langs.HEBREW,  paramsHebUri },
+			};
 		}
 
 		void LogMessageException(Exception exception)
