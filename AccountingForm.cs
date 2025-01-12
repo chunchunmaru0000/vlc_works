@@ -43,7 +43,6 @@ namespace vlc_works
 			InitDictionares();
 			InitButtons();
 			InitBalance();
-			Db.BeginSQL();
 			StartTables();
 		}
 
@@ -164,29 +163,31 @@ namespace vlc_works
 			};
 			row.Cells.Add(rowCell);
 			row.Height = 32;
-			
 			return row;
+		}
+
+		private long RefreshGridReturnSum(ref DataGridView grid, string commandString)
+		{
+			grid.Rows.Clear();
+
+			long[] allSomething = Db.SelectAllLong(commandString);
+
+			grid.Rows.AddRange(allSomething
+				.Select(l => GetRowWithTextCell(l.ToString()))
+				.ToArray());
+
+			return allSomething.Sum();
 		}
 
 		private void StartTables()
 		{
-			winsDataGridView.Rows.Clear();
-			priceDataGridView.Rows.Clear();
+			Db.BeginSQL();
 
-			GamesItems = Db.SelectAllGames().ToList();
-			//LogData();
-			WinsSum = GamesItems.Select(g => g.GameAward).Sum();
-			PaysSum = GamesItems.Select(g => g.GamePrice).Sum();
+			WinsSum = RefreshGridReturnSum(ref winsDataGridView, Db.selectAllAwards);
+			PaysSum = RefreshGridReturnSum(ref priceDataGridView, Db.selectAllPrices);
+
 			winSumLabel.Text = WinsSum.ToString();
 			priceSumLabel.Text = PaysSum.ToString();
-
-			foreach (DbSelectGamesItem game in GamesItems)
-			{
-				if (game.GameAward > 0)
-					winsDataGridView.Rows.Add(GetRowWithTextCell(game.GameAward.ToString()));
-				
-				priceDataGridView.Rows.Add(GetRowWithTextCell(game.GamePrice.ToString()));
-			}
 			balanceLabel.Text = (PaysSum - WinsSum).ToString();
 		}
 
@@ -219,7 +220,7 @@ namespace vlc_works
 					$"СТОИМОСТЬ: {priceLabel.Text}");
 		}
 
-		// <-------------- OPERATOR FORM BELOW -------------->
+		#region OPERATOR_FORM
 		// <-------------- OPERATOR FORM BELOW -------------->
 		// <-------------- OPERATOR FORM BELOW -------------->
 		// <-------------- OPERATOR FORM BELOW -------------->
@@ -284,6 +285,31 @@ namespace vlc_works
 		{
 			settings.Save();
 			Console.WriteLine("SAVED SETTINGS");
+		}
+
+		// <-------------- OPERATOR FORM ABOVE -------------->
+		// <-------------- OPERATOR FORM ABOVE -------------->
+		// <-------------- OPERATOR FORM ABOVE -------------->
+		// <-------------- OPERATOR FORM ABOVE -------------->
+		// <-------------- OPERATOR FORM ABOVE -------------->
+		#endregion
+
+		private void dropWinsBut_Click(object sender, EventArgs e)
+		{
+			if (winsDataGridView.Rows.Count == 0)
+				return;
+
+			Db.DropTable("awards");
+			StartTables();
+		}
+
+		private void dropPriceBut_Click(object sender, EventArgs e)
+		{
+			if (priceDataGridView.Rows.Count == 0)
+				return;
+
+			Db.DropTable("prices");
+			StartTables();
 		}
 	}
 }
