@@ -22,7 +22,6 @@ namespace vlc_works
 		IKeyboardEvents hook { get; set; }
 		public VLCChecker VLCChecker { get; set; }
 		// forms
-		public OperatorForm operatorForm { get; set; }
 		public AccountingForm accountingForm { get; set; }
 		// consts
 		Keys[] NumKeys { get; } = new Keys[] {
@@ -38,7 +37,7 @@ namespace vlc_works
 		{
 			string stroke = str == null ? "" : str.ToString();
 			Console.WriteLine(stroke);
-			operatorForm.BeginInvoke(new Action(() => { operatorForm.DEBUG(stroke); }));
+			//accountingForm.BeginInvoke(new Action(() => { accountingForm.DEBUG(stroke); }));
 		}
 		public string keysStreamtos() => string.Join("", keysStream.Select(k => VLCChecker.ktos[k.Key]));
 		public static Uri url2mrl(string url) => new Uri(url);
@@ -51,16 +50,13 @@ namespace vlc_works
 			// key logger
 			hook = Hook.GlobalEvents();
 			hook.KeyUp += OnWinKeyDown;
-			// operator form
-			operatorForm = new OperatorForm(this);
-			operatorForm.Show();
 			// accounting form
 			accountingForm = new AccountingForm(this);
 			accountingForm.Show();
 			// set vlc
 			vlcControl.EndReached += EndReached;
 			// cheker
-			VLCChecker = new VLCChecker(this, operatorForm);
+			VLCChecker = new VLCChecker(this, accountingForm);
 			// set form
 			Form1_SizeChanged(inputLabel, EventArgs.Empty); // includes align inputLabel
 			inputLabel.SizeChanged += AlignInputLabel;
@@ -128,8 +124,8 @@ namespace vlc_works
 		public void DeleteInput()
 		{
 			inputLabel.Text = "";
-			operatorForm.Invoke((MethodInvoker)delegate {
-				operatorForm.DeleteInput();
+			accountingForm.Invoke((MethodInvoker)delegate {
+				accountingForm.DeleteInput();
 			});
 			foreach(InputKey key in keysStream)
 				key.Dispose();
@@ -142,7 +138,7 @@ namespace vlc_works
 			{
 				FormBorderStyle = FormBorderStyle.Sizable;
 				WindowState = FormWindowState.Normal;
-				Size = operatorForm.Size;
+				Size = accountingForm.Size;
 				Location = new Point(Location.X, 100);
 			}
 			else
@@ -169,8 +165,8 @@ namespace vlc_works
 				hmh(Size.Width, inputLabel.Width),
 				hmh(Size.Height, inputLabel.Height));
 
-			operatorForm.Invoke((MethodInvoker)delegate {
-				operatorForm.GotInput(inputLabel.Text);
+			accountingForm.Invoke((MethodInvoker)delegate {
+				accountingForm.GotInput(inputLabel.Text);
 			});
 		}
 
@@ -178,6 +174,5 @@ namespace vlc_works
 		{
 			Environment.Exit(0);
 		}
-
 	}
 }

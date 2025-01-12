@@ -18,7 +18,7 @@ namespace vlc_works
 	{
 		// forms
 		ClientForm clientForm { get; set; }
-		OperatorForm operatorForm { get; set; }
+		AccountingForm accountingForm { get; set; }
 		// media
 		long videoGameTimeWas { get; set; }
 		// vlc things
@@ -60,15 +60,15 @@ namespace vlc_works
 		{
 			string stroke = str == null ? "" : str.ToString();
 			Console.WriteLine(stroke);
-			operatorForm.BeginInvoke(new Action(() => { operatorForm.DEBUG(stroke); }));
+			//accountingForm.BeginInvoke(new Action(() => { accountingForm.DEBUG(stroke); }));
 		}
 		void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
 
-		public VLCChecker(ClientForm clientForm, OperatorForm operatorForm)
+		public VLCChecker(ClientForm clientForm, AccountingForm accountingForm)
 		{
 			// forms
 			this.clientForm = clientForm;
-			this.operatorForm = operatorForm;
+			this.accountingForm = accountingForm;
 			// read videonames.txt
 			GetVideoNames();
 			// do checker thread
@@ -85,17 +85,17 @@ namespace vlc_works
 				using (var stream = new FileStream(videonamestxt, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 				using (var reader = new StreamReader(stream))
 					fileText = reader.ReadToEnd();
-				string[] lines = fileText.Split('\n');
+				string[] lines = fileText.Split('\n')
+					.Select(l => string.Join("=", l.Trim('\r').Split('=').Skip(1)))
+					.ToArray();
 
-				winPath = lines[0].TrimEnd('\r');
+				Console.WriteLine(string.Join("\n", lines));
+
+				winPath = lines[0];
 				victoryVideoUri = ClientForm.url2mrl(winPath);
 
 				defeatPath = lines[1];
 				errorVideoUri = ClientForm.url2mrl(defeatPath);
-
-				operatorForm.Invoke((MethodInvoker)delegate {
-					operatorForm.GotWinErrPaths(winPath, defeatPath);
-				});
 			}
 			catch (Exception exception)
 			{
@@ -219,8 +219,8 @@ namespace vlc_works
 			code = GetCodeFromName(GetSafeFileName(videoFileName)).TrimEnd(' ') + "E";
 
 			DeleteInput();
-			operatorForm.Invoke((MethodInvoker)delegate {
-				operatorForm.GotGameVideo(videoFileName, code);
+			accountingForm.Invoke((MethodInvoker)delegate {
+				accountingForm.GotGameVideo(videoFileName, code);
 			});
 
 			KillVLC();

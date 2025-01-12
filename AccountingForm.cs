@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using Gma.System.MouseKeyHook;
 
 namespace vlc_works
 {
 	public partial class AccountingForm : Form
 	{
+		TextSettings settings { get; set; }
+		// until here operator form
 		ClientForm clientForm { get; set; }
 		// sql
 		List<DbSelectGamesItem> GamesItems { get; set; }
@@ -34,14 +37,26 @@ namespace vlc_works
 		public AccountingForm(ClientForm clientForm)
 		{
 			InitializeComponent();
+			this.clientForm = clientForm;
+
+			InitSettings();
 			InitDictionares();
 			InitButtons();
 			InitBalance();
-
-			this.clientForm = clientForm;
-
 			Db.BeginSQL();
 			StartTables();
+		}
+
+		private void InitSettings()
+		{
+			settings = TextSettings.ReadSettings();
+
+			clientForm.Invoke((MethodInvoker)delegate
+			{
+				clientForm.inputLabel.Font = settings.Font;
+				clientForm.inputLabel.ForeColor = settings.ForeColor;
+				clientForm.inputLabel.BackColor = settings.BackColor;
+			});
 		}
 
 		private void InitBalance()
@@ -202,6 +217,73 @@ namespace vlc_works
 					$"ПРИЗ:      {awardLabel.Text}\n" + 
 					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
 					$"СТОИМОСТЬ: {priceLabel.Text}");
+		}
+
+		// <-------------- OPERATOR FORM BELOW -------------->
+		// <-------------- OPERATOR FORM BELOW -------------->
+		// <-------------- OPERATOR FORM BELOW -------------->
+		// <-------------- OPERATOR FORM BELOW -------------->
+		// <-------------- OPERATOR FORM BELOW -------------->
+		// <-------------- OPERATOR FORM BELOW -------------->
+
+		//public void DEBUG(string mesasge) => debugLabel.Text = mesasge;
+
+		public void DeleteInput()
+		{
+			inputLabel.Text = "";
+		}
+
+		public void GotGameVideo(string videoGamePath, string code)
+		{
+			codeLabel.Text = code;
+		}
+
+		public void GotInput(string input)
+		{
+			inputLabel.Text = input;
+
+			inputLabel.ForeColor = codeLabel.Text.TrimEnd('E') == input.TrimEnd('E') ?
+				Color.LightGreen : // good
+				Color.LightGray;   // usual
+		}
+
+		private void foreColorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (colorDialog.ShowDialog() == DialogResult.OK)
+			{
+				clientForm.Invoke((MethodInvoker)delegate {
+					clientForm.inputLabel.ForeColor = colorDialog.Color;
+				});
+				settings.ForeColor = colorDialog.Color;
+			}
+		}
+
+		private void backToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (colorDialog.ShowDialog() == DialogResult.OK)
+			{
+				clientForm.Invoke((MethodInvoker)delegate {
+					clientForm.inputLabel.BackColor = colorDialog.Color;
+				});
+				settings.BackColor = colorDialog.Color;
+			}
+		}
+
+		private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (fontDialog.ShowDialog() == DialogResult.OK)
+			{
+				clientForm.Invoke((MethodInvoker)delegate {
+					clientForm.inputLabel.Font = fontDialog.Font;
+				});
+				settings.Font = fontDialog.Font;
+			}
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			settings.Save();
+			Console.WriteLine("SAVED SETTINGS");
 		}
 	}
 }

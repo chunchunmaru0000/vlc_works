@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.titleLabel = new System.Windows.Forms.Label();
 			this.goldInSafeLabel = new System.Windows.Forms.Label();
 			this.balanceTextLabel = new System.Windows.Forms.Label();
@@ -91,6 +91,16 @@
 			this.price40But = new System.Windows.Forms.Button();
 			this.price20But = new System.Windows.Forms.Button();
 			this.price0But = new System.Windows.Forms.Button();
+			this.codeLabel = new System.Windows.Forms.Label();
+			this.inputLabel = new System.Windows.Forms.Label();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.textТекстToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.foreColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.backToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.colorDialog = new System.Windows.Forms.ColorDialog();
+			this.fontDialog = new System.Windows.Forms.FontDialog();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -100,14 +110,15 @@
 			this.awardButsPanel.SuspendLayout();
 			this.levelButsPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// titleLabel
 			// 
 			this.titleLabel.AutoSize = true;
-			this.titleLabel.BackColor = System.Drawing.Color.Khaki;
+			this.titleLabel.BackColor = System.Drawing.Color.Transparent;
 			this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.titleLabel.Location = new System.Drawing.Point(0, 0);
+			this.titleLabel.Location = new System.Drawing.Point(160, 32);
 			this.titleLabel.Name = "titleLabel";
 			this.titleLabel.Size = new System.Drawing.Size(896, 31);
 			this.titleLabel.TabIndex = 0;
@@ -117,7 +128,7 @@
 			// 
 			this.goldInSafeLabel.AutoSize = true;
 			this.goldInSafeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.goldInSafeLabel.Location = new System.Drawing.Point(0, 31);
+			this.goldInSafeLabel.Location = new System.Drawing.Point(1056, 32);
 			this.goldInSafeLabel.Name = "goldInSafeLabel";
 			this.goldInSafeLabel.Size = new System.Drawing.Size(228, 31);
 			this.goldInSafeLabel.TabIndex = 1;
@@ -127,7 +138,7 @@
 			// 
 			this.balanceTextLabel.AutoSize = true;
 			this.balanceTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.balanceTextLabel.Location = new System.Drawing.Point(65, 62);
+			this.balanceTextLabel.Location = new System.Drawing.Point(65, 318);
 			this.balanceTextLabel.Name = "balanceTextLabel";
 			this.balanceTextLabel.Size = new System.Drawing.Size(598, 31);
 			this.balanceTextLabel.TabIndex = 2;
@@ -137,7 +148,7 @@
 			// 
 			this.balanceLabel.BackColor = System.Drawing.Color.YellowGreen;
 			this.balanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.balanceLabel.Location = new System.Drawing.Point(660, 62);
+			this.balanceLabel.Location = new System.Drawing.Point(660, 318);
 			this.balanceLabel.Name = "balanceLabel";
 			this.balanceLabel.Size = new System.Drawing.Size(108, 32);
 			this.balanceLabel.TabIndex = 3;
@@ -162,7 +173,7 @@
 			this.selectedPanel.Controls.Add(this.awardPanel);
 			this.selectedPanel.Controls.Add(this.labelNowSelected);
 			this.selectedPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectedPanel.Location = new System.Drawing.Point(864, 32);
+			this.selectedPanel.Location = new System.Drawing.Point(864, 288);
 			this.selectedPanel.Name = "selectedPanel";
 			this.selectedPanel.Size = new System.Drawing.Size(480, 96);
 			this.selectedPanel.TabIndex = 5;
@@ -255,7 +266,7 @@
 			// 
 			this.showButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.showButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.showButton.Location = new System.Drawing.Point(1344, 32);
+			this.showButton.Location = new System.Drawing.Point(1344, 288);
 			this.showButton.Name = "showButton";
 			this.showButton.Size = new System.Drawing.Size(160, 96);
 			this.showButton.TabIndex = 6;
@@ -267,7 +278,7 @@
 			// 
 			this.accountTextLabel.AutoSize = true;
 			this.accountTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.accountTextLabel.Location = new System.Drawing.Point(0, 192);
+			this.accountTextLabel.Location = new System.Drawing.Point(0, 448);
 			this.accountTextLabel.Name = "accountTextLabel";
 			this.accountTextLabel.Size = new System.Drawing.Size(84, 31);
 			this.accountTextLabel.TabIndex = 7;
@@ -277,7 +288,7 @@
 			// 
 			this.summaTextLabel.AutoSize = true;
 			this.summaTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.summaTextLabel.Location = new System.Drawing.Point(0, 224);
+			this.summaTextLabel.Location = new System.Drawing.Point(0, 480);
 			this.summaTextLabel.Name = "summaTextLabel";
 			this.summaTextLabel.Size = new System.Drawing.Size(113, 31);
 			this.summaTextLabel.TabIndex = 8;
@@ -287,7 +298,7 @@
 			// 
 			this.winsTextLabel.AutoSize = true;
 			this.winsTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.winsTextLabel.Location = new System.Drawing.Point(192, 192);
+			this.winsTextLabel.Location = new System.Drawing.Point(192, 448);
 			this.winsTextLabel.Name = "winsTextLabel";
 			this.winsTextLabel.Size = new System.Drawing.Size(147, 31);
 			this.winsTextLabel.TabIndex = 9;
@@ -297,7 +308,7 @@
 			// 
 			this.payedGamesTextLabel.AutoSize = true;
 			this.payedGamesTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.payedGamesTextLabel.Location = new System.Drawing.Point(416, 192);
+			this.payedGamesTextLabel.Location = new System.Drawing.Point(416, 448);
 			this.payedGamesTextLabel.Name = "payedGamesTextLabel";
 			this.payedGamesTextLabel.Size = new System.Drawing.Size(239, 31);
 			this.payedGamesTextLabel.TabIndex = 10;
@@ -307,7 +318,7 @@
 			// 
 			this.winSumLabel.AutoSize = true;
 			this.winSumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.winSumLabel.Location = new System.Drawing.Point(192, 224);
+			this.winSumLabel.Location = new System.Drawing.Point(192, 480);
 			this.winSumLabel.Name = "winSumLabel";
 			this.winSumLabel.Size = new System.Drawing.Size(59, 31);
 			this.winSumLabel.TabIndex = 11;
@@ -317,7 +328,7 @@
 			// 
 			this.priceSumLabel.AutoSize = true;
 			this.priceSumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.priceSumLabel.Location = new System.Drawing.Point(416, 224);
+			this.priceSumLabel.Location = new System.Drawing.Point(416, 480);
 			this.priceSumLabel.Name = "priceSumLabel";
 			this.priceSumLabel.Size = new System.Drawing.Size(59, 31);
 			this.priceSumLabel.TabIndex = 12;
@@ -328,34 +339,34 @@
 			this.winsDataGridView.AllowUserToAddRows = false;
 			this.winsDataGridView.AllowUserToDeleteRows = false;
 			this.winsDataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
 			this.winsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.winsDataGridView.BackgroundColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
 			this.winsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this.winsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.winsDataGridView.ColumnHeadersVisible = false;
 			this.winsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightCoral;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkRed;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.LightCoral;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.DarkRed;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle7;
 			this.winsDataGridView.GridColor = System.Drawing.Color.LightCoral;
-			this.winsDataGridView.Location = new System.Drawing.Point(192, 256);
+			this.winsDataGridView.Location = new System.Drawing.Point(192, 512);
 			this.winsDataGridView.Name = "winsDataGridView";
 			this.winsDataGridView.ReadOnly = true;
 			this.winsDataGridView.RowHeadersVisible = false;
@@ -383,16 +394,16 @@
 			this.priceDataGridView.ColumnHeadersVisible = false;
 			this.priceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.Color.YellowGreen;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FloralWhite;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle8.BackColor = System.Drawing.Color.YellowGreen;
+			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FloralWhite;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle8;
 			this.priceDataGridView.GridColor = System.Drawing.Color.YellowGreen;
-			this.priceDataGridView.Location = new System.Drawing.Point(416, 256);
+			this.priceDataGridView.Location = new System.Drawing.Point(416, 512);
 			this.priceDataGridView.Name = "priceDataGridView";
 			this.priceDataGridView.ReadOnly = true;
 			this.priceDataGridView.RowHeadersVisible = false;
@@ -424,7 +435,7 @@
 			this.awardButsPanel.Controls.Add(this.award50But);
 			this.awardButsPanel.Controls.Add(this.award30But);
 			this.awardButsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.awardButsPanel.Location = new System.Drawing.Point(704, 256);
+			this.awardButsPanel.Location = new System.Drawing.Point(704, 512);
 			this.awardButsPanel.Name = "awardButsPanel";
 			this.awardButsPanel.Size = new System.Drawing.Size(192, 416);
 			this.awardButsPanel.TabIndex = 15;
@@ -534,7 +545,7 @@
 			// 
 			this.awardSelectTextLabel.AutoSize = true;
 			this.awardSelectTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.awardSelectTextLabel.Location = new System.Drawing.Point(704, 192);
+			this.awardSelectTextLabel.Location = new System.Drawing.Point(704, 448);
 			this.awardSelectTextLabel.Name = "awardSelectTextLabel";
 			this.awardSelectTextLabel.Size = new System.Drawing.Size(188, 31);
 			this.awardSelectTextLabel.TabIndex = 16;
@@ -544,7 +555,7 @@
 			// 
 			this.selectLevelTextLabel.AutoSize = true;
 			this.selectLevelTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectLevelTextLabel.Location = new System.Drawing.Point(960, 192);
+			this.selectLevelTextLabel.Location = new System.Drawing.Point(960, 448);
 			this.selectLevelTextLabel.Name = "selectLevelTextLabel";
 			this.selectLevelTextLabel.Size = new System.Drawing.Size(231, 31);
 			this.selectLevelTextLabel.TabIndex = 17;
@@ -554,7 +565,7 @@
 			// 
 			this.selectPayTextLabel.AutoSize = true;
 			this.selectPayTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectPayTextLabel.Location = new System.Drawing.Point(1248, 192);
+			this.selectPayTextLabel.Location = new System.Drawing.Point(1248, 448);
 			this.selectPayTextLabel.Name = "selectPayTextLabel";
 			this.selectPayTextLabel.Size = new System.Drawing.Size(259, 31);
 			this.selectPayTextLabel.TabIndex = 18;
@@ -575,7 +586,7 @@
 			this.levelButsPanel.Controls.Add(this.lvl1But);
 			this.levelButsPanel.Controls.Add(this.lvl0But);
 			this.levelButsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.levelButsPanel.Location = new System.Drawing.Point(960, 256);
+			this.levelButsPanel.Location = new System.Drawing.Point(960, 512);
 			this.levelButsPanel.Name = "levelButsPanel";
 			this.levelButsPanel.Size = new System.Drawing.Size(224, 416);
 			this.levelButsPanel.TabIndex = 19;
@@ -692,7 +703,7 @@
 			this.panel1.Controls.Add(this.price20But);
 			this.panel1.Controls.Add(this.price0But);
 			this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.panel1.Location = new System.Drawing.Point(1248, 256);
+			this.panel1.Location = new System.Drawing.Point(1248, 512);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(256, 416);
 			this.panel1.TabIndex = 20;
@@ -767,11 +778,83 @@
 			this.price0But.Text = "0";
 			this.price0But.UseVisualStyleBackColor = false;
 			// 
+			// codeLabel
+			// 
+			this.codeLabel.Font = new System.Drawing.Font("Cascadia Code", 63.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.codeLabel.Location = new System.Drawing.Point(0, 64);
+			this.codeLabel.Name = "codeLabel";
+			this.codeLabel.Size = new System.Drawing.Size(576, 96);
+			this.codeLabel.TabIndex = 21;
+			this.codeLabel.Text = " CODE HERE";
+			// 
+			// inputLabel
+			// 
+			this.inputLabel.Font = new System.Drawing.Font("Cascadia Code", 63.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.inputLabel.Location = new System.Drawing.Point(0, 160);
+			this.inputLabel.Name = "inputLabel";
+			this.inputLabel.Size = new System.Drawing.Size(576, 96);
+			this.inputLabel.TabIndex = 22;
+			this.inputLabel.Text = "INPUT HERE";
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.textТекстToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(1623, 33);
+			this.menuStrip1.TabIndex = 23;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// textТекстToolStripMenuItem
+			// 
+			this.textТекстToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.foreColorToolStripMenuItem,
+            this.backToolStripMenuItem,
+            this.sizeToolStripMenuItem,
+            this.saveToolStripMenuItem});
+			this.textТекстToolStripMenuItem.Name = "textТекстToolStripMenuItem";
+			this.textТекстToolStripMenuItem.Size = new System.Drawing.Size(120, 29);
+			this.textТекстToolStripMenuItem.Text = "Text / Текст";
+			// 
+			// foreColorToolStripMenuItem
+			// 
+			this.foreColorToolStripMenuItem.Name = "foreColorToolStripMenuItem";
+			this.foreColorToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+			this.foreColorToolStripMenuItem.Text = "ForeColor / Цвет";
+			this.foreColorToolStripMenuItem.Click += new System.EventHandler(this.foreColorToolStripMenuItem_Click);
+			// 
+			// backToolStripMenuItem
+			// 
+			this.backToolStripMenuItem.Name = "backToolStripMenuItem";
+			this.backToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+			this.backToolStripMenuItem.Text = "Back / Фон";
+			this.backToolStripMenuItem.Click += new System.EventHandler(this.backToolStripMenuItem_Click);
+			// 
+			// sizeToolStripMenuItem
+			// 
+			this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
+			this.sizeToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+			this.sizeToolStripMenuItem.Text = "Font / Шрифт";
+			this.sizeToolStripMenuItem.Click += new System.EventHandler(this.sizeToolStripMenuItem_Click);
+			// 
+			// saveToolStripMenuItem
+			// 
+			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+			this.saveToolStripMenuItem.Text = "Save / Сохранить";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+			// 
 			// AccountingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1536, 692);
+			this.ClientSize = new System.Drawing.Size(1623, 938);
+			this.Controls.Add(this.menuStrip1);
+			this.Controls.Add(this.inputLabel);
+			this.Controls.Add(this.codeLabel);
+			this.Controls.Add(this.titleLabel);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.levelButsPanel);
 			this.Controls.Add(this.selectPayTextLabel);
@@ -791,7 +874,6 @@
 			this.Controls.Add(this.balanceLabel);
 			this.Controls.Add(this.balanceTextLabel);
 			this.Controls.Add(this.goldInSafeLabel);
-			this.Controls.Add(this.titleLabel);
 			this.Name = "AccountingForm";
 			this.Text = "AccountingForm";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AccountingForm_FormClosed);
@@ -808,6 +890,8 @@
 			this.awardButsPanel.ResumeLayout(false);
 			this.levelButsPanel.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -874,5 +958,15 @@
 		private System.Windows.Forms.Button price0But;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+		public System.Windows.Forms.Label codeLabel;
+		public System.Windows.Forms.Label inputLabel;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem textТекстToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem foreColorToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem backToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+		private System.Windows.Forms.ColorDialog colorDialog;
+		private System.Windows.Forms.FontDialog fontDialog;
 	}
 }
