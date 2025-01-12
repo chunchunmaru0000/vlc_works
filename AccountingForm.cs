@@ -387,7 +387,10 @@ namespace vlc_works
 
 		private void skipStageBut_Click(object sender, EventArgs e)
 		{
-
+			clientForm.Invoke(new Action(() =>
+			{
+				clientForm.SkipStage();
+			}));
 		}
 		#endregion
 	}

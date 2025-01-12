@@ -106,6 +106,7 @@ namespace vlc_works
 		public Langs language { get; set; }
 		public bool blockInput { get; set; } = false;
 		public bool gameEnded { get; set; } = true;
+		public int errorsCount { get; set; }
 		// some
 		public static event EventHandler ProcessCommandLineChanged;
 		protected virtual void OnProcessCommandLineChanged() => ProcessCommandLineChanged?.Invoke(this, EventArgs.Empty);
@@ -249,6 +250,11 @@ namespace vlc_works
 			path != rulesEngPath && path != rulesHebPath && path != rulesRusPath &&
 			path != paramsEngPath && path != paramsHebPath && path != paramsRusPath;
 
+		public bool IsParamsMrl(string mrl) =>
+			mrl == paramsRusUri.AbsoluteUri ||
+			mrl == paramsEngUri.AbsoluteUri ||
+			mrl == paramsHebUri.AbsoluteUri;
+
 		void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
@@ -308,8 +314,10 @@ namespace vlc_works
 
 			KillVLC();
 			videoGameTimeWas = 0;
+			errorsCount = 0;
 			clientForm.BeginInvoke(new Action(() =>
 			{
+				clientForm.stage = Stage.GAME;
 				clientForm.prizeLabel.Hide();
 				clientForm.costLabel.Hide();
 				clientForm.vlcControl.Play(gameVideoUri);
@@ -378,11 +386,7 @@ namespace vlc_works
 				EndEngRules();
 			else if (endedVideoMrl == rulesHebUri.AbsoluteUri)
 				EndHebRules();
-			else if (
-				endedVideoMrl == paramsEngUri.AbsoluteUri ||
-				endedVideoMrl == paramsHebUri.AbsoluteUri ||
-				endedVideoMrl == paramsRusUri.AbsoluteUri
-				)
+			else if (IsParamsMrl(endedVideoMrl))
 				EndParamsShowVideo();
 			else
 				SafeStop();

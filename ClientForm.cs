@@ -60,6 +60,7 @@ namespace vlc_works
 			accountingForm.Show();
 			// set vlc
 			vlcControl.EndReached += EndReached;
+			vlcControl.MediaChanged += MediaChanged;
 			// cheker
 			VLCChecker = new VLCChecker(this, accountingForm);
 			// set form
@@ -68,6 +69,7 @@ namespace vlc_works
 			DeleteInput();
 			SetFormFullScreen();
 		}
+
 
 		#region SCREEN
 		void SetFormFullScreen()
@@ -209,6 +211,32 @@ namespace vlc_works
 			VLCChecker.MediaIndeedEnded(vlcControl.GetCurrentMedia().Mrl);
 		}
 
+		void TryDisposeAndNull(IDisposable disposable)
+		{
+			try
+			{
+				if (disposable != null)
+				{
+					disposable.Dispose();
+					disposable = null;
+				}
+			} catch { }
+		}
+
+		private void MediaChanged(object sender, VlcMediaPlayerMediaChangedEventArgs e)
+		{
+			if (!VLCChecker.IsParamsMrl(e.NewMedia.Mrl))
+			{
+				BeginInvoke(new Action(() =>
+				{
+					TryDisposeAndNull(PrizeShowTimer);
+					TryDisposeAndNull(CostShowTimer);
+					prizeLabel.Hide();
+					costLabel.Hide();
+				}));
+			}
+		}
+
 		int hmh(int global, int local = 0) => local == 0 ?
 			global :
 			global / 2 - local / 2;// Half Minus Half = hmh 
@@ -280,6 +308,7 @@ namespace vlc_works
 			{
 				costLabel.Show();
 				CostShowTimer.Dispose();
+				CostShowTimer = null;
 			}));
 		}
 
@@ -289,6 +318,7 @@ namespace vlc_works
 			{
 				prizeLabel.Show();
 				PrizeShowTimer.Dispose();
+				PrizeShowTimer = null;
 			}));
 		}
 		#endregion
@@ -326,6 +356,14 @@ namespace vlc_works
 			{
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.selectLangUri));
 				BeginLanguageInput();
+			}));
+		}
+
+		public void SkipStage()
+		{
+			BeginInvoke(new Action(() =>
+			{
+				
 			}));
 		}
 		#endregion
