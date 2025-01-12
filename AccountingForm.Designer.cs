@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.titleLabel = new System.Windows.Forms.Label();
 			this.goldInSafeLabel = new System.Windows.Forms.Label();
 			this.balanceTextLabel = new System.Windows.Forms.Label();
@@ -103,6 +103,13 @@
 			this.fontDialog = new System.Windows.Forms.FontDialog();
 			this.dropWinsBut = new System.Windows.Forms.Button();
 			this.dropPriceBut = new System.Windows.Forms.Button();
+			this.percentBut = new System.Windows.Forms.Button();
+			this.underPercentLabel = new System.Windows.Forms.Label();
+			this.percentSummaLabel = new System.Windows.Forms.Label();
+			this.summaPercentTextLabel = new System.Windows.Forms.Label();
+			this.payBut = new System.Windows.Forms.Button();
+			this.giveCardBut = new System.Windows.Forms.Button();
+			this.returnMoneyBut = new System.Windows.Forms.Button();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -150,9 +157,9 @@
 			// 
 			this.balanceLabel.BackColor = System.Drawing.Color.YellowGreen;
 			this.balanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.balanceLabel.Location = new System.Drawing.Point(660, 318);
+			this.balanceLabel.Location = new System.Drawing.Point(704, 320);
 			this.balanceLabel.Name = "balanceLabel";
-			this.balanceLabel.Size = new System.Drawing.Size(108, 32);
+			this.balanceLabel.Size = new System.Drawing.Size(96, 32);
 			this.balanceLabel.TabIndex = 3;
 			this.balanceLabel.Text = "#####";
 			// 
@@ -175,7 +182,7 @@
 			this.selectedPanel.Controls.Add(this.awardPanel);
 			this.selectedPanel.Controls.Add(this.labelNowSelected);
 			this.selectedPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectedPanel.Location = new System.Drawing.Point(864, 288);
+			this.selectedPanel.Location = new System.Drawing.Point(1120, 288);
 			this.selectedPanel.Name = "selectedPanel";
 			this.selectedPanel.Size = new System.Drawing.Size(480, 96);
 			this.selectedPanel.TabIndex = 5;
@@ -268,7 +275,7 @@
 			// 
 			this.showButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.showButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.showButton.Location = new System.Drawing.Point(1344, 288);
+			this.showButton.Location = new System.Drawing.Point(1600, 288);
 			this.showButton.Name = "showButton";
 			this.showButton.Size = new System.Drawing.Size(160, 96);
 			this.showButton.TabIndex = 6;
@@ -341,32 +348,32 @@
 			this.winsDataGridView.AllowUserToAddRows = false;
 			this.winsDataGridView.AllowUserToDeleteRows = false;
 			this.winsDataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Black;
+			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
 			this.winsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.winsDataGridView.BackgroundColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
 			this.winsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+			dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
 			this.winsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.winsDataGridView.ColumnHeadersVisible = false;
 			this.winsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-			dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightCoral;
-			dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.DarkRed;
-			dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle11;
+			dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle15.BackColor = System.Drawing.Color.LightCoral;
+			dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.DarkRed;
+			dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle15;
 			this.winsDataGridView.GridColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.Location = new System.Drawing.Point(192, 512);
 			this.winsDataGridView.Name = "winsDataGridView";
@@ -396,14 +403,14 @@
 			this.priceDataGridView.ColumnHeadersVisible = false;
 			this.priceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-			dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle12.BackColor = System.Drawing.Color.YellowGreen;
-			dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-			dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.FloralWhite;
-			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle12;
+			dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle16.BackColor = System.Drawing.Color.YellowGreen;
+			dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+			dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.FloralWhite;
+			dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle16;
 			this.priceDataGridView.GridColor = System.Drawing.Color.YellowGreen;
 			this.priceDataGridView.Location = new System.Drawing.Point(416, 512);
 			this.priceDataGridView.Name = "priceDataGridView";
@@ -437,7 +444,7 @@
 			this.awardButsPanel.Controls.Add(this.award50But);
 			this.awardButsPanel.Controls.Add(this.award30But);
 			this.awardButsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.awardButsPanel.Location = new System.Drawing.Point(704, 512);
+			this.awardButsPanel.Location = new System.Drawing.Point(960, 512);
 			this.awardButsPanel.Name = "awardButsPanel";
 			this.awardButsPanel.Size = new System.Drawing.Size(192, 416);
 			this.awardButsPanel.TabIndex = 15;
@@ -547,7 +554,7 @@
 			// 
 			this.awardSelectTextLabel.AutoSize = true;
 			this.awardSelectTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.awardSelectTextLabel.Location = new System.Drawing.Point(704, 448);
+			this.awardSelectTextLabel.Location = new System.Drawing.Point(960, 448);
 			this.awardSelectTextLabel.Name = "awardSelectTextLabel";
 			this.awardSelectTextLabel.Size = new System.Drawing.Size(188, 31);
 			this.awardSelectTextLabel.TabIndex = 16;
@@ -557,7 +564,7 @@
 			// 
 			this.selectLevelTextLabel.AutoSize = true;
 			this.selectLevelTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectLevelTextLabel.Location = new System.Drawing.Point(960, 448);
+			this.selectLevelTextLabel.Location = new System.Drawing.Point(1216, 448);
 			this.selectLevelTextLabel.Name = "selectLevelTextLabel";
 			this.selectLevelTextLabel.Size = new System.Drawing.Size(231, 31);
 			this.selectLevelTextLabel.TabIndex = 17;
@@ -567,7 +574,7 @@
 			// 
 			this.selectPayTextLabel.AutoSize = true;
 			this.selectPayTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.selectPayTextLabel.Location = new System.Drawing.Point(1248, 448);
+			this.selectPayTextLabel.Location = new System.Drawing.Point(1504, 448);
 			this.selectPayTextLabel.Name = "selectPayTextLabel";
 			this.selectPayTextLabel.Size = new System.Drawing.Size(259, 31);
 			this.selectPayTextLabel.TabIndex = 18;
@@ -588,7 +595,7 @@
 			this.levelButsPanel.Controls.Add(this.lvl1But);
 			this.levelButsPanel.Controls.Add(this.lvl0But);
 			this.levelButsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.levelButsPanel.Location = new System.Drawing.Point(960, 512);
+			this.levelButsPanel.Location = new System.Drawing.Point(1216, 512);
 			this.levelButsPanel.Name = "levelButsPanel";
 			this.levelButsPanel.Size = new System.Drawing.Size(224, 416);
 			this.levelButsPanel.TabIndex = 19;
@@ -705,7 +712,7 @@
 			this.panel1.Controls.Add(this.price20But);
 			this.panel1.Controls.Add(this.price0But);
 			this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.panel1.Location = new System.Drawing.Point(1248, 512);
+			this.panel1.Location = new System.Drawing.Point(1504, 512);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(256, 416);
 			this.panel1.TabIndex = 20;
@@ -805,7 +812,7 @@
             this.textТекстToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1623, 33);
+			this.menuStrip1.Size = new System.Drawing.Size(1788, 33);
 			this.menuStrip1.TabIndex = 23;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -870,11 +877,89 @@
 			this.dropPriceBut.UseVisualStyleBackColor = true;
 			this.dropPriceBut.Click += new System.EventHandler(this.dropPriceBut_Click);
 			// 
+			// percentBut
+			// 
+			this.percentBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.percentBut.Location = new System.Drawing.Point(800, 288);
+			this.percentBut.Name = "percentBut";
+			this.percentBut.Size = new System.Drawing.Size(96, 32);
+			this.percentBut.TabIndex = 26;
+			this.percentBut.Text = "##,##%";
+			this.percentBut.UseVisualStyleBackColor = true;
+			// 
+			// underPercentLabel
+			// 
+			this.underPercentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.underPercentLabel.Location = new System.Drawing.Point(800, 320);
+			this.underPercentLabel.Name = "underPercentLabel";
+			this.underPercentLabel.Size = new System.Drawing.Size(96, 32);
+			this.underPercentLabel.TabIndex = 27;
+			this.underPercentLabel.Text = "##";
+			// 
+			// percentSummaLabel
+			// 
+			this.percentSummaLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.percentSummaLabel.Location = new System.Drawing.Point(896, 320);
+			this.percentSummaLabel.Name = "percentSummaLabel";
+			this.percentSummaLabel.Size = new System.Drawing.Size(96, 32);
+			this.percentSummaLabel.TabIndex = 28;
+			this.percentSummaLabel.Text = "###";
+			// 
+			// summaPercentTextLabel
+			// 
+			this.summaPercentTextLabel.AutoSize = true;
+			this.summaPercentTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.summaPercentTextLabel.Location = new System.Drawing.Point(896, 288);
+			this.summaPercentTextLabel.Name = "summaPercentTextLabel";
+			this.summaPercentTextLabel.Size = new System.Drawing.Size(101, 31);
+			this.summaPercentTextLabel.TabIndex = 29;
+			this.summaPercentTextLabel.Text = "Сумма";
+			// 
+			// payBut
+			// 
+			this.payBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.payBut.Location = new System.Drawing.Point(704, 512);
+			this.payBut.Name = "payBut";
+			this.payBut.Size = new System.Drawing.Size(192, 64);
+			this.payBut.TabIndex = 30;
+			this.payBut.Text = "Оплачено";
+			this.payBut.UseVisualStyleBackColor = true;
+			this.payBut.Click += new System.EventHandler(this.payBut_Click);
+			// 
+			// giveCardBut
+			// 
+			this.giveCardBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.giveCardBut.Location = new System.Drawing.Point(704, 608);
+			this.giveCardBut.Name = "giveCardBut";
+			this.giveCardBut.Size = new System.Drawing.Size(192, 64);
+			this.giveCardBut.TabIndex = 31;
+			this.giveCardBut.Text = "Выдать карту";
+			this.giveCardBut.UseVisualStyleBackColor = true;
+			this.giveCardBut.Click += new System.EventHandler(this.giveCardBut_Click);
+			// 
+			// returnMoneyBut
+			// 
+			this.returnMoneyBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.returnMoneyBut.Location = new System.Drawing.Point(704, 704);
+			this.returnMoneyBut.Name = "returnMoneyBut";
+			this.returnMoneyBut.Size = new System.Drawing.Size(192, 64);
+			this.returnMoneyBut.TabIndex = 32;
+			this.returnMoneyBut.Text = "Возврат денег";
+			this.returnMoneyBut.UseVisualStyleBackColor = true;
+			this.returnMoneyBut.Click += new System.EventHandler(this.returnMoneyBut_Click);
+			// 
 			// AccountingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1623, 938);
+			this.ClientSize = new System.Drawing.Size(1788, 938);
+			this.Controls.Add(this.returnMoneyBut);
+			this.Controls.Add(this.giveCardBut);
+			this.Controls.Add(this.payBut);
+			this.Controls.Add(this.summaPercentTextLabel);
+			this.Controls.Add(this.percentSummaLabel);
+			this.Controls.Add(this.underPercentLabel);
+			this.Controls.Add(this.percentBut);
 			this.Controls.Add(this.dropPriceBut);
 			this.Controls.Add(this.dropWinsBut);
 			this.Controls.Add(this.menuStrip1);
@@ -996,5 +1081,12 @@
 		private System.Windows.Forms.FontDialog fontDialog;
 		private System.Windows.Forms.Button dropWinsBut;
 		private System.Windows.Forms.Button dropPriceBut;
+		private System.Windows.Forms.Button percentBut;
+		private System.Windows.Forms.Label underPercentLabel;
+		private System.Windows.Forms.Label percentSummaLabel;
+		private System.Windows.Forms.Label summaPercentTextLabel;
+		private System.Windows.Forms.Button payBut;
+		private System.Windows.Forms.Button giveCardBut;
+		private System.Windows.Forms.Button returnMoneyBut;
 	}
 }

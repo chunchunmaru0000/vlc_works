@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SQLite;
-using Gma.System.MouseKeyHook;
 
 namespace vlc_works
 {
@@ -46,6 +41,7 @@ namespace vlc_works
 			StartTables();
 		}
 
+		#region SOME_INITS
 		private void InitSettings()
 		{
 			settings = TextSettings.ReadSettings();
@@ -62,7 +58,8 @@ namespace vlc_works
 		{
 			//throw new NotImplementedException();
 		}
-
+		#endregion
+		#region SELECT_BUTTONS	
 		private void InitDictionares()
 		{
 			AwardBut2long = new Dictionary<Button, long>()
@@ -146,7 +143,8 @@ namespace vlc_works
 			SelectedPrice = PriceBut2long[priceButton];
 			priceLabel.Text = SelectedPrice.ToString();
 		}
-
+		#endregion
+		#region TABLES
 		private void LogData()
 		{
 			Console.WriteLine("<------- DATABASE DATA ------->");
@@ -190,36 +188,14 @@ namespace vlc_works
 			priceSumLabel.Text = PaysSum.ToString();
 			balanceLabel.Text = (PaysSum - WinsSum).ToString();
 		}
-
+		#endregion
+		#region FORM_CLOSED
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Db.EndSQL();
 			Environment.Exit(0);
 		}
-
-		private void showButton_Click(object sender, EventArgs e)
-		{
-			if (
-				awardLabel.Text != NullText &&
-				levelLabel.Text != NullText &&
-				priceLabel.Text != NullText
-				)
-			{
-				Db.Insert(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
-				StartTables();
-				clientForm.Invoke(new Action(() =>
-				{
-					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
-				}));
-			}
-			else
-				MessageBox.Show(
-					$"НЕ ВСЕ ЗНАЧЕНИЯ ВЫБРАНЫ\n" +
-					$"ПРИЗ:      {awardLabel.Text}\n" + 
-					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
-					$"СТОИМОСТЬ: {priceLabel.Text}");
-		}
-
+		#endregion
 		#region OPERATOR_FORM
 		// <-------------- OPERATOR FORM BELOW -------------->
 		// <-------------- OPERATOR FORM BELOW -------------->
@@ -293,6 +269,29 @@ namespace vlc_works
 		// <-------------- OPERATOR FORM ABOVE -------------->
 		// <-------------- OPERATOR FORM ABOVE -------------->
 		#endregion
+		#region DOWN_PART_BUTTONS
+		private void showButton_Click(object sender, EventArgs e)
+		{
+			if (
+				awardLabel.Text != NullText &&
+				levelLabel.Text != NullText &&
+				priceLabel.Text != NullText
+				)
+			{
+				Db.Insert(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
+				StartTables();
+				clientForm.Invoke(new Action(() =>
+				{
+					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
+				}));
+			}
+			else
+				MessageBox.Show(
+					$"НЕ ВСЕ ЗНАЧЕНИЯ ВЫБРАНЫ\n" +
+					$"ПРИЗ:      {awardLabel.Text}\n" + 
+					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
+					$"СТОИМОСТЬ: {priceLabel.Text}");
+		}
 
 		private void dropWinsBut_Click(object sender, EventArgs e)
 		{
@@ -311,5 +310,21 @@ namespace vlc_works
 			Db.DropTable("prices");
 			StartTables();
 		}
+
+		private void payBut_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void giveCardBut_Click(object sender, EventArgs e)
+		{
+			// throw new NotImplementedException();
+		}
+
+		private void returnMoneyBut_Click(object sender, EventArgs e)
+		{
+			// throw new NotImplementedException();
+		}
+		#endregion
 	}
 }
