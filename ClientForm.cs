@@ -328,7 +328,7 @@ namespace vlc_works
 			{
 				ThreadPool.QueueUserWorkItem(_ => {
 					vlcControl.Time = 0;
-					vlcControl.Play();
+					vlcControl.Play(vlcControl.GetCurrentMedia().Mrl);
 				});
 			}));
 		}

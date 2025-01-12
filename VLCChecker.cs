@@ -375,6 +375,8 @@ namespace vlc_works
 		public void MediaIndeedEnded(string endedVideoMrl)
 		{
 			print($"ENDED PLAY: {endedVideoMrl}");
+
+			// cant use switch because its not constant values
 			if (endedVideoMrl == errorVideoUri.AbsoluteUri)
 				EndDefeatVideo();
 			else if (endedVideoMrl == victoryVideoUri.AbsoluteUri)
@@ -389,23 +391,35 @@ namespace vlc_works
 				EndHebRules();
 			else if (IsParamsMrl(endedVideoMrl))
 				EndParamsShowVideo();
+			else if (endedVideoMrl == selectLangUri.AbsoluteUri)
+				Replay();
+			else if (endedVideoMrl == idleUri.AbsoluteUri)
+				Replay();
 			else
 				SafeStop();
 		}
 
+		private void Replay()
+		{
+			clientForm.BeginInvoke(new Action(() =>
+			{
+				clientForm.Replay();
+			}));
+		}
+
 		private void EndHebRules()
 		{
-			throw new NotImplementedException();
+			SafeStop();
 		}
 
 		private void EndEngRules()
 		{
-			throw new NotImplementedException();
+			SafeStop();
 		}
 
 		private void EndRusRules()
 		{
-			throw new NotImplementedException();
+			SafeStop();
 		}
 
 		void EndParamsShowVideo()
@@ -439,6 +453,11 @@ namespace vlc_works
 		void EndVictoryVideo()
 		{
 			// to do; he said smthng about idle video
+			Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
+			accountingForm.Invoke(new Action(() =>
+			{
+				accountingForm.StartTables(); // refresh tables
+			}));
 			SafeStop();
 		}
 

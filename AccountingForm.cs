@@ -46,11 +46,10 @@ namespace vlc_works
 			StartTables();
 
 			new Thread(() => { 
-				Thread.Sleep(1500);
 				while (true) 
 				{
+					Thread.Sleep(1500);
 					Invoke(new Action(() => { ClearFocus(); })); // who even created focus in the first place
-					Thread.Sleep(1000); 
 				} }).Start();
 		}
 
@@ -190,7 +189,7 @@ namespace vlc_works
 			return allSomething.Sum();
 		}
 
-		private void StartTables()
+		public void StartTables()
 		{
 			Db.BeginSQL();
 
