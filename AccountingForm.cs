@@ -243,8 +243,8 @@ namespace vlc_works
 			inputLabel.Text = input;
 
 			inputLabel.ForeColor = codeLabel.Text.TrimEnd('E') == input.TrimEnd('E') ?
-				Color.LightGreen : // good
-				Color.LightGray;   // usual
+				Color.Green : // good
+				Color.Black;   // usual
 		}
 
 		private void foreColorToolStripMenuItem_Click(object sender, EventArgs e)

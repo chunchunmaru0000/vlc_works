@@ -14,6 +14,13 @@ using Vlc.DotNet.Forms;
 
 namespace vlc_works
 {
+	enum Langs
+	{
+		RUSSIAN,
+		ENGLISH,
+		HEBREW,
+	}
+
 	public class VLCChecker
 	{
 		// forms
@@ -45,12 +52,35 @@ namespace vlc_works
 		string videoFileName { get; set; } = string.Empty;
 		string winPath { get; set; }
 		string defeatPath { get; set; }
+
+		string idlePath { get; set; }
+		string selectLangPath { get; set; }
+
+		string rulesRusPath { get; set; }
+		string rulesEngPath { get; set; }
+		string rulesHebPath { get; set; } // Hebrew
+
+		string paramsRusPath { get; set; }
+		string paramsEngPath { get; set; }
+		string paramsHebPath { get; set; }
 		// uri
 		Uri gameVideoUri { get; set; }
 		Uri victoryVideoUri { get; set; }
 		Uri errorVideoUri { get; set; }
+
+		Uri idleUri { get; set; }
+		Uri selectLangUri { get; set; }
+
+		Uri rulesRusUri { get; set; }
+		Uri rulesEngUri { get; set; }
+
+		Uri rulesHebUri { get; set; }
+		Uri paramsRusUri { get; set; }
+		Uri paramsEngUri { get; set; }
+		Uri paramsHebUri { get; set; }
 		// game things
 		string code { get; set; }
+		Langs language { get; set; }
 		public bool blockInput { get; set; } = false;
 		public bool gameEnded { get; set; } = true;
 		// some
@@ -91,16 +121,27 @@ namespace vlc_works
 
 				Console.WriteLine(string.Join("\n", lines));
 
-				winPath = lines[0];
-				victoryVideoUri = ClientForm.url2mrl(winPath);
-
-				defeatPath = lines[1];
-				errorVideoUri = ClientForm.url2mrl(defeatPath);
+				SetPathsAndUri(lines);
 			}
 			catch (Exception exception)
 			{
 				LogMessageException(exception);
 			}
+		}
+
+
+		void SetPathsAndUri(string[] lines)
+		{
+			winPath =        lines[0]; victoryVideoUri = ClientForm.url2mrl(winPath);
+			defeatPath =     lines[1]; errorVideoUri =   ClientForm.url2mrl(defeatPath);
+			idlePath =       lines[2]; idleUri =         ClientForm.url2mrl(idlePath);
+			selectLangPath = lines[3]; selectLangUri =   ClientForm.url2mrl(selectLangPath);
+			rulesRusPath =   lines[4]; rulesRusUri =     ClientForm.url2mrl(rulesRusPath);
+			rulesEngPath =   lines[5]; rulesEngUri =     ClientForm.url2mrl(rulesEngPath);
+			rulesHebPath =   lines[6]; rulesHebUri =     ClientForm.url2mrl(rulesHebPath);
+			paramsRusPath =  lines[7]; paramsRusUri =    ClientForm.url2mrl(paramsRusPath);
+			paramsEngPath =  lines[8]; paramsEngUri =    ClientForm.url2mrl(paramsEngPath);
+			paramsHebPath =  lines[9]; paramsHebUri =    ClientForm.url2mrl(paramsHebPath);
 		}
 
 		void LogMessageException(Exception exception)
