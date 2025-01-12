@@ -22,6 +22,7 @@ namespace vlc_works
 		long Balance { get; set; }
 		long WinsSum { get; set; }
 		long PaysSum { get; set; }
+		public static long Game_id { get; set; }
 		// consts
 		const string NullText = "####";
 		Dictionary<Button, long> AwardBut2long { get; set; }
@@ -278,8 +279,8 @@ namespace vlc_works
 				priceLabel.Text != NullText
 				)
 			{
-				Db.Insert(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
-				StartTables();
+				//Db.InsertAll(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
+				//StartTables();
 				clientForm.Invoke(new Action(() =>
 				{
 					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
@@ -313,16 +314,29 @@ namespace vlc_works
 
 		private void payBut_Click(object sender, EventArgs e)
 		{
-
+			// does nothing for now
+			// because operator himself starts game video
+			// when payed or dunno onle case for now is
+			// when the price is zero
+			// if game automat itself will have function to say that game is payed
+			// then will be another function for that
+			Db.InsertGame(SelectedLevel, Db.Now);
+			Game_id = Db.GetMaxGamesId();
+			Db.InsertPrice(Game_id, SelectedPrice);
+			
+			StartTables(); // refresh tables
 		}
 
 		private void giveCardBut_Click(object sender, EventArgs e)
 		{
+			// gives card but its not even know
+			// will it be or not in the future
 			// throw new NotImplementedException();
 		}
 
 		private void returnMoneyBut_Click(object sender, EventArgs e)
 		{
+			// also should be used via COM port
 			// throw new NotImplementedException();
 		}
 		#endregion

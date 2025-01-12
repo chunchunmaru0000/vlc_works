@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS prices (
 		public const string selectLastRowId = "select last_insert_rowid()";
 		public const string selectAllAwards = "select award from awards";
 		public const string selectAllPrices = "select price from prices";
+		public const string selectMaxGamesId = "select max(id) from games;";
 		// sql
 		static SQLiteConnection SqLiteConnection { get; set; }
 		// some
@@ -92,23 +93,45 @@ CREATE TABLE IF NOT EXISTS prices (
 			SqLiteConnection.Close();
 		}
 
-		public static void Insert(long gameAward, long gamePrice, long gameLevel, long gameStartTime)
+		public static void InsertAll(long gameAward, long gamePrice, long gameLevel, long gameStartTime)
+		{
+			InsertGame(gameLevel, gameStartTime);
+			long game_id = GetLastRowId();
+			InsertAward(game_id, gameAward);
+			InsertPrice(game_id, gamePrice);
+		}
+
+		public static void InsertGame(long gameLevel, long gameStartTime)
 		{
 			using (SQLiteCommand command = new SQLiteCommand($@"
 insert into games (gameLevel, gameStartTime) values({gameLevel}, {gameStartTime});", SqLiteConnection))
 				command.ExecuteNonQuery();
+		}
 
-			long game_id;
-			using (SQLiteCommand command = new SQLiteCommand(selectLastRowId, SqLiteConnection))
-				game_id = (long)command.ExecuteScalar();
-
+		public static void InsertAward(long game_id, long gameAward)
+		{
 			using (SQLiteCommand command = new SQLiteCommand($@"
 insert into awards (game_id, award) values({game_id}, {gameAward});", SqLiteConnection))
 				command.ExecuteNonQuery();
+		}
 
+		public static void InsertPrice(long game_id, long gamePrice)
+		{
 			using (SQLiteCommand command = new SQLiteCommand($@"
 insert into prices (game_id, price) values({game_id}, {gamePrice});", SqLiteConnection))
 				command.ExecuteNonQuery();
+		}
+
+		public static long GetMaxGamesId()
+		{
+			using (SQLiteCommand command = new SQLiteCommand(selectMaxGamesId, SqLiteConnection))
+				return (long)command.ExecuteScalar();
+		}
+
+		public static long GetLastRowId()
+		{
+			using (SQLiteCommand command = new SQLiteCommand(selectLastRowId, SqLiteConnection))
+				return (long)command.ExecuteScalar();
 		}
 
 		public static DbSelectGamesItem[] SelectAllGames()
