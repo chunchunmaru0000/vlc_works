@@ -359,7 +359,8 @@ namespace vlc_works
 		void ProceedDefeat()
 		{
 			blockInput = true;
-			print("BLOCKED INPUT");
+
+			print($"BLOCKED INPUT, ERRORS: {++errorsCount}");
 			DeleteInput();
 
 			clientForm.BeginInvoke(new Action(() =>

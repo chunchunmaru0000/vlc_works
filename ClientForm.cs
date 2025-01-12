@@ -70,7 +70,6 @@ namespace vlc_works
 			SetFormFullScreen();
 		}
 
-
 		#region SCREEN
 		void SetFormFullScreen()
 		{
@@ -150,7 +149,7 @@ namespace vlc_works
 		{
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 
-			if (VLCChecker.blockInput || VLCChecker.gameEnded)
+			if (VLCChecker.blockInput || VLCChecker.gameEnded || VLCChecker.errorsCount > 2) // til 3 errors
 				return;
 
 			VLCChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
@@ -363,7 +362,30 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
-				
+				switch (stage)
+				{
+					case Stage.IDLE: // how can skip this one
+						break;
+					case Stage.SELECT_LANG:
+						VLCChecker.language = Langs.HEBREW;
+						stage = Stage.RULES;
+						break;
+					case Stage.RULES:
+						SkipRules();
+						break;
+					case Stage.COST_AND_PRIZE:
+						break;
+					case Stage.GAME:
+						break;
+					case Stage.ERROR:
+						break;
+					case Stage.GAME_CANT_INPUT:
+						break;
+					case Stage.VICTORY:
+						break;
+					default:
+						return;
+				}
 			}));
 		}
 		#endregion
