@@ -18,6 +18,7 @@ namespace vlc_works
 {
 	public partial class ClientForm : Form
 	{
+		#region VAR
 		// global
 		IKeyboardEvents hook { get; set; }
 		public VLCChecker VLCChecker { get; set; }
@@ -41,6 +42,7 @@ namespace vlc_works
 		}
 		public string keysStreamtos() => string.Join("", keysStream.Select(k => VLCChecker.ktos[k.Key]));
 		public static Uri url2mrl(string url) => new Uri(url);
+		#endregion
 
 		public ClientForm()
 		{
@@ -64,6 +66,7 @@ namespace vlc_works
 			SetFormFullScreen();
 		}
 
+		#region SCREEN
 		void SetFormFullScreen()
 		{
 			// of course its better but im not sure in screens order
@@ -82,11 +85,30 @@ namespace vlc_works
 			FullScreen();
 		}
 
-		private void EndReached(object sender, VlcMediaPlayerEndReachedEventArgs e)
+		void FullScreen()
 		{
-			VLCChecker.MediaIndeedEnded(vlcControl.GetCurrentMedia().Mrl);
+			if (isFullScreen)
+			{
+				FormBorderStyle = FormBorderStyle.Sizable;
+				WindowState = FormWindowState.Normal;
+				Size = accountingForm.Size;
+				Location = new Point(Location.X, 100);
+			}
+			else
+			{
+				FormBorderStyle = FormBorderStyle.None;
+				WindowState = FormWindowState.Maximized;
+			}
+			isFullScreen = !isFullScreen;
 		}
 
+		private void Form1_SizeChanged(object sender, EventArgs e)
+		{
+			vlcControl.Size = Size;
+			AlignInputLabel(sender, e);
+		}
+		#endregion
+		#region INPUT
 		private void OnWinKeyDown(object sender, KeyEventArgs e)
 		{
 			Keys k = e.KeyCode;
@@ -131,28 +153,11 @@ namespace vlc_works
 				key.Dispose();
 			keysStream.Clear();
 		}
-
-		void FullScreen()
+		#endregion
+		#region SOME
+		private void EndReached(object sender, VlcMediaPlayerEndReachedEventArgs e)
 		{
-			if (isFullScreen)
-			{
-				FormBorderStyle = FormBorderStyle.Sizable;
-				WindowState = FormWindowState.Normal;
-				Size = accountingForm.Size;
-				Location = new Point(Location.X, 100);
-			}
-			else
-			{
-				FormBorderStyle = FormBorderStyle.None;
-				WindowState = FormWindowState.Maximized;
-			}
-			isFullScreen = !isFullScreen;
-		}
-
-		private void Form1_SizeChanged(object sender, EventArgs e)
-		{
-			vlcControl.Size = Size;
-			AlignInputLabel(sender, e);
+			VLCChecker.MediaIndeedEnded(vlcControl.GetCurrentMedia().Mrl);
 		}
 
 		int hmh(int global, int local = 0) => local == 0 ?
@@ -169,10 +174,86 @@ namespace vlc_works
 				accountingForm.GotInput(inputLabel.Text);
 			});
 		}
-
+		#endregion
+		#region FORM_CLOSED
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Environment.Exit(0);
 		}
+		#endregion
+		#region SHOW_GAME_PARAMS_TO_PLAYER
+		// consts
+		const string paramsSpaces = "     ";
+		const string paramsVideoPath = "showParamsVideo.mp4";
+		public static readonly Uri ParamsVideoUri = new Uri(
+			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, paramsVideoPath));
+
+		const int heightCostOffset = 400;
+		const int heightPrizeOffset = -452;
+
+		readonly TimeSpan TimeToShowCost = TimeSpan.FromMilliseconds(6900);
+		readonly TimeSpan TimeToShowPrize = TimeSpan.FromMilliseconds(9700);
+		// time
+		System.Threading.Timer CostShowTimer { get; set; }
+		System.Threading.Timer PrizeShowTimer { get; set; }
+
+		internal void ShowGameParams(long prize, long cost)
+		{
+			prizeLabel.BringToFront();
+			costLabel.BringToFront();
+			prizeLabel.Hide();
+			costLabel.Hide();
+
+			prizeLabel.Text = paramsSpaces + prize.ToString() + paramsSpaces;
+			costLabel.Text = paramsSpaces + cost.ToString() + paramsSpaces;
+
+			Size vs = vlcControl.Size;
+
+			prizeLabel.Location = new Point(
+				hmh(vs.Width, prizeLabel.Size.Width),
+				hmh(vs.Height, heightPrizeOffset));
+			costLabel.Location = new Point(
+				hmh(vs.Width, costLabel.Size.Width),
+				hmh(vs.Height, heightCostOffset));
+
+			vlcControl.Play(ParamsVideoUri);
+			CostShowTimer = new System.Threading.Timer(
+				CostShowCallback, null, TimeToShowCost, InputKey.MinusOneMilisecond);
+			PrizeShowTimer = new System.Threading.Timer(
+				PrizeShowCallback, null, TimeToShowPrize, InputKey.MinusOneMilisecond);
+
+			print(
+				$"COST:  {accountingForm.SelectedPrice}\n" +
+				$"PRIZE: {accountingForm.SelectedAward}\n" +
+				$"LEVEL: {accountingForm.SelectedLevel}\n");
+		}
+
+		private void CostShowCallback(object state)
+		{
+			Invoke(new Action(() =>
+			{
+				costLabel.Show();
+				CostShowTimer.Dispose();
+			}));
+		}
+
+		private void PrizeShowCallback(object state)
+		{
+			Invoke(new Action(() =>
+			{
+				prizeLabel.Show();
+				PrizeShowTimer.Dispose();
+			}));
+		}
+		#endregion
+		#region REPLAY_BUTON
+		public void Replay()
+		{
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Time = 0);
+			}));
+		}
+		#endregion
 	}
 }

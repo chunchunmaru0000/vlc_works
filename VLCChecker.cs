@@ -129,7 +129,6 @@ namespace vlc_works
 			}
 		}
 
-
 		void SetPathsAndUri(string[] lines)
 		{
 			winPath =        lines[0]; victoryVideoUri = ClientForm.url2mrl(winPath);
@@ -208,14 +207,20 @@ namespace vlc_works
 			}
 		}
 
+		bool IsNotUsedPath(string path) =>
+			path != defeatPath && path != winPath && path != selectLangPath && path != idlePath &&
+			path != rulesEngPath && path != rulesHebPath && path != rulesRusPath &&
+			path != paramsEngPath && path != paramsHebPath && path != paramsRusPath;
+
 		void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
 			string commandLine = GetCommandLine(processToCheckName); // "vlc path" --started-from-file "video path"
 			string[] commandArgs = ParseCommandLineArguments(commandLine);
-			if (commandArgs.Length == 5 && // have correct video file path
-				commandArgs[3] != winPath && commandArgs[3] != defeatPath &&
-				commandArgs[3].Length > 0
+			if (
+				commandArgs.Length == 5 && // have correct video file path
+				IsNotUsedPath(commandArgs[3]) && // not used
+				commandArgs[3].Length > 0 // not empty
 				)
 			{
 				if (char.IsNumber(GetSafeFileName(commandArgs[3])[0]))// game name starts with number
@@ -314,7 +319,8 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				videoGameTimeWas = clientForm.vlcControl.Time;
+				if (clientForm.vlcControl.GetCurrentMedia().Mrl != errorVideoUri.AbsoluteUri)
+					videoGameTimeWas = clientForm.vlcControl.Time;
 				clientForm.vlcControl.Play(errorVideoUri);
 			}));
 			print($"TIME BEFORE DEFEAT WAS: {videoGameTimeWas}");
