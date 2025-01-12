@@ -379,7 +379,10 @@ namespace vlc_works
 
 		private void startGameBut_Click(object sender, EventArgs e)
 		{
-
+			clientForm.Invoke(new Action(() =>
+			{
+				clientForm.StartGame();
+			}));
 		}
 
 		private void skipStageBut_Click(object sender, EventArgs e)

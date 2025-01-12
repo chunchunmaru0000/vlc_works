@@ -34,7 +34,7 @@ namespace vlc_works
 		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10);
 		// input
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>();
-		bool IsSelectingLanguage { get; set; }
+		public Stage stage { get; set; }
 		// some
 		bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -122,9 +122,14 @@ namespace vlc_works
 				return;
 			}
 
-			if (IsSelectingLanguage)
+			if (stage == Stage.SELECT_LANG)
 			{
 				ProceedSelectLang(k);
+				return;
+			}
+			if (stage == Stage.RULES && k == Keys.Enter)
+			{
+				SkipRules();
 				return;
 			}
 
@@ -168,7 +173,7 @@ namespace vlc_works
 
 		private void BeginLanguageInput()
 		{
-			IsSelectingLanguage = true;
+			stage = Stage.SELECT_LANG;
 			DeleteInput();
 		}
 
@@ -180,11 +185,21 @@ namespace vlc_works
 			else
 				return;
 
-			IsSelectingLanguage = false;
+			stage = Stage.RULES;
 
 			BeginInvoke(new Action(() =>
 			{
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.ltour[VLCChecker.language]));
+			}));
+		}
+
+		private void SkipRules()
+		{
+			DeleteInput();
+			stage = Stage.COST_AND_PRIZE;
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop());
 			}));
 		}
 		#endregion
@@ -218,9 +233,6 @@ namespace vlc_works
 		#region SHOW_GAME_PARAMS_TO_PLAYER
 		// consts
 		const string paramsSpaces = "     ";
-		const string paramsVideoPath = "showParamsVideo.mp4";
-		public static readonly Uri ParamsVideoUri = new Uri(
-			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, paramsVideoPath));
 
 		const int heightCostOffset = 400;
 		const int heightPrizeOffset = -452;
@@ -250,7 +262,7 @@ namespace vlc_works
 				hmh(vs.Width, costLabel.Size.Width),
 				hmh(vs.Height, heightCostOffset));
 
-			vlcControl.Play(ParamsVideoUri);
+			vlcControl.Play(VLCChecker.ltoup[VLCChecker.language]);
 			CostShowTimer = new System.Threading.Timer(
 				CostShowCallback, null, TimeToShowCost, InputKey.MinusOneMilisecond);
 			PrizeShowTimer = new System.Threading.Timer(
@@ -308,7 +320,7 @@ namespace vlc_works
 			}));
 		}
 
-		private void startGameBut_Click(object sender, EventArgs e)
+		public void StartGame()
 		{
 			BeginInvoke(new Action(() =>
 			{

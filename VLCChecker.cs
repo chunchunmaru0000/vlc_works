@@ -14,6 +14,20 @@ using Vlc.DotNet.Forms;
 
 namespace vlc_works
 {
+	public enum Stage
+	{
+		IDLE,
+
+		SELECT_LANG,
+		RULES,
+		COST_AND_PRIZE,
+		GAME,
+
+		ERROR,
+		GAME_CANT_INPUT,
+		VICTORY,
+	}
+
 	public enum Langs
 	{
 		RUSSIAN,
@@ -23,6 +37,7 @@ namespace vlc_works
 
 	public class VLCChecker
 	{
+		#region VAR
 		// forms
 		ClientForm clientForm { get; set; }
 		AccountingForm accountingForm { get; set; }
@@ -50,9 +65,9 @@ namespace vlc_works
 		};
 		public static readonly Dictionary<Keys, Langs> ktol = new Dictionary<Keys, Langs>()
 		{
-			{ Keys.D1, Langs.RUSSIAN },
+			{ Keys.D1, Langs.HEBREW },
 			{ Keys.D2, Langs.ENGLISH },
-			{ Keys.D3, Langs.HEBREW },
+			{ Keys.D3, Langs.RUSSIAN },
 		};
 		public Dictionary<Langs, Uri> ltour;
 		public Dictionary<Langs, Uri> ltoup;
@@ -101,7 +116,7 @@ namespace vlc_works
 			//accountingForm.BeginInvoke(new Action(() => { accountingForm.DEBUG(stroke); }));
 		}
 		void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
-
+		#endregion
 		public VLCChecker(ClientForm clientForm, AccountingForm accountingForm)
 		{
 			// forms
@@ -357,10 +372,35 @@ namespace vlc_works
 				EndVictoryVideo();
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
-			else if (endedVideoMrl == ClientForm.ParamsVideoUri.AbsoluteUri)
+			else if (endedVideoMrl == rulesRusUri.AbsoluteUri)
+				EndRusRules();
+			else if (endedVideoMrl == rulesEngUri.AbsoluteUri)
+				EndEngRules();
+			else if (endedVideoMrl == rulesHebUri.AbsoluteUri)
+				EndHebRules();
+			else if (
+				endedVideoMrl == paramsEngUri.AbsoluteUri ||
+				endedVideoMrl == paramsHebUri.AbsoluteUri ||
+				endedVideoMrl == paramsRusUri.AbsoluteUri
+				)
 				EndParamsShowVideo();
 			else
 				SafeStop();
+		}
+
+		private void EndHebRules()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void EndEngRules()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void EndRusRules()
+		{
+			throw new NotImplementedException();
 		}
 
 		void EndParamsShowVideo()
