@@ -367,10 +367,10 @@ namespace vlc_works
 					case Stage.IDLE: // how can skip this one
 						break;
 					case Stage.SELECT_LANG:
-						VLCChecker.language = Langs.HEBREW;
-						stage = Stage.RULES;
+						ProceedSelectLang(Keys.D1);
 						break;
 					case Stage.RULES:
+						Console.WriteLine("SkipRules");
 						SkipRules();
 						break;
 					case Stage.COST_AND_PRIZE:
