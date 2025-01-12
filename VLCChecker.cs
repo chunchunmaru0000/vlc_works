@@ -136,13 +136,17 @@ namespace vlc_works
 			try
 			{
 				string fileText;
-				using (var stream = new FileStream(videonamestxt, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-				using (var reader = new StreamReader(stream))
-					fileText = reader.ReadToEnd();
+				using (var stream = new FileStream(videonamestxt, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))//, Encoding.UTF8))
+					using (var reader = new StreamReader(stream, Encoding.UTF8))
+						fileText = reader.ReadToEnd();
+
 				string[] lines = fileText.Split('\n')
-					.Select(l => string.Join("=", l.Trim('\r').Split('=').Skip(1)))
+					.Select(l => 
+						string.Join("=", l.Trim('\r').Split('=').Skip(1))
+						.Replace("\u202A", "")) // what???
 					.ToArray();
 
+			//Console.WriteLine(string.Join("|", Encoding.UTF8.GetBytes(lines[0]).Select(b => Convert.ToString(b))));
 				Console.WriteLine(string.Join("\n", lines));
 
 				SetPathsAndUri(lines);
@@ -195,6 +199,8 @@ namespace vlc_works
 				MessageBox.Show(
 					$"UNKNOWN ERROR WHILE READING FILE {videonamestxt} \n" +
 					$"НЕИЗВЕСТНАЯ ОШИБКА ПРИ ЧТЕНИИ ФАЙЛА {videonamestxt}");
+			else
+				MessageBox.Show($"ОШИБКА:\n{exception.Message}");
 			Environment.Exit(0);
 		}
 
