@@ -261,6 +261,11 @@ namespace vlc_works
 			mrl == paramsEngUri.AbsoluteUri ||
 			mrl == paramsHebUri.AbsoluteUri;
 
+		public bool IsRulesMrl(string mrl) =>
+			mrl == rulesRusUri.AbsoluteUri ||
+			mrl == rulesEngUri.AbsoluteUri ||
+			mrl == rulesHebUri.AbsoluteUri;
+
 		void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
@@ -360,6 +365,13 @@ namespace vlc_works
 			{
 				clientForm.vlcControl.Play(victoryVideoUri);
 			}));
+
+			// insert win in db
+			Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
+			accountingForm.Invoke(new Action(() =>
+			{
+				accountingForm.StartTables(); // refresh tables
+			}));
 		}
 
 		void ProceedDefeat()
@@ -389,18 +401,23 @@ namespace vlc_works
 				EndVictoryVideo();
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
-			else if (endedVideoMrl == rulesRusUri.AbsoluteUri)
+
+			/*else if (endedVideoMrl == rulesRusUri.AbsoluteUri)
 				EndRusRules();
 			else if (endedVideoMrl == rulesEngUri.AbsoluteUri)
 				EndEngRules();
 			else if (endedVideoMrl == rulesHebUri.AbsoluteUri)
-				EndHebRules();
+				EndHebRules();*/
+			else if (IsRulesMrl(endedVideoMrl))
+				SafeStop();
 			else if (IsParamsMrl(endedVideoMrl))
 				EndParamsShowVideo();
+
 			else if (endedVideoMrl == selectLangUri.AbsoluteUri)
 				Replay();
 			else if (endedVideoMrl == idleUri.AbsoluteUri)
 				Replay();
+
 			else
 				SafeStop();
 		}
@@ -411,21 +428,6 @@ namespace vlc_works
 			{
 				clientForm.Replay();
 			}));
-		}
-
-		private void EndHebRules()
-		{
-			SafeStop();
-		}
-
-		private void EndEngRules()
-		{
-			SafeStop();
-		}
-
-		private void EndRusRules()
-		{
-			SafeStop();
 		}
 
 		void EndParamsShowVideo()
@@ -459,11 +461,6 @@ namespace vlc_works
 		void EndVictoryVideo()
 		{
 			// to do; he said smthng about idle video
-			Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
-			accountingForm.Invoke(new Action(() =>
-			{
-				accountingForm.StartTables(); // refresh tables
-			}));
 			SafeStop();
 		}
 

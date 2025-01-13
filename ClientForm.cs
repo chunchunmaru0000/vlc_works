@@ -370,7 +370,6 @@ namespace vlc_works
 						ProceedSelectLang(Keys.D1);
 						break;
 					case Stage.RULES:
-						Console.WriteLine("SkipRules");
 						SkipRules();
 						break;
 					case Stage.COST_AND_PRIZE:
@@ -382,6 +381,7 @@ namespace vlc_works
 					case Stage.GAME_CANT_INPUT:
 						break;
 					case Stage.VICTORY:
+						PlayIdle();
 						break;
 					default:
 						return;
