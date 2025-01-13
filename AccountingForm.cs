@@ -31,7 +31,6 @@ namespace vlc_works
 		Dictionary<Button, long> LevelBut2long { get; set; }
 		Dictionary<Button, long> PriceBut2long { get; set; }
 		// some
-		void ClearFocus() => ActiveControl = null;
 		#endregion
 
 		public AccountingForm(ClientForm clientForm)
@@ -45,15 +44,27 @@ namespace vlc_works
 			InitBalance();
 			StartTables();
 
-			new Thread(() => { 
-				while (true) 
-				{
-					Thread.Sleep(1500);
-					Invoke(new Action(() => { ClearFocus(); })); // who even created focus in the first place
-				} }).Start();
+			InitClearFocusThread();
 		}
 
 		#region SOME_INITS
+		private void InitClearFocusThread()
+		{
+			new Thread(() => {
+				Thread.Sleep(3000);
+				while (true)
+				{
+					Thread.Sleep(33);
+					if (ActiveControl != null)
+					{
+						Thread.Sleep(100);
+						Console.WriteLine("CLEARED");
+						ActiveControl = null; // clear focus
+					}
+				}
+			}).Start();
+		}
+
 		private void InitSettings()
 		{
 			settings = TextSettings.ReadSettings();
@@ -295,6 +306,7 @@ namespace vlc_works
 				clientForm.Invoke(new Action(() =>
 				{
 					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
+					clientForm.stage = Stage.COST_AND_PRIZE;
 				}));
 			}
 			else

@@ -327,8 +327,11 @@ namespace vlc_works
 			BeginInvoke(new Action(() =>
 			{
 				ThreadPool.QueueUserWorkItem(_ => {
-					vlcControl.Time = 0;
-					vlcControl.Play(vlcControl.GetCurrentMedia().Mrl);
+					if (vlcControl.GetCurrentMedia() != null)
+					{
+						vlcControl.Time = 0;
+						vlcControl.Play(vlcControl.GetCurrentMedia().Mrl);
+					}
 				});
 			}));
 		}
