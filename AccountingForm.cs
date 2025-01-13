@@ -51,7 +51,7 @@ namespace vlc_works
 		private void InitClearFocusThread()
 		{
 			new Thread(() => {
-				Thread.Sleep(3000);
+				Thread.Sleep(2000);
 				while (true)
 				{
 					Thread.Sleep(33);
@@ -59,7 +59,11 @@ namespace vlc_works
 					{
 						Thread.Sleep(100);
 						Console.WriteLine("CLEARED");
-						ActiveControl = null; // clear focus
+						Invoke(new Action(() =>
+						{
+							ActiveControl = null; // clear focus
+							//Focus();
+						}));
 					}
 				}
 			}).Start();
