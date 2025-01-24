@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -55,7 +56,7 @@ namespace vlc_works
 				while (true)
 				{
 					Thread.Sleep(33);
-					if (ActiveControl != null)
+					if (ActiveControl != null && ActiveControl.Name != "comBox")
 					{
 						Thread.Sleep(100);
 						Console.WriteLine("CLEARED");
@@ -91,8 +92,8 @@ namespace vlc_works
 		{
 			AwardBut2long = new Dictionary<Button, long>()
 			{
-				{ award30But, 30 },     { award50But, 50 },
-				{ award80But, 80 },     { award100But, 100 },
+		        { award50But, 50 },
+				{ award250But, 250 },   { award100But, 100 },
 				{ award150But, 150 },   { award200But, 200 },
 				{ award300But, 300 },   { award500But, 500 },
 				{ award1000But, 1000 }, { award3000But, 3000 },
@@ -116,9 +117,8 @@ namespace vlc_works
 
 		private void InitButtons()
 		{
-			award30But.Click +=   OnAwardButClicked;
 			award50But.Click +=   OnAwardButClicked;
-			award80But.Click +=   OnAwardButClicked;
+			award250But.Click +=   OnAwardButClicked;
 			award100But.Click +=  OnAwardButClicked;
 			award150But.Click +=  OnAwardButClicked;
 			award200But.Click +=  OnAwardButClicked;
@@ -408,5 +408,22 @@ namespace vlc_works
 			}));
 		}
 		#endregion
+		#region COM
+		private void comBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			clientForm.Invoke(new Action(() => 
+			{ 
+				clientForm.VLCChecker.TryConnectPort(comBox.Text);
+			}));
+
+			ActiveControl = null;
+		}
+		#endregion
+
+		private void comBox_DropDown(object sender, EventArgs e)
+		{
+			comBox.Items.Clear();
+			comBox.Items.AddRange(SerialPort.GetPortNames());
+		}
 	}
 }

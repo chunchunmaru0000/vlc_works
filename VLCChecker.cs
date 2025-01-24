@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
@@ -41,6 +42,9 @@ namespace vlc_works
 		// forms
 		ClientForm clientForm { get; set; }
 		AccountingForm accountingForm { get; set; }
+		// COM
+		SerialPort port;
+		public string COMPort;
 		// media
 		long videoGameTimeWas { get; set; }
 		// vlc things
@@ -130,7 +134,7 @@ namespace vlc_works
 			vlcCheckerThread.Start();
 			ProcessCommandLineChanged += VlcChanged;
 		}
-
+		#region VLCCECKER
 		void GetVideoNames()
 		{
 			try
@@ -143,7 +147,7 @@ namespace vlc_works
 				string[] lines = fileText.Split('\n')
 					.Select(l => 
 						string.Join("=", l.Trim('\r').Split('=').Skip(1))
-						.Replace("\u202A", "")) // what???
+						.Replace("\u202A", "")) // he is from Israel so there is a possibility of him using this symbol
 					.ToArray();
 
 			//Console.WriteLine(string.Join("|", Encoding.UTF8.GetBytes(lines[0]).Select(b => Convert.ToString(b))));
@@ -298,7 +302,8 @@ namespace vlc_works
 			else
 				lastCommandLine = string.Empty;
 		}
-
+		#endregion
+		#region PLAY_VIDEOS
 		void PlaySomeVideo(string videoUrl)
 		{
 			vlcProcess = lastVlcProcess;
@@ -356,24 +361,6 @@ namespace vlc_works
 				ProceedDefeat();
 		}
 
-		void ProceedWin()
-		{
-			gameEnded = true; // good ending
-			print("GAME ENDED");
-
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				clientForm.vlcControl.Play(victoryVideoUri);
-			}));
-
-			// insert win in db
-			Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
-			accountingForm.Invoke(new Action(() =>
-			{
-				accountingForm.StartTables(); // refresh tables
-			}));
-		}
-
 		void ProceedDefeat()
 		{
 			blockInput = true;
@@ -390,6 +377,72 @@ namespace vlc_works
 			print($"TIME BEFORE DEFEAT WAS: {videoGameTimeWas}");
 		}
 
+		void ProceedWin()
+		{
+			gameEnded = true; // good ending
+			print("GAME ENDED");
+
+			clientForm.BeginInvoke(new Action(() =>
+			{
+				clientForm.vlcControl.Play(victoryVideoUri);
+			}));
+
+			// insert win in db
+			Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
+			accountingForm.Invoke(new Action(() =>
+			{
+				accountingForm.StartTables(); // refresh tables
+			}));
+
+			MoneyOut();
+		}
+		#endregion
+		#region COM
+		private readonly byte[] fifeCoins = new byte[] { 0x30, 0x31, 0x32, 0x33, 0x00, 0x0A };
+
+		private void MoneyOut()
+		{
+			long times = accountingForm.SelectedAward / 5;
+
+			new Thread(() =>
+			{
+				for (int i = 0; i < times; i++)
+				{
+					port.Write(fifeCoins, 0, fifeCoins.Length);
+					Thread.Sleep(1000);
+				}
+			}).Start();
+		}
+		public void TryConnectPort(string com)
+		{
+			COMPort = com;
+			if (port != null && port.IsOpen)
+			{
+				port.Close();
+				port.Dispose();
+			}
+			try
+			{
+				port = new SerialPort(COMPort, 9600, Parity.None, 8, StopBits.One);
+				port.Handshake = Handshake.RequestToSendXOnXOff;
+				//port.DataReceived += DataRecieved;
+				port.Open();
+
+				accountingForm.Invoke(new Action(() =>
+				{
+					accountingForm.connectedLabel.Text = "Подключен";
+				}));
+			}
+			catch 
+			{
+				accountingForm.Invoke(new Action(() =>
+				{
+					accountingForm.connectedLabel.Text = "Не подключилось";
+				}));
+			}
+		}
+		#endregion
+		#region END_VIDEOS
 		public void MediaIndeedEnded(string endedVideoMrl)
 		{
 			print($"ENDED PLAY: {endedVideoMrl}");
@@ -504,5 +557,7 @@ namespace vlc_works
 				ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Stop());
 			}));
 		}
+
+		#endregion
 	}
 }

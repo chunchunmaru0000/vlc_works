@@ -66,9 +66,8 @@
 			this.award200But = new System.Windows.Forms.Button();
 			this.award150But = new System.Windows.Forms.Button();
 			this.award100But = new System.Windows.Forms.Button();
-			this.award80But = new System.Windows.Forms.Button();
+			this.award250But = new System.Windows.Forms.Button();
 			this.award50But = new System.Windows.Forms.Button();
-			this.award30But = new System.Windows.Forms.Button();
 			this.awardSelectTextLabel = new System.Windows.Forms.Label();
 			this.selectLevelTextLabel = new System.Windows.Forms.Label();
 			this.selectPayTextLabel = new System.Windows.Forms.Label();
@@ -115,6 +114,8 @@
 			this.replayBut = new System.Windows.Forms.Button();
 			this.startGameBut = new System.Windows.Forms.Button();
 			this.skipStageBut = new System.Windows.Forms.Button();
+			this.connectedLabel = new System.Windows.Forms.Label();
+			this.comBox = new System.Windows.Forms.ComboBox();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -445,9 +446,8 @@
 			this.awardButsPanel.Controls.Add(this.award200But);
 			this.awardButsPanel.Controls.Add(this.award150But);
 			this.awardButsPanel.Controls.Add(this.award100But);
-			this.awardButsPanel.Controls.Add(this.award80But);
+			this.awardButsPanel.Controls.Add(this.award250But);
 			this.awardButsPanel.Controls.Add(this.award50But);
-			this.awardButsPanel.Controls.Add(this.award30But);
 			this.awardButsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.awardButsPanel.Location = new System.Drawing.Point(960, 576);
 			this.awardButsPanel.Name = "awardButsPanel";
@@ -457,7 +457,7 @@
 			// award3000But
 			// 
 			this.award3000But.BackColor = System.Drawing.Color.Khaki;
-			this.award3000But.Location = new System.Drawing.Point(0, 288);
+			this.award3000But.Location = new System.Drawing.Point(0, 256);
 			this.award3000But.Name = "award3000But";
 			this.award3000But.Size = new System.Drawing.Size(192, 32);
 			this.award3000But.TabIndex = 9;
@@ -467,7 +467,7 @@
 			// award1000But
 			// 
 			this.award1000But.BackColor = System.Drawing.Color.Khaki;
-			this.award1000But.Location = new System.Drawing.Point(0, 256);
+			this.award1000But.Location = new System.Drawing.Point(0, 224);
 			this.award1000But.Name = "award1000But";
 			this.award1000But.Size = new System.Drawing.Size(192, 32);
 			this.award1000But.TabIndex = 8;
@@ -477,7 +477,7 @@
 			// award500But
 			// 
 			this.award500But.BackColor = System.Drawing.Color.Khaki;
-			this.award500But.Location = new System.Drawing.Point(0, 224);
+			this.award500But.Location = new System.Drawing.Point(0, 192);
 			this.award500But.Name = "award500But";
 			this.award500But.Size = new System.Drawing.Size(192, 32);
 			this.award500But.TabIndex = 7;
@@ -487,7 +487,7 @@
 			// award300But
 			// 
 			this.award300But.BackColor = System.Drawing.Color.Khaki;
-			this.award300But.Location = new System.Drawing.Point(0, 192);
+			this.award300But.Location = new System.Drawing.Point(0, 160);
 			this.award300But.Name = "award300But";
 			this.award300But.Size = new System.Drawing.Size(192, 32);
 			this.award300But.TabIndex = 6;
@@ -497,7 +497,7 @@
 			// award200But
 			// 
 			this.award200But.BackColor = System.Drawing.Color.Khaki;
-			this.award200But.Location = new System.Drawing.Point(0, 160);
+			this.award200But.Location = new System.Drawing.Point(0, 96);
 			this.award200But.Name = "award200But";
 			this.award200But.Size = new System.Drawing.Size(192, 32);
 			this.award200But.TabIndex = 5;
@@ -507,7 +507,7 @@
 			// award150But
 			// 
 			this.award150But.BackColor = System.Drawing.Color.Khaki;
-			this.award150But.Location = new System.Drawing.Point(0, 128);
+			this.award150But.Location = new System.Drawing.Point(0, 64);
 			this.award150But.Name = "award150But";
 			this.award150But.Size = new System.Drawing.Size(192, 32);
 			this.award150But.TabIndex = 4;
@@ -517,43 +517,32 @@
 			// award100But
 			// 
 			this.award100But.BackColor = System.Drawing.Color.Khaki;
-			this.award100But.Location = new System.Drawing.Point(0, 96);
+			this.award100But.Location = new System.Drawing.Point(0, 32);
 			this.award100But.Name = "award100But";
 			this.award100But.Size = new System.Drawing.Size(192, 32);
 			this.award100But.TabIndex = 3;
 			this.award100But.Text = "100";
 			this.award100But.UseVisualStyleBackColor = false;
 			// 
-			// award80But
+			// award250But
 			// 
-			this.award80But.BackColor = System.Drawing.Color.Khaki;
-			this.award80But.Location = new System.Drawing.Point(0, 64);
-			this.award80But.Name = "award80But";
-			this.award80But.Size = new System.Drawing.Size(192, 32);
-			this.award80But.TabIndex = 2;
-			this.award80But.Text = "80";
-			this.award80But.UseVisualStyleBackColor = false;
+			this.award250But.BackColor = System.Drawing.Color.Khaki;
+			this.award250But.Location = new System.Drawing.Point(0, 128);
+			this.award250But.Name = "award250But";
+			this.award250But.Size = new System.Drawing.Size(192, 32);
+			this.award250But.TabIndex = 2;
+			this.award250But.Text = "250";
+			this.award250But.UseVisualStyleBackColor = false;
 			// 
 			// award50But
 			// 
 			this.award50But.BackColor = System.Drawing.Color.Khaki;
-			this.award50But.Location = new System.Drawing.Point(0, 32);
+			this.award50But.Location = new System.Drawing.Point(0, 0);
 			this.award50But.Name = "award50But";
 			this.award50But.Size = new System.Drawing.Size(192, 32);
 			this.award50But.TabIndex = 1;
 			this.award50But.Text = "50";
 			this.award50But.UseVisualStyleBackColor = false;
-			// 
-			// award30But
-			// 
-			this.award30But.BackColor = System.Drawing.Color.Khaki;
-			this.award30But.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.award30But.Location = new System.Drawing.Point(0, 0);
-			this.award30But.Name = "award30But";
-			this.award30But.Size = new System.Drawing.Size(192, 32);
-			this.award30But.TabIndex = 0;
-			this.award30But.Text = "30";
-			this.award30But.UseVisualStyleBackColor = false;
 			// 
 			// awardSelectTextLabel
 			// 
@@ -1008,11 +997,34 @@
 			this.skipStageBut.UseVisualStyleBackColor = true;
 			this.skipStageBut.Click += new System.EventHandler(this.skipStageBut_Click);
 			// 
+			// connectedLabel
+			// 
+			this.connectedLabel.AutoSize = true;
+			this.connectedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.connectedLabel.Location = new System.Drawing.Point(800, 96);
+			this.connectedLabel.Name = "connectedLabel";
+			this.connectedLabel.Size = new System.Drawing.Size(181, 29);
+			this.connectedLabel.TabIndex = 38;
+			this.connectedLabel.Text = "Не подключен";
+			// 
+			// comBox
+			// 
+			this.comBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.comBox.FormattingEnabled = true;
+			this.comBox.Location = new System.Drawing.Point(800, 128);
+			this.comBox.Name = "comBox";
+			this.comBox.Size = new System.Drawing.Size(192, 33);
+			this.comBox.TabIndex = 39;
+			this.comBox.DropDown += new System.EventHandler(this.comBox_DropDown);
+			this.comBox.SelectedIndexChanged += new System.EventHandler(this.comBox_SelectedIndexChanged);
+			// 
 			// AccountingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1904, 1001);
+			this.Controls.Add(this.comBox);
+			this.Controls.Add(this.connectedLabel);
 			this.Controls.Add(this.skipStageBut);
 			this.Controls.Add(this.startGameBut);
 			this.Controls.Add(this.replayBut);
@@ -1103,7 +1115,6 @@
 		private System.Windows.Forms.Label awardSelectTextLabel;
 		private System.Windows.Forms.Label selectLevelTextLabel;
 		private System.Windows.Forms.Label selectPayTextLabel;
-		private System.Windows.Forms.Button award30But;
 		private System.Windows.Forms.Panel levelButsPanel;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button award50But;
@@ -1114,7 +1125,7 @@
 		private System.Windows.Forms.Button award200But;
 		private System.Windows.Forms.Button award150But;
 		private System.Windows.Forms.Button award100But;
-		private System.Windows.Forms.Button award80But;
+		private System.Windows.Forms.Button award250But;
 		private System.Windows.Forms.Button lvl7But;
 		private System.Windows.Forms.Button lvl6But;
 		private System.Windows.Forms.Button lvl5But;
@@ -1158,5 +1169,7 @@
 		private System.Windows.Forms.Button replayBut;
 		private System.Windows.Forms.Button startGameBut;
 		private System.Windows.Forms.Button skipStageBut;
+		public System.Windows.Forms.Label connectedLabel;
+		public System.Windows.Forms.ComboBox comBox;
 	}
 }
