@@ -190,7 +190,8 @@ namespace vlc_works
 
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.ltour[VLCChecker.language]));
+				//ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.ltour[VLCChecker.language]));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.langs[VLCChecker.language].RulesUri));
 			}));
 		}
 
@@ -224,7 +225,8 @@ namespace vlc_works
 
 		private void MediaChanged(object sender, VlcMediaPlayerMediaChangedEventArgs e)
 		{
-			if (!VLCChecker.IsParamsMrl(e.NewMedia.Mrl))
+			//if (!VLCChecker.IsParamsMrl(e.NewMedia.Mrl))
+			if (!VLCChecker.langs.Values.Any(l => l.ParamsUri.AbsoluteUri == e.NewMedia.Mrl))
 			{
 				BeginInvoke(new Action(() =>
 				{
@@ -289,7 +291,8 @@ namespace vlc_works
 				hmh(vs.Width, costLabel.Size.Width),
 				hmh(vs.Height, heightCostOffset));
 
-			vlcControl.Play(VLCChecker.ltoup[VLCChecker.language]);
+			//vlcControl.Play(VLCChecker.ltoup[VLCChecker.language]);
+			vlcControl.Play(VLCChecker.langs[VLCChecker.language].ParamsUri);
 			CostShowTimer = new System.Threading.Timer(
 				CostShowCallback, null, TimeToShowCost, InputKey.MinusOneMilisecond);
 			PrizeShowTimer = new System.Threading.Timer(

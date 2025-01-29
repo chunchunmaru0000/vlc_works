@@ -73,16 +73,21 @@ namespace vlc_works
 			{ Keys.D2, Langs.ENGLISH },
 			{ Keys.D3, Langs.RUSSIAN },
 		};
-		public Dictionary<Langs, Uri> ltour;
-		public Dictionary<Langs, Uri> ltoup;
+		//public Dictionary<Langs, Uri> ltour;
+		//public Dictionary<Langs, Uri> ltoup;
 		// video paths
 		string videoFileName { get; set; } = string.Empty;
-		string winPath { get; set; }
+		public Uri gameVideoUri { get; set; }
 		string defeatPath { get; set; }
-
+		public Uri errorVideoUri { get; set; }
 		string idlePath { get; set; }
+		public Uri idleUri { get; set; }
 		string selectLangPath { get; set; }
-
+		public Uri selectLangUri { get; set; }
+		public Dictionary<Langs, Language> langs { get; set; } = new Dictionary<Langs, Language>();
+		/*
+		//string winPath { get; set; }
+		//public Uri victoryVideoUri { get; set; }
 		string rulesRusPath { get; set; }
 		string rulesEngPath { get; set; }
 		string rulesHebPath { get; set; } // Hebrew
@@ -91,20 +96,16 @@ namespace vlc_works
 		string paramsEngPath { get; set; }
 		string paramsHebPath { get; set; }
 		// uri
-		public Uri gameVideoUri { get; set; }
-		public Uri victoryVideoUri { get; set; }
-		public Uri errorVideoUri { get; set; }
-
-		public Uri idleUri { get; set; }
-		public Uri selectLangUri { get; set; }
-
+		*/
+		/*
 		public Uri rulesRusUri { get; set; }
 		public Uri rulesEngUri { get; set; }
-
 		public Uri rulesHebUri { get; set; }
+
 		public Uri paramsRusUri { get; set; }
 		public Uri paramsEngUri { get; set; }
 		public Uri paramsHebUri { get; set; }
+		*/
 		// game things
 		string code { get; set; }
 		public Langs language { get; set; }
@@ -150,7 +151,7 @@ namespace vlc_works
 						.Replace("\u202A", "")) // he is from Israel so there is a possibility of him using this symbol
 					.ToArray();
 
-			//Console.WriteLine(string.Join("|", Encoding.UTF8.GetBytes(lines[0]).Select(b => Convert.ToString(b))));
+				//Console.WriteLine(string.Join("|", Encoding.UTF8.GetBytes(lines[0]).Select(b => Convert.ToString(b))));
 				Console.WriteLine(string.Join("\n", lines));
 
 				SetPathsAndUri(lines);
@@ -163,10 +164,15 @@ namespace vlc_works
 
 		void SetPathsAndUri(string[] lines)
 		{
+			langs[Langs.RUSSIAN] = new Language(Langs.RUSSIAN, lines[0], lines[3], lines[6]);
+			langs[Langs.ENGLISH] = new Language(Langs.ENGLISH, lines[1], lines[4], lines[7]);
+			langs[Langs.HEBREW] =  new Language(Langs.HEBREW,  lines[2], lines[5], lines[8]);
+			defeatPath = lines[9]; errorVideoUri = ClientForm.url2mrl(defeatPath);
+			idlePath = lines[10]; idleUri = ClientForm.url2mrl(idlePath);
+			selectLangPath = lines[11]; selectLangUri = ClientForm.url2mrl(selectLangPath);
+
+			/*
 			winPath =        lines[0]; victoryVideoUri = ClientForm.url2mrl(winPath);
-			defeatPath =     lines[1]; errorVideoUri =   ClientForm.url2mrl(defeatPath);
-			idlePath =       lines[2]; idleUri =         ClientForm.url2mrl(idlePath);
-			selectLangPath = lines[3]; selectLangUri =   ClientForm.url2mrl(selectLangPath);
 			rulesRusPath =   lines[4]; rulesRusUri =     ClientForm.url2mrl(rulesRusPath);
 			rulesEngPath =   lines[5]; rulesEngUri =     ClientForm.url2mrl(rulesEngPath);
 			rulesHebPath =   lines[6]; rulesHebUri =     ClientForm.url2mrl(rulesHebPath);
@@ -186,7 +192,7 @@ namespace vlc_works
 				{ Langs.RUSSIAN, paramsRusUri },
 				{ Langs.ENGLISH, paramsEngUri },
 				{ Langs.HEBREW,  paramsHebUri },
-			};
+			};*/
 		}
 
 		void LogMessageException(Exception exception)
@@ -255,11 +261,14 @@ namespace vlc_works
 			}
 		}
 
+		
 		bool IsNotUsedPath(string path) =>
+			path != defeatPath && path != selectLangPath && path != idlePath &&
+			langs.Values.All(l => l.RulesPath != path && l.ParamsPath != path && l.VictoryPath != path);
+/*
 			path != defeatPath && path != winPath && path != selectLangPath && path != idlePath &&
 			path != rulesEngPath && path != rulesHebPath && path != rulesRusPath &&
 			path != paramsEngPath && path != paramsHebPath && path != paramsRusPath;
-
 		public bool IsParamsMrl(string mrl) =>
 			mrl == paramsRusUri.AbsoluteUri ||
 			mrl == paramsEngUri.AbsoluteUri ||
@@ -269,7 +278,7 @@ namespace vlc_works
 			mrl == rulesRusUri.AbsoluteUri ||
 			mrl == rulesEngUri.AbsoluteUri ||
 			mrl == rulesHebUri.AbsoluteUri;
-
+*/
 		void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
@@ -384,7 +393,8 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Play(victoryVideoUri);
+				//clientForm.vlcControl.Play(victoryVideoUri);
+				clientForm.vlcControl.Play(langs[language].VictoryVideoUri);
 			}));
 
 			// insert win in db
@@ -402,7 +412,10 @@ namespace vlc_works
 
 		private void MoneyOut()
 		{
-			long times = accountingForm.SelectedAward / 5;
+			if (port == null || !port.IsOpen)
+				return;
+
+			long times = accountingForm.SelectedAward / 50;
 
 			new Thread(() =>
 			{
@@ -413,6 +426,7 @@ namespace vlc_works
 				}
 			}).Start();
 		}
+
 		public void TryConnectPort(string com)
 		{
 			COMPort = com;
@@ -450,7 +464,8 @@ namespace vlc_works
 			// cant use switch because its not constant values
 			if (endedVideoMrl == errorVideoUri.AbsoluteUri)
 				EndDefeatVideo();
-			else if (endedVideoMrl == victoryVideoUri.AbsoluteUri)
+			//else if (endedVideoMrl == victoryVideoUri.AbsoluteUri)
+			else if (endedVideoMrl == langs[language].VictoryVideoUri.AbsoluteUri)
 				EndVictoryVideo();
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
@@ -461,9 +476,11 @@ namespace vlc_works
 				EndEngRules();
 			else if (endedVideoMrl == rulesHebUri.AbsoluteUri)
 				EndHebRules();*/
-			else if (IsRulesMrl(endedVideoMrl))
+			//else if (IsRulesMrl(endedVideoMrl))
+			else if (langs.Values.Any(l => l.RulesUri.AbsoluteUri == endedVideoMrl))
 				SafeStop();
-			else if (IsParamsMrl(endedVideoMrl))
+			//else if (IsParamsMrl(endedVideoMrl))
+			else if (langs.Values.Any(l => l.ParamsUri.AbsoluteUri == endedVideoMrl))
 				EndParamsShowVideo();
 
 			else if (endedVideoMrl == selectLangUri.AbsoluteUri)

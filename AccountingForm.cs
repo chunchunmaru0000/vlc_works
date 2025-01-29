@@ -418,12 +418,12 @@ namespace vlc_works
 
 			ActiveControl = null;
 		}
-		#endregion
 
 		private void comBox_DropDown(object sender, EventArgs e)
 		{
 			comBox.Items.Clear();
 			comBox.Items.AddRange(SerialPort.GetPortNames());
 		}
+		#endregion
 	}
 }
