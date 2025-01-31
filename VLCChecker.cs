@@ -44,12 +44,12 @@ namespace vlc_works
 		AccountingForm accountingForm { get; set; }
 		// COM
 		SerialPort port;
-		public string COMPort;
+		public string COMPort; // com port str like COM3
 		// media
-		long videoGameTimeWas { get; set; }
+		long videoGameTimeWas { get; set; } // time video game was stopped
 		// vlc things
-		string vlcPath { get; set; }
-		Process vlcProcess { get; set; }
+		string vlcPath { get; set; } // path to vlc executable now not in use
+		Process vlcProcess { get; set; } // vlc process object
 		Thread vlcCheckerThread { get; set; }
 		Process lastVlcProcess { get; set; }
 		string lastCommandLine { get; set; } = string.Empty;
@@ -66,17 +66,15 @@ namespace vlc_works
 			{ Keys.D6, "6" }, { Keys.D7, "7" },
 			{ Keys.D8, "8" }, { Keys.D9, "9" },
 			{ Keys.Enter, "E" }
-		};
+		}; // keys to string
 		public static readonly Dictionary<Keys, Langs> ktol = new Dictionary<Keys, Langs>()
 		{
 			{ Keys.D1, Langs.HEBREW },
 			{ Keys.D2, Langs.ENGLISH },
 			{ Keys.D3, Langs.RUSSIAN },
-		};
-		//public Dictionary<Langs, Uri> ltour;
-		//public Dictionary<Langs, Uri> ltoup;
+		}; // select lang stage nums to lang
 		// video paths
-		string videoFileName { get; set; } = string.Empty;
+		string videoFileName { get; set; } = string.Empty; // game video path
 		public Uri gameVideoUri { get; set; }
 		string defeatPath { get; set; }
 		public Uri errorVideoUri { get; set; }
@@ -85,35 +83,14 @@ namespace vlc_works
 		string selectLangPath { get; set; }
 		public Uri selectLangUri { get; set; }
 		public Dictionary<Langs, Language> langs { get; set; } = new Dictionary<Langs, Language>();
-		/*
-		//string winPath { get; set; }
-		//public Uri victoryVideoUri { get; set; }
-		string rulesRusPath { get; set; }
-		string rulesEngPath { get; set; }
-		string rulesHebPath { get; set; } // Hebrew
-
-		string paramsRusPath { get; set; }
-		string paramsEngPath { get; set; }
-		string paramsHebPath { get; set; }
-		// uri
-		*/
-		/*
-		public Uri rulesRusUri { get; set; }
-		public Uri rulesEngUri { get; set; }
-		public Uri rulesHebUri { get; set; }
-
-		public Uri paramsRusUri { get; set; }
-		public Uri paramsEngUri { get; set; }
-		public Uri paramsHebUri { get; set; }
-		*/
 		// game things
-		string code { get; set; }
-		public Langs language { get; set; }
-		public bool blockInput { get; set; } = false;
-		public bool gameEnded { get; set; } = true;
-		public int errorsCount { get; set; }
+		string code { get; set; } // inputed code like 01234E
+		public Langs language { get; set; } // currently selected language
+		public bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
+		public bool gameEnded { get; set; } = true; // also bad thing and better to do via stage
+		public int errorsCount { get; set; } // how much errors inputed this game
 		// some
-		public static event EventHandler ProcessCommandLineChanged;
+		public static event EventHandler ProcessCommandLineChanged; // event to check vlc launch
 		protected virtual void OnProcessCommandLineChanged() => ProcessCommandLineChanged?.Invoke(this, EventArgs.Empty);
 		void print(object str = null)
 		{
@@ -170,29 +147,6 @@ namespace vlc_works
 			defeatPath = lines[9]; errorVideoUri = ClientForm.url2mrl(defeatPath);
 			idlePath = lines[10]; idleUri = ClientForm.url2mrl(idlePath);
 			selectLangPath = lines[11]; selectLangUri = ClientForm.url2mrl(selectLangPath);
-
-			/*
-			winPath =        lines[0]; victoryVideoUri = ClientForm.url2mrl(winPath);
-			rulesRusPath =   lines[4]; rulesRusUri =     ClientForm.url2mrl(rulesRusPath);
-			rulesEngPath =   lines[5]; rulesEngUri =     ClientForm.url2mrl(rulesEngPath);
-			rulesHebPath =   lines[6]; rulesHebUri =     ClientForm.url2mrl(rulesHebPath);
-			paramsRusPath =  lines[7]; paramsRusUri =    ClientForm.url2mrl(paramsRusPath);
-			paramsEngPath =  lines[8]; paramsEngUri =    ClientForm.url2mrl(paramsEngPath);
-			paramsHebPath =  lines[9]; paramsHebUri =    ClientForm.url2mrl(paramsHebPath);
-
-			ltour = new Dictionary<Langs, Uri>()
-			{
-				{ Langs.RUSSIAN, rulesRusUri },
-				{ Langs.ENGLISH, rulesEngUri },
-				{ Langs.HEBREW,  rulesHebUri },
-			};
-
-			ltoup = new Dictionary<Langs, Uri>()
-			{
-				{ Langs.RUSSIAN, paramsRusUri },
-				{ Langs.ENGLISH, paramsEngUri },
-				{ Langs.HEBREW,  paramsHebUri },
-			};*/
 		}
 
 		void LogMessageException(Exception exception)
@@ -261,24 +215,10 @@ namespace vlc_works
 			}
 		}
 
-		
 		bool IsNotUsedPath(string path) =>
 			path != defeatPath && path != selectLangPath && path != idlePath &&
 			langs.Values.All(l => l.RulesPath != path && l.ParamsPath != path && l.VictoryPath != path);
-/*
-			path != defeatPath && path != winPath && path != selectLangPath && path != idlePath &&
-			path != rulesEngPath && path != rulesHebPath && path != rulesRusPath &&
-			path != paramsEngPath && path != paramsHebPath && path != paramsRusPath;
-		public bool IsParamsMrl(string mrl) =>
-			mrl == paramsRusUri.AbsoluteUri ||
-			mrl == paramsEngUri.AbsoluteUri ||
-			mrl == paramsHebUri.AbsoluteUri;
 
-		public bool IsRulesMrl(string mrl) =>
-			mrl == rulesRusUri.AbsoluteUri ||
-			mrl == rulesEngUri.AbsoluteUri ||
-			mrl == rulesHebUri.AbsoluteUri;
-*/
 		void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
@@ -373,6 +313,7 @@ namespace vlc_works
 		void ProceedDefeat()
 		{
 			blockInput = true;
+			clientForm.stage = Stage.ERROR;
 
 			print($"BLOCKED INPUT, ERRORS: {++errorsCount}");
 			DeleteInput();
@@ -389,11 +330,11 @@ namespace vlc_works
 		void ProceedWin()
 		{
 			gameEnded = true; // good ending
+			clientForm.stage = Stage.VICTORY;
 			print("GAME ENDED");
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				//clientForm.vlcControl.Play(victoryVideoUri);
 				clientForm.vlcControl.Play(langs[language].VictoryVideoUri);
 			}));
 
@@ -464,30 +405,18 @@ namespace vlc_works
 			// cant use switch because its not constant values
 			if (endedVideoMrl == errorVideoUri.AbsoluteUri)
 				EndDefeatVideo();
-			//else if (endedVideoMrl == victoryVideoUri.AbsoluteUri)
 			else if (endedVideoMrl == langs[language].VictoryVideoUri.AbsoluteUri)
 				EndVictoryVideo();
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
-
-			/*else if (endedVideoMrl == rulesRusUri.AbsoluteUri)
-				EndRusRules();
-			else if (endedVideoMrl == rulesEngUri.AbsoluteUri)
-				EndEngRules();
-			else if (endedVideoMrl == rulesHebUri.AbsoluteUri)
-				EndHebRules();*/
-			//else if (IsRulesMrl(endedVideoMrl))
 			else if (langs.Values.Any(l => l.RulesUri.AbsoluteUri == endedVideoMrl))
 				SafeStop();
-			//else if (IsParamsMrl(endedVideoMrl))
 			else if (langs.Values.Any(l => l.ParamsUri.AbsoluteUri == endedVideoMrl))
 				EndParamsShowVideo();
-
 			else if (endedVideoMrl == selectLangUri.AbsoluteUri)
 				Replay();
 			else if (endedVideoMrl == idleUri.AbsoluteUri)
 				Replay();
-
 			else
 				SafeStop();
 		}
@@ -513,6 +442,7 @@ namespace vlc_works
 			{
 				clientForm.vlcControl.Play(gameVideoUri);
 				clientForm.vlcControl.Time = videoGameTimeWas;
+				clientForm.stage = Stage.GAME;
 			}));
 
 			Console.WriteLine($"TIME NOW: {clientForm.vlcControl.Time}");

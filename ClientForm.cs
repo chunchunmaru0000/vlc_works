@@ -22,19 +22,21 @@ namespace vlc_works
 	{
 		#region VAR
 		// global
-		IKeyboardEvents hook { get; set; }
+		IKeyboardEvents hook { get; set; } // hook for hook keys
 		public VLCChecker VLCChecker { get; set; }
 		// forms
 		public AccountingForm accountingForm { get; set; }
 		// consts
-		Keys[] NumKeys { get; } = new Keys[] {
+		Keys[] NumKeys { get; } = new Keys[] // keys of numpad
+		{
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
-		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10);
+		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10); // key fade time
+		readonly TimeSpan NSeconds = TimeSpan.FromSeconds(67); // N secongs - 1 because for sure
 		// input
-		public List<InputKey> keysStream { get; set; } = new List<InputKey>();
-		public Stage stage { get; set; }
+		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
+		public Stage stage { get; set; } // current stage
 		// some
 		bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -43,7 +45,7 @@ namespace vlc_works
 			Console.WriteLine(stroke);
 			//accountingForm.BeginInvoke(new Action(() => { accountingForm.DEBUG(stroke); }));
 		}
-		public string keysStreamtos() => string.Join("", keysStream.Select(k => VLCChecker.ktos[k.Key]));
+		public string keysStreamtos() => string.Join("", keysStream.Select(k => VLCChecker.ktos[k.Key])); // get string of keys stream
 		public static Uri url2mrl(string url) => new Uri(url);
 		#endregion
 
@@ -128,10 +130,19 @@ namespace vlc_works
 				ProceedSelectLang(k);
 				return;
 			}
-			if (stage == Stage.RULES && k == Keys.Enter)
+
+			if (k == Keys.Enter)
 			{
-				SkipRules();
-				return;
+				if (stage == Stage.RULES)
+				{
+					SkipRules();
+					return;
+				}
+				if (stage == Stage.GAME && vlcControl.Time < NSeconds.TotalMilliseconds)
+				{
+					ProceedVideoBeginSkip();
+					return;
+				}
 			}
 
 			if (NumKeys.Contains(k) || k == Keys.Enter)
@@ -153,6 +164,11 @@ namespace vlc_works
 				return;
 
 			VLCChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
+		}
+
+		void ProceedVideoBeginSkip() 
+		{
+			vlcControl.Time = Convert.ToInt64(NSeconds.TotalMilliseconds) + 1000;
 		}
 
 		void DrawNum(Keys key)
@@ -190,7 +206,6 @@ namespace vlc_works
 
 			BeginInvoke(new Action(() =>
 			{
-				//ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.ltour[VLCChecker.language]));
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.langs[VLCChecker.language].RulesUri));
 			}));
 		}
@@ -225,7 +240,6 @@ namespace vlc_works
 
 		private void MediaChanged(object sender, VlcMediaPlayerMediaChangedEventArgs e)
 		{
-			//if (!VLCChecker.IsParamsMrl(e.NewMedia.Mrl))
 			if (!VLCChecker.langs.Values.Any(l => l.ParamsUri.AbsoluteUri == e.NewMedia.Mrl))
 			{
 				BeginInvoke(new Action(() =>
@@ -291,7 +305,6 @@ namespace vlc_works
 				hmh(vs.Width, costLabel.Size.Width),
 				hmh(vs.Height, heightCostOffset));
 
-			//vlcControl.Play(VLCChecker.ltoup[VLCChecker.language]);
 			vlcControl.Play(VLCChecker.langs[VLCChecker.language].ParamsUri);
 			CostShowTimer = new System.Threading.Timer(
 				CostShowCallback, null, TimeToShowCost, InputKey.MinusOneMilisecond);
