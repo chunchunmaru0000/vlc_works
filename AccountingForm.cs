@@ -413,7 +413,7 @@ namespace vlc_works
 		{
 			clientForm.Invoke(new Action(() => 
 			{ 
-				clientForm.VLCChecker.TryConnectPort(comBox.Text);
+				COMPort.TryConnectPort(comBox.Text, this);
 			}));
 
 			ActiveControl = null;

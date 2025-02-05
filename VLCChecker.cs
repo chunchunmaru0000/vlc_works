@@ -42,9 +42,6 @@ namespace vlc_works
 		// forms
 		ClientForm clientForm { get; set; }
 		AccountingForm accountingForm { get; set; }
-		// COM
-		SerialPort port;
-		public string COMPort; // com port str like COM3
 		// media
 		long videoGameTimeWas { get; set; } // time video game was stopped
 		// vlc things
@@ -344,57 +341,8 @@ namespace vlc_works
 			{
 				accountingForm.StartTables(); // refresh tables
 			}));
-
-			MoneyOut();
-		}
-		#endregion
-		#region COM
-		private readonly byte[] fifeCoins = new byte[] { 0x30, 0x31, 0x32, 0x33, 0x00, 0x0A };
-
-		private void MoneyOut()
-		{
-			if (port == null || !port.IsOpen)
-				return;
-
-			long times = accountingForm.SelectedAward / 50;
-
-			new Thread(() =>
-			{
-				for (int i = 0; i < times; i++)
-				{
-					port.Write(fifeCoins, 0, fifeCoins.Length);
-					Thread.Sleep(1000);
-				}
-			}).Start();
-		}
-
-		public void TryConnectPort(string com)
-		{
-			COMPort = com;
-			if (port != null && port.IsOpen)
-			{
-				port.Close();
-				port.Dispose();
-			}
-			try
-			{
-				port = new SerialPort(COMPort, 9600, Parity.None, 8, StopBits.One);
-				port.Handshake = Handshake.RequestToSendXOnXOff;
-				//port.DataReceived += DataRecieved;
-				port.Open();
-
-				accountingForm.Invoke(new Action(() =>
-				{
-					accountingForm.connectedLabel.Text = "Подключен";
-				}));
-			}
-			catch 
-			{
-				accountingForm.Invoke(new Action(() =>
-				{
-					accountingForm.connectedLabel.Text = "Не подключилось";
-				}));
-			}
+			
+			COMPort.MoneyOut(accountingForm);
 		}
 		#endregion
 		#region END_VIDEOS

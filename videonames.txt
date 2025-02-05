@@ -1,12 +1,27 @@
-ПОБЕДА РУС=C:\Users\user\Desktop\vlcvideos\win.mp4
-ПОБЕДА АНГЛ=C:\Users\user\Desktop\vlcvideos\win.mp4
-ПОБЕДА ИВРИТ=C:\Users\user\Desktop\vlcvideos\win.mp4
-ПРАВИЛА РУС=C:\Users\user\Desktop\vlcvideos\rules.mp4
-ПРАВИЛА АНГЛ=C:\Users\user\Desktop\vlcvideos\rules.mp4
-ПРАВИЛА ИВРИТ=C:\Users\user\Desktop\vlcvideos\rules.mp4
-СТОИМОСТЬ И ПРИЗ РУС=C:\Users\user\Desktop\vlcvideos\showParamsVideo.mp4
-СТОИМОСТЬ И ПРИЗ АНГЛ=C:\Users\user\Desktop\vlcvideos\showParamsVideo.mp4
-СТОИМОСТЬ И ПРИЗ ИВРИТ=C:\Users\user\Desktop\vlcvideos\showParamsVideo.mp4
-ОШИБКА=C:\Users\user\Desktop\vlcvideos\error.mp4
-ЗАСТАВКА=C:\Users\user\Desktop\vlcvideos\zastavka.mp4
-ВЫБОР ЯЗЫКА=C:\Users\user\Desktop\vlcvideos\yazik.mp4
+ПОБЕДА РУС =C:\Users\user\Desktop\vlcvideos\win.mp4
+ПОБЕДА АНГЛ =C:\Users\user\Desktop\vlcvideos\win.mp4
+ПОБЕДА ИВРИТ =C:\Users\user\Desktop\vlcvideos\win.mp4
+
+ПРАВИЛА РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ПРАВИЛА АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ПРАВИЛА ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+
+СТОИМОСТЬ И ПРИЗ РУС =C:\Users\user\Desktop\vlcvideos\showParamsVideo.mp4
+СТОИМОСТЬ И ПРИЗ АНГЛ =C:\Users\user\Desktop\vlcvideos\showParamsVideo.mp4
+СТОИМОСТЬ И ПРИЗ ИВРИТ =C:\Users\user\Desktop\vlcvideos\showParamsVideo.mp4
+
+ИГРАТЬ СНОВА? РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ИГРАТЬ СНОВА? АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ИГРАТЬ СНОВА? ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+
+КАК ПЛАТИТЬ РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
+КАК ПЛАТИТЬ АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+КАК ПЛАТИТЬ ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+
+ИГРА ОПЛАЧЕНА РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ИГРА ОПЛАЧЕНА АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ИГРА ОПЛАЧЕНА ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+
+ОШИБКА =C:\Users\user\Desktop\vlcvideos\error.mp4
+ЗАСТАВКА =C:\Users\user\Desktop\vlcvideos\zastavka.mp4
+ВЫБОР ЯЗЫКА =C:\Users\user\Desktop\vlcvideos\yazik.mp4
