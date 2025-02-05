@@ -100,7 +100,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\TextSettings.cs" />
     <Compile Include="StaticClasses\Utils.cs" />
-    <Compile Include="VLCChecker.cs" />
+    <Compile Include="StaticClasses\VLCChecker.cs" />
     <EmbeddedResource Include="Forms\AccountingForm.resx">
       <DependentUpon>AccountingForm.cs</DependentUpon>
     </EmbeddedResource>

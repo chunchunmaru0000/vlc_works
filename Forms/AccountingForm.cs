@@ -12,25 +12,25 @@ namespace vlc_works
 	public partial class AccountingForm : Form
 	{
 		#region VAR
-		TextSettings settings { get; set; }
+		private TextSettings settings { get; set; }
 		// until here operator form
-		ClientForm clientForm { get; set; }
+		public ClientForm clientForm { get; set; }
 		// sql
-		List<DbSelectGamesItem> GamesItems { get; set; }
+		private List<DbSelectGamesItem> GamesItems { get; set; }
 		// selects
 		public long SelectedAward { get; set; }
 		public long SelectedLevel { get; set; }
 		public long SelectedPrice { get; set; }
 		// some long values
-		long Balance { get; set; }
-		long WinsSum { get; set; }
-		long PaysSum { get; set; }
+		private long Balance { get; set; }
+		private long WinsSum { get; set; }
+		private long PaysSum { get; set; }
 		public static long Game_id { get; set; }
 		// consts
-		const string NullText = "####";
-		Dictionary<Button, long> AwardBut2long { get; set; }
-		Dictionary<Button, long> LevelBut2long { get; set; }
-		Dictionary<Button, long> PriceBut2long { get; set; }
+		private const string NullText = "####";
+		private Dictionary<Button, long> AwardBut2long { get; set; }
+		private Dictionary<Button, long> LevelBut2long { get; set; }
+		private Dictionary<Button, long> PriceBut2long { get; set; }
 		// some
 		#endregion
 
@@ -230,8 +230,6 @@ namespace vlc_works
 		// <-------------- OPERATOR FORM BELOW -------------->
 		// <-------------- OPERATOR FORM BELOW -------------->
 
-		//public void DEBUG(string mesasge) => debugLabel.Text = mesasge;
-
 		public void DeleteInput()
 		{
 			inputLabel.Text = "";
@@ -370,52 +368,33 @@ namespace vlc_works
 		#region UPPER_PART_BUTTONS
 		private void playIdleBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() =>
-			{
-				clientForm.PlayIdle();
-			}));
+			clientForm.Invoke(new Action(() => clientForm.PlayIdle()));
 		}
 
 		private void stopBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() =>
-			{
-				clientForm.Stop();
-			}));
+			clientForm.Invoke(new Action(() => clientForm.Stop()));
 		}
 
 		private void replayBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() =>
-			{
-				clientForm.Replay();
-			}));
+			clientForm.Invoke(new Action(() => clientForm.Replay()));
 		}
 
 		private void startGameBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() =>
-			{
-				clientForm.StartGame();
-			}));
+			clientForm.Invoke(new Action(() => clientForm.StartGame()));
 		}
 
 		private void skipStageBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() =>
-			{
-				clientForm.SkipStage();
-			}));
+			clientForm.Invoke(new Action(() => clientForm.SkipStage()));
 		}
 		#endregion
 		#region COM
 		private void comBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => 
-			{ 
-				COMPort.TryConnectPort(comBox.Text, this);
-			}));
-
+			clientForm.Invoke(new Action(() => COMPort.TryConnectPort(comBox.Text, this)));
 			ActiveControl = null;
 		}
 

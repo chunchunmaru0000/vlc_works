@@ -44,7 +44,7 @@ namespace vlc_works
 			Console.WriteLine(stroke);
 			//accountingForm.BeginInvoke(new Action(() => { accountingForm.DEBUG(stroke); }));
 		}
-		public string keysStreamtos() => string.Join("", keysStream.Select(k => VLCChecker.ktos[k.Key])); // get string of keys stream
+		public string keysStreamtos() => string.Join("", keysStream.Select(k => Utils.ktos[k.Key])); // get string of keys stream
 		public static Uri url2mrl(string url) => new Uri(url);
 		#endregion
 
@@ -181,7 +181,7 @@ namespace vlc_works
 		void DrawNum(Keys key)
 		{
 			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
-			inputLabel.Text += VLCChecker.ktos[key];
+			inputLabel.Text += Utils.ktos[key];
 		}
 
 		public void DeleteInput()
@@ -204,8 +204,8 @@ namespace vlc_works
 		private void ProceedSelectLang(Keys key)
 		{
 			DeleteInput();
-			if (VLCChecker.ktol.ContainsKey(key))
-				VLCChecker.language = VLCChecker.ktol[key];
+			if (Utils.ktol.ContainsKey(key))
+				VLCChecker.language = Utils.ktol[key];
 			else
 				return;
 

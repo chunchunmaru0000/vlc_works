@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -87,6 +88,23 @@ namespace vlc_works
 			try { return Path.GetFileName(path); } // sometimes errors
 			catch { return path.Split('\\').Last().Split('/').Last(); }
 		}
+		#endregion
+		#region CONVERTERS
+		public static readonly Dictionary<Keys, string> ktos = new Dictionary<Keys, string>()
+		{
+			{ Keys.D0, "0" }, { Keys.D1, "1" },
+			{ Keys.D2, "2" }, { Keys.D3, "3" },
+			{ Keys.D4, "4" }, { Keys.D5, "5" },
+			{ Keys.D6, "6" }, { Keys.D7, "7" },
+			{ Keys.D8, "8" }, { Keys.D9, "9" },
+			{ Keys.Enter, "E" }
+		}; // keys to string
+		public static readonly Dictionary<Keys, Langs> ktol = new Dictionary<Keys, Langs>()
+		{
+			{ Keys.D1, Langs.HEBREW },
+			{ Keys.D2, Langs.ENGLISH },
+			{ Keys.D3, Langs.RUSSIAN },
+		}; // select lang stage nums to lang
 		#endregion
 	}
 }

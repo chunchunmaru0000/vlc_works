@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace vlc_works
@@ -11,8 +6,8 @@ namespace vlc_works
 	public class InputKey: IDisposable
 	{
 		public Keys Key { get; set; }
-		Label InputLabel { get; set; }
-		System.Threading.Timer CeaseTimer { get; set; }
+		private Label InputLabel { get; set; }
+		private System.Threading.Timer CeaseTimer { get; set; }
 		// static
 		public static readonly TimeSpan MinusOneMilisecond = TimeSpan.FromMilliseconds(-1);
 
@@ -34,7 +29,7 @@ namespace vlc_works
 					InputLabel.Text = InputLabel.Text.Substring(1, InputLabel.Text.Length - 1);
 					cf.keysStream.RemoveAt(0);
 
-					cf.print($"DELETED: {VLCChecker.ktos[Key]}\n\tNOW STREAM: {cf.keysStreamtos()}");
+					cf.print($"DELETED: {Utils.ktos[Key]}\n\tNOW STREAM: {cf.keysStreamtos()}");
 				}));
 			}
 			Dispose();

@@ -19,36 +19,21 @@ namespace vlc_works
 	{
 		#region VAR
 		// forms
-		static ClientForm clientForm { get; set; }
-		static AccountingForm accountingForm { get; set; }
+		static private ClientForm clientForm { get; set; }
+		static private AccountingForm accountingForm { get; set; }
 		// media
-		static long videoGameTimeWas { get; set; } // time video game was stopped
+		static private long videoGameTimeWas { get; set; } // time video game was stopped
 		// vlc things
-		static string vlcPath { get; set; } // path to vlc executable now not in use
-		static Process vlcProcess { get; set; } // vlc process object
-		static Thread vlcCheckerThread { get; set; }
-		static Process lastVlcProcess { get; set; }
-		static string lastCommandLine { get; set; } = string.Empty;
+		static private string vlcPath { get; set; } // path to vlc executable now not in use
+		static private Process vlcProcess { get; set; } // vlc process object
+		static private Thread vlcCheckerThread { get; set; }
+		static private Process lastVlcProcess { get; set; }
+		static private string lastCommandLine { get; set; } = string.Empty;
 		// constants
 		const int strFrom = 3;
 		const int strTo = 5;
 		const string processToCheckName = "vlc";
 		const string videonamestxt = "videonames.txt";
-		public static readonly Dictionary<Keys, string> ktos = new Dictionary<Keys, string>()
-		{
-			{ Keys.D0, "0" }, { Keys.D1, "1" },
-			{ Keys.D2, "2" }, { Keys.D3, "3" },
-			{ Keys.D4, "4" }, { Keys.D5, "5" },
-			{ Keys.D6, "6" }, { Keys.D7, "7" },
-			{ Keys.D8, "8" }, { Keys.D9, "9" },
-			{ Keys.Enter, "E" }
-		}; // keys to string
-		public static readonly Dictionary<Keys, Langs> ktol = new Dictionary<Keys, Langs>()
-		{
-			{ Keys.D1, Langs.HEBREW },
-			{ Keys.D2, Langs.ENGLISH },
-			{ Keys.D3, Langs.RUSSIAN },
-		}; // select lang stage nums to lang
 		// video paths
 		static string videoFileName { get; set; } = string.Empty; // game video path
 		static public Uri gameVideoUri { get; set; }
@@ -74,6 +59,7 @@ namespace vlc_works
 		}
 		static void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
 		#endregion
+
 		static public void Constructor(ClientForm clientForm, AccountingForm accountingForm)
 		{
 			// forms
@@ -85,6 +71,7 @@ namespace vlc_works
 			vlcCheckerThread = new Thread(() => { while (true) { VlcChecker(); Thread.Sleep(50); } });
 			vlcCheckerThread.Start();
 		}
+
 		#region VLCCECKER
 		static private void SetPathsAndUri(string[] lines)
 		{
@@ -126,56 +113,53 @@ namespace vlc_works
 			path != errorVideo.Path && path != selectLang.Path && path != idle.Path &&
 			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
+		static private bool IsValidCommandArgs(string[] args) =>
+			args.Length == 5 && // have correct video file path
+			IsNotUsedPath(args[3]) && // not used in other urls but for now its depricated ???
+			!string.IsNullOrEmpty(args[3]); // not empty
+
 		static private void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
 			string commandLine = GetCommandLine(processToCheckName); // "vlc path" --started-from-file "video path"
+			print(commandLine);
 			string[] commandArgs = Utils.ParseCommandLineArguments(commandLine);
-			if (
-				commandArgs.Length == 5 && // have correct video file path
-				IsNotUsedPath(commandArgs[3]) && // not used
-				commandArgs[3].Length > 0 // not empty
-				)
+			print(IsValidCommandArgs(commandArgs));
+
+			if (IsValidCommandArgs(commandArgs))
 			{
-				if (char.IsNumber(Utils.GetSafeFileName(commandArgs[3])[0]))// game name starts with number
-				{
-					videoFileName = commandArgs[3]; // game video path
-					gameVideoUri = ClientForm.url2mrl(videoFileName);
-					if (lastCommandLine != videoFileName)
-					{
-						vlcPath = commandArgs[1]; // vlc path
-						vlcProcess = lastVlcProcess;
-						VlcChanged(); // calls VlcChanged
-					}
-					lastCommandLine = videoFileName;
-				}
+				if (char.IsNumber(Utils.GetSafeFileName(commandArgs[3])[0])) // game name starts with number
+					BeginVlcChanged(commandArgs[3], commandArgs[1]);
 				else
-				{
-					PlaySomeVideo(commandArgs[3]);
-					lastCommandLine = string.Empty;
-				}
+					BeginPlaySomeVideo(commandArgs[3]);
 			}
 			else
 				lastCommandLine = string.Empty;
 		}
-		#endregion
-		#region PLAY_VIDEOS
-		static private void PlaySomeVideo(string videoUrl)
+
+		static private void BeginVlcChanged(string videoFile, string cmdPath)
+		{
+			videoFileName = videoFile; // game video path
+			gameVideoUri = ClientForm.url2mrl(videoFileName);
+			if (lastCommandLine != videoFileName)
+			{
+				vlcPath = cmdPath; // vlc path
+				vlcProcess = lastVlcProcess;
+				VlcChanged(); // calls VlcChanged
+			}
+			lastCommandLine = videoFileName;
+		}
+
+		static private void BeginPlaySomeVideo(string videoFile)
 		{
 			vlcProcess = lastVlcProcess;
-			print($"PLAY: {videoUrl}");
 			KillVLC();
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				clientForm.prizeLabel.Hide();
-				clientForm.costLabel.Hide();
-				clientForm.vlcControl.Play(ClientForm.url2mrl(videoUrl));
-			}));
+			PlaySomeVideo(videoFile);
+			lastCommandLine = string.Empty;
 		}
 
 		static private void VlcChanged()
 		{
-
 			print($"LAST: {lastCommandLine}\n\tCURRENT: {videoFileName}");
 			code = Utils.GetCodeFromName(Utils.GetSafeFileName(videoFileName), strFrom, strTo).TrimEnd(' ') + "E";
 
@@ -201,12 +185,24 @@ namespace vlc_works
 				blockInput = false; 
 			}).Start();
 		}
+		#endregion
+		#region PLAY_VIDEOS
+		static private void PlaySomeVideo(string videoUrl)
+		{
+			print($"PLAY: {videoUrl}");
+			clientForm.BeginInvoke(new Action(() =>
+			{
+				clientForm.prizeLabel.Hide();
+				clientForm.costLabel.Hide();
+				clientForm.vlcControl.Play(ClientForm.url2mrl(videoUrl));
+			}));
+		}
 
 		static public void ProceedKeys(Keys[] keysStream)
 		{
 			print($"INPUT BLOCKED: {blockInput}\nGAME ENDED: {gameEnded}");
 
-			string inputCode = string.Join("", keysStream.Select(k => ktos[k]));
+			string inputCode = string.Join("", keysStream.Select(k => Utils.ktos[k]));
 			bool guess = inputCode == code;
 
 			print($"_INPUTED: {inputCode}\n\tCODE: {code}\n\tGUESS: {guess}");
