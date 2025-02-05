@@ -161,7 +161,14 @@ namespace vlc_works
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 
 			if (VLCChecker.blockInput || VLCChecker.gameEnded || VLCChecker.errorsCount > 2) // til 3 errors
+			{
+				print(
+					$"VLCChecker.blockInput {VLCChecker.blockInput} || " +
+					$"VLCChecker.gameEnded {VLCChecker.gameEnded} || " +
+					$"VLCChecker.errorsCount > 2 {VLCChecker.errorsCount > 2}"
+					);
 				return;
+			}	
 
 			VLCChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
 		}

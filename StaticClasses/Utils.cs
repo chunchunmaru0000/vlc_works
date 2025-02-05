@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace vlc_works
 {
-	// i want here to be only "pure" function in means of NOT USING external data
+	// i want here to be only "pure" functions in means of NOT USING external data
 	public static class Utils
 	{
 		#region READ_FILE
