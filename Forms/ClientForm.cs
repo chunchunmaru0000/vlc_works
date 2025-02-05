@@ -23,7 +23,6 @@ namespace vlc_works
 		#region VAR
 		// global
 		IKeyboardEvents hook { get; set; } // hook for hook keys
-		public VLCChecker VLCChecker { get; set; }
 		// forms
 		public AccountingForm accountingForm { get; set; }
 		// consts
@@ -64,7 +63,8 @@ namespace vlc_works
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;
 			// cheker
-			VLCChecker = new VLCChecker(this, accountingForm);
+			//VLCChecker = new VLCChecker(this, accountingForm);
+			VLCChecker.Constructor(this, accountingForm);
 			// set form
 			Form1_SizeChanged(inputLabel, EventArgs.Empty); // includes align inputLabel
 			inputLabel.SizeChanged += AlignInputLabel;
@@ -363,7 +363,7 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.idleUri));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.idle.Uri));
 			}));
 		}
 
@@ -379,7 +379,7 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.selectLangUri));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.selectLang.Uri));
 				BeginLanguageInput();
 			}));
 		}
