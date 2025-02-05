@@ -90,12 +90,14 @@
     <Compile Include="ClientForm.Designer.cs">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Db.cs" />
-    <Compile Include="InputKey.cs" />
-    <Compile Include="Language.cs" />
+    <Compile Include="StaticClasses\COMPort.cs" />
+    <Compile Include="StaticClasses\Db.cs" />
+    <Compile Include="Classes\InputKey.cs" />
+    <Compile Include="Classes\Language.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextSettings.cs" />
+    <Compile Include="Classes\TextSettings.cs" />
+    <Compile Include="StaticClasses\Utils.cs" />
     <Compile Include="VLCChecker.cs" />
     <EmbeddedResource Include="AccountingForm.resx">
       <DependentUpon>AccountingForm.cs</DependentUpon>

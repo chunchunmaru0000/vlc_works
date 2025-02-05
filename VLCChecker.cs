@@ -103,88 +103,33 @@ namespace vlc_works
 			this.clientForm = clientForm;
 			this.accountingForm = accountingForm;
 			// read videonames.txt
-			GetVideoNames();
+			SetPathsAndUri(Utils.GetVideoNames(videonamestxt));
 			// do checker thread
 			vlcCheckerThread = new Thread(() => { while (true) { VlcChecker(); Thread.Sleep(50); } });
 			vlcCheckerThread.Start();
 			ProcessCommandLineChanged += VlcChanged;
 		}
 		#region VLCCECKER
-		void GetVideoNames()
+		private void SetPathsAndUri(string[] lines)
 		{
-			try
-			{
-				string fileText;
-				using (var stream = new FileStream(videonamestxt, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))//, Encoding.UTF8))
-					using (var reader = new StreamReader(stream, Encoding.UTF8))
-						fileText = reader.ReadToEnd();
+			// new Language(Langs.RUSSIAN, lines[0], lines[3], lines[6], lines[9], lines[12], lines[15]);
+			langs[Langs.RUSSIAN] = Language.Get(Langs.RUSSIAN, lines, 0);
+			langs[Langs.ENGLISH] = Language.Get(Langs.ENGLISH, lines, 1);
+			langs[Langs.HEBREW] = Language.Get(Langs.HEBREW, lines, 2);
 
-				string[] lines = fileText.Split('\n')
-					.Select(l => 
-						string.Join("=", l.Trim('\r').Split('=').Skip(1))
-						.Replace("\u202A", "")) // he is from Israel so there is a possibility of him using this symbol
-					.ToArray();
+			int afterLangsLinesOffset = 18;
 
-				//Console.WriteLine(string.Join("|", Encoding.UTF8.GetBytes(lines[0]).Select(b => Convert.ToString(b))));
-				Console.WriteLine(string.Join("\n", lines));
+			defeatPath = lines[afterLangsLinesOffset++]; 
+			errorVideoUri = ClientForm.url2mrl(defeatPath);
 
-				SetPathsAndUri(lines);
-			}
-			catch (Exception exception)
-			{
-				LogMessageException(exception);
-			}
+			idlePath = lines[afterLangsLinesOffset++]; 
+			idleUri = ClientForm.url2mrl(idlePath);
+
+			selectLangPath = lines[afterLangsLinesOffset++]; 
+			selectLangUri = ClientForm.url2mrl(selectLangPath);
 		}
 
-		void SetPathsAndUri(string[] lines)
-		{
-			langs[Langs.RUSSIAN] = new Language(Langs.RUSSIAN, lines[0], lines[3], lines[6]);
-			langs[Langs.ENGLISH] = new Language(Langs.ENGLISH, lines[1], lines[4], lines[7]);
-			langs[Langs.HEBREW] =  new Language(Langs.HEBREW,  lines[2], lines[5], lines[8]);
-			defeatPath = lines[9]; errorVideoUri = ClientForm.url2mrl(defeatPath);
-			idlePath = lines[10]; idleUri = ClientForm.url2mrl(idlePath);
-			selectLangPath = lines[11]; selectLangUri = ClientForm.url2mrl(selectLangPath);
-		}
-
-		void LogMessageException(Exception exception)
-		{
-			if (exception is FileNotFoundException)
-				MessageBox.Show(
-					$"FILE {videonamestxt} WASNT FOUND \n" +
-					$"ФАЙЛ {videonamestxt} НЕ БЫЛ НАЙДЕН");
-			else if (exception is UnauthorizedAccessException)
-				MessageBox.Show(
-					$"INSUFFICIENT PERMISSIONS TO READ THE FILE {videonamestxt} \n" +
-					$"НЕДОСТАТОЧНО ПРАВ ДЛЯ ЧТЕНИЯ ФАЙЛА {videonamestxt}");
-			else if (exception is IOException)
-				MessageBox.Show(
-					$"UNKNOWN ERROR WHILE READING FILE {videonamestxt} \n" +
-					$"НЕИЗВЕСТНАЯ ОШИБКА ПРИ ЧТЕНИИ ФАЙЛА {videonamestxt}");
-			else
-				MessageBox.Show($"ОШИБКА:\n{exception.Message}");
-			Environment.Exit(0);
-		}
-
-		static string GetCodeFromName(string codename)
-		{
-			try
-			{
-				// "51012345 only 5 nums matter eng.mp4"
-				return codename.Substring(strFrom, strTo);
-			}
-			catch
-			{
-				return "#";
-			}
-		}
-
-		static string GetSafeFileName(string path)
-		{
-			try { return Path.GetFileName(path); } // sometimes errors
-			catch { return path.Split('\\').Last().Split('/').Last(); }
-		}
-
-		string GetCommandLine(string processName)
+		private string GetCommandLine(string processName)
 		{
 			foreach (Process process in Process.GetProcessesByName(processName))
 			{
@@ -198,12 +143,7 @@ namespace vlc_works
 			return string.Empty;
 		}
 
-		static string[] ParseCommandLineArguments(string commandLine) =>
-			commandLine is null || commandLine == "" ?
-				new string[] { } :
-				commandLine.Split('"');
-
-		void KillVLC()
+		private void KillVLC()
 		{
 			if (vlcProcess != null && !vlcProcess.HasExited)
 			{
@@ -212,22 +152,22 @@ namespace vlc_works
 			}
 		}
 
-		bool IsNotUsedPath(string path) =>
+		private bool IsNotUsedPath(string path) =>
 			path != defeatPath && path != selectLangPath && path != idlePath &&
-			langs.Values.All(l => l.RulesPath != path && l.ParamsPath != path && l.VictoryPath != path);
+			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
-		void VlcChecker()
+		private void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
 			string commandLine = GetCommandLine(processToCheckName); // "vlc path" --started-from-file "video path"
-			string[] commandArgs = ParseCommandLineArguments(commandLine);
+			string[] commandArgs = Utils.ParseCommandLineArguments(commandLine);
 			if (
 				commandArgs.Length == 5 && // have correct video file path
 				IsNotUsedPath(commandArgs[3]) && // not used
 				commandArgs[3].Length > 0 // not empty
 				)
 			{
-				if (char.IsNumber(GetSafeFileName(commandArgs[3])[0]))// game name starts with number
+				if (char.IsNumber(Utils.GetSafeFileName(commandArgs[3])[0]))// game name starts with number
 				{
 					videoFileName = commandArgs[3]; // game video path
 					gameVideoUri = ClientForm.url2mrl(videoFileName);
@@ -250,7 +190,7 @@ namespace vlc_works
 		}
 		#endregion
 		#region PLAY_VIDEOS
-		void PlaySomeVideo(string videoUrl)
+		private void PlaySomeVideo(string videoUrl)
 		{
 			vlcProcess = lastVlcProcess;
 			print($"PLAY: {videoUrl}");
@@ -263,11 +203,11 @@ namespace vlc_works
 			}));
 		}
 
-		void VlcChanged(object sender, EventArgs e)
+		private void VlcChanged(object sender, EventArgs e)
 		{
 
 			print($"LAST: {lastCommandLine}\n\tCURRENT: {videoFileName}");
-			code = GetCodeFromName(GetSafeFileName(videoFileName)).TrimEnd(' ') + "E";
+			code = Utils.GetCodeFromName(Utils.GetSafeFileName(videoFileName), strFrom, strTo).TrimEnd(' ') + "E";
 
 			DeleteInput();
 			accountingForm.Invoke((MethodInvoker)delegate {
@@ -307,7 +247,7 @@ namespace vlc_works
 				ProceedDefeat();
 		}
 
-		void ProceedDefeat()
+		private void ProceedDefeat()
 		{
 			blockInput = true;
 			clientForm.stage = Stage.ERROR;
@@ -324,7 +264,7 @@ namespace vlc_works
 			print($"TIME BEFORE DEFEAT WAS: {videoGameTimeWas}");
 		}
 
-		void ProceedWin()
+		private void ProceedWin()
 		{
 			gameEnded = true; // good ending
 			clientForm.stage = Stage.VICTORY;
@@ -332,7 +272,7 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Play(langs[language].VictoryVideoUri);
+				clientForm.vlcControl.Play(langs[language].Victory.Uri);
 			}));
 
 			// insert win in db
@@ -353,13 +293,13 @@ namespace vlc_works
 			// cant use switch because its not constant values
 			if (endedVideoMrl == errorVideoUri.AbsoluteUri)
 				EndDefeatVideo();
-			else if (endedVideoMrl == langs[language].VictoryVideoUri.AbsoluteUri)
+			else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
 				EndVictoryVideo();
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
-			else if (langs.Values.Any(l => l.RulesUri.AbsoluteUri == endedVideoMrl))
+			else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
 				SafeStop();
-			else if (langs.Values.Any(l => l.ParamsUri.AbsoluteUri == endedVideoMrl))
+			else if (langs.Values.Any(l => l.Params.Uri.AbsoluteUri == endedVideoMrl))
 				EndParamsShowVideo();
 			else if (endedVideoMrl == selectLangUri.AbsoluteUri)
 				Replay();
@@ -377,12 +317,12 @@ namespace vlc_works
 			}));
 		}
 
-		void EndParamsShowVideo()
+		private void EndParamsShowVideo()
 		{
 
 		}
 
-		void EndDefeatVideo()
+		private void EndDefeatVideo()
 		{
 			print($"WAS GAME BEFORE START DEFEAT: {videoGameTimeWas}");
 
@@ -406,13 +346,13 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF DEFEAT: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		void EndVictoryVideo()
+		private void EndVictoryVideo()
 		{
 			// to do; he said smthng about idle video
 			SafeStop();
 		}
 
-		void EndGameVideo()
+		private void EndGameVideo()
 		{
 			print($"BLOCK INPUT AT THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 			if (blockInput || !gameEnded) // then game goes on because input blocked before defeat video
@@ -445,7 +385,7 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		void SafeStop()
+		private void SafeStop()
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{

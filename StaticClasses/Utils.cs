@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace vlc_works
 {
+	// i want here to be only "pure" function in means of NOT USING external data
 	public static class Utils
 	{
+		#region READ_FILE
 		private static string ReadFileToEnd(string fileName)
 		{
 			using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -34,9 +34,7 @@ namespace vlc_works
 			try
 			{
 				string[] lines = GetTextLines(ReadFileToEnd(videonamestxt));
-
 				Console.WriteLine(string.Join("\n", lines));
-
 				return lines;
 			}
 			catch (Exception exception)
@@ -64,5 +62,31 @@ namespace vlc_works
 			Environment.Exit(0);
 			return null;
 		}
+		#endregion
+		#region COMMAND_LINE
+		public static string[] ParseCommandLineArguments(string commandLine) =>
+			commandLine is null || commandLine == "" ?
+				new string[] { } :
+				commandLine.Split('"');
+
+		public static string GetCodeFromName(string codename, int strFrom, int strTo)
+		{
+			try
+			{
+				// "51012345 only 5 nums matter eng.mp4"
+				return codename.Substring(strFrom, strTo);
+			}
+			catch
+			{
+				return "#";
+			}
+		}
+
+		public static string GetSafeFileName(string path)
+		{
+			try { return Path.GetFileName(path); } // sometimes errors
+			catch { return path.Split('\\').Last().Split('/').Last(); }
+		}
+		#endregion
 	}
 }
