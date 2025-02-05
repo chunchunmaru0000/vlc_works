@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.IO.Ports;
 using System.Linq;
 using System.Management;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Vlc.DotNet.Forms;
 
 namespace vlc_works
 {
@@ -44,6 +37,7 @@ namespace vlc_works
 		static public PathUri selectLang { get; set; }
 
 		static public Dictionary<Langs, Language> langs { get; set; } = new Dictionary<Langs, Language>();
+		static public Language currentLanguage { get => langs[language]; }
 		// game things
 		static string code { get; set; } // inputed code like 01234E
 		static public Langs language { get; set; } // currently selected language
@@ -122,9 +116,7 @@ namespace vlc_works
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
 			string commandLine = GetCommandLine(processToCheckName); // "vlc path" --started-from-file "video path"
-			print(commandLine);
 			string[] commandArgs = Utils.ParseCommandLineArguments(commandLine);
-			print(IsValidCommandArgs(commandArgs));
 
 			if (IsValidCommandArgs(commandArgs))
 			{

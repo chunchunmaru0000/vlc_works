@@ -1,16 +1,9 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Management.Instrumentation;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Vlc.DotNet;
@@ -22,11 +15,11 @@ namespace vlc_works
 	{
 		#region VAR
 		// global
-		IKeyboardEvents hook { get; set; } // hook for hook keys
+		private IKeyboardEvents hook { get; set; } // hook for hook keys
 		// forms
 		public AccountingForm accountingForm { get; set; }
 		// consts
-		Keys[] NumKeys { get; } = new Keys[] // keys of numpad
+		private Keys[] NumKeys { get; } = new Keys[] // keys of numpad
 		{
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
@@ -37,7 +30,7 @@ namespace vlc_works
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
 		// some
-		bool isFullScreen { get; set; } = false;
+		private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
 		{
 			string stroke = str == null ? "" : str.ToString();
@@ -213,7 +206,7 @@ namespace vlc_works
 
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.langs[VLCChecker.language].Rules.Uri));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.currentLanguage.Rules.Uri));
 			}));
 		}
 
@@ -312,7 +305,8 @@ namespace vlc_works
 				hmh(vs.Width, costLabel.Size.Width),
 				hmh(vs.Height, heightCostOffset));
 
-			vlcControl.Play(VLCChecker.langs[VLCChecker.language].Params.Uri);
+			vlcControl.Play(VLCChecker.currentLanguage.Params.Uri);
+
 			CostShowTimer = new System.Threading.Timer(
 				CostShowCallback, null, TimeToShowCost, InputKey.MinusOneMilisecond);
 			PrizeShowTimer = new System.Threading.Timer(
