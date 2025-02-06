@@ -32,6 +32,7 @@ namespace vlc_works
 		private Dictionary<Button, long> LevelBut2long { get; set; }
 		private Dictionary<Button, long> PriceBut2long { get; set; }
 		// some
+		public bool isFirstGame { get; set; } = true;
 		#endregion
 
 		public AccountingForm(ClientForm clientForm)
@@ -429,5 +430,34 @@ namespace vlc_works
 
 		}
 		#endregion FACE_CONTROL
+		#region TEMPORAL_COMTROLS
+		public void SetIsFirstGame(bool firstGame)
+		{
+			Invoke(new Action(() =>
+			{
+				isFirstGame = !firstGame;
+				isFirstGameBut_Click(null, EventArgs.Empty);
+			}));
+		}
+
+		private void isFirstGameBut_Click(object sender, EventArgs e)
+		{
+			const string on = "Режим первой игры: Включено";
+			const string off = "Режим первой игры: Выключено";
+
+			if (isFirstGame)
+			{
+				isFirstGameBut.BackColor = Color.LawnGreen;
+				isFirstGameBut.Text = off;
+			}
+			else
+			{
+				isFirstGameBut.BackColor = Color.Coral;
+				isFirstGameBut.Text = on;
+			}
+
+			isFirstGame = !isFirstGame;
+		}
+		#endregion TEMPORAL_COMTROLS
 	}
 }

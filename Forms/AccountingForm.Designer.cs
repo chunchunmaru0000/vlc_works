@@ -57,6 +57,9 @@
 			this.priceDataGridView = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.awardButsPanel = new System.Windows.Forms.Panel();
+			this.awardRecPanel = new System.Windows.Forms.Panel();
+			this.awardRecLabel = new System.Windows.Forms.Label();
+			this.awardRecTextLabel = new System.Windows.Forms.Label();
 			this.award3000But = new System.Windows.Forms.Button();
 			this.award1000But = new System.Windows.Forms.Button();
 			this.award500But = new System.Windows.Forms.Button();
@@ -70,6 +73,9 @@
 			this.selectLevelTextLabel = new System.Windows.Forms.Label();
 			this.selectPayTextLabel = new System.Windows.Forms.Label();
 			this.levelButsPanel = new System.Windows.Forms.Panel();
+			this.levelRecPanel = new System.Windows.Forms.Panel();
+			this.lvlRecLabel = new System.Windows.Forms.Label();
+			this.lvlRecTextLabel = new System.Windows.Forms.Label();
 			this.lvl9But = new System.Windows.Forms.Button();
 			this.lvl8But = new System.Windows.Forms.Button();
 			this.lvl7But = new System.Windows.Forms.Button();
@@ -81,6 +87,9 @@
 			this.lvl1But = new System.Windows.Forms.Button();
 			this.lvl0But = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.priceRecPanel = new System.Windows.Forms.Panel();
+			this.priceRecLabel = new System.Windows.Forms.Label();
+			this.priceRecTextLabel = new System.Windows.Forms.Label();
 			this.price200But = new System.Windows.Forms.Button();
 			this.price100But = new System.Windows.Forms.Button();
 			this.price50But = new System.Windows.Forms.Button();
@@ -115,18 +124,10 @@
 			this.hideCodeBut = new System.Windows.Forms.Button();
 			this.warningLabel = new System.Windows.Forms.Label();
 			this.payedPanel = new System.Windows.Forms.Panel();
-			this.payedTextLabel = new System.Windows.Forms.Label();
 			this.payedCountLabel = new System.Windows.Forms.Label();
+			this.payedTextLabel = new System.Windows.Forms.Label();
 			this.recommendTextLabel = new System.Windows.Forms.Label();
-			this.awardRecPanel = new System.Windows.Forms.Panel();
-			this.levelRecPanel = new System.Windows.Forms.Panel();
-			this.priceRecPanel = new System.Windows.Forms.Panel();
-			this.awardRecTextLabel = new System.Windows.Forms.Label();
-			this.lvlRecTextLabel = new System.Windows.Forms.Label();
-			this.priceRecTextLabel = new System.Windows.Forms.Label();
-			this.awardRecLabel = new System.Windows.Forms.Label();
-			this.lvlRecLabel = new System.Windows.Forms.Label();
-			this.priceRecLabel = new System.Windows.Forms.Label();
+			this.isFirstGameBut = new System.Windows.Forms.Button();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -134,13 +135,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.winsDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.priceDataGridView)).BeginInit();
 			this.awardButsPanel.SuspendLayout();
+			this.awardRecPanel.SuspendLayout();
 			this.levelButsPanel.SuspendLayout();
+			this.levelRecPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.priceRecPanel.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.payedPanel.SuspendLayout();
-			this.awardRecPanel.SuspendLayout();
-			this.levelRecPanel.SuspendLayout();
-			this.priceRecPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// balanceTextLabel
@@ -451,6 +452,37 @@
 			this.awardButsPanel.Size = new System.Drawing.Size(192, 416);
 			this.awardButsPanel.TabIndex = 15;
 			// 
+			// awardRecPanel
+			// 
+			this.awardRecPanel.BackColor = System.Drawing.Color.Orange;
+			this.awardRecPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.awardRecPanel.Controls.Add(this.awardRecLabel);
+			this.awardRecPanel.Controls.Add(this.awardRecTextLabel);
+			this.awardRecPanel.Location = new System.Drawing.Point(0, 320);
+			this.awardRecPanel.Name = "awardRecPanel";
+			this.awardRecPanel.Size = new System.Drawing.Size(192, 96);
+			this.awardRecPanel.TabIndex = 10;
+			// 
+			// awardRecLabel
+			// 
+			this.awardRecLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.awardRecLabel.Location = new System.Drawing.Point(3, 30);
+			this.awardRecLabel.Name = "awardRecLabel";
+			this.awardRecLabel.Size = new System.Drawing.Size(186, 60);
+			this.awardRecLabel.TabIndex = 1;
+			this.awardRecLabel.Text = "####";
+			this.awardRecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// awardRecTextLabel
+			// 
+			this.awardRecTextLabel.ForeColor = System.Drawing.Color.White;
+			this.awardRecTextLabel.Location = new System.Drawing.Point(32, 3);
+			this.awardRecTextLabel.Name = "awardRecTextLabel";
+			this.awardRecTextLabel.Size = new System.Drawing.Size(128, 32);
+			this.awardRecTextLabel.TabIndex = 0;
+			this.awardRecTextLabel.Text = "ПРИЗ";
+			this.awardRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// award3000But
 			// 
 			this.award3000But.BackColor = System.Drawing.Color.Khaki;
@@ -592,6 +624,37 @@
 			this.levelButsPanel.Size = new System.Drawing.Size(224, 416);
 			this.levelButsPanel.TabIndex = 19;
 			// 
+			// levelRecPanel
+			// 
+			this.levelRecPanel.BackColor = System.Drawing.Color.Orange;
+			this.levelRecPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.levelRecPanel.Controls.Add(this.lvlRecLabel);
+			this.levelRecPanel.Controls.Add(this.lvlRecTextLabel);
+			this.levelRecPanel.Location = new System.Drawing.Point(0, 320);
+			this.levelRecPanel.Name = "levelRecPanel";
+			this.levelRecPanel.Size = new System.Drawing.Size(224, 96);
+			this.levelRecPanel.TabIndex = 10;
+			// 
+			// lvlRecLabel
+			// 
+			this.lvlRecLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lvlRecLabel.Location = new System.Drawing.Point(3, 32);
+			this.lvlRecLabel.Name = "lvlRecLabel";
+			this.lvlRecLabel.Size = new System.Drawing.Size(218, 60);
+			this.lvlRecLabel.TabIndex = 2;
+			this.lvlRecLabel.Text = "####";
+			this.lvlRecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lvlRecTextLabel
+			// 
+			this.lvlRecTextLabel.ForeColor = System.Drawing.Color.White;
+			this.lvlRecTextLabel.Location = new System.Drawing.Point(32, 3);
+			this.lvlRecTextLabel.Name = "lvlRecTextLabel";
+			this.lvlRecTextLabel.Size = new System.Drawing.Size(160, 32);
+			this.lvlRecTextLabel.TabIndex = 0;
+			this.lvlRecTextLabel.Text = "УРОВЕНЬ";
+			this.lvlRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// lvl9But
 			// 
 			this.lvl9But.BackColor = System.Drawing.Color.Khaki;
@@ -709,6 +772,37 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(256, 416);
 			this.panel1.TabIndex = 20;
+			// 
+			// priceRecPanel
+			// 
+			this.priceRecPanel.BackColor = System.Drawing.Color.Orange;
+			this.priceRecPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.priceRecPanel.Controls.Add(this.priceRecLabel);
+			this.priceRecPanel.Controls.Add(this.priceRecTextLabel);
+			this.priceRecPanel.Location = new System.Drawing.Point(0, 320);
+			this.priceRecPanel.Name = "priceRecPanel";
+			this.priceRecPanel.Size = new System.Drawing.Size(256, 96);
+			this.priceRecPanel.TabIndex = 7;
+			// 
+			// priceRecLabel
+			// 
+			this.priceRecLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.priceRecLabel.Location = new System.Drawing.Point(3, 32);
+			this.priceRecLabel.Name = "priceRecLabel";
+			this.priceRecLabel.Size = new System.Drawing.Size(250, 60);
+			this.priceRecLabel.TabIndex = 2;
+			this.priceRecLabel.Text = "####";
+			this.priceRecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// priceRecTextLabel
+			// 
+			this.priceRecTextLabel.ForeColor = System.Drawing.Color.White;
+			this.priceRecTextLabel.Location = new System.Drawing.Point(32, 3);
+			this.priceRecTextLabel.Name = "priceRecTextLabel";
+			this.priceRecTextLabel.Size = new System.Drawing.Size(192, 32);
+			this.priceRecTextLabel.TabIndex = 0;
+			this.priceRecTextLabel.Text = "СТОИМОСТЬ";
+			this.priceRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// price200But
 			// 
@@ -1042,15 +1136,6 @@
 			this.payedPanel.Size = new System.Drawing.Size(160, 64);
 			this.payedPanel.TabIndex = 44;
 			// 
-			// payedTextLabel
-			// 
-			this.payedTextLabel.AutoSize = true;
-			this.payedTextLabel.Location = new System.Drawing.Point(0, 0);
-			this.payedTextLabel.Name = "payedTextLabel";
-			this.payedTextLabel.Size = new System.Drawing.Size(139, 31);
-			this.payedTextLabel.TabIndex = 0;
-			this.payedTextLabel.Text = "Оплачено";
-			// 
 			// payedCountLabel
 			// 
 			this.payedCountLabel.AutoSize = true;
@@ -1059,6 +1144,15 @@
 			this.payedCountLabel.Size = new System.Drawing.Size(74, 31);
 			this.payedCountLabel.TabIndex = 1;
 			this.payedCountLabel.Text = "####";
+			// 
+			// payedTextLabel
+			// 
+			this.payedTextLabel.AutoSize = true;
+			this.payedTextLabel.Location = new System.Drawing.Point(0, 0);
+			this.payedTextLabel.Name = "payedTextLabel";
+			this.payedTextLabel.Size = new System.Drawing.Size(139, 31);
+			this.payedTextLabel.TabIndex = 0;
+			this.payedTextLabel.Text = "Оплачено";
 			// 
 			// recommendTextLabel
 			// 
@@ -1070,104 +1164,25 @@
 			this.recommendTextLabel.TabIndex = 45;
 			this.recommendTextLabel.Text = "РЕКОМЕНДУЕТСЯ";
 			// 
-			// awardRecPanel
+			// isFirstGameBut
 			// 
-			this.awardRecPanel.BackColor = System.Drawing.Color.Orange;
-			this.awardRecPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.awardRecPanel.Controls.Add(this.awardRecLabel);
-			this.awardRecPanel.Controls.Add(this.awardRecTextLabel);
-			this.awardRecPanel.Location = new System.Drawing.Point(0, 320);
-			this.awardRecPanel.Name = "awardRecPanel";
-			this.awardRecPanel.Size = new System.Drawing.Size(192, 96);
-			this.awardRecPanel.TabIndex = 10;
-			// 
-			// levelRecPanel
-			// 
-			this.levelRecPanel.BackColor = System.Drawing.Color.Orange;
-			this.levelRecPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.levelRecPanel.Controls.Add(this.lvlRecLabel);
-			this.levelRecPanel.Controls.Add(this.lvlRecTextLabel);
-			this.levelRecPanel.Location = new System.Drawing.Point(0, 320);
-			this.levelRecPanel.Name = "levelRecPanel";
-			this.levelRecPanel.Size = new System.Drawing.Size(224, 96);
-			this.levelRecPanel.TabIndex = 10;
-			// 
-			// priceRecPanel
-			// 
-			this.priceRecPanel.BackColor = System.Drawing.Color.Orange;
-			this.priceRecPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.priceRecPanel.Controls.Add(this.priceRecLabel);
-			this.priceRecPanel.Controls.Add(this.priceRecTextLabel);
-			this.priceRecPanel.Location = new System.Drawing.Point(0, 320);
-			this.priceRecPanel.Name = "priceRecPanel";
-			this.priceRecPanel.Size = new System.Drawing.Size(256, 96);
-			this.priceRecPanel.TabIndex = 7;
-			// 
-			// awardRecTextLabel
-			// 
-			this.awardRecTextLabel.ForeColor = System.Drawing.Color.White;
-			this.awardRecTextLabel.Location = new System.Drawing.Point(32, 3);
-			this.awardRecTextLabel.Name = "awardRecTextLabel";
-			this.awardRecTextLabel.Size = new System.Drawing.Size(128, 32);
-			this.awardRecTextLabel.TabIndex = 0;
-			this.awardRecTextLabel.Text = "ПРИЗ";
-			this.awardRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// lvlRecTextLabel
-			// 
-			this.lvlRecTextLabel.ForeColor = System.Drawing.Color.White;
-			this.lvlRecTextLabel.Location = new System.Drawing.Point(32, 3);
-			this.lvlRecTextLabel.Name = "lvlRecTextLabel";
-			this.lvlRecTextLabel.Size = new System.Drawing.Size(160, 32);
-			this.lvlRecTextLabel.TabIndex = 0;
-			this.lvlRecTextLabel.Text = "УРОВЕНЬ";
-			this.lvlRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// priceRecTextLabel
-			// 
-			this.priceRecTextLabel.ForeColor = System.Drawing.Color.White;
-			this.priceRecTextLabel.Location = new System.Drawing.Point(32, 3);
-			this.priceRecTextLabel.Name = "priceRecTextLabel";
-			this.priceRecTextLabel.Size = new System.Drawing.Size(192, 32);
-			this.priceRecTextLabel.TabIndex = 0;
-			this.priceRecTextLabel.Text = "СТОИМОСТЬ";
-			this.priceRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// awardRecLabel
-			// 
-			this.awardRecLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.awardRecLabel.Location = new System.Drawing.Point(3, 30);
-			this.awardRecLabel.Name = "awardRecLabel";
-			this.awardRecLabel.Size = new System.Drawing.Size(186, 60);
-			this.awardRecLabel.TabIndex = 1;
-			this.awardRecLabel.Text = "####";
-			this.awardRecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// lvlRecLabel
-			// 
-			this.lvlRecLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lvlRecLabel.Location = new System.Drawing.Point(3, 32);
-			this.lvlRecLabel.Name = "lvlRecLabel";
-			this.lvlRecLabel.Size = new System.Drawing.Size(218, 60);
-			this.lvlRecLabel.TabIndex = 2;
-			this.lvlRecLabel.Text = "####";
-			this.lvlRecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// priceRecLabel
-			// 
-			this.priceRecLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.priceRecLabel.Location = new System.Drawing.Point(3, 32);
-			this.priceRecLabel.Name = "priceRecLabel";
-			this.priceRecLabel.Size = new System.Drawing.Size(250, 60);
-			this.priceRecLabel.TabIndex = 2;
-			this.priceRecLabel.Text = "####";
-			this.priceRecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.isFirstGameBut.BackColor = System.Drawing.Color.Coral;
+			this.isFirstGameBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.isFirstGameBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.isFirstGameBut.Location = new System.Drawing.Point(0, 288);
+			this.isFirstGameBut.Name = "isFirstGameBut";
+			this.isFirstGameBut.Size = new System.Drawing.Size(512, 32);
+			this.isFirstGameBut.TabIndex = 46;
+			this.isFirstGameBut.Text = "Режим первой игры: Включено";
+			this.isFirstGameBut.UseVisualStyleBackColor = false;
+			this.isFirstGameBut.Click += new System.EventHandler(this.isFirstGameBut_Click);
 			// 
 			// AccountingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1904, 1001);
+			this.Controls.Add(this.isFirstGameBut);
 			this.Controls.Add(this.recommendTextLabel);
 			this.Controls.Add(this.payedPanel);
 			this.Controls.Add(this.warningLabel);
@@ -1221,15 +1236,15 @@
 			((System.ComponentModel.ISupportInitialize)(this.winsDataGridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.priceDataGridView)).EndInit();
 			this.awardButsPanel.ResumeLayout(false);
+			this.awardRecPanel.ResumeLayout(false);
 			this.levelButsPanel.ResumeLayout(false);
+			this.levelRecPanel.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.priceRecPanel.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.payedPanel.ResumeLayout(false);
 			this.payedPanel.PerformLayout();
-			this.awardRecPanel.ResumeLayout(false);
-			this.levelRecPanel.ResumeLayout(false);
-			this.priceRecPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1331,5 +1346,6 @@
 		private System.Windows.Forms.Label lvlRecLabel;
 		private System.Windows.Forms.Label priceRecLabel;
 		private System.Windows.Forms.Label priceRecTextLabel;
+		private System.Windows.Forms.Button isFirstGameBut;
 	}
 }

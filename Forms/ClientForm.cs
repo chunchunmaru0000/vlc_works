@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -30,7 +29,6 @@ namespace vlc_works
 		#endregion CONSTS
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
-		public bool isFirstGame { get; set; }
 		#region SOME_VAR
 		private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -374,20 +372,23 @@ namespace vlc_works
 
 		public void StartGame()
 		{
-			if (isFirstGame)
-			{
-				BeginInvoke(new Action(() =>
-				{
-					ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.selectLang.Uri));
-					BeginLanguageInput();
-				}));
+			print(accountingForm.isFirstGame);
 
+			if (accountingForm.isFirstGame)
+			{
 				accountingForm.SetAward(0); // in the first game award = 0
 			}
 			else
 			{
-
+				// the price will be setted by operator but anyway here need to do 
+				// use Recommendator class for operator recommendations
 			}
+
+			BeginInvoke(new Action(() =>
+			{
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.selectLang.Uri));
+				BeginLanguageInput();
+			}));
 		}
 
 		public void SkipStage()
