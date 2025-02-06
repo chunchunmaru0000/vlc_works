@@ -147,12 +147,17 @@ namespace vlc_works
 			price200But.Click += OnPriceButClicked;
 		}
 
+		public void SetAward(long award)
+		{
+			SelectedAward = award;
+			Invoke(new Action(() => awardLabel.Text = SelectedAward.ToString()));
+		}
+
 		private void OnAwardButClicked(object sender, EventArgs e)
 		{
 			Button awardButton = sender as Button;
 
-			SelectedAward = AwardBut2long[awardButton];
-			awardLabel.Text = SelectedAward.ToString();
+			SetAward(AwardBut2long[awardButton]);
 		}
 
 		private void OnLevelButClicked(object sender, EventArgs e)
@@ -418,6 +423,11 @@ namespace vlc_works
 			comBox.Items.AddRange(SerialPort.GetPortNames());
 		}
 		#endregion
+		#region FACE_CONTROL
+		private void faceControlBut_Click(object sender, EventArgs e)
+		{
 
+		}
+		#endregion FACE_CONTROL
 	}
 }
