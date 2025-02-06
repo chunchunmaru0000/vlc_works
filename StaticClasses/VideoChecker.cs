@@ -203,6 +203,10 @@ namespace vlc_works
 				Replay();
 			else if (endedVideoMrl == idle.Uri.AbsoluteUri)
 				Replay();
+			else if (langs.Values.Any(l => l.PlayAgain.Uri.AbsolutePath == endedVideoMrl))
+				EndPlayAgainVideo();
+			else if (langs.Values.Any(l => l.HowToPay.Uri.AbsolutePath == endedVideoMrl))
+				EndHowToPay();
 			else
 				SafeStop();
 		}
@@ -246,7 +250,8 @@ namespace vlc_works
 		private static void EndVictoryVideo()
 		{
 			// to do; he said smthng about idle video
-			SafeStop();
+			//SafeStop();
+			PlayAgain();
 		}
 
 		private static void EndGameVideo()
@@ -260,7 +265,8 @@ namespace vlc_works
 					print("BLOCKED INPUT");
 					print($"BAD ENDING");
 					gameEnded = true; // bad ending
-					SafeStop();
+					//SafeStop();
+					PlayAgain();
 				}
 				print($"PROCEEDS GAME BUT ERROR");
 				DeleteInput();
@@ -282,7 +288,27 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		private static void SafeStop()
+		private static void EndPlayAgainVideo()
+		{
+			if (clientForm.stage == Stage.HOW_PO_PAY)
+				return; // because will play HOW_PO_PAY video
+						// else not play again
+
+			new Thread(() =>
+			{
+				const int waitTime = 2000;
+
+				Thread.Sleep(waitTime); // wait 2 seconds before play idle
+				clientForm.PlayIdle(); 
+			}).Start();
+		}
+
+		private static void EndHowToPay()
+		{
+
+		}
+
+		public static void SafeStop()
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{
@@ -291,5 +317,15 @@ namespace vlc_works
 		}
 
 		#endregion END_VIDEOS
+		#region PLAY_AGAIN
+		private static void PlayAgain()
+		{
+			clientForm.BeginInvoke(new Action(() =>
+			{
+				clientForm.vlcControl.Play(currentLanguage.PlayAgain.Uri);
+			}));
+			clientForm.stage = Stage.PLAY_AGAIN;
+		}
+		#endregion PLAY_AGAIN
 	}
 }

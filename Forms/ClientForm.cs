@@ -136,6 +136,11 @@ namespace vlc_works
 					ProceedVideoBeginSkip();
 					return;
 				}
+				if (stage == Stage.PLAY_AGAIN)
+				{
+					PlayAgainSkip();
+					return; 
+				}
 			}
 
 			if (NumKeys.Contains(k) || k == Keys.Enter)
@@ -149,7 +154,20 @@ namespace vlc_works
 			} catch { }
 		}
 
-		void ProceedInput()
+		private void PlayAgainSkip()
+		{
+			const long minimalPrice = 20;
+
+			// if 0 what will you pay but it already should be selected by operator here
+			// anyway it needs to be handled
+			if (accountingForm.SelectedPrice == 0)
+				accountingForm.SetPrice(minimalPrice);
+
+			stage = Stage.HOW_PO_PAY;
+			vlcControl.Play(VideoChecker.currentLanguage.HowToPay.Uri);
+		}
+
+		private void ProceedInput()
 		{
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 
@@ -166,12 +184,12 @@ namespace vlc_works
 			VideoChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
 		}
 
-		void ProceedVideoBeginSkip() 
+		private void ProceedVideoBeginSkip() 
 		{
 			vlcControl.Time = Convert.ToInt64(NSeconds.TotalMilliseconds) + 1000;
 		}
 
-		void DrawNum(Keys key)
+		private void DrawNum(Keys key)
 		{
 			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
 			inputLabel.Text += Utils.ktos[key];
@@ -356,6 +374,7 @@ namespace vlc_works
 
 		public void PlayIdle()
 		{
+			stage = Stage.IDLE;
 			BeginInvoke(new Action(() =>
 			{
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.idle.Uri));

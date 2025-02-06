@@ -12,6 +12,10 @@
 		ERROR,
 		GAME_CANT_INPUT,
 		VICTORY,
+
+		PLAY_AGAIN,
+		HOW_PO_PAY,
+		GAME_PAYED,
 	}
 
 	public enum Langs

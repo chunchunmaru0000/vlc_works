@@ -154,6 +154,12 @@ namespace vlc_works
 			Invoke(new Action(() => awardLabel.Text = SelectedAward.ToString()));
 		}
 
+		public void SetPrice(long price)
+		{
+			SelectedPrice = price;
+			Invoke(new Action(() => priceLabel.Text = SelectedPrice.ToString()));
+		}
+
 		private void OnAwardButClicked(object sender, EventArgs e)
 		{
 			Button awardButton = sender as Button;
