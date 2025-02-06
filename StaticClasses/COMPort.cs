@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ namespace vlc_works
 	{
 		#region PRIVATE
 		private static byte[] fifeCoins = new byte[] { 0x30, 0x31, 0x32, 0x33, 0x00, 0x0A };
+		private static List<byte> notParsed = new List<byte>();
 		#endregion
 		#region PUBLIC 
 		public static SerialPort port;
@@ -73,7 +75,16 @@ namespace vlc_works
 
 		private static void DataRecieved(object sender, SerialDataReceivedEventArgs e)
 		{
-			throw new NotImplementedException();
+			byte[] bytes = new byte[port.BytesToRead];
+			int res = port.Read(bytes, 0, port.BytesToRead);
+			notParsed.AddRange(bytes);
+
+			TryParseCommand();
+		}
+
+		private static void TryParseCommand()
+		{
+
 		}
 	}
 }
