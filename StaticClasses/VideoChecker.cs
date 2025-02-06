@@ -11,42 +11,56 @@ namespace vlc_works
 	public static class VideoChecker
 	{
 		#region VAR
+
 		// consts
-		const int strFrom = 3;
-		const int strTo = 5;
+		private const int strFrom = 3;
+
+		private const int strTo = 5;
+
 		// forms
-		static private ClientForm clientForm { get; set; }
-		static private AccountingForm accountingForm { get; set; }
+		private static ClientForm clientForm { get; set; }
+
+		private static AccountingForm accountingForm { get; set; }
+
 		// media
-		static private long videoGameTimeWas { get; set; } // time video game was stopped
+		private static long videoGameTimeWas { get; set; } // time video game was stopped
+
 		// video paths
-		static public string videoFileName { get; set; } = string.Empty; // game video path
-		static public Uri gameVideoUri { get; set; }
-			//static public PathUri gameVideo { get; set; } = new PathUri(""); // a good thing to think about
+		public static string videoFileName { get; set; } = string.Empty; // game video path
 
-		static public PathUri errorVideo { get; set; }
-		static public PathUri idle { get; set; }
-		static public PathUri selectLang { get; set; }
+		public static Uri gameVideoUri { get; set; }
+		//public static PathUri gameVideo { get; set; } = new PathUri(""); // a good thing to think about
 
-		static public Dictionary<Langs, Language> langs { get; set; } = new Dictionary<Langs, Language>();
-		static public Language currentLanguage { get => langs[language]; }
+		public static PathUri errorVideo { get; set; }
+		public static PathUri idle { get; set; }
+		public static PathUri selectLang { get; set; }
+
+		public static Dictionary<Langs, Language> langs { get; set; } = new Dictionary<Langs, Language>();
+		public static Language currentLanguage { get => langs[language]; }
+
 		// game things
-		static string code { get; set; } // inputed code like 01234E
-		static public Langs language { get; set; } // currently selected language
-		static public bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
-		static public bool gameEnded { get; set; } = true; // also bad thing and better to do via stage
-		static public int errorsCount { get; set; } // how much errors inputed this game
+		private static string code { get; set; } // inputed code like 01234E
+
+		public static Langs language { get; set; } // currently selected language
+		public static bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
+		public static bool gameEnded { get; set; } = true; // also bad thing and better to do via stage
+		public static int errorsCount { get; set; } // how much errors inputed this game
+
+		// game with ai datas
+		public static bool isFirstGame { get; set; } = true;
+
 		// some
-		static void print(object str = null)
+		private static void print(object str = null)
 		{
 			string stroke = str == null ? "" : str.ToString();
 			Console.WriteLine(stroke);
-			//accountingForm.BeginInvoke(new Action(() => { accountingForm.DEBUG(stroke); }));
 		}
-		static void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
-		#endregion
 
-		static public void Constructor(ClientForm clientForm, AccountingForm accountingForm, string[] lines)
+		private static void DeleteInput() => clientForm.Invoke((MethodInvoker)delegate { clientForm.DeleteInput(); });
+
+		#endregion VAR
+
+		public static void Constructor(ClientForm clientForm, AccountingForm accountingForm, string[] lines)
 		{
 			VideoChecker.clientForm = clientForm;
 			VideoChecker.accountingForm = accountingForm;
@@ -54,7 +68,8 @@ namespace vlc_works
 		}
 
 		#region INIT
-		static private void SetPathsAndUri(string[] lines)
+
+		private static void SetPathsAndUri(string[] lines)
 		{
 			langs[Langs.RUSSIAN] = Language.Get(Langs.RUSSIAN, lines, 0);
 			langs[Langs.ENGLISH] = Language.Get(Langs.ENGLISH, lines, 1);
@@ -67,14 +82,15 @@ namespace vlc_works
 			selectLang = new PathUri(lines[afterLangsLinesOffset++]);
 		}
 
-		static public bool IsNotUsedPath(string path) =>
+		public static bool IsNotUsedPath(string path) =>
 			path != errorVideo.Path && path != selectLang.Path && path != idle.Path &&
 			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
-		static public void VlcChanged()
+		public static void VlcChanged()
 		{
 			code = Utils.GetCodeFromName(Utils.GetSafeFileName(videoFileName), strFrom, strTo).TrimEnd(' ') + "E";
-			accountingForm.Invoke((MethodInvoker)delegate {
+			accountingForm.Invoke((MethodInvoker)delegate
+			{
 				accountingForm.GotGameVideo(videoFileName, code);
 			});
 
@@ -88,15 +104,19 @@ namespace vlc_works
 				clientForm.vlcControl.Play(gameVideoUri);
 			}));
 
-			new Thread(() => {
+			new Thread(() =>
+			{
 				Thread.Sleep(1000);
 				gameEnded = false;
 				blockInput = false;
 			}).Start();
 		}
-		#endregion
+
+		#endregion INIT
+
 		#region PLAY_VIDEOS
-		static public void PlaySomeVideo(string videoUrl)
+
+		public static void PlaySomeVideo(string videoUrl)
 		{
 			print($"PLAY: {videoUrl}");
 			clientForm.BeginInvoke(new Action(() =>
@@ -107,7 +127,7 @@ namespace vlc_works
 			}));
 		}
 
-		static public void ProceedKeys(Keys[] keysStream)
+		public static void ProceedKeys(Keys[] keysStream)
 		{
 			print($"INPUT BLOCKED: {blockInput}\nGAME ENDED: {gameEnded}");
 
@@ -122,7 +142,7 @@ namespace vlc_works
 				ProceedDefeat();
 		}
 
-		static private void ProceedDefeat()
+		private static void ProceedDefeat()
 		{
 			blockInput = true;
 			clientForm.stage = Stage.ERROR;
@@ -139,7 +159,7 @@ namespace vlc_works
 			print($"TIME BEFORE DEFEAT WAS: {videoGameTimeWas}");
 		}
 
-		static private void ProceedWin()
+		private static void ProceedWin()
 		{
 			gameEnded = true; // good ending
 			clientForm.stage = Stage.VICTORY;
@@ -159,9 +179,12 @@ namespace vlc_works
 
 			COMPort.MoneyOut(accountingForm);
 		}
-		#endregion
+
+		#endregion PLAY_VIDEOS
+
 		#region END_VIDEOS
-		static public void MediaIndeedEnded(string endedVideoMrl)
+
+		public static void MediaIndeedEnded(string endedVideoMrl)
 		{
 			print($"ENDED PLAY: {endedVideoMrl}");
 
@@ -184,7 +207,7 @@ namespace vlc_works
 				SafeStop();
 		}
 
-		static private void Replay()
+		private static void Replay()
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{
@@ -192,12 +215,11 @@ namespace vlc_works
 			}));
 		}
 
-		static private void EndParamsShowVideo()
+		private static void EndParamsShowVideo()
 		{
-
 		}
 
-		static private void EndDefeatVideo()
+		private static void EndDefeatVideo()
 		{
 			print($"WAS GAME BEFORE START DEFEAT: {videoGameTimeWas}");
 
@@ -221,13 +243,13 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF DEFEAT: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		static private void EndVictoryVideo()
+		private static void EndVictoryVideo()
 		{
 			// to do; he said smthng about idle video
 			SafeStop();
 		}
 
-		static private void EndGameVideo()
+		private static void EndGameVideo()
 		{
 			print($"BLOCK INPUT AT THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 			if (blockInput || !gameEnded) // then game goes on because input blocked before defeat video
@@ -260,13 +282,14 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		static private void SafeStop()
+		private static void SafeStop()
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{
 				ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Stop());
 			}));
 		}
-		#endregion
+
+		#endregion END_VIDEOS
 	}
 }

@@ -12,11 +12,11 @@ namespace vlc_works
 	{
 		#region VAR
 		// vlc things
-		static private string vlcPath { get; set; } // path to vlc executable now not in use
-		static private Process vlcProcess { get; set; } // vlc process object
-		static private Thread vlcCheckerThread { get; set; }
-		static private Process lastVlcProcess { get; set; }
-		static private string lastCommandLine { get; set; } = string.Empty;
+		private static string vlcPath { get; set; } // path to vlc executable now not in use
+		private static Process vlcProcess { get; set; } // vlc process object
+		private static Thread vlcCheckerThread { get; set; }
+		private static Process lastVlcProcess { get; set; }
+		private static string lastCommandLine { get; set; } = string.Empty;
 		// constants
 		const string processToCheckName = "vlc";
 		const string videonamestxt = "videonames.txt";
@@ -28,7 +28,7 @@ namespace vlc_works
 		}
 		#endregion
 
-		static public void Constructor(ClientForm clientForm, AccountingForm accountingForm)
+		public static void Constructor(ClientForm clientForm, AccountingForm accountingForm)
 		{
 			// construct VideoChecker
 			VideoChecker.Constructor(clientForm, accountingForm, Utils.GetVideoNames(videonamestxt));
@@ -38,7 +38,7 @@ namespace vlc_works
 		}
 
 		#region VLCCECKER
-		static private string GetCommandLine(string processName)
+		private static string GetCommandLine(string processName)
 		{
 			foreach (Process process in Process.GetProcessesByName(processName))
 			{
@@ -52,7 +52,7 @@ namespace vlc_works
 			return string.Empty;
 		}
 
-		static private void KillVLC()
+		private static void KillVLC()
 		{
 			if (vlcProcess != null && !vlcProcess.HasExited)
 			{
@@ -61,12 +61,12 @@ namespace vlc_works
 			}
 		}
 
-		static private bool IsValidCommandArgs(string[] args) =>
+		private static bool IsValidCommandArgs(string[] args) =>
 			args.Length == 5 && // have correct video file path
 			VideoChecker.IsNotUsedPath(args[3]) && // not used in other urls but for now its depricated ???
 			!string.IsNullOrEmpty(args[3]); // not empty
 
-		static private void VlcChecker()
+		private static void VlcChecker()
 		{
 			//			             also gets lastVlcProcess        0       1               2               3        4
 			string commandLine = GetCommandLine(processToCheckName); // "vlc path" --started-from-file "video path"
@@ -83,7 +83,7 @@ namespace vlc_works
 				lastCommandLine = string.Empty;
 		}
 
-		static private void BeginPlaySomeVideo(string videoFile)
+		private static void BeginPlaySomeVideo(string videoFile)
 		{
 			vlcProcess = lastVlcProcess;
 			KillVLC();
@@ -91,7 +91,7 @@ namespace vlc_works
 			lastCommandLine = string.Empty;
 		}
 
-		static private void BeginVlcChanged(string videoFile, string cmdPath)
+		private static void BeginVlcChanged(string videoFile, string cmdPath)
 		{
 			VideoChecker.videoFileName = videoFile; // game video path
 			VideoChecker.gameVideoUri = ClientForm.url2mrl(VideoChecker.videoFileName);
@@ -104,7 +104,7 @@ namespace vlc_works
 			lastCommandLine = VideoChecker.videoFileName;
 		}
 
-		static private void VlcChanged()
+		private static void VlcChanged()
 		{
 			// VideoChecker.videoFileName is allready changed here to new one
 			print($"LAST: {lastCommandLine}\n\tCURRENT: {VideoChecker.videoFileName}");

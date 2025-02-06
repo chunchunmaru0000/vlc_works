@@ -390,6 +390,20 @@ namespace vlc_works
 		{
 			clientForm.Invoke(new Action(() => clientForm.SkipStage()));
 		}
+
+		private void hideCodeBut_Click(object sender, EventArgs e)
+		{
+			if (codeLabel.Visible)
+			{
+				codeLabel.Hide();
+				inputLabel.Hide();
+			}
+			else
+			{
+				codeLabel.Show();
+				inputLabel.Show();
+			}
+		}
 		#endregion
 		#region COM
 		private void comBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -404,5 +418,6 @@ namespace vlc_works
 			comBox.Items.AddRange(SerialPort.GetPortNames());
 		}
 		#endregion
+
 	}
 }
