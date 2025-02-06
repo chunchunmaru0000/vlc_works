@@ -48,6 +48,8 @@ namespace vlc_works
 
 		// game with ai datas
 		public static bool isFirstGame { get; set; } = true;
+		private static Thread afterPlayAgainWaitThread { get; set; }
+		private static Thread afterHowToPayWaitThread { get; set; }
 
 		// some
 		private static void print(object str = null)
@@ -86,6 +88,14 @@ namespace vlc_works
 			path != errorVideo.Path && path != selectLang.Path && path != idle.Path &&
 			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
+		public static void AbortThreads()
+		{
+			if (afterHowToPayWaitThread != null && afterHowToPayWaitThread.IsAlive)
+				afterHowToPayWaitThread.Abort();
+			if (afterPlayAgainWaitThread != null && afterPlayAgainWaitThread.IsAlive)
+				afterPlayAgainWaitThread.Abort();
+		}
+
 		public static void VlcChanged()
 		{
 			code = Utils.GetCodeFromName(Utils.GetSafeFileName(videoFileName), strFrom, strTo).TrimEnd(' ') + "E";
@@ -93,6 +103,8 @@ namespace vlc_works
 			{
 				accountingForm.GotGameVideo(videoFileName, code);
 			});
+
+			AbortThreads();
 
 			videoGameTimeWas = 0;
 			errorsCount = 0;
@@ -203,9 +215,9 @@ namespace vlc_works
 				Replay();
 			else if (endedVideoMrl == idle.Uri.AbsoluteUri)
 				Replay();
-			else if (langs.Values.Any(l => l.PlayAgain.Uri.AbsolutePath == endedVideoMrl))
+			else if (langs.Values.Any(l => l.PlayAgain.Uri.AbsoluteUri == endedVideoMrl))
 				EndPlayAgainVideo();
-			else if (langs.Values.Any(l => l.HowToPay.Uri.AbsolutePath == endedVideoMrl))
+			else if (langs.Values.Any(l => l.HowToPay.Uri.AbsoluteUri == endedVideoMrl))
 				EndHowToPay();
 			else
 				SafeStop();
@@ -290,22 +302,41 @@ namespace vlc_works
 
 		private static void EndPlayAgainVideo()
 		{
-			if (clientForm.stage == Stage.HOW_PO_PAY)
+			print(
+				$"clientForm.stage == Stage.HOW_PO_PAY{clientForm.stage == Stage.HOW_PO_PAY} " +
+				$"|| !accountingForm.isFirstGame {!accountingForm.isFirstGame}");
+			if (clientForm.stage == Stage.HOW_PO_PAY || !accountingForm.isFirstGame)
 				return; // because will play HOW_PO_PAY video
 						// else not play again
 
-			new Thread(() =>
+			afterPlayAgainWaitThread = new Thread(() =>
 			{
 				const int waitTime = 2000;
 
+				print($"AWAITS TO PLAY IDLE AFTER PLAY AGAIN ENDED: {waitTime}");
 				Thread.Sleep(waitTime); // wait 2 seconds before play idle
-				clientForm.PlayIdle(); 
-			}).Start();
+
+				clientForm.PlayIdle();
+				print("PLAYS IDLE AFTER PLAY AGAIN");
+			});
+			afterPlayAgainWaitThread.Start();
 		}
 
 		private static void EndHowToPay()
 		{
+			// nothing here because operator will select param himself for now
+			// SafeStop();
+			afterHowToPayWaitThread = new Thread(() =>
+			{
+				const int waitTime = 10000;
 
+				print($"AWAITS TO PLAY IDLE AFTER HOW TO PAY ENDED: {waitTime}");
+				Thread.Sleep(waitTime); // wait 10 seconds before play idle
+
+				clientForm.PlayIdle();
+				print("PLAYS IDLE AFTER HOW TO PAY");
+			});
+			afterHowToPayWaitThread.Start();
 		}
 
 		public static void SafeStop()
@@ -318,11 +349,15 @@ namespace vlc_works
 
 		#endregion END_VIDEOS
 		#region PLAY_AGAIN
-		private static void PlayAgain()
+		public static void PlayAgain()
 		{
+			if (!accountingForm.isFirstGame) // operator selects params
+				return;
+
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Play(currentLanguage.PlayAgain.Uri);
+				print($"PLAY AGAIN? {currentLanguage.PlayAgain.Uri.AbsolutePath}");
+				ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Play(currentLanguage.PlayAgain.Uri));
 			}));
 			clientForm.stage = Stage.PLAY_AGAIN;
 		}

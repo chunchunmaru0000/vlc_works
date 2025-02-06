@@ -164,7 +164,7 @@ namespace vlc_works
 				accountingForm.SetPrice(minimalPrice);
 
 			stage = Stage.HOW_PO_PAY;
-			vlcControl.Play(VideoChecker.currentLanguage.HowToPay.Uri);
+			ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.currentLanguage.HowToPay.Uri));
 		}
 
 		private void ProceedInput()
@@ -383,6 +383,7 @@ namespace vlc_works
 
 		public void Stop()
 		{
+			VideoChecker.AbortThreads();
 			BeginInvoke(new Action(() =>
 			{
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop());
@@ -392,6 +393,7 @@ namespace vlc_works
 		public void StartGame()
 		{
 			print(accountingForm.isFirstGame);
+			VideoChecker.AbortThreads();
 
 			if (accountingForm.isFirstGame)
 			{
@@ -414,6 +416,7 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
+				VideoChecker.AbortThreads();
 				switch (stage)
 				{
 					case Stage.IDLE: // how can skip this one
@@ -434,6 +437,14 @@ namespace vlc_works
 						break;
 					case Stage.VICTORY:
 						PlayIdle();
+						break;
+					case Stage.PLAY_AGAIN:
+						VideoChecker.PlayAgain();
+						break;
+					case Stage.HOW_PO_PAY:
+						PlayAgainSkip();
+						break;
+					case Stage.GAME_PAYED:
 						break;
 					default:
 						return;
