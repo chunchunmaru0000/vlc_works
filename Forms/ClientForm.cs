@@ -145,7 +145,7 @@ namespace vlc_works
 
 			try
 			{ // can error if you press keyboard while app is launching
-				print($"\tKEY DOWN: {k}\n\t\tBLOCKED: {VLCChecker.blockInput}\n\t\tGAME ENDED: {VLCChecker.gameEnded}");
+				print($"\tKEY DOWN: {k}\n\t\tBLOCKED: {VideoChecker.blockInput}\n\t\tGAME ENDED: {VideoChecker.gameEnded}");
 			} catch { }
 		}
 
@@ -153,17 +153,17 @@ namespace vlc_works
 		{
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 
-			if (VLCChecker.blockInput || VLCChecker.gameEnded || VLCChecker.errorsCount > 2) // til 3 errors
+			if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 2) // til 3 errors
 			{
 				print(
-					$"VLCChecker.blockInput {VLCChecker.blockInput} || " +
-					$"VLCChecker.gameEnded {VLCChecker.gameEnded} || " +
-					$"VLCChecker.errorsCount > 2 {VLCChecker.errorsCount > 2}"
+					$"VLCChecker.blockInput {VideoChecker.blockInput} || " +
+					$"VLCChecker.gameEnded {VideoChecker.gameEnded} || " +
+					$"VLCChecker.errorsCount > 2 {VideoChecker.errorsCount > 2}"
 					);
 				return;
-			}	
+			}
 
-			VLCChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
+			VideoChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
 		}
 
 		void ProceedVideoBeginSkip() 
@@ -198,7 +198,7 @@ namespace vlc_works
 		{
 			DeleteInput();
 			if (Utils.ktol.ContainsKey(key))
-				VLCChecker.language = Utils.ktol[key];
+				VideoChecker.language = Utils.ktol[key];
 			else
 				return;
 
@@ -206,7 +206,7 @@ namespace vlc_works
 
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.currentLanguage.Rules.Uri));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.currentLanguage.Rules.Uri));
 			}));
 		}
 
@@ -223,7 +223,7 @@ namespace vlc_works
 		#region SOME
 		private void EndReached(object sender, VlcMediaPlayerEndReachedEventArgs e)
 		{
-			VLCChecker.MediaIndeedEnded(vlcControl.GetCurrentMedia().Mrl);
+			VideoChecker.MediaIndeedEnded(vlcControl.GetCurrentMedia().Mrl);
 		}
 
 		void TryDisposeAndNull(IDisposable disposable)
@@ -240,7 +240,7 @@ namespace vlc_works
 
 		private void MediaChanged(object sender, VlcMediaPlayerMediaChangedEventArgs e)
 		{
-			if (!VLCChecker.langs.Values.Any(l => l.Params.Uri.AbsoluteUri == e.NewMedia.Mrl))
+			if (!VideoChecker.langs.Values.Any(l => l.Params.Uri.AbsoluteUri == e.NewMedia.Mrl))
 			{
 				BeginInvoke(new Action(() =>
 				{
@@ -288,6 +288,7 @@ namespace vlc_works
 
 		internal void ShowGameParams(long prize, long cost)
 		{
+			DeleteInput();
 			prizeLabel.BringToFront();
 			costLabel.BringToFront();
 			prizeLabel.Hide();
@@ -305,7 +306,7 @@ namespace vlc_works
 				hmh(vs.Width, costLabel.Size.Width),
 				hmh(vs.Height, heightCostOffset));
 
-			vlcControl.Play(VLCChecker.currentLanguage.Params.Uri);
+			vlcControl.Play(VideoChecker.currentLanguage.Params.Uri);
 
 			CostShowTimer = new System.Threading.Timer(
 				CostShowCallback, null, TimeToShowCost, InputKey.MinusOneMilisecond);
@@ -357,7 +358,7 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.idle.Uri));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.idle.Uri));
 			}));
 		}
 
@@ -373,7 +374,7 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VLCChecker.selectLang.Uri));
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.selectLang.Uri));
 				BeginLanguageInput();
 			}));
 		}
