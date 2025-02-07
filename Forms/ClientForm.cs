@@ -108,6 +108,15 @@ namespace vlc_works
 		}
 		#endregion
 		#region INPUT
+		public void Play(Uri uri, Stage s)
+		{
+			Invoke(new Action(() =>
+			{
+				stage = s;
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(uri));
+			}));
+		}
+
 		private void OnWinKeyDown(object sender, KeyEventArgs e)
 		{
 			Keys k = e.KeyCode;
@@ -156,15 +165,9 @@ namespace vlc_works
 
 		private void PlayAgainSkip()
 		{
-			const long minimalPrice = 20;
-
-			// if 0 what will you pay but it already should be selected by operator here
-			// anyway it needs to be handled
-			if (accountingForm.SelectedPrice == 0)
-				accountingForm.SetPrice(minimalPrice);
-
-			stage = Stage.HOW_PO_PAY;
-			ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.currentLanguage.HowToPay.Uri));
+			// according to Aizen's plan here operator will show params so just SafeStop()
+			VideoChecker.SafeStop();
+			VideoChecker.AbortThreads(); // abort threads because here afterPlayAgainWaitThread can be alive
 		}
 
 		private void ProceedInput()
@@ -193,8 +196,15 @@ namespace vlc_works
 		{
 			Invoke(new Action(() =>
 			{
-				stage = Stage.GAME_PAYED;
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.currentLanguage.GamePayed.Uri));
+				Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
+			}));
+		}
+
+		public void PlayHowToPLay()
+		{
+			Invoke(new Action(() =>
+			{
+				Play(VideoChecker.currentLanguage.HowToPay.Uri, Stage.HOW_PO_PAY);
 			}));
 		}
 
@@ -215,12 +225,6 @@ namespace vlc_works
 			keysStream.Clear();
 		}
 
-		private void BeginLanguageInput()
-		{
-			stage = Stage.SELECT_LANG;
-			DeleteInput();
-		}
-
 		private void ProceedSelectLang(Keys key)
 		{
 			DeleteInput();
@@ -229,12 +233,7 @@ namespace vlc_works
 			else
 				return;
 
-			stage = Stage.RULES;
-
-			BeginInvoke(new Action(() =>
-			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.currentLanguage.Rules.Uri));
-			}));
+			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
 		}
 
 		private void SkipRules()
@@ -383,11 +382,7 @@ namespace vlc_works
 
 		public void PlayIdle()
 		{
-			stage = Stage.IDLE;
-			BeginInvoke(new Action(() =>
-			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.idle.Uri));
-			}));
+			Play(VideoChecker.idle.Uri, Stage.IDLE);
 		}
 
 		public void Stop()
@@ -414,11 +409,8 @@ namespace vlc_works
 				// use Recommendator class for operator recommendations
 			}
 
-			BeginInvoke(new Action(() =>
-			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.selectLang.Uri));
-				BeginLanguageInput();
-			}));
+			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
+			DeleteInput();
 		}
 
 		public void SkipStage()

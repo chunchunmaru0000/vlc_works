@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace vlc_works
 {
@@ -50,6 +48,7 @@ namespace vlc_works
 		public static bool isFirstGame { get; set; } = true;
 		private static Thread afterPlayAgainWaitThread { get; set; }
 		private static Thread afterHowToPayWaitThread { get; set; }
+		private static Thread afterShowParamsWaitThread { get; set; }
 
 		// some
 		private static void print(object str = null)
@@ -235,6 +234,17 @@ namespace vlc_works
 
 		private static void EndParamsShowVideo()
 		{
+			//afterShowParamsWaitThread = new Thread(() =>
+			//{
+				//const int waitTime = 5000;
+
+				//print($"AWAITS TO PLAY IDLE AFTER SHOW PARAMS ENDED: {waitTime}");
+				//Thread.Sleep(waitTime); // wait 5 seconds before play how to play or not there is no sush a thing in TZ
+
+			clientForm.PlayHowToPLay();
+				//print("PLAYS IDLE AFTER SHOW PARAMS");
+			//});
+			//afterShowParamsWaitThread.Start();
 		}
 
 		private static void EndDefeatVideo()
@@ -304,13 +314,6 @@ namespace vlc_works
 
 		private static void EndPlayAgainVideo()
 		{
-			print(
-				$"clientForm.stage == Stage.HOW_PO_PAY{clientForm.stage == Stage.HOW_PO_PAY} " +
-				$"|| !accountingForm.isFirstGame {!accountingForm.isFirstGame}");
-			if (clientForm.stage == Stage.HOW_PO_PAY || !accountingForm.isFirstGame)
-				return; // because will play HOW_PO_PAY video
-						// else not play again
-
 			afterPlayAgainWaitThread = new Thread(() =>
 			{
 				const int waitTime = 2000;
@@ -364,9 +367,8 @@ namespace vlc_works
 			clientForm.BeginInvoke(new Action(() =>
 			{
 				print($"PLAY AGAIN? {currentLanguage.PlayAgain.Uri.AbsolutePath}");
-				ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Play(currentLanguage.PlayAgain.Uri));
+				clientForm.Play(currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
 			}));
-			clientForm.stage = Stage.PLAY_AGAIN;
 		}
 		#endregion PLAY_AGAIN
 	}

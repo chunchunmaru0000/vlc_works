@@ -33,7 +33,7 @@ namespace vlc_works
 		private Dictionary<Button, long> LevelBut2long { get; set; }
 		private Dictionary<Button, long> PriceBut2long { get; set; }
 		public const int oneCoinShekels = 10;
-		public const int oneCommandCoins = 5;
+		public const int oneCommandCoins = 1;
 		// some
 		public bool isFirstGame { get; set; } = true;
 		#endregion
@@ -182,7 +182,11 @@ namespace vlc_works
 					if (isFirstGame)
 						clientForm.ProceedGamePayed();
 
+					Db.InsertAward(Game_id, SelectedPrice);
 					payedCountLabel.Text = "Оплачено";
+					StartTables(); // refersh tables
+
+					Balance = 0;
 				}
 				else
 					payedCountLabel.Text = Balance.ToString();
