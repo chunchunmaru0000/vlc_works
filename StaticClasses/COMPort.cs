@@ -10,12 +10,11 @@ namespace vlc_works
 	public static class COMPort
 	{
 		#region PRIVATE
-		private static byte[] fifeCoins = new byte[] { 0x30, 0x31, 0x32, 0x33, 0x00, 0x0A };
 		private static List<byte> notParsed = new List<byte>();
 		private static Dictionary<string, byte[]> cmd = new Dictionary<string, byte[]>() // command
 		{
 			{ "Output/ no output 5V", new byte[]      { 0xF2, 0x01, 0x30, 0x31, 0xF3 } },
-			{ "5 coins out", new byte[]               { 0xF2, 0x01, 0x31, 0x30, 0xF3 } },
+			{ "Coins out", new byte[]                 { 0xF2, 0x01, 0x31, 0x30, 0xF3 } },
 			{ "Check income", new byte[]              { 0xF2, 0x01, 0x32, 0x33, 0xF3 } },
 			{ "Reset counter", new byte[]             { 0xF2, 0x01, 0x35, 0x34, 0xF3 } },
 		};
@@ -23,8 +22,9 @@ namespace vlc_works
 		{
 			{ "Output/ no output 5V", new byte[]      { 0xF2, 0x02, 0x30, 0x00, 0x32, 0xF3 } },
 			//                                        { 0xF2, 0x09, 0x32, (0x03, 0x00, 0x00, 0x00), (0x03, 0x00, 0x00, 0x00), 0x38, 0xF3 }
-			{ "5 coins out", new byte[]               { 0xF2, 0x02, 0x31, 0x00, 0x33, 0xF3 } },
+			{ "Coins out", new byte[]               { 0xF2, 0x02, 0x31, 0x00, 0x33, 0xF3 } },
 			{ "Reset counter", new byte[]             { 0xF2, 0x02, 0x35, 0x00, 0x37, 0xF3 } },
+			{ "Received coin", new byte[]             { 0xF2, 0x03, 0x01, 0x01, 0x00, 0x03, 0xF3 } }
 		};
 		private static Func<IEnumerable<byte>, string> batos = ba => string.Join(" ", ba.Select(b => $"{b:X2}"));
 		#endregion
@@ -57,13 +57,13 @@ namespace vlc_works
 				else
 					COMPort.accountingForm = accountingForm;
 
-			long times = accountingForm.SelectedAward / 50;
+			long times = accountingForm.SelectedAward / (AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels);
 
 			new Thread(() =>
 			{
 				for (int i = 0; i < times; i++)
 				{
-					port.Write(fifeCoins, 0, fifeCoins.Length);
+					Execute("Coins out");
 					Thread.Sleep(1000);
 				}
 			}).Start();
@@ -136,6 +136,9 @@ namespace vlc_works
 
 			int firstCounter = BitConverter.ToInt32(firstCounterBytes, 0);
 			Console.WriteLine($"HAVE {firstCounter} COINS IN STOCK");
+
+			if (accountingForm != null)
+				accountingForm.SetCoinsInStock(firstCounter);
 		}
 
 		private static bool isCommand(byte[] command)
@@ -159,6 +162,12 @@ namespace vlc_works
 			return res;
 		}
 
+		private static bool isReceivedCoin() => 
+			notParsed.Count < 7 ? 
+				false : 
+				notParsed.Take(7).ToArray()
+					.SequenceEqual(rsp["Received coin"]);
+
 		private static void ParseResponse()
 		{
 			bool res = isCommand(notParsed.ToArray());
@@ -166,8 +175,16 @@ namespace vlc_works
 			Console.WriteLine(res);
 			if (res)
 			{
-				Console.WriteLine($"PARSED: {batos(notParsed.Take(6))}");
-				notParsed.RemoveRange(0, 6); // remove all command
+				int rspLen;
+				if (isReceivedCoin())
+				{
+					rspLen = 7;
+					accountingForm.IncBalance();
+				}
+				else
+					rspLen = 6;
+				Console.WriteLine($"PARSED: {batos(notParsed.Take(rspLen))}");
+				notParsed.RemoveRange(0, rspLen); // remove all command
 			}
 			else
 			{

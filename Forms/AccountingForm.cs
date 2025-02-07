@@ -21,6 +21,7 @@ namespace vlc_works
 		public long SelectedAward { get; set; }
 		public long SelectedLevel { get; set; }
 		public long SelectedPrice { get; set; }
+		public long CoinsInStock { get; set; }
 		// some long values
 		private long Balance { get; set; }
 		private long WinsSum { get; set; }
@@ -31,6 +32,8 @@ namespace vlc_works
 		private Dictionary<Button, long> AwardBut2long { get; set; }
 		private Dictionary<Button, long> LevelBut2long { get; set; }
 		private Dictionary<Button, long> PriceBut2long { get; set; }
+		public const int oneCoinShekels = 10;
+		public const int oneCommandCoins = 5;
 		// some
 		public bool isFirstGame { get; set; } = true;
 		#endregion
@@ -158,6 +161,32 @@ namespace vlc_works
 		{
 			SelectedPrice = price;
 			Invoke(new Action(() => priceLabel.Text = SelectedPrice.ToString()));
+		}
+
+		public void SetCoinsInStock(long coins)
+		{
+			Invoke(new Action(() =>
+			{
+				CoinsInStock = coins;
+			}));
+		}
+
+		public void IncBalance()
+		{
+			Invoke(new Action(() =>
+			{
+				Balance += oneCoinShekels;
+
+				if (Balance == SelectedPrice)
+				{
+					if (isFirstGame)
+						clientForm.ProceedGamePayed();
+
+					payedCountLabel.Text = "Оплачено";
+				}
+				else
+					payedCountLabel.Text = Balance.ToString();
+			}));
 		}
 
 		private void OnAwardButClicked(object sender, EventArgs e)

@@ -189,6 +189,15 @@ namespace vlc_works
 			vlcControl.Time = Convert.ToInt64(NSeconds.TotalMilliseconds) + 1000;
 		}
 
+		public void ProceedGamePayed()
+		{
+			Invoke(new Action(() =>
+			{
+				stage = Stage.GAME_PAYED;
+				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(VideoChecker.currentLanguage.GamePayed.Uri));
+			}));
+		}
+
 		private void DrawNum(Keys key)
 		{
 			keysStream.Add(new InputKey(key, fadeTime, inputLabel));

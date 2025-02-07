@@ -219,6 +219,8 @@ namespace vlc_works
 				EndPlayAgainVideo();
 			else if (langs.Values.Any(l => l.HowToPay.Uri.AbsoluteUri == endedVideoMrl))
 				EndHowToPay();
+			else if (langs.Values.Any(l => l.GamePayed.Uri.AbsoluteUri == endedVideoMrl))
+				EndGamePayed();
 			else
 				SafeStop();
 		}
@@ -337,6 +339,11 @@ namespace vlc_works
 				print("PLAYS IDLE AFTER HOW TO PAY");
 			});
 			afterHowToPayWaitThread.Start();
+		}
+
+		private static void EndGamePayed()
+		{
+
 		}
 
 		public static void SafeStop()
