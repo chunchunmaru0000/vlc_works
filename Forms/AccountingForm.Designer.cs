@@ -1131,9 +1131,9 @@
 			this.payedPanel.Controls.Add(this.payedTextLabel);
 			this.payedPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.payedPanel.ForeColor = System.Drawing.SystemColors.Control;
-			this.payedPanel.Location = new System.Drawing.Point(1440, 384);
+			this.payedPanel.Location = new System.Drawing.Point(1280, 384);
 			this.payedPanel.Name = "payedPanel";
-			this.payedPanel.Size = new System.Drawing.Size(160, 64);
+			this.payedPanel.Size = new System.Drawing.Size(320, 64);
 			this.payedPanel.TabIndex = 44;
 			// 
 			// payedCountLabel

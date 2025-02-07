@@ -113,6 +113,8 @@ namespace vlc_works
 				ParseIncome();
 			else if (notParsed[1] == 0x02)
 				ParseResponse();
+			else if (notParsed[1] == 0x03)
+				ParseCoinIn();
 			else
 				HandleUnknownInput(0);
 		}
@@ -175,14 +177,7 @@ namespace vlc_works
 			Console.WriteLine(res);
 			if (res)
 			{
-				int rspLen;
-				if (isReceivedCoin())
-				{
-					rspLen = 7;
-					accountingForm.IncBalance();
-				}
-				else
-					rspLen = 6;
+				int rspLen = 6;
 				Console.WriteLine($"PARSED: {batos(notParsed.Take(rspLen))}");
 				notParsed.RemoveRange(0, rspLen); // remove all command
 			}
@@ -190,6 +185,16 @@ namespace vlc_works
 			{
 				notParsed.RemoveAt(0);
 				TryParseCommand();
+			}
+		}
+
+		private static void ParseCoinIn()
+		{
+			if (isReceivedCoin())
+			{
+				Console.WriteLine("1 COIN RECEIVED");
+				accountingForm.IncBalance();
+				notParsed.RemoveRange(0, rsp["Received coin"].Length);
 			}
 		}
 		#endregion STATIC_METHODS

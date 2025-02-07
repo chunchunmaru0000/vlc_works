@@ -113,7 +113,10 @@ namespace vlc_works
 			Invoke(new Action(() =>
 			{
 				stage = s;
+				print($"NOW IS [{stage}]");
+
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(uri));
+				print($"PLAY [{uri}]");
 			}));
 		}
 

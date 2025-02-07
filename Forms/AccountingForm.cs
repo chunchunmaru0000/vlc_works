@@ -176,16 +176,20 @@ namespace vlc_works
 			Invoke(new Action(() =>
 			{
 				Balance += oneCoinShekels;
+				Console.WriteLine($"BALANCE + {oneCoinShekels} NOW IS {Balance} AND CURRENT STAGE IS {clientForm.stage}");
+				Console.WriteLine($"SELECTED PRICE NOW IS {SelectedPrice}");
 
-				if (Balance == SelectedPrice)
+				if (Balance >= SelectedPrice)
 				{
-					clientForm.PlayGamePayed();
+					if (clientForm.stage == Stage.HOW_PO_PAY)
+					{
+						clientForm.PlayGamePayed();
+						Balance -= SelectedPrice;
 
-					Db.InsertAward(Game_id, SelectedPrice);
-					payedCountLabel.Text = "Оплачено";
-					StartTables(); // refersh tables
-
-					Balance = 0;
+						Db.InsertPrice(Game_id, SelectedPrice);
+						StartTables(); // refersh tables
+					}
+					payedCountLabel.Text = Balance.ToString() + " ПЕРЕПЛАТА";
 				}
 				else
 					payedCountLabel.Text = Balance.ToString();
