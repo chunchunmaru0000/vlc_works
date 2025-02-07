@@ -179,8 +179,7 @@ namespace vlc_works
 
 				if (Balance == SelectedPrice)
 				{
-					if (isFirstGame)
-						clientForm.ProceedGamePayed();
+					clientForm.PlayGamePayed();
 
 					Db.InsertAward(Game_id, SelectedPrice);
 					payedCountLabel.Text = "Оплачено";
@@ -469,7 +468,7 @@ namespace vlc_works
 
 		}
 		#endregion FACE_CONTROL
-		#region TEMPORAL_COMTROLS
+		#region TEMPORAL_CONTROLS
 		public void SetIsFirstGame(bool firstGame)
 		{
 			Invoke(new Action(() =>
@@ -497,6 +496,6 @@ namespace vlc_works
 
 			isFirstGame = !isFirstGame;
 		}
-		#endregion TEMPORAL_COMTROLS
+		#endregion TEMPORAL_CONTROLS
 	}
 }

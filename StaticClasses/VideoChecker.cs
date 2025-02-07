@@ -241,7 +241,7 @@ namespace vlc_works
 				//print($"AWAITS TO PLAY IDLE AFTER SHOW PARAMS ENDED: {waitTime}");
 				//Thread.Sleep(waitTime); // wait 5 seconds before play how to play or not there is no sush a thing in TZ
 
-			clientForm.PlayHowToPLay();
+			clientForm.PlayHowToPay();
 				//print("PLAYS IDLE AFTER SHOW PARAMS");
 			//});
 			//afterShowParamsWaitThread.Start();
@@ -273,9 +273,8 @@ namespace vlc_works
 
 		private static void EndVictoryVideo()
 		{
-			// to do; he said smthng about idle video
 			//SafeStop();
-			PlayAgain();
+			clientForm.PlayPlayAgain();
 		}
 
 		private static void EndGameVideo()
@@ -290,7 +289,7 @@ namespace vlc_works
 					print($"BAD ENDING");
 					gameEnded = true; // bad ending
 					//SafeStop();
-					PlayAgain();
+					clientForm.PlayPlayAgain();
 				}
 				print($"PROCEEDS GAME BUT ERROR");
 				DeleteInput();
@@ -346,7 +345,7 @@ namespace vlc_works
 
 		private static void EndGamePayed()
 		{
-
+			// here operator himself turns video on
 		}
 
 		public static void SafeStop()
@@ -358,18 +357,5 @@ namespace vlc_works
 		}
 
 		#endregion END_VIDEOS
-		#region PLAY_AGAIN
-		public static void PlayAgain()
-		{
-			if (!accountingForm.isFirstGame) // operator selects params
-				return;
-
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				print($"PLAY AGAIN? {currentLanguage.PlayAgain.Uri.AbsolutePath}");
-				clientForm.Play(currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
-			}));
-		}
-		#endregion PLAY_AGAIN
 	}
 }

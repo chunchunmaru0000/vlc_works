@@ -192,20 +192,20 @@ namespace vlc_works
 			vlcControl.Time = Convert.ToInt64(NSeconds.TotalMilliseconds) + 1000;
 		}
 
-		public void ProceedGamePayed()
+		public void PlayPlayAgain()
 		{
-			Invoke(new Action(() =>
-			{
-				Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
-			}));
+			print($"PLAY AGAIN? {VideoChecker.currentLanguage.PlayAgain.Uri.AbsolutePath}");
+			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
 		}
 
-		public void PlayHowToPLay()
+		public void PlayHowToPay()
 		{
-			Invoke(new Action(() =>
-			{
-				Play(VideoChecker.currentLanguage.HowToPay.Uri, Stage.HOW_PO_PAY);
-			}));
+			Play(VideoChecker.currentLanguage.HowToPay.Uri, Stage.HOW_PO_PAY);
+		}
+
+		public void PlayGamePayed()
+		{
+			Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
 		}
 
 		private void DrawNum(Keys key)
@@ -437,16 +437,16 @@ namespace vlc_works
 					case Stage.GAME_CANT_INPUT:
 						break;
 					case Stage.VICTORY:
-						PlayIdle();
+						//PlayIdle();
 						break;
 					case Stage.PLAY_AGAIN:
-						VideoChecker.PlayAgain();
+						//VideoChecker.PlayAgain();
 						break;
 					case Stage.HOW_PO_PAY:
-						PlayAgainSkip();
-						break;
+						PlayGamePayed();
+						break; 
 					case Stage.GAME_PAYED:
-						break;
+						break; // operator starts
 					default:
 						return;
 				}
