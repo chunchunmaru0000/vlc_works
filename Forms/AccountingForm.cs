@@ -22,6 +22,10 @@ namespace vlc_works
 		public long SelectedLevel { get; set; }
 		public long SelectedPrice { get; set; }
 		public long CoinsInStock { get; set; }
+		private GameType SelectedGameType { get; set; } = GameType.Painting;
+		private string SelectedTimeString { get => 
+				DateTimeOffset.Now
+				.ToString("HH:mm     d MMMM yyyy", new System.Globalization.CultureInfo("ru")); }
 		// some long values
 		private long GameBalance { get; set; } // all balance that is PaysSum - WinsSum + Balance
 		private long PayedBalance { get; set; } // balance of shekels payed
@@ -33,6 +37,8 @@ namespace vlc_works
 		private Dictionary<Button, long> AwardBut2long { get; set; }
 		private Dictionary<Button, long> LevelBut2long { get; set; }
 		private Dictionary<Button, long> PriceBut2long { get; set; }
+		private Dictionary<Button, GameType> ButToGameType { get; set; }
+		private Dictionary<GameType, string> GameTypeToStr { get; set; }
 		public const int oneCoinShekels = 10;
 		public const int oneCommandCoins = 1;
 		// some
@@ -42,6 +48,7 @@ namespace vlc_works
 		public AccountingForm(ClientForm clientForm)
 		{
 			InitializeComponent();
+			InitTimeLabelThread();
 			this.clientForm = clientForm;
 
 			InitSettings();
@@ -54,14 +61,30 @@ namespace vlc_works
 		}
 
 		#region SOME_INITS
+		private void InitTimeLabelThread()
+		{
+			new Thread(() =>
+			{
+				Thread.Sleep(2000);
+				while (true)
+				{
+					Invoke(new Action(() => timeLabel.Text = SelectedTimeString));
+					Thread.Sleep(500);
+				}
+			}).Start();
+		}
+
 		private void InitClearFocusThread()
 		{
+			string[] excludeControls = new string[] 
+			{ "comBox", "cBox", "kBox", "mBox", "playerNameBox" };
+
 			new Thread(() => {
 				Thread.Sleep(2000);
 				while (true)
 				{
 					Thread.Sleep(33);
-					if (ActiveControl != null && ActiveControl.Name != "comBox")
+					if (ActiveControl != null && !excludeControls.Contains(ActiveControl.Name))
 					{
 						Thread.Sleep(100);
 						Console.WriteLine("CLEARED");
@@ -117,6 +140,18 @@ namespace vlc_works
 				{ price30But, 30 },     { price40But, 40 },
 				{ price50But, 50 },     { price100But, 100 },
 				{ price200But, 200 },
+			};
+			ButToGameType = new Dictionary<Button, GameType>()
+			{
+				{ cBut, GameType.Guard },
+				{ kBut, GameType.Painting },
+				{ mBut, GameType.Mario },
+			};
+			GameTypeToStr = new Dictionary<GameType, string>()
+			{
+				{ GameType.Guard, "Сторож" },
+				{ GameType.Painting, "Картины" },
+				{ GameType.Mario, "Марио" },
 			};
 		}
 
@@ -551,6 +586,27 @@ namespace vlc_works
 
 			isFirstGame = !isFirstGame;
 		}
+
+		private void doOnlyDark(Button button)
+		{
+			foreach (Button but in new Button[] { cBut, kBut, mBut })
+				but.BackColor = 
+					but.Name == button.Name 
+						? Color.OrangeRed 
+						: Color.Orange;
+		}
+
+		private void DoCKMButClick(Button but)
+		{
+			doOnlyDark(but);
+			SelectedGameType = ButToGameType[but];
+		}
+
+		private void cBut_Click(object sender, EventArgs e) => DoCKMButClick(cBut);
+
+		private void kBut_Click(object sender, EventArgs e) => DoCKMButClick(kBut);
+
+		private void mBut_Click(object sender, EventArgs e) => DoCKMButClick(mBut);
 		#endregion TEMPORAL_CONTROLS
 	}
 }

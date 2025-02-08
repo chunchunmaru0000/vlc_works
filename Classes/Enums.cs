@@ -24,4 +24,11 @@
 		ENGLISH,
 		HEBREW,
 	}
+
+	public enum GameType
+	{
+		Guard,
+		Painting,
+		Mario
+	}
 }

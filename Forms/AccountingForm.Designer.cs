@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.balanceTextLabel = new System.Windows.Forms.Label();
 			this.balanceLabel = new System.Windows.Forms.Label();
 			this.labelNowSelected = new System.Windows.Forms.Label();
@@ -131,15 +131,15 @@
 			this.isFirstGameBut = new System.Windows.Forms.Button();
 			this.timeLabel = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
-			this.playerNameTextLabel = new System.Windows.Forms.Label();
-			this.playerNameLabel = new System.Windows.Forms.TextBox();
-			this.playerLvlTextLabel = new System.Windows.Forms.Label();
-			this.cBut = new System.Windows.Forms.Button();
-			this.kBut = new System.Windows.Forms.Button();
+			this.mBox = new System.Windows.Forms.TextBox();
+			this.kBox = new System.Windows.Forms.TextBox();
+			this.cBox = new System.Windows.Forms.TextBox();
 			this.mBut = new System.Windows.Forms.Button();
-			this.cLabel = new System.Windows.Forms.TextBox();
-			this.kLabel = new System.Windows.Forms.TextBox();
-			this.mLabel = new System.Windows.Forms.TextBox();
+			this.kBut = new System.Windows.Forms.Button();
+			this.cBut = new System.Windows.Forms.Button();
+			this.playerLvlTextLabel = new System.Windows.Forms.Label();
+			this.playerNameBox = new System.Windows.Forms.TextBox();
+			this.playerNameTextLabel = new System.Windows.Forms.Label();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -364,32 +364,32 @@
 			this.winsDataGridView.AllowUserToAddRows = false;
 			this.winsDataGridView.AllowUserToDeleteRows = false;
 			this.winsDataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+			this.winsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
 			this.winsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.winsDataGridView.BackgroundColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
 			this.winsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.winsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
 			this.winsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.winsDataGridView.ColumnHeadersVisible = false;
 			this.winsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightCoral;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkRed;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightCoral;
+			dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.DarkRed;
+			dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.winsDataGridView.DefaultCellStyle = dataGridViewCellStyle11;
 			this.winsDataGridView.GridColor = System.Drawing.Color.LightCoral;
 			this.winsDataGridView.Location = new System.Drawing.Point(192, 576);
 			this.winsDataGridView.Name = "winsDataGridView";
@@ -419,14 +419,14 @@
 			this.priceDataGridView.ColumnHeadersVisible = false;
 			this.priceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.Color.YellowGreen;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FloralWhite;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle12.BackColor = System.Drawing.Color.YellowGreen;
+			dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+			dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.FloralWhite;
+			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.priceDataGridView.DefaultCellStyle = dataGridViewCellStyle12;
 			this.priceDataGridView.GridColor = System.Drawing.Color.YellowGreen;
 			this.priceDataGridView.Location = new System.Drawing.Point(416, 576);
 			this.priceDataGridView.Name = "priceDataGridView";
@@ -1220,40 +1220,82 @@
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Orange;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel2.Controls.Add(this.mLabel);
-			this.panel2.Controls.Add(this.kLabel);
-			this.panel2.Controls.Add(this.cLabel);
+			this.panel2.Controls.Add(this.mBox);
+			this.panel2.Controls.Add(this.kBox);
+			this.panel2.Controls.Add(this.cBox);
 			this.panel2.Controls.Add(this.mBut);
 			this.panel2.Controls.Add(this.kBut);
 			this.panel2.Controls.Add(this.cBut);
 			this.panel2.Controls.Add(this.playerLvlTextLabel);
-			this.panel2.Controls.Add(this.playerNameLabel);
+			this.panel2.Controls.Add(this.playerNameBox);
 			this.panel2.Controls.Add(this.playerNameTextLabel);
 			this.panel2.Location = new System.Drawing.Point(32, 896);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(608, 96);
 			this.panel2.TabIndex = 48;
 			// 
-			// playerNameTextLabel
+			// mBox
 			// 
-			this.playerNameTextLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.playerNameTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.playerNameTextLabel.Location = new System.Drawing.Point(0, 0);
-			this.playerNameTextLabel.Name = "playerNameTextLabel";
-			this.playerNameTextLabel.Size = new System.Drawing.Size(224, 64);
-			this.playerNameTextLabel.TabIndex = 0;
-			this.playerNameTextLabel.Text = "Номер игрока";
-			this.playerNameTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.mBox.BackColor = System.Drawing.Color.Moccasin;
+			this.mBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.mBox.Location = new System.Drawing.Point(544, 64);
+			this.mBox.Name = "mBox";
+			this.mBox.Size = new System.Drawing.Size(64, 31);
+			this.mBox.TabIndex = 8;
 			// 
-			// playerNameLabel
+			// kBox
 			// 
-			this.playerNameLabel.BackColor = System.Drawing.Color.Moccasin;
-			this.playerNameLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.playerNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.playerNameLabel.Location = new System.Drawing.Point(0, 64);
-			this.playerNameLabel.Name = "playerNameLabel";
-			this.playerNameLabel.Size = new System.Drawing.Size(224, 31);
-			this.playerNameLabel.TabIndex = 1;
+			this.kBox.BackColor = System.Drawing.Color.Moccasin;
+			this.kBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.kBox.Location = new System.Drawing.Point(416, 64);
+			this.kBox.Name = "kBox";
+			this.kBox.Size = new System.Drawing.Size(64, 31);
+			this.kBox.TabIndex = 7;
+			// 
+			// cBox
+			// 
+			this.cBox.BackColor = System.Drawing.Color.Moccasin;
+			this.cBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.cBox.Location = new System.Drawing.Point(288, 64);
+			this.cBox.Name = "cBox";
+			this.cBox.Size = new System.Drawing.Size(64, 31);
+			this.cBox.TabIndex = 6;
+			// 
+			// mBut
+			// 
+			this.mBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.mBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.mBut.Location = new System.Drawing.Point(480, 64);
+			this.mBut.Name = "mBut";
+			this.mBut.Size = new System.Drawing.Size(64, 30);
+			this.mBut.TabIndex = 5;
+			this.mBut.Text = "М";
+			this.mBut.UseVisualStyleBackColor = true;
+			this.mBut.Click += new System.EventHandler(this.mBut_Click);
+			// 
+			// kBut
+			// 
+			this.kBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.kBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.kBut.Location = new System.Drawing.Point(352, 64);
+			this.kBut.Name = "kBut";
+			this.kBut.Size = new System.Drawing.Size(64, 30);
+			this.kBut.TabIndex = 4;
+			this.kBut.Text = "К";
+			this.kBut.UseVisualStyleBackColor = true;
+			this.kBut.Click += new System.EventHandler(this.kBut_Click);
+			// 
+			// cBut
+			// 
+			this.cBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.cBut.Location = new System.Drawing.Point(224, 64);
+			this.cBut.Name = "cBut";
+			this.cBut.Size = new System.Drawing.Size(64, 30);
+			this.cBut.TabIndex = 3;
+			this.cBut.Text = "С";
+			this.cBut.UseVisualStyleBackColor = true;
+			this.cBut.Click += new System.EventHandler(this.cBut_Click);
 			// 
 			// playerLvlTextLabel
 			// 
@@ -1266,65 +1308,26 @@
 			this.playerLvlTextLabel.Text = "Уровень игрока";
 			this.playerLvlTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// cBut
+			// playerNameBox
 			// 
-			this.cBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.cBut.Location = new System.Drawing.Point(224, 64);
-			this.cBut.Name = "cBut";
-			this.cBut.Size = new System.Drawing.Size(64, 30);
-			this.cBut.TabIndex = 3;
-			this.cBut.Text = "С";
-			this.cBut.UseVisualStyleBackColor = true;
+			this.playerNameBox.BackColor = System.Drawing.Color.Moccasin;
+			this.playerNameBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.playerNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.playerNameBox.Location = new System.Drawing.Point(0, 64);
+			this.playerNameBox.Name = "playerNameBox";
+			this.playerNameBox.Size = new System.Drawing.Size(224, 31);
+			this.playerNameBox.TabIndex = 1;
 			// 
-			// kBut
+			// playerNameTextLabel
 			// 
-			this.kBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.kBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.kBut.Location = new System.Drawing.Point(352, 64);
-			this.kBut.Name = "kBut";
-			this.kBut.Size = new System.Drawing.Size(64, 30);
-			this.kBut.TabIndex = 4;
-			this.kBut.Text = "К";
-			this.kBut.UseVisualStyleBackColor = true;
-			// 
-			// mBut
-			// 
-			this.mBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.mBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.mBut.Location = new System.Drawing.Point(480, 64);
-			this.mBut.Name = "mBut";
-			this.mBut.Size = new System.Drawing.Size(64, 30);
-			this.mBut.TabIndex = 5;
-			this.mBut.Text = "М";
-			this.mBut.UseVisualStyleBackColor = true;
-			// 
-			// cLabel
-			// 
-			this.cLabel.BackColor = System.Drawing.Color.Moccasin;
-			this.cLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.cLabel.Location = new System.Drawing.Point(288, 64);
-			this.cLabel.Name = "cLabel";
-			this.cLabel.Size = new System.Drawing.Size(64, 31);
-			this.cLabel.TabIndex = 6;
-			// 
-			// kLabel
-			// 
-			this.kLabel.BackColor = System.Drawing.Color.Moccasin;
-			this.kLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.kLabel.Location = new System.Drawing.Point(416, 64);
-			this.kLabel.Name = "kLabel";
-			this.kLabel.Size = new System.Drawing.Size(64, 31);
-			this.kLabel.TabIndex = 7;
-			// 
-			// mLabel
-			// 
-			this.mLabel.BackColor = System.Drawing.Color.Moccasin;
-			this.mLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.mLabel.Location = new System.Drawing.Point(544, 64);
-			this.mLabel.Name = "mLabel";
-			this.mLabel.Size = new System.Drawing.Size(64, 31);
-			this.mLabel.TabIndex = 8;
+			this.playerNameTextLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.playerNameTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.playerNameTextLabel.Location = new System.Drawing.Point(0, 0);
+			this.playerNameTextLabel.Name = "playerNameTextLabel";
+			this.playerNameTextLabel.Size = new System.Drawing.Size(224, 64);
+			this.playerNameTextLabel.TabIndex = 0;
+			this.playerNameTextLabel.Text = "Номер игрока";
+			this.playerNameTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// AccountingForm
 			// 
@@ -1505,10 +1508,10 @@
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Label playerNameTextLabel;
 		private System.Windows.Forms.Label playerLvlTextLabel;
-		private System.Windows.Forms.TextBox playerNameLabel;
-		private System.Windows.Forms.TextBox mLabel;
-		private System.Windows.Forms.TextBox kLabel;
-		private System.Windows.Forms.TextBox cLabel;
+		private System.Windows.Forms.TextBox playerNameBox;
+		private System.Windows.Forms.TextBox mBox;
+		private System.Windows.Forms.TextBox kBox;
+		private System.Windows.Forms.TextBox cBox;
 		private System.Windows.Forms.Button mBut;
 		private System.Windows.Forms.Button kBut;
 		private System.Windows.Forms.Button cBut;
