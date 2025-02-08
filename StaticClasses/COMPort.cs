@@ -27,6 +27,7 @@ namespace vlc_works
 			{ "Received coin", new byte[]             { 0xF2, 0x03, 0x01, 0x01, 0x00, 0x03, 0xF3 } }
 		};
 		private static Func<IEnumerable<byte>, string> batos = ba => string.Join(" ", ba.Select(b => $"{b:X2}"));
+		private static Func<long, long> ShekelsToTimes = shekels => shekels / (AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels);
 		#endregion
 		#region PUBLIC 
 		public static SerialPort port;
@@ -44,20 +45,23 @@ namespace vlc_works
 			}
 		}
 
-		public static void MoneyOut(AccountingForm accountingForm = null)
+		public static void MoneyOut(long shekels, AccountingForm accountingForm = null)
 		{
 			if (port == null || !port.IsOpen)
+			{
+				Console.WriteLine($"TRY TO MONEY OUT WHILE PORT IS NOT EVEN OPEN");
 				return;
+			}
 			if (COMPort.accountingForm == null)
 				if (accountingForm == null)
 				{
-					MessageBox.Show("accountingForm = null and COMPort.accountingForm = null");
-					Environment.Exit(0);
+					MessageBox.Show("[accountingForm = null] AND [COMPort.accountingForm = null], NEED TO INIT [accountingForm] HERE");
+					return;
 				}
 				else
 					COMPort.accountingForm = accountingForm;
 
-			long times = accountingForm.SelectedAward / (AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels);
+			long times = ShekelsToTimes(shekels);
 
 			new Thread(() =>
 			{
@@ -193,7 +197,7 @@ namespace vlc_works
 			if (isReceivedCoin())
 			{
 				Console.WriteLine("1 COIN RECEIVED");
-				accountingForm.IncBalance();
+				accountingForm.IncBalance(AccountingForm.oneCoinShekels);
 				notParsed.RemoveRange(0, rsp["Received coin"].Length);
 			}
 		}

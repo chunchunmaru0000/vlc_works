@@ -434,22 +434,23 @@ namespace vlc_works
 					case Stage.COST_AND_PRIZE:
 						break;
 					case Stage.GAME:
+						PlayPlayAgain();
 						break;
 					case Stage.ERROR:
 						break;
 					case Stage.GAME_CANT_INPUT:
 						break;
 					case Stage.VICTORY:
-						//PlayIdle();
+						PlayPlayAgain();
 						break;
 					case Stage.PLAY_AGAIN:
-						//VideoChecker.PlayAgain();
+						//VideoChecker.PlayAgain(); // either idle or operator shows
 						break;
 					case Stage.HOW_PO_PAY:
 						PlayGamePayed();
 						break; 
 					case Stage.GAME_PAYED:
-						break; // operator starts
+						break; // operator starts game
 					default:
 						return;
 				}

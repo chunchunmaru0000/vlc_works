@@ -171,11 +171,13 @@ namespace vlc_works
 			}));
 		}
 
-		public void IncBalance()
+		public void DecBalance(long shekels) => IncBalance(-shekels);
+
+		public void IncBalance(long shekels)
 		{
 			Invoke(new Action(() =>
 			{
-				Balance += oneCoinShekels;
+				Balance += shekels;
 				Console.WriteLine($"BALANCE + {oneCoinShekels} NOW IS {Balance} AND CURRENT STAGE IS {clientForm.stage}");
 				Console.WriteLine($"SELECTED PRICE NOW IS {SelectedPrice}");
 
@@ -261,7 +263,10 @@ namespace vlc_works
 
 			winSumLabel.Text = WinsSum.ToString();
 			priceSumLabel.Text = PaysSum.ToString();
-			balanceLabel.Text = (PaysSum - WinsSum).ToString();
+
+			long gameBalance = PaysSum - WinsSum;
+			balanceLabel.Text = gameBalance.ToString();
+			balanceLabel.BackColor = gameBalance >= 0 ? Color.LightGreen : Color.DarkRed;
 		}
 		#endregion
 		#region FORM_CLOSED
@@ -409,8 +414,8 @@ namespace vlc_works
 
 		private void returnMoneyBut_Click(object sender, EventArgs e)
 		{
-			// also should be used via COM port
-			// throw new NotImplementedException();
+			COMPort.MoneyOut(1, this);
+			DecBalance(oneCoinShekels);
 		}
 		#endregion
 		#region UPPER_PART_BUTTONS

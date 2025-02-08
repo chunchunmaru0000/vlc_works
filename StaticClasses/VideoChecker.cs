@@ -173,22 +173,17 @@ namespace vlc_works
 		private static void ProceedWin()
 		{
 			gameEnded = true; // good ending
-			clientForm.stage = Stage.VICTORY;
 			print("GAME ENDED");
 
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				clientForm.vlcControl.Play(langs[language].Victory.Uri);
-			}));
+			clientForm.Play(currentLanguage.Victory.Uri, Stage.VICTORY);
 
-			// insert win in db
-			Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
+			// insert win in db and get coins out
 			accountingForm.Invoke(new Action(() =>
 			{
+				Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
 				accountingForm.StartTables(); // refresh tables
+				COMPort.MoneyOut(accountingForm.SelectedAward, accountingForm);
 			}));
-
-			COMPort.MoneyOut(accountingForm);
 		}
 
 		#endregion PLAY_VIDEOS
