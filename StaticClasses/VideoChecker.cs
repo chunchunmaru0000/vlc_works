@@ -324,13 +324,12 @@ namespace vlc_works
 		private static void EndHowToPay()
 		{
 			// nothing here because operator will select param himself for now
-			// SafeStop();
 			afterHowToPayWaitThread = new Thread(() =>
 			{
-				const int waitTime = 10000;
+				const int waitTime = 30000;
 
 				print($"AWAITS TO PLAY IDLE AFTER HOW TO PAY ENDED: {waitTime}");
-				Thread.Sleep(waitTime); // wait 10 seconds before play idle
+				Thread.Sleep(waitTime); // wait 30 seconds before play idle
 
 				clientForm.PlayIdle();
 				print("PLAYS IDLE AFTER HOW TO PAY");

@@ -132,6 +132,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Related\Apparat-Coins Operations.png" />
     <Content Include="Related\videonames.txt" />
     <Content Include="Related\План.png" />
   </ItemGroup>

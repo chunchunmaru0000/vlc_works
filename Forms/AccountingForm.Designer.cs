@@ -124,11 +124,22 @@
 			this.hideCodeBut = new System.Windows.Forms.Button();
 			this.warningLabel = new System.Windows.Forms.Label();
 			this.payedPanel = new System.Windows.Forms.Panel();
+			this.draawPayed = new System.Windows.Forms.Button();
 			this.payedCountLabel = new System.Windows.Forms.Label();
 			this.payedTextLabel = new System.Windows.Forms.Label();
 			this.recommendTextLabel = new System.Windows.Forms.Label();
 			this.isFirstGameBut = new System.Windows.Forms.Button();
-			this.draawPayed = new System.Windows.Forms.Button();
+			this.timeLabel = new System.Windows.Forms.Label();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.playerNameTextLabel = new System.Windows.Forms.Label();
+			this.playerNameLabel = new System.Windows.Forms.TextBox();
+			this.playerLvlTextLabel = new System.Windows.Forms.Label();
+			this.cBut = new System.Windows.Forms.Button();
+			this.kBut = new System.Windows.Forms.Button();
+			this.mBut = new System.Windows.Forms.Button();
+			this.cLabel = new System.Windows.Forms.TextBox();
+			this.kLabel = new System.Windows.Forms.TextBox();
+			this.mLabel = new System.Windows.Forms.TextBox();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -143,6 +154,7 @@
 			this.priceRecPanel.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.payedPanel.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// balanceTextLabel
@@ -1080,7 +1092,7 @@
 			this.titleBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.titleBut.Location = new System.Drawing.Point(0, 32);
 			this.titleBut.Name = "titleBut";
-			this.titleBut.Size = new System.Drawing.Size(1888, 32);
+			this.titleBut.Size = new System.Drawing.Size(1472, 32);
 			this.titleBut.TabIndex = 40;
 			this.titleBut.Text = "ПРОГРАММА УПРАВЛЕНИЯ ИНТЕЛЛЕКТУАЛЬНОЙ ИГРОЙ GOLDinSAFE 2.1";
 			this.titleBut.UseVisualStyleBackColor = true;
@@ -1138,6 +1150,17 @@
 			this.payedPanel.Size = new System.Drawing.Size(480, 64);
 			this.payedPanel.TabIndex = 44;
 			// 
+			// draawPayed
+			// 
+			this.draawPayed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.draawPayed.Location = new System.Drawing.Point(319, -1);
+			this.draawPayed.Name = "draawPayed";
+			this.draawPayed.Size = new System.Drawing.Size(160, 64);
+			this.draawPayed.TabIndex = 47;
+			this.draawPayed.Text = "Счесть";
+			this.draawPayed.UseVisualStyleBackColor = true;
+			this.draawPayed.Click += new System.EventHandler(this.draawPayed_Click);
+			// 
 			// payedCountLabel
 			// 
 			this.payedCountLabel.AutoSize = true;
@@ -1179,22 +1202,137 @@
 			this.isFirstGameBut.UseVisualStyleBackColor = false;
 			this.isFirstGameBut.Click += new System.EventHandler(this.isFirstGameBut_Click);
 			// 
-			// draawPayed
+			// timeLabel
 			// 
-			this.draawPayed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.draawPayed.Location = new System.Drawing.Point(319, -1);
-			this.draawPayed.Name = "draawPayed";
-			this.draawPayed.Size = new System.Drawing.Size(160, 64);
-			this.draawPayed.TabIndex = 47;
-			this.draawPayed.Text = "Счесть";
-			this.draawPayed.UseVisualStyleBackColor = true;
-			this.draawPayed.Click += new System.EventHandler(this.draawPayed_Click);
+			this.timeLabel.BackColor = System.Drawing.Color.CornflowerBlue;
+			this.timeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.timeLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.timeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.timeLabel.ForeColor = System.Drawing.Color.White;
+			this.timeLabel.Location = new System.Drawing.Point(1472, 32);
+			this.timeLabel.Name = "timeLabel";
+			this.timeLabel.Size = new System.Drawing.Size(416, 32);
+			this.timeLabel.TabIndex = 47;
+			this.timeLabel.Text = "09.28 04 февраля 2024";
+			this.timeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// panel2
+			// 
+			this.panel2.BackColor = System.Drawing.Color.Orange;
+			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel2.Controls.Add(this.mLabel);
+			this.panel2.Controls.Add(this.kLabel);
+			this.panel2.Controls.Add(this.cLabel);
+			this.panel2.Controls.Add(this.mBut);
+			this.panel2.Controls.Add(this.kBut);
+			this.panel2.Controls.Add(this.cBut);
+			this.panel2.Controls.Add(this.playerLvlTextLabel);
+			this.panel2.Controls.Add(this.playerNameLabel);
+			this.panel2.Controls.Add(this.playerNameTextLabel);
+			this.panel2.Location = new System.Drawing.Point(32, 896);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(608, 96);
+			this.panel2.TabIndex = 48;
+			// 
+			// playerNameTextLabel
+			// 
+			this.playerNameTextLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.playerNameTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.playerNameTextLabel.Location = new System.Drawing.Point(0, 0);
+			this.playerNameTextLabel.Name = "playerNameTextLabel";
+			this.playerNameTextLabel.Size = new System.Drawing.Size(224, 64);
+			this.playerNameTextLabel.TabIndex = 0;
+			this.playerNameTextLabel.Text = "Номер игрока";
+			this.playerNameTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// playerNameLabel
+			// 
+			this.playerNameLabel.BackColor = System.Drawing.Color.Moccasin;
+			this.playerNameLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.playerNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.playerNameLabel.Location = new System.Drawing.Point(0, 64);
+			this.playerNameLabel.Name = "playerNameLabel";
+			this.playerNameLabel.Size = new System.Drawing.Size(224, 31);
+			this.playerNameLabel.TabIndex = 1;
+			// 
+			// playerLvlTextLabel
+			// 
+			this.playerLvlTextLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.playerLvlTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.playerLvlTextLabel.Location = new System.Drawing.Point(224, 0);
+			this.playerLvlTextLabel.Name = "playerLvlTextLabel";
+			this.playerLvlTextLabel.Size = new System.Drawing.Size(384, 64);
+			this.playerLvlTextLabel.TabIndex = 2;
+			this.playerLvlTextLabel.Text = "Уровень игрока";
+			this.playerLvlTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// cBut
+			// 
+			this.cBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.cBut.Location = new System.Drawing.Point(224, 64);
+			this.cBut.Name = "cBut";
+			this.cBut.Size = new System.Drawing.Size(64, 30);
+			this.cBut.TabIndex = 3;
+			this.cBut.Text = "С";
+			this.cBut.UseVisualStyleBackColor = true;
+			// 
+			// kBut
+			// 
+			this.kBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.kBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.kBut.Location = new System.Drawing.Point(352, 64);
+			this.kBut.Name = "kBut";
+			this.kBut.Size = new System.Drawing.Size(64, 30);
+			this.kBut.TabIndex = 4;
+			this.kBut.Text = "К";
+			this.kBut.UseVisualStyleBackColor = true;
+			// 
+			// mBut
+			// 
+			this.mBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.mBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.mBut.Location = new System.Drawing.Point(480, 64);
+			this.mBut.Name = "mBut";
+			this.mBut.Size = new System.Drawing.Size(64, 30);
+			this.mBut.TabIndex = 5;
+			this.mBut.Text = "М";
+			this.mBut.UseVisualStyleBackColor = true;
+			// 
+			// cLabel
+			// 
+			this.cLabel.BackColor = System.Drawing.Color.Moccasin;
+			this.cLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.cLabel.Location = new System.Drawing.Point(288, 64);
+			this.cLabel.Name = "cLabel";
+			this.cLabel.Size = new System.Drawing.Size(64, 31);
+			this.cLabel.TabIndex = 6;
+			// 
+			// kLabel
+			// 
+			this.kLabel.BackColor = System.Drawing.Color.Moccasin;
+			this.kLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.kLabel.Location = new System.Drawing.Point(416, 64);
+			this.kLabel.Name = "kLabel";
+			this.kLabel.Size = new System.Drawing.Size(64, 31);
+			this.kLabel.TabIndex = 7;
+			// 
+			// mLabel
+			// 
+			this.mLabel.BackColor = System.Drawing.Color.Moccasin;
+			this.mLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.mLabel.Location = new System.Drawing.Point(544, 64);
+			this.mLabel.Name = "mLabel";
+			this.mLabel.Size = new System.Drawing.Size(64, 31);
+			this.mLabel.TabIndex = 8;
 			// 
 			// AccountingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1904, 1001);
+			this.Controls.Add(this.panel2);
+			this.Controls.Add(this.timeLabel);
 			this.Controls.Add(this.isFirstGameBut);
 			this.Controls.Add(this.recommendTextLabel);
 			this.Controls.Add(this.payedPanel);
@@ -1258,6 +1396,8 @@
 			this.menuStrip1.PerformLayout();
 			this.payedPanel.ResumeLayout(false);
 			this.payedPanel.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1361,5 +1501,16 @@
 		private System.Windows.Forms.Label priceRecTextLabel;
 		private System.Windows.Forms.Button isFirstGameBut;
 		private System.Windows.Forms.Button draawPayed;
+		private System.Windows.Forms.Label timeLabel;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Label playerNameTextLabel;
+		private System.Windows.Forms.Label playerLvlTextLabel;
+		private System.Windows.Forms.TextBox playerNameLabel;
+		private System.Windows.Forms.TextBox mLabel;
+		private System.Windows.Forms.TextBox kLabel;
+		private System.Windows.Forms.TextBox cLabel;
+		private System.Windows.Forms.Button mBut;
+		private System.Windows.Forms.Button kBut;
+		private System.Windows.Forms.Button cBut;
 	}
 }

@@ -270,7 +270,9 @@ namespace vlc_works
 
 		private void StartPayedBalance()
 		{
-			if (PayedBalance > 0)
+			if (PayedBalance > 0 
+				&& clientForm.stage == Stage.HOW_PO_PAY 
+				|| clientForm.stage == Stage.COST_AND_PRIZE)
 				payedCountLabel.Text = PayedBalance.ToString() + " ПЕРЕПЛАТА";
 			else
 				payedCountLabel.Text = PayedBalance.ToString();
