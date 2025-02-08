@@ -37,12 +37,16 @@ namespace vlc_works
 
 
 		#region PUBLIC_METHODS
-		public static void Execute(string command) { 
+		public static void Execute(string command) {
+			Console.WriteLine($"TRY TO EXECUTE COMMAND: [{command}]");
 			if (cmd.ContainsKey(command))
 			{
 				byte[] cmdBytes = cmd[command];
-				port.Write(cmdBytes, 0, cmdBytes.Length); 
+				port.Write(cmdBytes, 0, cmdBytes.Length);
+				Console.WriteLine($"EXECUTED COMMAND: [{command}]");
 			}
+			else
+				Console.WriteLine($"COMMAND NOT FOUND: [{command}]");
 		}
 
 		public static void MoneyOut(long shekels, AccountingForm accountingForm = null)
@@ -62,7 +66,11 @@ namespace vlc_works
 					COMPort.accountingForm = accountingForm;
 
 			long times = ShekelsToTimes(shekels);
-
+			Console.WriteLine(
+				$"times = {shekels} / ({AccountingForm.oneCommandCoins} * {AccountingForm.oneCoinShekels}) =" +
+				$" {shekels} / ({AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels}) =" +
+				$" {shekels / (AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels)}");
+			Console.WriteLine($"{times} TIMES TO EXECUTE OUT [{AccountingForm.oneCommandCoins}] COINS");
 			new Thread(() =>
 			{
 				for (int i = 0; i < times; i++)
@@ -90,6 +98,7 @@ namespace vlc_works
 				port.Open();
 
 				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "Подключен"));
+				Execute("Check income");
 			}
 			catch
 			{
@@ -144,7 +153,7 @@ namespace vlc_works
 			Console.WriteLine($"HAVE {firstCounter} COINS IN STOCK");
 
 			if (accountingForm != null)
-				accountingForm.SetCoinsInStock(firstCounter);
+				accountingForm.IncCoinsInStock(firstCounter);
 		}
 
 		private static bool isCommand(byte[] command)

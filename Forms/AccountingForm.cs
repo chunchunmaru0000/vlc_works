@@ -23,7 +23,8 @@ namespace vlc_works
 		public long SelectedPrice { get; set; }
 		public long CoinsInStock { get; set; }
 		// some long values
-		private long Balance { get; set; }
+		private long GameBalance { get; set; } // all balance that is PaysSum - WinsSum + Balance
+		private long PayedBalance { get; set; } // balance of shekels payed
 		private long WinsSum { get; set; }
 		private long PaysSum { get; set; }
 		public static long Game_id { get; set; }
@@ -163,11 +164,12 @@ namespace vlc_works
 			Invoke(new Action(() => priceLabel.Text = SelectedPrice.ToString()));
 		}
 
-		public void SetCoinsInStock(long coins)
+		public void IncCoinsInStock(long coins)
 		{
 			Invoke(new Action(() =>
 			{
-				CoinsInStock = coins;
+				CoinsInStock += coins;
+				IncBalance(coins * oneCoinShekels);
 			}));
 		}
 
@@ -177,24 +179,22 @@ namespace vlc_works
 		{
 			Invoke(new Action(() =>
 			{
-				Balance += shekels;
-				Console.WriteLine($"BALANCE + {oneCoinShekels} NOW IS {Balance} AND CURRENT STAGE IS {clientForm.stage}");
+				PayedBalance += shekels;
+				Console.WriteLine($"BALANCE + {shekels} NOW IS {PayedBalance} AND CURRENT STAGE IS {clientForm.stage}");
 				Console.WriteLine($"SELECTED PRICE NOW IS {SelectedPrice}");
 
-				if (Balance >= SelectedPrice)
+				if (PayedBalance >= SelectedPrice)
 				{
 					if (clientForm.stage == Stage.HOW_PO_PAY)
 					{
 						clientForm.PlayGamePayed();
-						Balance -= SelectedPrice;
+						PayedBalance -= SelectedPrice;
 
 						Db.InsertPrice(Game_id, SelectedPrice);
-						StartTables(); // refersh tables
 					}
-					payedCountLabel.Text = Balance.ToString() + " ПЕРЕПЛАТА";
 				}
-				else
-					payedCountLabel.Text = Balance.ToString();
+
+				StartTables(); // refersh tables
 			}));
 		}
 
@@ -264,9 +264,31 @@ namespace vlc_works
 			winSumLabel.Text = WinsSum.ToString();
 			priceSumLabel.Text = PaysSum.ToString();
 
-			long gameBalance = PaysSum - WinsSum;
-			balanceLabel.Text = gameBalance.ToString();
-			balanceLabel.BackColor = gameBalance >= 0 ? Color.LightGreen : Color.DarkRed;
+			GameBalance = PaysSum - WinsSum + CoinsInStock * oneCoinShekels;
+			StartPayedBalance();
+		}
+
+		private void StartPayedBalance()
+		{
+			if (PayedBalance > 0)
+				payedCountLabel.Text = PayedBalance.ToString() + " ПЕРЕПЛАТА";
+			else
+				payedCountLabel.Text = PayedBalance.ToString();
+
+			balanceLabel.Text = GameBalance.ToString();
+
+			if (GameBalance >= 0)
+			{
+				warningLabel.Text = "СТОИМОСТЬ ИЛИ УРОВЕНЬ ИГРЫ В НОРМЕ";
+				warningLabel.ForeColor = Color.Green;
+				balanceLabel.BackColor = Color.LightGreen;
+			}
+			else
+			{
+				warningLabel.Text = "СРОЧНО ИЗМЕНИТЬ СТОИМОСТЬ ИЛИ УРОВЕНЬ ИГРЫ";
+				warningLabel.ForeColor = Color.Red;
+				balanceLabel.BackColor = Color.Red;
+			}
 		}
 		#endregion
 		#region FORM_CLOSED
@@ -412,13 +434,35 @@ namespace vlc_works
 			// throw new NotImplementedException();
 		}
 
+		private void ReturnCoins(int coins)
+		{
+			COMPort.MoneyOut(coins * oneCoinShekels, this);
+			CoinsInStock -= coins;
+
+			if (PayedBalance - oneCoinShekels * coins >= 0)
+				DecBalance(oneCoinShekels * coins);
+		}
+
 		private void returnMoneyBut_Click(object sender, EventArgs e)
 		{
-			COMPort.MoneyOut(1, this);
-			DecBalance(oneCoinShekels);
+			if (PayedBalance - oneCoinShekels * oneCommandCoins >= 0)
+				ReturnCoins(oneCommandCoins);
+			else if (
+				MessageBox.Show(
+					$"НЕТ ПЕРЕПЛАТЫ, НО ЕСТЬ {CoinsInStock} МОНЕТ В АППАРАТЕ\n" +
+					$"ВСЕ ЕЩЕ ХОТИТЕ ПОПЫТАТЬСЯ ВЫДАТЬ МОНЕТУ?", 
+					"ВЫБОР", 
+					MessageBoxButtons.YesNo) == DialogResult.Yes)
+				ReturnCoins(oneCommandCoins);
 		}
 		#endregion
 		#region UPPER_PART_BUTTONS
+		private void draawPayed_Click(object sender, EventArgs e)
+		{
+			DecBalance(PayedBalance);
+			StartTables();
+		}
+
 		private void playIdleBut_Click(object sender, EventArgs e)
 		{
 			clientForm.Invoke(new Action(() => clientForm.PlayIdle()));

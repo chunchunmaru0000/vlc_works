@@ -128,6 +128,7 @@
 			this.payedTextLabel = new System.Windows.Forms.Label();
 			this.recommendTextLabel = new System.Windows.Forms.Label();
 			this.isFirstGameBut = new System.Windows.Forms.Button();
+			this.draawPayed = new System.Windows.Forms.Button();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -1127,13 +1128,14 @@
 			// 
 			this.payedPanel.BackColor = System.Drawing.SystemColors.HotTrack;
 			this.payedPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.payedPanel.Controls.Add(this.draawPayed);
 			this.payedPanel.Controls.Add(this.payedCountLabel);
 			this.payedPanel.Controls.Add(this.payedTextLabel);
 			this.payedPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.payedPanel.ForeColor = System.Drawing.SystemColors.Control;
-			this.payedPanel.Location = new System.Drawing.Point(1280, 384);
+			this.payedPanel.Location = new System.Drawing.Point(1120, 384);
 			this.payedPanel.Name = "payedPanel";
-			this.payedPanel.Size = new System.Drawing.Size(320, 64);
+			this.payedPanel.Size = new System.Drawing.Size(480, 64);
 			this.payedPanel.TabIndex = 44;
 			// 
 			// payedCountLabel
@@ -1176,6 +1178,17 @@
 			this.isFirstGameBut.Text = "Режим первой игры: Включено";
 			this.isFirstGameBut.UseVisualStyleBackColor = false;
 			this.isFirstGameBut.Click += new System.EventHandler(this.isFirstGameBut_Click);
+			// 
+			// draawPayed
+			// 
+			this.draawPayed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.draawPayed.Location = new System.Drawing.Point(319, -1);
+			this.draawPayed.Name = "draawPayed";
+			this.draawPayed.Size = new System.Drawing.Size(160, 64);
+			this.draawPayed.TabIndex = 47;
+			this.draawPayed.Text = "Счесть";
+			this.draawPayed.UseVisualStyleBackColor = true;
+			this.draawPayed.Click += new System.EventHandler(this.draawPayed_Click);
 			// 
 			// AccountingForm
 			// 
@@ -1347,5 +1360,6 @@
 		private System.Windows.Forms.Label priceRecLabel;
 		private System.Windows.Forms.Label priceRecTextLabel;
 		private System.Windows.Forms.Button isFirstGameBut;
+		private System.Windows.Forms.Button draawPayed;
 	}
 }
