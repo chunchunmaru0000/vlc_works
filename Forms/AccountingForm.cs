@@ -38,7 +38,6 @@ namespace vlc_works
 		private Dictionary<Button, long> LevelBut2long { get; set; }
 		private Dictionary<Button, long> PriceBut2long { get; set; }
 		private Dictionary<Button, GameType> ButToGameType { get; set; }
-		private Dictionary<GameType, string> GameTypeToStr { get; set; }
 		public const int oneCoinShekels = 10;
 		public const int oneCommandCoins = 1;
 		// some
@@ -114,8 +113,7 @@ namespace vlc_works
 		{
 			//throw new NotImplementedException();
 		}
-		#endregion
-		#region SELECT_BUTTONS	
+
 		private void InitDictionares()
 		{
 			AwardBut2long = new Dictionary<Button, long>()
@@ -146,12 +144,6 @@ namespace vlc_works
 				{ cBut, GameType.Guard },
 				{ kBut, GameType.Painting },
 				{ mBut, GameType.Mario },
-			};
-			GameTypeToStr = new Dictionary<GameType, string>()
-			{
-				{ GameType.Guard, "Сторож" },
-				{ GameType.Painting, "Картины" },
-				{ GameType.Mario, "Марио" },
 			};
 		}
 
@@ -186,7 +178,8 @@ namespace vlc_works
 			price100But.Click += OnPriceButClicked;
 			price200But.Click += OnPriceButClicked;
 		}
-
+		#endregion
+		#region SET_INC_DEC
 		public void SetAward(long award)
 		{
 			SelectedAward = award;
@@ -225,14 +218,15 @@ namespace vlc_works
 						clientForm.PlayGamePayed();
 						PayedBalance -= SelectedPrice;
 
-						Db.InsertPrice(Game_id, SelectedPrice);
+						//Db.InsertPrice(Game_id, SelectedPrice); WASDB
 					}
 				}
 
 				StartTables(); // refersh tables
 			}));
 		}
-
+		#endregion
+		#region SELECT_BUTTONS	
 		private void OnAwardButClicked(object sender, EventArgs e)
 		{
 			Button awardButton = sender as Button;

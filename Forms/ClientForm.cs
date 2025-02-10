@@ -197,6 +197,7 @@ namespace vlc_works
 
 		public void PlayPlayAgain()
 		{
+			Db.InsertGameRecordsRecord();
 			print($"PLAY AGAIN? {VideoChecker.currentLanguage.PlayAgain.Uri.AbsolutePath}");
 			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
 		}
