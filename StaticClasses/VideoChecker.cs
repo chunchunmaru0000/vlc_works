@@ -37,6 +37,7 @@ namespace vlc_works
 		public static Language currentLanguage { get => langs[language]; }
 
 		// game things
+		public static bool won { get; set; }
 		private static string code { get; set; } // inputed code like 01234E
 
 		public static Langs language { get; set; } // currently selected language
@@ -173,6 +174,7 @@ namespace vlc_works
 		private static void ProceedWin()
 		{
 			gameEnded = true; // good ending
+			won = true;
 			print("GAME ENDED");
 
 			clientForm.Play(currentLanguage.Victory.Uri, Stage.VICTORY);
@@ -180,7 +182,6 @@ namespace vlc_works
 			// insert win in db and get coins out
 			accountingForm.Invoke(new Action(() =>
 			{
-				Db.InsertAward(Db.GetMaxGamesId(), accountingForm.SelectedAward);
 				accountingForm.StartTables(); // refresh tables
 				COMPort.MoneyOut(accountingForm.SelectedAward, accountingForm);
 			}));
@@ -269,6 +270,7 @@ namespace vlc_works
 		private static void EndVictoryVideo()
 		{
 			//SafeStop();
+			won = true;
 			clientForm.PlayPlayAgain();
 		}
 

@@ -197,9 +197,19 @@ namespace vlc_works
 
 		public void PlayPlayAgain()
 		{
-			Db.InsertGameRecordsRecord();
+			Db.InsertGameRecordsRecord(
+				unixTimeInt: Db.Now,
+				prizeInt: accountingForm.SelectedAward,
+				priceInt: accountingForm.SelectedPrice,
+				winBoolInt: VideoChecker.won,
+				gameType: accountingForm.SelectedGameType,
+				playerIdInt: 0, // for now its 0 later should be from ai users db
+				gameLevelInt: accountingForm.SelectedLevel
+				);
 			print($"PLAY AGAIN? {VideoChecker.currentLanguage.PlayAgain.Uri.AbsolutePath}");
 			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
+
+			VideoChecker.won = false; // zero won instantly 
 		}
 
 		public void PlayHowToPay()

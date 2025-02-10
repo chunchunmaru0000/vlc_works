@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -34,10 +35,14 @@ namespace vlc_works
 		#region CONSTANTS
 		private const string dbName = "goldInSafe.db";
 		private const string connectionString = "Data Source=" + dbName + ";Version=3;";
+
+		public const string GameRecordsTableName = "game_records";
+		public const string TempPrizesTableName = "temp_prizes";
+		public const string TempPricesTableName = "temp_prices";
 		#endregion CONSTANTS
 		#region SQL COMMANDS
-		private const string createGameRecordsTable = @"
-CREATE TABLE IF NOT EXISTS game_records (
+		private static string createGameRecordsTable = $@"
+CREATE TABLE IF NOT EXISTS {GameRecordsTableName} (
 	id INTEGER PRIMARY KEY,
 	unix_time_int INTEGER NOT NULL,
 	prize_int INTEGER NOT NULL,
@@ -70,8 +75,8 @@ VALUES (
 )
 ";
 
-		private const string createTempPrizesTable = @"
-CREATE TABLE IF NOT EXISTS temp_prizes (
+		private static string createTempPrizesTable = $@"
+CREATE TABLE IF NOT EXISTS {TempPrizesTableName} (
 	id INTEGER PRIMARY KEY,
 	prize_int INTEGER NOT NULL
 )
@@ -80,9 +85,12 @@ CREATE TABLE IF NOT EXISTS temp_prizes (
 			(prizeInt) => $@"
 INSERT INTO temp_prizes (prize_int) VALUES ({prizeInt})
 ";
+		public static string SelectAllTempPrizes = $@"
+SELECT prize_int from {TempPrizesTableName}
+";
 
-		private const string createTempPricesTable = @"
-CREATE TABLE IF NOT EXISTS temp_prices (
+		private static string createTempPricesTable = $@"
+CREATE TABLE IF NOT EXISTS {TempPricesTableName} (
 	id INTEGER PRIMARY KEY,
 	price_int INTEGER NOT NULL
 )
@@ -90,6 +98,9 @@ CREATE TABLE IF NOT EXISTS temp_prices (
 		private static Func<long, string> InsertTempPricesCommand =
 			(priceInt) => $@"
 INSERT INTO temp_prices (price_int) VALUES ({priceInt})
+";
+		public static string SelectAllTempPrices = $@"
+SELECT price_int from {TempPricesTableName}
 ";
 		#endregion SQL COMMANDS
 		private static SQLiteConnection SqLiteConnection { get; set; }
@@ -129,8 +140,17 @@ INSERT INTO temp_prices (price_int) VALUES ({priceInt})
 			SqLiteConnection.Close();
 		}
 
-		public static void InsertGameRecordsRecord
-			(long unixTimeInt, long prizeInt, long priceInt, bool winBoolInt, GameType gameType, long playerIdInt, long gameLevelInt)
+		public static void DropTable(string tableName) 
+		{
+			if (IsNotConnected)
+				return;
+			ExecuteNonQuery($"DROP TABLE {tableName}"); 
+		}
+
+		public static void InsertGameRecordsRecord(
+			long unixTimeInt, long prizeInt, long priceInt, bool winBoolInt, 
+			GameType gameType, long playerIdInt, long gameLevelInt
+			)
 		{ 
 			if (IsNotConnected)
 				return;
@@ -141,73 +161,12 @@ INSERT INTO temp_prices (price_int) VALUES ({priceInt})
 			ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
 		}
-		/*
-		public static void InsertAll(long gameAward, long gamePrice, long gameLevel, long gameStartTime)
-		{
-			InsertGame(gameLevel, gameStartTime);
-			long game_id = GetLastRowId();
-			InsertAward(game_id, gameAward);
-			InsertPrice(game_id, gamePrice);
-		}
 
-		public static void InsertGame(long gameLevel, long gameStartTime)
-		{
-			using (SQLiteCommand command = new SQLiteCommand($@"
-insert into games (gameLevel, gameStartTime) values({gameLevel}, {gameStartTime});", SqLiteConnection))
-				command.ExecuteNonQuery();
-		}
-
-		public static void InsertAward(long game_id, long gameAward)
-		{
-			using (SQLiteCommand command = new SQLiteCommand($@"
-insert into awards (game_id, award) values({game_id}, {gameAward});", SqLiteConnection))
-				command.ExecuteNonQuery();
-		}
-
-		public static void InsertPrice(long game_id, long gamePrice)
-		{
-			using (SQLiteCommand command = new SQLiteCommand($@"
-insert into prices (game_id, price) values({game_id}, {gamePrice});", SqLiteConnection))
-				command.ExecuteNonQuery();
-		}
-
-		public static long GetMaxGamesId()
-		{
-			using (SQLiteCommand command = new SQLiteCommand(selectMaxGamesId, SqLiteConnection))
-				return (long)command.ExecuteScalar();
-		}
-
-		public static long GetLastRowId()
-		{
-			using (SQLiteCommand command = new SQLiteCommand(selectLastRowId, SqLiteConnection))
-				return (long)command.ExecuteScalar();
-		}
-
-		public static DbSelectGamesItem[] SelectAllGames()
-		{
-			DbSelectGamesItem[] selectItems;
-
-			using (SQLiteCommand command = new SQLiteCommand(selectAllGames, SqLiteConnection))
-			{
-				SQLiteDataReader reader = command.ExecuteReader();
-				DataTable table = new DataTable();
-				table.Load(reader);
-				reader.Close();
-
-				selectItems = new DbSelectGamesItem[table.Rows.Count];
-
-				long i = 0;
-				foreach(DataRow row in table.Rows)
-					selectItems[i++] = DbSelectGamesItem.Arr2GamesItem(row.ItemArray.Select(r => (long)r).ToArray());
-			}
-			return selectItems.ToArray();
-		}
-
-		public static long[] SelectAllLong(string commandString)
+		public static long[] SelectIntColumnArray(string commandStr)
 		{
 			long[] selectItems;
 
-			using (SQLiteCommand command = new SQLiteCommand(commandString, SqLiteConnection))
+			using (SQLiteCommand command = new SQLiteCommand(commandStr, SqLiteConnection))
 			{
 				SQLiteDataReader reader = command.ExecuteReader();
 				DataTable table = new DataTable();
@@ -221,13 +180,6 @@ insert into prices (game_id, price) values({game_id}, {gamePrice});", SqLiteConn
 					selectItems[i++] = Convert.ToInt64(row.ItemArray[0]);
 			}
 			return selectItems.ToArray();
-		}
-
-		 */
-		public static void DropTable(string tableName)
-		{
-			using (SQLiteCommand command = new SQLiteCommand($"DROP TABLE {tableName}", SqLiteConnection))
-				command.ExecuteNonQuery();
 		}
 	}
 }

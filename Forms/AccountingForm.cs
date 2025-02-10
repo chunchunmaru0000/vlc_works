@@ -22,7 +22,7 @@ namespace vlc_works
 		public long SelectedLevel { get; set; }
 		public long SelectedPrice { get; set; }
 		public long CoinsInStock { get; set; }
-		private GameType SelectedGameType { get; set; } = GameType.Painting;
+		public GameType SelectedGameType { get; set; } = GameType.Painting;
 		private string SelectedTimeString { get => 
 				DateTimeOffset.Now
 				.ToString("HH:mm     d MMMM yyyy", new System.Globalization.CultureInfo("ru")); }
@@ -274,11 +274,13 @@ namespace vlc_works
 		{
 			grid.Rows.Clear();
 
-			long[] allSomething = Db.SelectAllLong(commandString);
+			long[] allSomething = Db.SelectIntColumnArray(commandString);
 
-			grid.Rows.AddRange(allSomething
-				.Select(l => GetRowWithTextCell(l.ToString()))
-				.ToArray());
+			grid.Rows
+				.AddRange(
+					allSomething
+					.Select(l => GetRowWithTextCell(l.ToString()))
+					.ToArray());
 
 			return allSomething.Sum();
 		}
@@ -287,8 +289,8 @@ namespace vlc_works
 		{
 			Db.BeginSQL();
 
-			WinsSum = RefreshGridReturnSum(ref winsDataGridView, Db.selectAllAwards);
-			PaysSum = RefreshGridReturnSum(ref priceDataGridView, Db.selectAllPrices);
+			WinsSum = RefreshGridReturnSum(ref winsDataGridView, Db.SelectAllTempPrizes);
+			PaysSum = RefreshGridReturnSum(ref priceDataGridView, Db.SelectAllTempPrices);
 
 			winSumLabel.Text = WinsSum.ToString();
 			priceSumLabel.Text = PaysSum.ToString();
@@ -430,7 +432,7 @@ namespace vlc_works
 			if (winsDataGridView.Rows.Count == 0)
 				return;
 
-			Db.DropTable("awards");
+			Db.DropTable(Db.TempPrizesTableName);
 			StartTables();
 		}
 
@@ -439,7 +441,7 @@ namespace vlc_works
 			if (priceDataGridView.Rows.Count == 0)
 				return;
 
-			Db.DropTable("prices");
+			Db.DropTable(Db.TempPricesTableName);
 			StartTables();
 		}
 
@@ -451,11 +453,12 @@ namespace vlc_works
 			// when the price is zero
 			// if game automat itself will have function to say that game is payed
 			// then will be another function for that
-			Db.InsertGame(SelectedLevel, Db.Now);
-			Game_id = Db.GetMaxGamesId();
-			Db.InsertPrice(Game_id, SelectedPrice);
-			
-			StartTables(); // refresh tables
+			//Db.InsertGame(SelectedLevel, Db.Now);
+			//Game_id = Db.GetMaxGamesId();
+			//Db.InsertPrice(Game_id, SelectedPrice);
+			//StartTables(); // refresh tables
+
+			// does its depricated now just because have no meaning
 		}
 
 		private void giveCardBut_Click(object sender, EventArgs e)
