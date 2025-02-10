@@ -49,7 +49,6 @@ namespace vlc_works
 		public static bool isFirstGame { get; set; } = true;
 		private static Thread afterPlayAgainWaitThread { get; set; }
 		private static Thread afterHowToPayWaitThread { get; set; }
-		private static Thread afterShowParamsWaitThread { get; set; }
 
 		// some
 		private static void print(object str = null)

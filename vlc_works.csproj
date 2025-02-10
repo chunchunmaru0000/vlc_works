@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\EnumExtentions.cs" />
     <Compile Include="Classes\PathUri.cs" />
     <Compile Include="Forms\AccountingForm.cs">
       <SubType>Form</SubType>
@@ -127,6 +128,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Related\database_example.db" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -36,44 +36,114 @@ namespace vlc_works
 		private const string dbName = "goldInSafe.db";
 		private const string connectionString = "Data Source=" + dbName + ";Version=3;";
 
+		public const string PlayersTableName = "players";
 		public const string GameRecordsTableName = "game_records";
 		public const string TempPrizesTableName = "temp_prizes";
 		public const string TempPricesTableName = "temp_prices";
 		#endregion CONSTANTS
 		#region SQL COMMANDS
+		private static string createPlayersTable = $@"
+CREATE TABLE IF NOT EXISTS {PlayersTableName} (
+	id INTEGER NOT NULL,
+
+	player_id_str TEXT NOT NULL,
+	c_lvl_int INTEGER NOT NULL,
+	k_lvl_int INTEGER NOT NULL,
+	m_lvl_int INTEGER NOT NULL
+);
+";
+		public static void InsertPlayer(string playerIdStr, int cLvlInt, int kLvlInt, int mLvlInt)
+			{ 
+				string command = $@"
+INSERT INTO {PlayersTableName} (player_id_str, c_lvl_int, k_lvl_int, m_lvl_int)
+VALUES (@playerIdStr, @cLvlInt, @kLvlInt, @mLvlInt);
+";
+				using (SQLiteCommand cmd = new SQLiteCommand(command, SqLiteConnection))
+				{
+					cmd.Parameters.AddWithValue("@playerIdStr", playerIdStr);
+					cmd.Parameters.AddWithValue("@cLvlInt", cLvlInt);
+					cmd.Parameters.AddWithValue("@kLvlInt", kLvlInt);
+					cmd.Parameters.AddWithValue("@mLvlInt", mLvlInt);
+					cmd.ExecuteNonQuery();
+				}
+			}
+
 		private static string createGameRecordsTable = $@"
 CREATE TABLE IF NOT EXISTS {GameRecordsTableName} (
 	id INTEGER PRIMARY KEY,
+
+	player_id_str TEXT NOT NULL,
 	unix_time_int INTEGER NOT NULL,
-	prize_int INTEGER NOT NULL,
+
+	player_c_lvl INTEGER NOT NULL,
+	player_k_lvl INTEGER NOT NULL,
+	player_m_lvl INTEGER NOT NULL,
+
+	game_c_lvl INTEGER NOT NULL,
+	game_k_lvl INTEGER NOT NULL,
+	game_m_lvl INTEGER NOT NULL,
+	
+	won_bool_int INTEGER NOT NULL,
+	continued_bool_int INTEGER NOT NULL,
 	price_int INTEGER NOT NULL,
-	win_bool_int INTEGER NOT NULL,
-	game_type_str TEXT NOT NULL,
-	player_id_int INTEGER NOT NULL,
-	game_level_int INTEGER NOL NULL
+	prize_int INTEGER NOT NULL,
+
+	FOREIGN KEY (player_id_str) REFERENCES {PlayersTableName}(player_id_str)
 );
 ";
-		private static Func<long, long, long, bool, GameType, long, long, string> InsertGameRecordCommand = 
-			(unixTimeInt, prizeInt, priceInt, winBoolInt, gameType, playerIdInt, gameLevelInt) => $@"
-INSERT INTO game_records (
-	unix_time_int, 
-	prize_int, 
-	price_int, 
-	win_bool_int, 
-	game_type_str,
-	player_id_int,
-	game_level_int
-)
-VALUES (
-	{unixTimeInt},
-	{prizeInt},
-	{priceInt},
-	{(winBoolInt ? 1 : 0)},
-	{gameType.View()},
-	{playerIdInt},
-	{gameLevelInt}
-)
+		public static void InsertGameRecord(
+			string player_id_str, long unix_time_int,
+			int player_c_lvl, int player_k_lvl, int player_m_lvl,
+			int game_c_lvl,   int game_k_lvl,   int game_m_lvl,
+			bool won_bool_int, bool continued_bool_int, long price_int, long prize_int
+			)
+		{
+			string command = $@"
+INSERT INTO {GameRecordsTableName} (
+	player_id_str,
+	unix_time_int,
+	player_c_lvl,
+	player_k_lvl,
+	player_m_lvl,
+	game_c_lvl,
+	game_k_lvl,
+	game_m_lvl,
+	won_bool_int,
+	continued_bool_int,
+	price_int,
+	prize_int
+) VALUES (
+	@player_id_str,
+	@unix_time_int,
+	@player_c_lvl,
+	@player_k_lvl,
+	@player_m_lvl,
+	@game_c_lvl,
+	@game_k_lvl,
+	@game_m_lvl,
+	@won_bool_int,
+	@continued_bool_int,
+	@price_int,
+	@prize_int
+);
 ";
+			using (SQLiteCommand cmd = new SQLiteCommand(command, SqLiteConnection))
+			{
+				cmd.Parameters.AddWithValue("@player_id_str", player_id_str);
+				cmd.Parameters.AddWithValue("@unix_time_int", unix_time_int);
+				cmd.Parameters.AddWithValue("@player_c_lvl", player_c_lvl);
+				cmd.Parameters.AddWithValue("@player_k_lvl", player_k_lvl);
+				cmd.Parameters.AddWithValue("@player_m_lvl", player_m_lvl);
+				cmd.Parameters.AddWithValue("@game_c_lvl", game_c_lvl);
+				cmd.Parameters.AddWithValue("@game_k_lvl", game_k_lvl);
+				cmd.Parameters.AddWithValue("@game_m_lvl", game_m_lvl);
+				cmd.Parameters.AddWithValue("@won_bool_int", won_bool_int ? 1 : 0);
+				cmd.Parameters.AddWithValue("@continued_bool_int", continued_bool_int ? 1 : 0);
+				cmd.Parameters.AddWithValue("@price_int", price_int);
+				cmd.Parameters.AddWithValue("@prize_int", prize_int);
+				cmd.ExecuteNonQuery();
+			}
+		}
 
 		private static string createTempPrizesTable = $@"
 CREATE TABLE IF NOT EXISTS {TempPrizesTableName} (
@@ -147,17 +217,25 @@ SELECT price_int from {TempPricesTableName}
 			ExecuteNonQuery($"DROP TABLE {tableName}"); 
 		}
 
-		public static void InsertGameRecordsRecord(
-			long unixTimeInt, long prizeInt, long priceInt, bool winBoolInt, 
-			GameType gameType, long playerIdInt, long gameLevelInt
+		public static void InsertInAllTables(
+			string playerIdStr, long unixTimeInt, 
+			int playerCLvl, int playerKLvl, int playerMLvl,
+			int gameCLvl,   int gameKLvl,   int gameMLvl,
+			bool wonBoolInt, bool continuedBoolInt,
+			long prizeInt, long priceInt
 			)
 		{ 
 			if (IsNotConnected)
 				return;
 
-			ExecuteNonQuery(
-				InsertGameRecordCommand(
-					unixTimeInt, prizeInt, priceInt, winBoolInt, gameType, playerIdInt, gameLevelInt));
+			if (Contains player where player_id = playerIdStr)
+				update table players where player_id = playerIdStr 
+				set playerCLvl = ..., playerKLvl = ..., playerMLvl = ...
+			else
+				InsertPlayer(playerIdStr, 0, 0, 0);
+			InsertGameRecord(
+				playerIdStr, unixTimeInt, playerCLvl, playerKLvl, playerMLvl, 
+				gameCLvl, gameKLvl, gameMLvl, wonBoolInt, continuedBoolInt, prizeInt, priceInt);
 			ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
 		}
