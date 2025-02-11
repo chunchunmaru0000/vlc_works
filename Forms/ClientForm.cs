@@ -217,9 +217,9 @@ namespace vlc_works
 			long gameKLvl = SelectedGameTypeIs(GameType.Painting);
 			long gameMLvl = SelectedGameTypeIs(GameType.Mario);
 
-			long playerCLvl = PlayerLvlOf(gameCLvl, accountingForm.cBox);
-			long playerKLvl = PlayerLvlOf(gameKLvl, accountingForm.kBox);
-			long playerMLvl = PlayerLvlOf(gameMLvl, accountingForm.mBox);
+			long playerCLvl = long.Parse(accountingForm.cBox.Text);
+			long playerKLvl = long.Parse(accountingForm.kBox.Text);
+			long playerMLvl = long.Parse(accountingForm.mBox.Text);
 
 			SetNewBoxesValues(gameCLvl, gameKLvl, gameMLvl);
 
