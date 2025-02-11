@@ -168,9 +168,43 @@ namespace vlc_works
 
 		private void PlayAgainSkip()
 		{
-			// according to Aizen's plan here operator will show params so just SafeStop()
+			DoDataBaseGameRecord();
+			accountingForm.SetIsFirstGame(false);
 			VideoChecker.SafeStop();
-			VideoChecker.AbortThreads(); // abort threads because here afterPlayAgainWaitThread can be alive
+			// here need to play game video
+		}
+
+		public void DoDataBaseGameRecord()
+		{
+
+			int playerCLvl = 0;
+			int playerKLvl = 0;
+			int playerMLvl = 0;
+
+			int gameCLvl = 0;
+			int gameKLvl = 0;
+			int gameMLvl = 0;
+
+			Db.InsertInAllTables(
+				playerIdStr: accountingForm.playerNameBox.Text,
+				unixTimeInt: Db.Now,
+				playerCLvl: playerCLvl,
+				playerKLvl: playerKLvl,
+				playerMLvl: playerMLvl,
+
+				gameCLvl: gameCLvl,
+				gameKLvl: gameKLvl,
+				gameMLvl: gameMLvl,
+
+				wonBoolInt: VideoChecker.won,
+				continuedBoolInt: VideoChecker.continued,
+
+				prizeInt: accountingForm.SelectedAward,
+				priceInt: accountingForm.SelectedPrice
+			);
+
+			VideoChecker.won = false; // zero won instantly 
+			VideoChecker.continued = false;
 		}
 
 		private void ProceedInput()
@@ -197,19 +231,7 @@ namespace vlc_works
 
 		public void PlayPlayAgain()
 		{
-			Db.InsertGameRecordsRecord(
-				unixTimeInt: Db.Now,
-				prizeInt: accountingForm.SelectedAward,
-				priceInt: accountingForm.SelectedPrice,
-				winBoolInt: VideoChecker.won,
-				gameType: accountingForm.SelectedGameType,
-				playerIdInt: 0, // for now its 0 later should be from ai users db
-				gameLevelInt: accountingForm.SelectedLevel
-				);
-			print($"PLAY AGAIN? {VideoChecker.currentLanguage.PlayAgain.Uri.AbsolutePath}");
 			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
-
-			VideoChecker.won = false; // zero won instantly 
 		}
 
 		public void PlayHowToPay()
@@ -401,17 +423,12 @@ namespace vlc_works
 
 		public void Stop()
 		{
-			VideoChecker.AbortThreads();
-			BeginInvoke(new Action(() =>
-			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop());
-			}));
+			BeginInvoke(new Action(() => ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop())));
 		}
 
 		public void StartGame()
 		{
 			print(accountingForm.isFirstGame);
-			VideoChecker.AbortThreads();
 
 			if (accountingForm.isFirstGame)
 			{
@@ -431,7 +448,6 @@ namespace vlc_works
 		{
 			BeginInvoke(new Action(() =>
 			{
-				VideoChecker.AbortThreads();
 				switch (stage)
 				{
 					case Stage.IDLE: // how can skip this one

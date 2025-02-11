@@ -432,7 +432,7 @@ namespace vlc_works
 			if (winsDataGridView.Rows.Count == 0)
 				return;
 
-			Db.DropTable(Db.TempPrizesTableName);
+			Db.EraseTableData(Db.TempPrizesTableName);
 			StartTables();
 		}
 
@@ -441,7 +441,7 @@ namespace vlc_works
 			if (priceDataGridView.Rows.Count == 0)
 				return;
 
-			Db.DropTable(Db.TempPricesTableName);
+			Db.EraseTableData(Db.TempPricesTableName);
 			StartTables();
 		}
 
@@ -560,7 +560,7 @@ namespace vlc_works
 		{
 			Invoke(new Action(() =>
 			{
-				isFirstGame = !firstGame;
+				isFirstGame = firstGame;
 				isFirstGameBut_Click(null, EventArgs.Empty);
 			}));
 		}

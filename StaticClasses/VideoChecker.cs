@@ -38,6 +38,7 @@ namespace vlc_works
 
 		// game things
 		public static bool won { get; set; }
+		public static bool continued { get; set; }
 		private static string code { get; set; } // inputed code like 01234E
 
 		public static Langs language { get; set; } // currently selected language
@@ -47,8 +48,6 @@ namespace vlc_works
 
 		// game with ai datas
 		public static bool isFirstGame { get; set; } = true;
-		private static Thread afterPlayAgainWaitThread { get; set; }
-		private static Thread afterHowToPayWaitThread { get; set; }
 
 		// some
 		private static void print(object str = null)
@@ -87,14 +86,6 @@ namespace vlc_works
 			path != errorVideo.Path && path != selectLang.Path && path != idle.Path &&
 			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
-		public static void AbortThreads()
-		{
-			if (afterHowToPayWaitThread != null && afterHowToPayWaitThread.IsAlive)
-				afterHowToPayWaitThread.Abort();
-			if (afterPlayAgainWaitThread != null && afterPlayAgainWaitThread.IsAlive)
-				afterPlayAgainWaitThread.Abort();
-		}
-
 		public static void VlcChanged()
 		{
 			code = Utils.GetCodeFromName(Utils.GetSafeFileName(videoFileName), strFrom, strTo).TrimEnd(' ') + "E";
@@ -102,8 +93,6 @@ namespace vlc_works
 			{
 				accountingForm.GotGameVideo(videoFileName, code);
 			});
-
-			AbortThreads();
 
 			videoGameTimeWas = 0;
 			errorsCount = 0;
@@ -309,33 +298,12 @@ namespace vlc_works
 
 		private static void EndPlayAgainVideo()
 		{
-			afterPlayAgainWaitThread = new Thread(() =>
-			{
-				const int waitTime = 2000;
 
-				print($"AWAITS TO PLAY IDLE AFTER PLAY AGAIN ENDED: {waitTime}");
-				Thread.Sleep(waitTime); // wait 2 seconds before play idle
-
-				clientForm.PlayIdle();
-				print("PLAYS IDLE AFTER PLAY AGAIN");
-			});
-			afterPlayAgainWaitThread.Start();
 		}
 
 		private static void EndHowToPay()
 		{
-			// nothing here because operator will select param himself for now
-			afterHowToPayWaitThread = new Thread(() =>
-			{
-				const int waitTime = 30000;
 
-				print($"AWAITS TO PLAY IDLE AFTER HOW TO PAY ENDED: {waitTime}");
-				Thread.Sleep(waitTime); // wait 30 seconds before play idle
-
-				clientForm.PlayIdle();
-				print("PLAYS IDLE AFTER HOW TO PAY");
-			});
-			afterHowToPayWaitThread.Start();
 		}
 
 		private static void EndGamePayed()

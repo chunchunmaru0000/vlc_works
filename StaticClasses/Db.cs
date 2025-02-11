@@ -201,6 +201,7 @@ SELECT price_int from {TempPricesTableName}
 			}
 
 			ExecuteNonQuery(createGameRecordsTable);
+			ExecuteNonQuery(createPlayersTable);
 			ExecuteNonQuery(createTempPrizesTable);
 			ExecuteNonQuery(createTempPricesTable);
 		}
@@ -270,11 +271,7 @@ SELECT price_int from {TempPricesTableName}
 			if (PlayerExists(playerIdStr))
 				UpdatePlayer(playerIdStr, gameCLvl, gameKLvl, gameMLvl);
 			else
-				InsertPlayer(
-					playerIdStr, 
-					gameCLvl != 1 ? gameCLvl : playerCLvl,
-					gameKLvl != 1 ? gameKLvl : playerKLvl,
-					gameMLvl != 1 ? gameMLvl : playerMLvl);
+				InsertPlayer(playerIdStr, playerCLvl, playerKLvl, playerMLvl);
 
 			ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));

@@ -1508,10 +1508,10 @@
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Label playerNameTextLabel;
 		private System.Windows.Forms.Label playerLvlTextLabel;
-		private System.Windows.Forms.TextBox playerNameBox;
-		private System.Windows.Forms.TextBox mBox;
-		private System.Windows.Forms.TextBox kBox;
-		private System.Windows.Forms.TextBox cBox;
+		public System.Windows.Forms.TextBox playerNameBox;
+		public System.Windows.Forms.TextBox mBox;
+		public System.Windows.Forms.TextBox kBox;
+		public System.Windows.Forms.TextBox cBox;
 		private System.Windows.Forms.Button mBut;
 		private System.Windows.Forms.Button kBut;
 		private System.Windows.Forms.Button cBut;
