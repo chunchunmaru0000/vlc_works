@@ -115,8 +115,10 @@ namespace vlc_works
 				stage = s;
 				print($"NOW IS [{stage}]");
 
+				VideoChecker.currentVideoPlayCount = 0;
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(uri));
 				print($"PLAY [{uri}]");
+				print($"CURRENT VIDEO PLAY COUNT = {VideoChecker.currentVideoPlayCount}");
 			}));
 		}
 
@@ -168,6 +170,8 @@ namespace vlc_works
 
 		private void PlayAgainSkip()
 		{
+			VideoChecker.continued = true;
+
 			DoDataBaseGameRecord();
 			accountingForm.SetIsFirstGame(false);
 			VideoChecker.SafeStop();
@@ -179,15 +183,20 @@ namespace vlc_works
 				? accountingForm.SelectedLevel 
 				: -1;
 
+		private long PlayerLvlOf(long gameLvl, TextBox box) =>
+			gameLvl == -1
+			? long.Parse(box.Text) // here just parse OF COURSE DANGEROUS but for now i dont know how to say it to operator
+			: gameLvl;
+
 		public void DoDataBaseGameRecord()
 		{
 			long gameCLvl = SelectedGameTypeIs(GameType.Guard);
 			long gameKLvl = SelectedGameTypeIs(GameType.Painting);
 			long gameMLvl = SelectedGameTypeIs(GameType.Mario);
 
-			long playerCLvl = 0;
-			long playerKLvl = 0;
-			long playerMLvl = 0;
+			long playerCLvl = PlayerLvlOf(gameCLvl, accountingForm.cBox);
+			long playerKLvl = PlayerLvlOf(gameKLvl, accountingForm.kBox);
+			long playerMLvl = PlayerLvlOf(gameMLvl, accountingForm.mBox);
 
 			Db.InsertInAllTables(
 				playerIdStr: accountingForm.playerNameBox.Text,
@@ -207,7 +216,7 @@ namespace vlc_works
 				priceInt: accountingForm.SelectedPrice
 			);
 
-			VideoChecker.won = false; // zero won instantly 
+			VideoChecker.won = false;
 			VideoChecker.continued = false;
 		}
 

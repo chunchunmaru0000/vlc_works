@@ -14,6 +14,7 @@ namespace vlc_works
 		private const int strFrom = 3;
 
 		private const int strTo = 5;
+		private const int maxVideoRepeatTimes = 5;
 
 		// forms
 		private static ClientForm clientForm { get; set; }
@@ -45,6 +46,8 @@ namespace vlc_works
 		public static bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
 		public static bool gameEnded { get; set; } = true; // also bad thing and better to do via stage
 		public static int errorsCount { get; set; } // how much errors inputed this game
+
+		public static int currentVideoPlayCount { get; set; } = 0;
 
 		// game with ai datas
 		public static bool isFirstGame { get; set; } = true;
@@ -183,8 +186,9 @@ namespace vlc_works
 		{
 			print($"ENDED PLAY: {endedVideoMrl}");
 
-			// cant use switch because its not constant values
-			if (endedVideoMrl == errorVideo.Uri.AbsoluteUri)
+			if (currentVideoPlayCount >= maxVideoRepeatTimes)
+				HandleInfinitePlay(endedVideoMrl);
+			else if (endedVideoMrl == errorVideo.Uri.AbsoluteUri)
 				EndDefeatVideo();
 			else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
 				EndVictoryVideo();
@@ -212,8 +216,14 @@ namespace vlc_works
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{
+				currentVideoPlayCount++;
 				clientForm.Replay();
 			}));
+		}
+
+		private static void HandleInfinitePlay(string endedVideoMrl)
+		{
+
 		}
 
 		private static void EndParamsShowVideo()
@@ -298,7 +308,7 @@ namespace vlc_works
 
 		private static void EndPlayAgainVideo()
 		{
-
+			clientForm.DoDataBaseGameRecord();
 		}
 
 		private static void EndHowToPay()

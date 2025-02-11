@@ -245,7 +245,7 @@ SELECT price_int from {TempPricesTableName}
 				gameCLvl, gameKLvl, gameMLvl, wonBoolInt, continuedBoolInt, prizeInt, priceInt);
 
 			if (PlayerExists(playerIdStr))
-				UpdatePlayer(playerIdStr, gameCLvl, gameKLvl, gameMLvl);
+				UpdatePlayer(playerIdStr, playerCLvl, playerKLvl, playerMLvl);
 			else
 				InsertPlayer(playerIdStr, playerCLvl, playerKLvl, playerMLvl);
 
