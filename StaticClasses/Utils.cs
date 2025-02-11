@@ -27,7 +27,7 @@ namespace vlc_works
 							.Trim('\r')
 							.Split('=')
 							.Skip(1))
-						.Replace("\u202A", "")) // he is from Israel so there is a possibility of him using this symbol
+						.HebrewTrim()) // he is from Israel so there is a possibility of him using this symbol
 				.ToArray();
 
 		public static string[] GetVideoNames(string videonamestxt)

@@ -147,6 +147,8 @@ namespace vlc_works
 
 		private void InitButtons()
 		{
+			doOnlyDark(cBut);
+
 			award50But.Click +=   OnAwardButClicked;
 			award250But.Click +=   OnAwardButClicked;
 			award100But.Click +=  OnAwardButClicked;
@@ -597,7 +599,29 @@ namespace vlc_works
 
 		private void requestDbUserDataBut_Click(object sender, EventArgs e)
 		{
-			
+			string playerIdStr = playerNameBox.Text.HebrewTrim().Trim();
+			DbPlayer player = Db.FindPlayer(playerIdStr);
+
+			if (player == null)
+			{
+				if (string.IsNullOrEmpty(playerIdStr))
+				{
+					MessageBox.Show("ПУСТОЙ ID ИГРОКА");
+					Console.WriteLine("\n\n123\n\n");
+					return;
+				}
+
+				Db.InsertPlayer(playerIdStr, 0, 0, 0);
+				cBox.Text = "0";
+				kBox.Text = "0";
+				mBox.Text = "0";
+			}
+			else
+			{
+				cBox.Text = player.C.ToString();
+				kBox.Text = player.K.ToString();
+				mBox.Text = player.M.ToString();
+			}
 		}
 		#endregion TEMPORAL_CONTROLS
 	}
