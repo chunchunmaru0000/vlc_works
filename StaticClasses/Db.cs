@@ -167,14 +167,14 @@ SELECT price_int from {TempPricesTableName}
 
 		public static void BeginSQL()
 		{
+			if (!IsNotConnected)
+				return;
+
 			if (!File.Exists(dbName))
 				SQLiteConnection.CreateFile(dbName);
 
-			if (SqLiteConnection == null)
-			{
-				SqLiteConnection = new SQLiteConnection(connectionString);
-				SqLiteConnection.Open();
-			}
+			SqLiteConnection = new SQLiteConnection(connectionString);
+			SqLiteConnection.Open();
 
 			ExecuteNonQuery(createGameRecordsTable);
 			ExecuteNonQuery(createPlayersTable);

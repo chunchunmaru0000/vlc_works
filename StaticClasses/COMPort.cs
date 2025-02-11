@@ -4,7 +4,6 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
 using System.Linq;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace vlc_works
 {

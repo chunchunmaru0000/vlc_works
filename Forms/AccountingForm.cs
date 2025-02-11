@@ -213,12 +213,10 @@ namespace vlc_works
 
 				if (PayedBalance >= SelectedPrice)
 				{
-					if (clientForm.stage == Stage.HOW_PO_PAY)
+					if (clientForm.stage == Stage.HOW_PO_PAY || clientForm.stage == Stage.COST_AND_PRIZE)
 					{
 						clientForm.PlayGamePayed();
 						PayedBalance -= SelectedPrice;
-
-						//Db.InsertPrice(Game_id, SelectedPrice); WASDB
 					}
 				}
 
@@ -294,9 +292,11 @@ namespace vlc_works
 
 		private void StartPayedBalance()
 		{
-			if (PayedBalance > 0 
-				&& clientForm.stage == Stage.HOW_PO_PAY 
-				|| clientForm.stage == Stage.COST_AND_PRIZE)
+			if (PayedBalance > 0 && 
+				!( clientForm.stage == Stage.HOW_PO_PAY 
+				|| clientForm.stage == Stage.COST_AND_PRIZE
+				|| clientForm.stage == Stage.GAME_PAYED)
+				)
 				payedCountLabel.Text = PayedBalance.ToString() + " ПЕРЕПЛАТА";
 			else
 				payedCountLabel.Text = PayedBalance.ToString();

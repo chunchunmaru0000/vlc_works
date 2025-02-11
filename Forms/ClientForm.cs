@@ -243,6 +243,9 @@ namespace vlc_works
 
 			VideoChecker.won = false;
 			VideoChecker.continued = false;
+
+			print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
+			accountingForm.Invoke(new Action(accountingForm.StartTables));
 		}
 
 		private void ProceedInput()
