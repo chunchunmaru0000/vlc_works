@@ -174,16 +174,20 @@ namespace vlc_works
 			// here need to play game video
 		}
 
+		private long SelectedGameTypeIs(GameType gameType) => 
+			accountingForm.SelectedGameType == gameType 
+				? accountingForm.SelectedLevel 
+				: -1;
+
 		public void DoDataBaseGameRecord()
 		{
+			long gameCLvl = SelectedGameTypeIs(GameType.Guard);
+			long gameKLvl = SelectedGameTypeIs(GameType.Painting);
+			long gameMLvl = SelectedGameTypeIs(GameType.Mario);
 
-			int playerCLvl = 0;
-			int playerKLvl = 0;
-			int playerMLvl = 0;
-
-			int gameCLvl = 0;
-			int gameKLvl = 0;
-			int gameMLvl = 0;
+			long playerCLvl = 0;
+			long playerKLvl = 0;
+			long playerMLvl = 0;
 
 			Db.InsertInAllTables(
 				playerIdStr: accountingForm.playerNameBox.Text,

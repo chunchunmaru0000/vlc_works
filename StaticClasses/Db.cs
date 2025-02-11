@@ -3,33 +3,9 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace vlc_works
 {
-	public struct DbSelectGamesItem
-	{
-		public long Id { get; set; }
-		public long GameAward { get; set; }
-		public long GamePrice { get; set; }
-		public long GameLevel { get; set; }
-		public long GameStartTime { get; set; }
-
-		public DbSelectGamesItem(long id, long gameAward, long gamePrice, long gameLevel, long gameStartTime)
-		{
-			Id = id;
-			GameAward = gameAward;
-			GamePrice = gamePrice;
-			GameLevel = gameLevel;
-			GameStartTime = gameStartTime;
-		}
-
-		public static DbSelectGamesItem Arr2GamesItem(long[] arr) => 
-			new DbSelectGamesItem(arr[0], arr[1], arr[2], arr[3], arr[4]);
-
-		public override string ToString() => $"{Id} {GameAward} {GamePrice} {GameLevel} {Db.SecToTime(GameStartTime)}";
-	}
-
 	public static class Db
 	{
 		#region CONSTANTS
@@ -52,7 +28,7 @@ CREATE TABLE IF NOT EXISTS {PlayersTableName} (
 	m_lvl_int INTEGER NOT NULL
 );
 ";
-		public static void InsertPlayer(string playerIdStr, int cLvlInt, int kLvlInt, int mLvlInt)
+		public static void InsertPlayer(string playerIdStr, long cLvlInt, long kLvlInt, long mLvlInt)
 			{ 
 				string command = $@"
 INSERT INTO {PlayersTableName} (player_id_str, c_lvl_int, k_lvl_int, m_lvl_int)
@@ -93,8 +69,8 @@ CREATE TABLE IF NOT EXISTS {GameRecordsTableName} (
 ";
 		public static void InsertGameRecord(
 			string player_id_str, long unix_time_int,
-			int player_c_lvl, int player_k_lvl, int player_m_lvl,
-			int game_c_lvl,   int game_k_lvl,   int game_m_lvl,
+			long player_c_lvl, long player_k_lvl, long player_m_lvl,
+			long game_c_lvl, long game_k_lvl, long game_m_lvl,
 			bool won_bool_int, bool continued_bool_int, long price_int, long prize_int
 			)
 		{
@@ -254,9 +230,9 @@ SELECT price_int from {TempPricesTableName}
 		}
 
 		public static void InsertInAllTables(
-			string playerIdStr, long unixTimeInt, 
-			int playerCLvl, int playerKLvl, int playerMLvl,
-			int gameCLvl,   int gameKLvl,   int gameMLvl,
+			string playerIdStr, long unixTimeInt,
+			long playerCLvl, long playerKLvl, long playerMLvl,
+			long gameCLvl, long gameKLvl, long gameMLvl,
 			bool wonBoolInt, bool continuedBoolInt,
 			long prizeInt, long priceInt
 			)

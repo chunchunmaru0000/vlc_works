@@ -15,8 +15,6 @@ namespace vlc_works
 		private TextSettings settings { get; set; }
 		// until here operator form
 		public ClientForm clientForm { get; set; }
-		// sql
-		private List<DbSelectGamesItem> GamesItems { get; set; }
 		// selects
 		public long SelectedAward { get; set; }
 		public long SelectedLevel { get; set; }
@@ -64,7 +62,7 @@ namespace vlc_works
 		{
 			new Thread(() =>
 			{
-				Thread.Sleep(2000);
+				Thread.Sleep(5000);
 				while (true)
 				{
 					Invoke(new Action(() => timeLabel.Text = SelectedTimeString));
@@ -251,13 +249,6 @@ namespace vlc_works
 		}
 		#endregion
 		#region TABLES
-		private void LogData()
-		{
-			Console.WriteLine("<------- DATABASE DATA ------->");
-			Console.WriteLine(string.Join("\n", GamesItems.Select(g => g.ToString())));
-			Console.WriteLine("<------- DATABASE  END ------->");
-		}
-
 		private DataGridViewRow GetRowWithTextCell(string cellText)
 		{
 			DataGridViewRow row = new DataGridViewRow();
@@ -560,7 +551,7 @@ namespace vlc_works
 		{
 			Invoke(new Action(() =>
 			{
-				isFirstGame = firstGame;
+				isFirstGame = !firstGame;
 				isFirstGameBut_Click(null, EventArgs.Empty);
 			}));
 		}
@@ -570,18 +561,17 @@ namespace vlc_works
 			const string on = "Режим первой игры: Включено";
 			const string off = "Режим первой игры: Выключено";
 
+			isFirstGame = !isFirstGame;
 			if (isFirstGame)
-			{
-				isFirstGameBut.BackColor = Color.LawnGreen;
-				isFirstGameBut.Text = off;
-			}
-			else
 			{
 				isFirstGameBut.BackColor = Color.Coral;
 				isFirstGameBut.Text = on;
 			}
-
-			isFirstGame = !isFirstGame;
+			else
+			{
+				isFirstGameBut.BackColor = Color.LawnGreen;
+				isFirstGameBut.Text = off;
+			}
 		}
 
 		private void doOnlyDark(Button button)
@@ -604,6 +594,11 @@ namespace vlc_works
 		private void kBut_Click(object sender, EventArgs e) => DoCKMButClick(kBut);
 
 		private void mBut_Click(object sender, EventArgs e) => DoCKMButClick(mBut);
+
+		private void requestDbUserDataBut_Click(object sender, EventArgs e)
+		{
+			
+		}
 		#endregion TEMPORAL_CONTROLS
 	}
 }
