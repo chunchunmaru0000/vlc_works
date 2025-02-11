@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
 using System.Linq;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace vlc_works
 {
@@ -134,6 +135,8 @@ namespace vlc_works
 
 		private static void HandleUnknownInput(int index)
 		{
+			if (index >= notParsed.Count)
+				return;
 			Console.WriteLine($"UNKNOWN COM PORT INPUT {notParsed[index]:X2}");
 			notParsed.RemoveAt(index);
 			TryParseCommand();
@@ -154,6 +157,8 @@ namespace vlc_works
 
 			if (accountingForm != null)
 				accountingForm.IncCoinsInStock(firstCounter);
+
+			TryParseCommand();
 		}
 
 		private static bool isCommand(byte[] command)
@@ -195,10 +200,8 @@ namespace vlc_works
 				notParsed.RemoveRange(0, rspLen); // remove all command
 			}
 			else
-			{
 				notParsed.RemoveAt(0);
-				TryParseCommand();
-			}
+			TryParseCommand();
 		}
 
 		private static void ParseCoinIn()
@@ -206,9 +209,13 @@ namespace vlc_works
 			if (isReceivedCoin())
 			{
 				Console.WriteLine("1 COIN RECEIVED");
-				accountingForm.IncBalance(AccountingForm.oneCoinShekels);
+				accountingForm.IncCoinsInStock(AccountingForm.oneCommandCoins);
 				notParsed.RemoveRange(0, rsp["Received coin"].Length);
 			}
+			else
+				HandleUnknownInput(0);
+
+			TryParseCommand();
 		}
 		#endregion STATIC_METHODS
 	}

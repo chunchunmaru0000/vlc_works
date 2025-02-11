@@ -74,15 +74,25 @@ namespace vlc_works
 
 		private static void SetPathsAndUri(string[] lines)
 		{
-			langs[Langs.RUSSIAN] = Language.Get(Langs.RUSSIAN, lines, 0);
-			langs[Langs.ENGLISH] = Language.Get(Langs.ENGLISH, lines, 1);
-			langs[Langs.HEBREW] = Language.Get(Langs.HEBREW, lines, 2);
+			try
+			{
+				langs[Langs.RUSSIAN] = Language.Get(Langs.RUSSIAN, lines, 0);
+				langs[Langs.ENGLISH] = Language.Get(Langs.ENGLISH, lines, 1);
+				langs[Langs.HEBREW] = Language.Get(Langs.HEBREW, lines, 2);
 
-			int afterLangsLinesOffset = 18;
+				int afterLangsLinesOffset = 18;
 
-			errorVideo = new PathUri(lines[afterLangsLinesOffset++]);
-			idle = new PathUri(lines[afterLangsLinesOffset++]);
-			selectLang = new PathUri(lines[afterLangsLinesOffset++]);
+				errorVideo = new PathUri(lines[afterLangsLinesOffset++]);
+				idle = new PathUri(lines[afterLangsLinesOffset++]);
+				selectLang = new PathUri(lines[afterLangsLinesOffset++]);
+			}
+			catch
+			{
+				MessageBox.Show(
+					$"ФАЙЛ {VLCChecker.videonamestxt} НЕ БЫЛ УСПЕШНО ПРОЧИТАН\n" +
+					$"ТАК КАК ВЕРОЯТНО БЫЛО НЕДОСТАТОЧНО ПУТЕЙ");
+				Environment.Exit(0);
+			}
 		}
 
 		public static bool IsNotUsedPath(string path) =>
@@ -219,13 +229,16 @@ namespace vlc_works
 			{
 				if (clientForm.stage != Stage.IDLE) 
 					currentVideoPlayCount++;
-
+				print($"CURRENT VIDEO REPLAY COUNT {currentVideoPlayCount}");
 				clientForm.Replay();
 			}));
 		}
 
 		private static void HandleInfinitePlay(string endedVideoMrl)
 		{
+			print(
+				$"HANDLE INFINITE REPLAY, REPLAY COUNT: {currentVideoPlayCount}\n" +
+				$"CEASES TO INFINITE PLAY {endedVideoMrl}");
 			currentVideoPlayCount = 0;
 			clientForm.PlayIdle();
 

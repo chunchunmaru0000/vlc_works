@@ -396,30 +396,6 @@ namespace vlc_works
 		// <-------------- OPERATOR FORM ABOVE -------------->
 		#endregion
 		#region DOWN_PART_BUTTONS
-		private void showButton_Click(object sender, EventArgs e)
-		{
-			if (
-				awardLabel.Text != NullText &&
-				levelLabel.Text != NullText &&
-				priceLabel.Text != NullText
-				)
-			{
-				//Db.InsertAll(SelectedAward, SelectedPrice, SelectedLevel, Db.Now);
-				//StartTables();
-				clientForm.Invoke(new Action(() =>
-				{
-					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
-					clientForm.stage = Stage.COST_AND_PRIZE;
-				}));
-			}
-			else
-				MessageBox.Show(
-					$"НЕ ВСЕ ЗНАЧЕНИЯ ВЫБРАНЫ\n" +
-					$"ПРИЗ:      {awardLabel.Text}\n" + 
-					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
-					$"СТОИМОСТЬ: {priceLabel.Text}");
-		}
-
 		private void dropWinsBut_Click(object sender, EventArgs e)
 		{
 			if (winsDataGridView.Rows.Count == 0)
@@ -484,6 +460,28 @@ namespace vlc_works
 		}
 		#endregion
 		#region UPPER_PART_BUTTONS
+		private void showButton_Click(object sender, EventArgs e)
+		{
+			if (
+				awardLabel.Text != NullText &&
+				levelLabel.Text != NullText &&
+				priceLabel.Text != NullText
+				)
+			{
+				clientForm.Invoke(new Action(() =>
+				{
+					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
+					clientForm.stage = Stage.COST_AND_PRIZE;
+				}));
+			}
+			else
+				MessageBox.Show(
+					$"НЕ ВСЕ ЗНАЧЕНИЯ ВЫБРАНЫ\n" +
+					$"ПРИЗ:      {awardLabel.Text}\n" + 
+					$"УРОВЕНЬ:   {levelLabel.Text}\n" +
+					$"СТОИМОСТЬ: {priceLabel.Text}");
+		}
+
 		private void draawPayed_Click(object sender, EventArgs e)
 		{
 			DecBalance(PayedBalance);

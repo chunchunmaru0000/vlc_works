@@ -191,24 +191,28 @@ namespace vlc_works
 
 		private void SetNewBoxesValues(long c, long k, long m)
 		{
-			switch (accountingForm.SelectedGameType)
+			accountingForm.Invoke(new Action(() =>
 			{
-				case GameType.Guard:
-					accountingForm.cBox.Text = c.ToString();
-					break;
-				case GameType.Painting:
-					accountingForm.kBox.Text = k.ToString();
-					break;
-				case GameType.Mario:
-					accountingForm.mBox.Text = m.ToString();
-					break;
-				default:
-					break;
-			}
+				switch (accountingForm.SelectedGameType)
+				{
+					case GameType.Guard:
+						accountingForm.cBox.Text = c.ToString();
+						break;
+					case GameType.Painting:
+						accountingForm.kBox.Text = k.ToString();
+						break;
+					case GameType.Mario:
+						accountingForm.mBox.Text = m.ToString();
+						break;
+					default:
+						break;
+				}
+			}));
 		}
 
 		public void DoDataBaseGameRecord()
 		{
+			print("DOES DATABASE RECORD");
 			long gameCLvl = SelectedGameTypeIs(GameType.Guard);
 			long gameKLvl = SelectedGameTypeIs(GameType.Painting);
 			long gameMLvl = SelectedGameTypeIs(GameType.Mario);

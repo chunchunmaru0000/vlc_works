@@ -18,8 +18,8 @@ namespace vlc_works
 		private static Process lastVlcProcess { get; set; }
 		private static string lastCommandLine { get; set; } = string.Empty;
 		// constants
-		const string processToCheckName = "vlc";
-		const string videonamestxt = "videonames.txt";
+		private const string processToCheckName = "vlc";
+		public const string videonamestxt = "videonames.txt";
 		// some
 		static void print(object str = null)
 		{
