@@ -135,6 +135,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Related\Apparat-Coins Operations.png" />
+    <Content Include="Related\games_table_structure.jpeg" />
+    <Content Include="Related\todo.txt" />
     <Content Include="Related\videonames.txt" />
     <Content Include="Related\План.png" />
   </ItemGroup>

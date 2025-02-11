@@ -41,10 +41,10 @@ namespace vlc_works
 		public const string TempPrizesTableName = "temp_prizes";
 		public const string TempPricesTableName = "temp_prices";
 		#endregion CONSTANTS
-		#region SQL COMMANDS
+		#region MAIN_TABLES
 		private static string createPlayersTable = $@"
 CREATE TABLE IF NOT EXISTS {PlayersTableName} (
-	id INTEGER NOT NULL,
+	id INTEGER PRIMARY KEY,
 
 	player_id_str TEXT NOT NULL,
 	c_lvl_int INTEGER NOT NULL,
@@ -144,7 +144,9 @@ INSERT INTO {GameRecordsTableName} (
 				cmd.ExecuteNonQuery();
 			}
 		}
+		#endregion MAIN_TABLES
 
+		#region TEMP_TABLES
 		private static string createTempPrizesTable = $@"
 CREATE TABLE IF NOT EXISTS {TempPrizesTableName} (
 	id INTEGER PRIMARY KEY,
@@ -172,7 +174,7 @@ INSERT INTO temp_prices (price_int) VALUES ({priceInt})
 		public static string SelectAllTempPrices = $@"
 SELECT price_int from {TempPricesTableName}
 ";
-		#endregion SQL COMMANDS
+		#endregion TEMP_TABLES
 		private static SQLiteConnection SqLiteConnection { get; set; }
 		private static bool IsNotConnected { get => SqLiteConnection == null || SqLiteConnection.IsCanceled(); }
 		private static void ExecuteNonQuery(string commandStr)
@@ -210,11 +212,44 @@ SELECT price_int from {TempPricesTableName}
 			SqLiteConnection.Close();
 		}
 
-		public static void DropTable(string tableName) 
+		public static void EraseTableData(string tableName) 
 		{
 			if (IsNotConnected)
 				return;
-			ExecuteNonQuery($"DROP TABLE {tableName}"); 
+			ExecuteNonQuery($"DELETE FROM {tableName}"); 
+		}
+
+		private static bool PlayerExists(string playerIdStr)
+		{
+			string query = $"SELECT COUNT(*) FROM {PlayersTableName} WHERE player_id_str = @playerIdStr";
+
+			using (SQLiteCommand cmd = new SQLiteCommand(query, SqLiteConnection))
+			{
+				cmd.Parameters.AddWithValue("@playerIdStr", playerIdStr);
+				return Convert.ToInt64(cmd.ExecuteScalar()) > 0; // == 1
+			}
+		}
+
+		private static void UpdatePlayerIntData(string playerIdStr, long data, string param)
+		{
+			string query = $"UPDATE {PlayersTableName} SET {param} = @data WHERE player_id_str = @playerIdStr";
+
+			using (SQLiteCommand cmd = new SQLiteCommand(query, SqLiteConnection))
+			{
+				cmd.Parameters.AddWithValue("@data", data);
+				cmd.Parameters.AddWithValue("@playerIdStr", playerIdStr);
+				cmd.ExecuteNonQuery();
+			}
+		}
+
+		private static void UpdatePlayer(string playerIdStr, long gameCLvl, long gameKLvl, long gameMLvl)
+		{
+			if (gameCLvl != -1) // -1 is like - or Null or None 
+				UpdatePlayerIntData(playerIdStr, gameCLvl, "c_lvl_int");
+			if (gameKLvl != -1)
+				UpdatePlayerIntData(playerIdStr, gameKLvl, "k_lvl_int");
+			if (gameMLvl != -1)
+				UpdatePlayerIntData(playerIdStr, gameMLvl, "m_lvl_int");
 		}
 
 		public static void InsertInAllTables(
@@ -228,14 +263,19 @@ SELECT price_int from {TempPricesTableName}
 			if (IsNotConnected)
 				return;
 
-			if (Contains player where player_id = playerIdStr)
-				update table players where player_id = playerIdStr 
-				set playerCLvl = ..., playerKLvl = ..., playerMLvl = ...
-			else
-				InsertPlayer(playerIdStr, 0, 0, 0);
 			InsertGameRecord(
 				playerIdStr, unixTimeInt, playerCLvl, playerKLvl, playerMLvl, 
 				gameCLvl, gameKLvl, gameMLvl, wonBoolInt, continuedBoolInt, prizeInt, priceInt);
+
+			if (PlayerExists(playerIdStr))
+				UpdatePlayer(playerIdStr, gameCLvl, gameKLvl, gameMLvl);
+			else
+				InsertPlayer(
+					playerIdStr, 
+					gameCLvl != 1 ? gameCLvl : playerCLvl,
+					gameKLvl != 1 ? gameKLvl : playerKLvl,
+					gameMLvl != 1 ? gameMLvl : playerMLvl);
+
 			ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
 		}
