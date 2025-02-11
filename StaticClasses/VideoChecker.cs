@@ -188,6 +188,7 @@ namespace vlc_works
 
 			if (currentVideoPlayCount >= maxVideoRepeatTimes)
 				HandleInfinitePlay(endedVideoMrl);
+
 			else if (endedVideoMrl == errorVideo.Uri.AbsoluteUri)
 				EndDefeatVideo();
 			else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
@@ -195,7 +196,7 @@ namespace vlc_works
 			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
 				EndGameVideo();
 			else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
-				SafeStop();
+				Replay();
 			else if (langs.Values.Any(l => l.Params.Uri.AbsoluteUri == endedVideoMrl))
 				EndParamsShowVideo();
 			else if (endedVideoMrl == selectLang.Uri.AbsoluteUri)
@@ -203,9 +204,9 @@ namespace vlc_works
 			else if (endedVideoMrl == idle.Uri.AbsoluteUri)
 				Replay();
 			else if (langs.Values.Any(l => l.PlayAgain.Uri.AbsoluteUri == endedVideoMrl))
-				EndPlayAgainVideo();
+				Replay();
 			else if (langs.Values.Any(l => l.HowToPay.Uri.AbsoluteUri == endedVideoMrl))
-				EndHowToPay();
+				Replay();
 			else if (langs.Values.Any(l => l.GamePayed.Uri.AbsoluteUri == endedVideoMrl))
 				EndGamePayed();
 			else
@@ -216,14 +217,21 @@ namespace vlc_works
 		{
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				currentVideoPlayCount++;
+				if (clientForm.stage != Stage.IDLE) 
+					currentVideoPlayCount++;
+
 				clientForm.Replay();
 			}));
 		}
 
 		private static void HandleInfinitePlay(string endedVideoMrl)
 		{
+			currentVideoPlayCount = 0;
+			clientForm.PlayIdle();
 
+			// continued = false; commented because it will be false already here
+			if (endedVideoMrl == currentLanguage.PlayAgain.Uri.AbsoluteUri)
+				clientForm.DoDataBaseGameRecord();
 		}
 
 		private static void EndParamsShowVideo()
@@ -308,7 +316,7 @@ namespace vlc_works
 
 		private static void EndPlayAgainVideo()
 		{
-			clientForm.DoDataBaseGameRecord();
+
 		}
 
 		private static void EndHowToPay()

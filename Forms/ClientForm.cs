@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -188,6 +189,24 @@ namespace vlc_works
 			? long.Parse(box.Text) // here just parse OF COURSE DANGEROUS but for now i dont know how to say it to operator
 			: gameLvl;
 
+		private void SetNewBoxesValues(long c, long k, long m)
+		{
+			switch (accountingForm.SelectedGameType)
+			{
+				case GameType.Guard:
+					accountingForm.cBox.Text = c.ToString();
+					break;
+				case GameType.Painting:
+					accountingForm.kBox.Text = k.ToString();
+					break;
+				case GameType.Mario:
+					accountingForm.mBox.Text = m.ToString();
+					break;
+				default:
+					break;
+			}
+		}
+
 		public void DoDataBaseGameRecord()
 		{
 			long gameCLvl = SelectedGameTypeIs(GameType.Guard);
@@ -197,6 +216,8 @@ namespace vlc_works
 			long playerCLvl = PlayerLvlOf(gameCLvl, accountingForm.cBox);
 			long playerKLvl = PlayerLvlOf(gameKLvl, accountingForm.kBox);
 			long playerMLvl = PlayerLvlOf(gameMLvl, accountingForm.mBox);
+
+			SetNewBoxesValues(gameCLvl, gameKLvl, gameMLvl);
 
 			Db.InsertInAllTables(
 				playerIdStr: accountingForm.playerNameBox.Text,
