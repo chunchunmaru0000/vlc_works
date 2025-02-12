@@ -123,6 +123,12 @@ namespace vlc_works
 			}));
 		}
 
+		private string[] inputNames = new string[] 
+		{
+			"playerNameBox",
+			"cBox", "kBox", "mBox"
+		};
+
 		private void OnWinKeyDown(object sender, KeyEventArgs e)
 		{
 			Keys k = e.KeyCode;
@@ -158,6 +164,11 @@ namespace vlc_works
 				}
 			}
 
+			if (accountingForm != null &&
+				accountingForm.ActiveControl != null &&
+				inputNames.Contains(accountingForm.ActiveControl.Name))
+				return;
+
 			if (NumKeys.Contains(k) || k == Keys.Enter)
 				DrawNum(k);
 			if (k == Keys.Enter)
@@ -184,15 +195,13 @@ namespace vlc_works
 				? accountingForm.SelectedLevel 
 				: -1;
 
-		private long PlayerLvlOf(long gameLvl, TextBox box) =>
-			gameLvl == -1
-			? long.Parse(box.Text) // here just parse OF COURSE DANGEROUS but for now i dont know how to say it to operator
-			: gameLvl;
-
 		private void SetNewBoxesValues(long c, long k, long m)
 		{
 			accountingForm.Invoke(new Action(() =>
 			{
+				if (!VideoChecker.won) // if not won does not update antng because lvl remains the same
+					return;
+
 				switch (accountingForm.SelectedGameType)
 				{
 					case GameType.Guard:
@@ -223,12 +232,20 @@ namespace vlc_works
 
 			SetNewBoxesValues(gameCLvl, gameKLvl, gameMLvl);
 
+			long playerUpdCLvl = long.Parse(accountingForm.cBox.Text);
+			long playerUpdKLvl = long.Parse(accountingForm.kBox.Text);
+			long playerUpdMLvl = long.Parse(accountingForm.mBox.Text);
+
 			Db.InsertInAllTables(
 				playerIdStr: accountingForm.playerNameBox.Text,
 				unixTimeInt: Db.Now,
 				playerCLvl: playerCLvl,
 				playerKLvl: playerKLvl,
 				playerMLvl: playerMLvl,
+
+				playerUpdCLvl: playerUpdCLvl,
+				playerUpdKLvl: playerUpdKLvl,
+				playerUpdMLvl: playerUpdMLvl,
 
 				gameCLvl: gameCLvl,
 				gameKLvl: gameKLvl,

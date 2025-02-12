@@ -234,20 +234,23 @@ SELECT price_int from {TempPricesTableName}
 			long playerCLvl, long playerKLvl, long playerMLvl,
 			long gameCLvl, long gameKLvl, long gameMLvl,
 			bool wonBoolInt, bool continuedBoolInt,
-			long prizeInt, long priceInt
+			long prizeInt, long priceInt,
+			long playerUpdCLvl, long playerUpdKLvl, long playerUpdMLvl
 			)
 		{ 
 			if (IsNotConnected)
 				return;
 
 			InsertGameRecord(
-				playerIdStr, unixTimeInt, playerCLvl, playerKLvl, playerMLvl, 
-				gameCLvl, gameKLvl, gameMLvl, wonBoolInt, continuedBoolInt, prizeInt, priceInt);
+				playerIdStr, unixTimeInt, 
+				playerCLvl, playerKLvl, playerMLvl, 
+				gameCLvl, gameKLvl, gameMLvl, 
+				wonBoolInt, continuedBoolInt, prizeInt, priceInt);
 
 			if (PlayerExists(playerIdStr))
-				UpdatePlayer(playerIdStr, playerCLvl, playerKLvl, playerMLvl);
+				UpdatePlayer(playerIdStr, playerUpdCLvl, playerUpdKLvl, playerUpdMLvl);
 			else
-				InsertPlayer(playerIdStr, playerCLvl, playerKLvl, playerMLvl);
+				InsertPlayer(playerIdStr, playerUpdCLvl, playerUpdKLvl, playerUpdMLvl);
 
 			ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
