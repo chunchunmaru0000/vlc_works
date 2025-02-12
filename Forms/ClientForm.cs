@@ -53,6 +53,7 @@ namespace vlc_works
 			// accounting form
 			accountingForm = new AccountingForm(this);
 			accountingForm.Show();
+			RelayChecker.Constructor(accountingForm);
 			// set vlc
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;
@@ -342,6 +343,13 @@ namespace vlc_works
 				return;
 
 			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
+
+			new Thread(() =>
+			{
+				RelayChecker.Transmit(2, true); // 5 seconds on to 2 channel
+				Thread.Sleep(5000);
+				RelayChecker.Transmit(2, false); // off
+			}).Start();
 		}
 
 		private void SkipRules()
@@ -498,6 +506,7 @@ namespace vlc_works
 		public void PlayIdle()
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
+			RelayChecker.Transmit(4, true); // highligh on
 		}
 
 		public void Stop()
@@ -523,6 +532,15 @@ namespace vlc_works
 
 			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
 			DeleteInput();
+
+			new Thread(() =>
+			{
+				RelayChecker.Transmit(4, false); // highligh off
+				Thread.Sleep(100);
+				RelayChecker.Transmit(1, true); // 5 seconds on to 1 channel
+				Thread.Sleep(5000);
+				RelayChecker.Transmit(1, false); // off
+			}).Start();
 		}
 
 		public void SkipStage()

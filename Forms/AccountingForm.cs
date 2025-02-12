@@ -6,6 +6,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using UsbRelayNet.RelayLib;
 
 namespace vlc_works
 {
@@ -74,7 +75,7 @@ namespace vlc_works
 		private void InitClearFocusThread()
 		{
 			string[] excludeControls = new string[] 
-			{ "comBox", "cBox", "kBox", "mBox", "playerNameBox" };
+			{ "comBox", "cBox", "kBox", "mBox", "playerNameBox", "relayBox" };
 
 			new Thread(() => {
 				Thread.Sleep(2000);
@@ -329,6 +330,7 @@ namespace vlc_works
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Db.EndSQL();
+			RelayChecker.Close();
 			Environment.Exit(0);
 		}
 		#endregion
@@ -637,14 +639,26 @@ namespace vlc_works
 		}
 		#endregion TEMPORAL_CONTROLS
 		#region RELAY
+		private RelaysEnumerator relaysEnumerator { get; } = new RelaysEnumerator();
+
 		private void relayBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			RelayChecker.Close();
 
+			RelayInfo relayInfo = comBox.SelectedItem as RelayInfo;
+			RelayChecker.SelectedRelay = new Relay(relayInfo);
+			RelayChecker.SelectedRelay.Open();
+
+			relayOffOnLabel.Text = "ON";
 		}
 
 		private void relayBox_DropDown(object sender, EventArgs e)
 		{
-
+			relayBox.Items.Clear();
+			relayBox.Items.AddRange(
+				relaysEnumerator
+				.CollectInfo()
+				.ToArray());
 		}
 		#endregion
 	}

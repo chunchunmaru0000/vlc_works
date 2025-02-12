@@ -197,6 +197,13 @@ namespace vlc_works
 				accountingForm.StartTables(); // refresh tables
 				COMPort.MoneyOut(accountingForm.SelectedAward, accountingForm);
 			}));
+
+			new Thread(() =>
+			{
+				RelayChecker.Transmit(3, true); // 10 seconds on to 3 channel
+				Thread.Sleep(10000);
+				RelayChecker.Transmit(3, false); // off
+			}).Start();
 		}
 
 		#endregion PLAY_VIDEOS
