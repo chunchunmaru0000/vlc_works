@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -33,7 +32,6 @@ namespace vlc_works
 		public static long Game_id { get; set; }
 		// consts
 		private const string NullText = "####";
-		private Dictionary<Button, long> AwardBut2long { get; set; }
 		private Dictionary<Button, long> LevelBut2long { get; set; }
 		private Dictionary<Button, long> PriceBut2long { get; set; }
 		private Dictionary<Button, GameType> ButToGameType { get; set; }
@@ -51,6 +49,7 @@ namespace vlc_works
 
 			InitSettings();
 			InitDictionares();
+			InitAwardGrid();
 			InitButtons();
 			InitBalance();
 			StartTables();
@@ -115,14 +114,6 @@ namespace vlc_works
 
 		private void InitDictionares()
 		{
-			AwardBut2long = new Dictionary<Button, long>()
-			{
-		        { award50But, 50 },
-				{ award250But, 250 },   { award100But, 100 },
-				{ award150But, 150 },   { award200But, 200 },
-				{ award300But, 300 },   { award500But, 500 },
-				{ award1000But, 1000 }, { award3000But, 3000 },
-			};
 			LevelBut2long = new Dictionary<Button, long>()
 			{
 				{ lvl0But, 0 },         { lvl1But, 1 },
@@ -146,19 +137,38 @@ namespace vlc_works
 			};
 		}
 
+		private DataGridViewRow GetAwardGridRow(long value)
+		{
+			DataGridViewRow row = new DataGridViewRow();
+			row.Cells.Add(new DataGridViewButtonCell() 
+			{ 
+				Value = value,
+				FlatStyle = FlatStyle.Popup,
+			});
+			row.Height = 32;
+			return row;
+		}
+
+		private void InitAwardGrid()
+		{
+			long[] values = new long[] 
+			{ 
+				0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 
+				150, 200, 250, 300, 500, 1000, 3000 
+			};
+
+			prizeButsGrid.Rows.AddRange(values.Select(v => GetAwardGridRow(v)).ToArray());
+		}
+
+		private void prizeButsGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			long prize = (long)prizeButsGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+			SetAward(prize);
+		}
+
 		private void InitButtons()
 		{
 			doOnlyDark(cBut);
-
-			award50But.Click +=   OnAwardButClicked;
-			award250But.Click +=   OnAwardButClicked;
-			award100But.Click +=  OnAwardButClicked;
-			award150But.Click +=  OnAwardButClicked;
-			award200But.Click +=  OnAwardButClicked;
-			award300But.Click +=  OnAwardButClicked;
-			award500But.Click +=  OnAwardButClicked;
-			award1000But.Click += OnAwardButClicked;
-			award3000But.Click += OnAwardButClicked;
 
 			lvl0But.Click += OnLevelButClicked;
 			lvl1But.Click += OnLevelButClicked;
@@ -232,13 +242,6 @@ namespace vlc_works
 		}
 		#endregion
 		#region SELECT_BUTTONS	
-		private void OnAwardButClicked(object sender, EventArgs e)
-		{
-			Button awardButton = sender as Button;
-
-			SetAward(AwardBut2long[awardButton]);
-		}
-
 		private void OnLevelButClicked(object sender, EventArgs e)
 		{
 			Button levelButton = sender as Button;
