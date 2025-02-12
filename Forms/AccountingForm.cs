@@ -555,6 +555,11 @@ namespace vlc_works
 			comBox.Items.Clear();
 			comBox.Items.AddRange(SerialPort.GetPortNames());
 		}
+
+		private void resetCounterBut_Click(object sender, EventArgs e)
+		{
+			COMPort.Execute("Reset counter");
+		}
 		#endregion
 		#region FACE_CONTROL
 		private void faceControlBut_Click(object sender, EventArgs e)

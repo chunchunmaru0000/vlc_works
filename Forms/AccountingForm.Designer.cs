@@ -141,6 +141,7 @@
 			this.relayCh2 = new System.Windows.Forms.Label();
 			this.relayCh3 = new System.Windows.Forms.Label();
 			this.relayCh4 = new System.Windows.Forms.Label();
+			this.resetCounterBut = new System.Windows.Forms.Button();
 			this.selectedPanel.SuspendLayout();
 			this.pricePanel.SuspendLayout();
 			this.levelPanel.SuspendLayout();
@@ -1340,11 +1341,24 @@
 			this.relayCh4.TabIndex = 54;
 			this.relayCh4.Text = "4";
 			// 
+			// resetCounterBut
+			// 
+			this.resetCounterBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.resetCounterBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.resetCounterBut.Location = new System.Drawing.Point(0, 608);
+			this.resetCounterBut.Name = "resetCounterBut";
+			this.resetCounterBut.Size = new System.Drawing.Size(160, 64);
+			this.resetCounterBut.TabIndex = 55;
+			this.resetCounterBut.Text = "Сбросить счетчик";
+			this.resetCounterBut.UseVisualStyleBackColor = true;
+			this.resetCounterBut.Click += new System.EventHandler(this.resetCounterBut_Click);
+			// 
 			// AccountingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1904, 1001);
+			this.Controls.Add(this.resetCounterBut);
 			this.Controls.Add(this.relayCh4);
 			this.Controls.Add(this.relayCh3);
 			this.Controls.Add(this.relayCh2);
@@ -1532,5 +1546,6 @@
 		public System.Windows.Forms.Label relayCh2;
 		public System.Windows.Forms.Label relayCh3;
 		public System.Windows.Forms.Label relayCh4;
+		private System.Windows.Forms.Button resetCounterBut;
 	}
 }
