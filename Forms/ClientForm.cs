@@ -123,7 +123,7 @@ namespace vlc_works
 			}));
 		}
 
-		private string[] inputNames = new string[] 
+		private readonly string[] inputNames = new string[] 
 		{
 			"playerNameBox",
 			"cBox", "kBox", "mBox"
@@ -180,19 +180,24 @@ namespace vlc_works
 			} catch { }
 		}
 
+		private void EmulateShowParamsButton() => 
+			accountingForm.Invoke(new Action(() => 
+			accountingForm.showButton_Click(null, EventArgs.Empty)));
+
 		private void PlayAgainSkip()
 		{
 			VideoChecker.continued = true;
 
 			DoDataBaseGameRecord();
 			accountingForm.SetIsFirstGame(false);
-			VideoChecker.SafeStop();
+			EmulateShowParamsButton();
+			//VideoChecker.SafeStop();
 			// here need to play game video
 		}
 
-		private long SelectedGameTypeIs(GameType gameType) => 
-			accountingForm.SelectedGameType == gameType 
-				? accountingForm.SelectedLevel 
+		private long SelectedGameTypeIs(GameType gameType) =>
+			DbCurrentRecord.SelectedGameType == gameType 
+				? DbCurrentRecord.SelectedLvl 
 				: -1;
 
 		private void SetNewBoxesValues(long c, long k, long m)
@@ -202,7 +207,7 @@ namespace vlc_works
 				if (!VideoChecker.won) // if not won does not update antng because lvl remains the same
 					return;
 
-				switch (accountingForm.SelectedGameType)
+				switch (DbCurrentRecord.SelectedGameType)
 				{
 					case GameType.Guard:
 						accountingForm.cBox.Text = c.ToString();
@@ -254,9 +259,16 @@ namespace vlc_works
 				wonBoolInt: VideoChecker.won,
 				continuedBoolInt: VideoChecker.continued,
 
-				prizeInt: accountingForm.SelectedAward,
-				priceInt: accountingForm.SelectedPrice
+				prizeInt: DbCurrentRecord.SelectedPrize,
+				priceInt: DbCurrentRecord.SelectedPrice
 			);
+
+			//if (VideoChecker.won && DbCurrentRecord.SelectedLvl < 9)
+			//accountingForm.SetLvl(DbCurrentRecord.SelectedLvl + 1);
+			if (VideoChecker.won && 
+				DbCurrentRecord.SelectedLvl == 0 && 
+				DbCurrentRecord.SelectedGameType == accountingForm.SelectedGameType)
+				accountingForm.SetLvl(1);
 
 			VideoChecker.won = false;
 			VideoChecker.continued = false;
@@ -289,6 +301,8 @@ namespace vlc_works
 
 		public void PlayPlayAgain()
 		{
+			if (VideoChecker.gameVideosQueue.Count != 0) // its impossible but for sure
+				VideoChecker.gameVideosQueue.RemoveAt(0);
 			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
 		}
 
@@ -333,12 +347,19 @@ namespace vlc_works
 		private void SkipRules()
 		{
 			DeleteInput();
-			stage = Stage.COST_AND_PRIZE;
-			BeginInvoke(new Action(() =>
+
+			if (accountingForm.isFirstGame)
 			{
-				ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop());
-			}));
-		}
+				DbCurrentRecord.SetPricePrizeLvl(
+						accountingForm.SelectedPrice,
+						accountingForm.SelectedAward,
+						accountingForm.SelectedLevel,
+						accountingForm.SelectedGameType);
+				VideoChecker.StartVideoInQueue(); // sets Stage.GAME itself
+			}
+			else
+				EmulateShowParamsButton(); // after EndGamePayed does StartVideoInQueue
+	}
 		#endregion
 		#region SOME
 		private void EndReached(object sender, VlcMediaPlayerEndReachedEventArgs e)
@@ -490,7 +511,9 @@ namespace vlc_works
 
 			if (accountingForm.isFirstGame)
 			{
-				accountingForm.SetAward(0); // in the first game award = 0
+				accountingForm.SetAward(0);
+				accountingForm.SetPrice(0);
+				accountingForm.SetLvl(0);
 			}
 			else
 			{

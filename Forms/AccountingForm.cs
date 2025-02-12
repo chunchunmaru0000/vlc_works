@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -192,6 +193,12 @@ namespace vlc_works
 			Invoke(new Action(() => priceLabel.Text = SelectedPrice.ToString()));
 		}
 
+		public void SetLvl(long lvl)
+		{
+			SelectedLevel = lvl;
+			Invoke(new Action(() => levelLabel.Text = SelectedLevel.ToString()));
+		}
+
 		public void IncCoinsInStock(long coins)
 		{
 			Invoke(new Action(() =>
@@ -209,7 +216,7 @@ namespace vlc_works
 			{
 				PayedBalance += shekels;
 				Console.WriteLine($"BALANCE + {shekels} NOW IS {PayedBalance} AND CURRENT STAGE IS {clientForm.stage}");
-				Console.WriteLine($"SELECTED PRICE NOW IS {SelectedPrice}");
+				Console.WriteLine($"SELECTED PRICE NOW IS {DbCurrentRecord.SelectedPrice}");
 
 				if (PayedBalance >= SelectedPrice)
 				{
@@ -236,16 +243,14 @@ namespace vlc_works
 		{
 			Button levelButton = sender as Button;
 
-			SelectedLevel = LevelBut2long[levelButton];
-			levelLabel.Text = SelectedLevel.ToString();
+			SetLvl(LevelBut2long[levelButton]);
 		}
 
 		private void OnPriceButClicked(object sender, EventArgs e)
 		{
 			Button priceButton = sender as Button;
 
-			SelectedPrice = PriceBut2long[priceButton];
-			priceLabel.Text = SelectedPrice.ToString();
+			SetPrice(PriceBut2long[priceButton]);
 		}
 		#endregion
 		#region TABLES
@@ -460,7 +465,7 @@ namespace vlc_works
 		}
 		#endregion
 		#region UPPER_PART_BUTTONS
-		private void showButton_Click(object sender, EventArgs e)
+		public void showButton_Click(object sender, EventArgs e)
 		{
 			if (
 				awardLabel.Text != NullText &&
@@ -472,6 +477,12 @@ namespace vlc_works
 				{
 					clientForm.ShowGameParams(SelectedAward, SelectedPrice);
 					clientForm.stage = Stage.COST_AND_PRIZE;
+
+					DbCurrentRecord.SetPricePrizeLvl(
+						SelectedPrice, 
+						SelectedAward, 
+						SelectedLevel,
+						SelectedGameType);
 				}));
 			}
 			else

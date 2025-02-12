@@ -25,10 +25,8 @@ namespace vlc_works
 		private static long videoGameTimeWas { get; set; } // time video game was stopped
 
 		// video paths
-		public static string videoFileName { get; set; } = string.Empty; // game video path
-
-		public static Uri gameVideoUri { get; set; }
-		//public static PathUri gameVideo { get; set; } = new PathUri(""); // a good thing to think about
+		public static bool awaitGameVideo { get; set; } = false;
+		public static List<PathUri> gameVideosQueue { get; set; } = new List<PathUri>();
 
 		public static PathUri errorVideo { get; set; }
 		public static PathUri idle { get; set; }
@@ -99,22 +97,35 @@ namespace vlc_works
 			path != errorVideo.Path && path != selectLang.Path && path != idle.Path &&
 			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
-		public static void VlcChanged()
+		public static void VlcChanged(PathUri gamePathUri)
 		{
-			code = Utils.GetCodeFromName(Utils.GetSafeFileName(videoFileName), strFrom, strTo).TrimEnd(' ') + "E";
-			accountingForm.Invoke((MethodInvoker)delegate
+			code = Utils.GetCodeFromName(Utils.GetSafeFileName(gamePathUri.Path), strFrom, strTo).TrimEnd(' ') + "E";
+			accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo(gamePathUri.Path, code)));
+
+			gameVideosQueue.Add(gamePathUri);
+
+			if (awaitGameVideo)
+				StartVideoInQueue();
+			awaitGameVideo = false;
+		}
+
+		public static void StartVideoInQueue()
+		{
+			if (gameVideosQueue.Count == 0)
 			{
-				accountingForm.GotGameVideo(videoFileName, code);
-			});
+				awaitGameVideo = true;
+				return;
+			}
+
+			Uri gameVideoUri = gameVideosQueue[0].Uri;
 
 			videoGameTimeWas = 0;
 			errorsCount = 0;
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.stage = Stage.GAME;
 				clientForm.prizeLabel.Hide();
 				clientForm.costLabel.Hide();
-				clientForm.vlcControl.Play(gameVideoUri);
+				clientForm.Play(gameVideoUri, Stage.GAME);
 			}));
 
 			new Thread(() =>
@@ -195,6 +206,8 @@ namespace vlc_works
 		public static void MediaIndeedEnded(string endedVideoMrl)
 		{
 			print($"ENDED PLAY: {endedVideoMrl}");
+			//print($"VIEOS IN QUEUE: {gameVideosQueue.Count}");
+			//print($"QUEUE:\n\t{string.Join("\t\n", gameVideosQueue.Select(p => p.Uri.AbsoluteUri))}");
 
 			if (currentVideoPlayCount >= maxVideoRepeatTimes)
 				HandleInfinitePlay(endedVideoMrl);
@@ -203,7 +216,7 @@ namespace vlc_works
 				EndDefeatVideo();
 			else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
 				EndVictoryVideo();
-			else if (gameVideoUri != null && endedVideoMrl == gameVideoUri.AbsoluteUri)
+			else if (gameVideosQueue.Any(v => v.Uri.AbsoluteUri == endedVideoMrl))
 				EndGameVideo();
 			else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
 				Replay();
@@ -268,7 +281,7 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Play(gameVideoUri);
+				clientForm.vlcControl.Play(gameVideosQueue[0].Uri);
 				clientForm.vlcControl.Time = videoGameTimeWas;
 				clientForm.stage = Stage.GAME;
 			}));
@@ -317,8 +330,7 @@ namespace vlc_works
 			}
 			else
 			{
-				print($"BAD ENDING");
-				print("GAME ENDED");
+				print("THIS IS DEPRICATED AND WHY IS THAT EVEN PRINTED");
 				DeleteInput();
 				gameEnded = true; // bad ending
 				SafeStop();
@@ -327,19 +339,9 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
-		private static void EndPlayAgainVideo()
-		{
-
-		}
-
-		private static void EndHowToPay()
-		{
-
-		}
-
 		private static void EndGamePayed()
 		{
-			// here operator himself turns video on
+			StartVideoInQueue();
 		}
 
 		public static void SafeStop()

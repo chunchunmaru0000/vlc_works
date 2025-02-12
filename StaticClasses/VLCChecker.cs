@@ -21,7 +21,7 @@ namespace vlc_works
 		private const string processToCheckName = "vlc";
 		public const string videonamestxt = "videonames.txt";
 		// some
-		static void print(object str = null)
+		private static void print(object str = null)
 		{
 			string stroke = str == null ? "" : str.ToString();
 			Console.WriteLine(stroke);
@@ -93,23 +93,22 @@ namespace vlc_works
 
 		private static void BeginVlcChanged(string videoFile, string cmdPath)
 		{
-			VideoChecker.videoFileName = videoFile; // game video path
-			VideoChecker.gameVideoUri = ClientForm.url2mrl(VideoChecker.videoFileName);
-			if (lastCommandLine != VideoChecker.videoFileName)
+			PathUri gamePathUri = new PathUri(videoFile);
+
+			if (lastCommandLine != videoFile)//VideoChecker.videoFileName)
 			{
 				vlcPath = cmdPath; // vlc path
 				vlcProcess = lastVlcProcess;
-				VlcChanged(); // calls VlcChanged
+				VlcChanged(gamePathUri); // calls VlcChanged
 			}
-			lastCommandLine = VideoChecker.videoFileName;
+			lastCommandLine = videoFile;// VideoChecker.videoFileName;
 		}
 
-		private static void VlcChanged()
+		private static void VlcChanged(PathUri gamePathUri)
 		{
-			// VideoChecker.videoFileName is allready changed here to new one
-			print($"LAST: {lastCommandLine}\n\tCURRENT: {VideoChecker.videoFileName}");
+			print($"LAST: {lastCommandLine}\n\tCURRENT: {gamePathUri.Path}");
 			KillVLC();
-			VideoChecker.VlcChanged();
+			VideoChecker.VlcChanged(gamePathUri);
 		}
 		#endregion
 	}
