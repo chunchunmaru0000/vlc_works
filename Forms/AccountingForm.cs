@@ -636,5 +636,16 @@ namespace vlc_works
 			}
 		}
 		#endregion TEMPORAL_CONTROLS
+		#region RELAY
+		private void relayBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void relayBox_DropDown(object sender, EventArgs e)
+		{
+
+		}
+		#endregion
 	}
 }
