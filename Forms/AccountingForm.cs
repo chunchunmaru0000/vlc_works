@@ -426,18 +426,7 @@ namespace vlc_works
 
 		private void payBut_Click(object sender, EventArgs e)
 		{
-			// does nothing for now
-			// because operator himself starts game video
-			// when payed or dunno onle case for now is
-			// when the price is zero
-			// if game automat itself will have function to say that game is payed
-			// then will be another function for that
-			//Db.InsertGame(SelectedLevel, Db.Now);
-			//Game_id = Db.GetMaxGamesId();
-			//Db.InsertPrice(Game_id, SelectedPrice);
-			//StartTables(); // refresh tables
-
-			// does its depricated now just because have no meaning
+			clientForm.PlayGamePayed();
 		}
 
 		private void giveCardBut_Click(object sender, EventArgs e)
@@ -559,6 +548,7 @@ namespace vlc_works
 		private void resetCounterBut_Click(object sender, EventArgs e)
 		{
 			COMPort.Execute("Reset counter");
+			IncCoinsInStock(-CoinsInStock);
 		}
 		#endregion
 		#region FACE_CONTROL

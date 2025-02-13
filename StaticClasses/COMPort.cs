@@ -29,6 +29,13 @@ namespace vlc_works
 		};
 		private static Func<IEnumerable<byte>, string> batos = ba => string.Join(" ", ba.Select(b => $"{b:X2}"));
 		private static Func<long, long> ShekelsToTimes = shekels => shekels / (AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels);
+		private static void print(object value)
+		{
+			string str = value.ToString();
+
+			Console.WriteLine(str);
+			File.AppendAllText("test.txt", $"{DateTimeOffset.Now}: {str}\n");
+		}
 		#endregion
 		#region PUBLIC 
 		public static SerialPort port;
@@ -39,22 +46,22 @@ namespace vlc_works
 
 		#region PUBLIC_METHODS
 		public static void Execute(string command) {
-			Console.WriteLine($"TRY TO EXECUTE COMMAND: [{command}]");
+			print($"TRY TO EXECUTE COMMAND: [{command}]");
 			if (cmd.ContainsKey(command))
 			{
 				byte[] cmdBytes = cmd[command];
 				port.Write(cmdBytes, 0, cmdBytes.Length);
-				Console.WriteLine($"EXECUTED COMMAND: [{command}]");
+				print($"EXECUTED COMMAND: [{command}]");
 			}
 			else
-				Console.WriteLine($"COMMAND NOT FOUND: [{command}]");
+				print($"COMMAND NOT FOUND: [{command}]");
 		}
 
 		public static void MoneyOut(long shekels, AccountingForm accountingForm = null)
 		{
 			if (port == null || !port.IsOpen)
 			{
-				Console.WriteLine($"TRY TO MONEY OUT WHILE PORT IS NOT EVEN OPEN");
+				print($"TRY TO MONEY OUT WHILE PORT IS NOT EVEN OPEN");
 				return;
 			}
 			if (COMPort.accountingForm == null)
@@ -67,11 +74,11 @@ namespace vlc_works
 					COMPort.accountingForm = accountingForm;
 
 			long times = ShekelsToTimes(shekels);
-			Console.WriteLine(
+			print(
 				$"times = {shekels} / ({AccountingForm.oneCommandCoins} * {AccountingForm.oneCoinShekels}) =" +
 				$" {shekels} / ({AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels}) =" +
 				$" {shekels / (AccountingForm.oneCommandCoins * AccountingForm.oneCoinShekels)}");
-			Console.WriteLine($"{times} TIMES TO EXECUTE OUT [{AccountingForm.oneCommandCoins}] COINS");
+			print($"{times} TIMES TO EXECUTE OUT [{AccountingForm.oneCommandCoins}] COINS");
 			new Thread(() =>
 			{
 				for (int i = 0; i < times; i++)
@@ -97,6 +104,7 @@ namespace vlc_works
 				port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
 				port.DataReceived += DataRecieved;
 				port.Open();
+				print($"PORT IS OPENED: {port.IsOpen}");
 
 				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "Подключен"));
 				Execute("Check income");
@@ -114,13 +122,13 @@ namespace vlc_works
 			int res = port.Read(bytes, 0, port.BytesToRead);
 			notParsed.AddRange(bytes);
 
-			Console.WriteLine($"    RECEIVED: {batos(bytes)}");
+			print($"    RECEIVED: {batos(bytes)}");
 			TryParseCommand();
 		}
 
 		private static void TryParseCommand()
 		{
-			Console.WriteLine($"TRY TO PARSE: {batos(notParsed)}");
+			print($"TRY TO PARSE: {batos(notParsed)}");
 			if (notParsed.Count < 6)
 				return;
 			else if (notParsed[1] == 0x09)
@@ -137,7 +145,7 @@ namespace vlc_works
 		{
 			if (index >= notParsed.Count)
 				return;
-			Console.WriteLine($"UNKNOWN COM PORT INPUT {notParsed[index]:X2}");
+			print($"UNKNOWN COM PORT INPUT {notParsed[index]:X2}");
 			notParsed.RemoveAt(index);
 			TryParseCommand();
 		}
@@ -153,7 +161,7 @@ namespace vlc_works
 			notParsed.RemoveRange(0, 13);
 
 			int firstCounter = BitConverter.ToInt32(firstCounterBytes, 0);
-			Console.WriteLine($"HAVE {firstCounter} COINS IN STOCK");
+			print($"HAVE {firstCounter} COINS IN STOCK");
 
 			if (accountingForm != null)
 				accountingForm.IncCoinsInStock(firstCounter);
@@ -192,11 +200,11 @@ namespace vlc_works
 		{
 			bool res = isCommand(notParsed.ToArray());
 
-			Console.WriteLine(res);
+			print(res);
 			if (res)
 			{
 				int rspLen = 6;
-				Console.WriteLine($"PARSED: {batos(notParsed.Take(rspLen))}");
+				print($"PARSED: {batos(notParsed.Take(rspLen))}");
 				notParsed.RemoveRange(0, rspLen); // remove all command
 			}
 			else
@@ -208,10 +216,9 @@ namespace vlc_works
 		{
 			if (isReceivedCoin())
 			{
-				Console.WriteLine("1 COIN RECEIVED");
+				print("1 COIN RECEIVED");
 				accountingForm.IncCoinsInStock(AccountingForm.oneCommandCoins);
 				notParsed.RemoveRange(0, rsp["Received coin"].Length);
-				File.AppendAllText("test.txt", $"1 COIN RECEIVED {DateTimeOffset.Now}\n");
 			}
 			else
 				HandleUnknownInput(0);

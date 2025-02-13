@@ -195,7 +195,7 @@ namespace vlc_works
 			accountingForm.Invoke(new Action(() =>
 			{
 				accountingForm.StartTables(); // refresh tables
-				COMPort.MoneyOut(accountingForm.SelectedAward, accountingForm);
+				COMPort.MoneyOut(DbCurrentRecord.SelectedPrize, accountingForm);
 			}));
 
 			new Thread(() =>
