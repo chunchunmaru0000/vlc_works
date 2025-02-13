@@ -650,7 +650,8 @@ namespace vlc_works
 		{
 			RelayChecker.Close();
 
-			RelayInfo relayInfo = comBox.SelectedItem as RelayInfo;
+			RelayInfo relayInfo = relayBox.SelectedItem as RelayInfo;
+
 			RelayChecker.SelectedRelay = new Relay(relayInfo);
 			RelayChecker.SelectedRelay.Open();
 
