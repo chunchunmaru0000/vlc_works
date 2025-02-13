@@ -34,7 +34,7 @@ namespace vlc_works
 			string str = value.ToString();
 
 			Console.WriteLine(str);
-			File.AppendAllText("test.txt", $"{DateTimeOffset.Now}: {str}\n");
+			//File.AppendAllText("test.txt", $"{DateTimeOffset.Now}: {str}\n");
 		}
 		#endregion
 		#region PUBLIC 
@@ -214,14 +214,22 @@ namespace vlc_works
 
 		private static void ParseCoinIn()
 		{
-			if (isReceivedCoin())
+			if (notParsed.Count < 7)
+			{
+				print($"STILL {notParsed.Count} < 7 TOO LEES BYTES TO PARSE COIN IN");
+				return;
+			}
+			else if (notParsed.Take(7).ToArray().SequenceEqual(rsp["Received coin"]))
 			{
 				print("1 COIN RECEIVED");
 				accountingForm.IncCoinsInStock(AccountingForm.oneCommandCoins);
 				notParsed.RemoveRange(0, rsp["Received coin"].Length);
 			}
 			else
+			{
+				print($"HOW THIS COMMAND HAVE SECOND BYTE 0x03 AND LEN 7 AND STILL NOT [COIN IN]");
 				HandleUnknownInput(0);
+			}
 
 			TryParseCommand();
 		}
