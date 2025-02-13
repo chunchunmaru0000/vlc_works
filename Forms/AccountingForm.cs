@@ -618,19 +618,20 @@ namespace vlc_works
 
 		private void requestDbUserDataBut_Click(object sender, EventArgs e)
 		{
-			string playerIdStr = playerNameBox.Text.HebrewTrim().Trim();
-			DbPlayer player = Db.FindPlayer(playerIdStr);
+			long playerIdInt;
+			if (long.TryParse(playerNameBox.Text.HebrewTrim().Trim(), out long playerId))
+				playerIdInt = playerId;
+			else
+			{
+				MessageBox.Show("НЕВЕРНЫЙ ID ИГРОКА");
+				return;
+			}
+
+			DbPlayer player = Db.FindPlayer(playerIdInt);
 
 			if (player == null)
 			{
-				if (string.IsNullOrEmpty(playerIdStr))
-				{
-					MessageBox.Show("ПУСТОЙ ID ИГРОКА");
-					Console.WriteLine("\n\n123\n\n");
-					return;
-				}
-
-				Db.InsertPlayer(playerIdStr, 0, 0, 0);
+				Db.InsertPlayer(playerIdInt, 0, 0, 0);
 				cBox.Text = "0";
 				kBox.Text = "0";
 				mBox.Text = "0";

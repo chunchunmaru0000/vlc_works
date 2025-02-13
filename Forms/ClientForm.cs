@@ -242,8 +242,10 @@ namespace vlc_works
 			long playerUpdKLvl = long.Parse(accountingForm.kBox.Text);
 			long playerUpdMLvl = long.Parse(accountingForm.mBox.Text);
 
+			long playerIdInt = long.Parse(accountingForm.playerNameBox.Text);
+
 			Db.InsertInAllTables(
-				playerIdStr: accountingForm.playerNameBox.Text,
+				playerIdInt: playerIdInt,
 				unixTimeInt: Db.Now,
 				playerCLvl: playerCLvl,
 				playerKLvl: playerKLvl,
@@ -264,8 +266,6 @@ namespace vlc_works
 				priceInt: DbCurrentRecord.SelectedPrice
 			);
 
-			//if (VideoChecker.won && DbCurrentRecord.SelectedLvl < 9)
-			//accountingForm.SetLvl(DbCurrentRecord.SelectedLvl + 1);
 			if (VideoChecker.won && 
 				DbCurrentRecord.SelectedLvl == 0 && 
 				DbCurrentRecord.SelectedGameType == accountingForm.SelectedGameType)

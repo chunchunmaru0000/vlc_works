@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
 using System.Linq;
+using System.IO;
 
 namespace vlc_works
 {
@@ -210,6 +211,7 @@ namespace vlc_works
 				Console.WriteLine("1 COIN RECEIVED");
 				accountingForm.IncCoinsInStock(AccountingForm.oneCommandCoins);
 				notParsed.RemoveRange(0, rsp["Received coin"].Length);
+				File.AppendAllText("test.txt", $"1 COIN RECEIVED {DateTimeOffset.Now}\n");
 			}
 			else
 				HandleUnknownInput(0);
