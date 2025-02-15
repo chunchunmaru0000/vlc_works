@@ -84,7 +84,7 @@ namespace vlc_works
 				for (int i = 0; i < times; i++)
 				{
 					Execute("Coins out");
-					Thread.Sleep(1000);
+					Thread.Sleep(1500);
 				}
 			}).Start();
 		}
@@ -189,12 +189,6 @@ namespace vlc_works
 			}
 			return res;
 		}
-
-		private static bool isReceivedCoin() => 
-			notParsed.Count < 7 ? 
-				false : 
-				notParsed.Take(7).ToArray()
-					.SequenceEqual(rsp["Received coin"]);
 
 		private static void ParseResponse()
 		{
