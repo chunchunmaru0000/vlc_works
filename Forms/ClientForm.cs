@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
@@ -514,7 +513,8 @@ namespace vlc_works
 
 		public void Stop()
 		{
-			BeginInvoke(new Action(() => ThreadPool.QueueUserWorkItem(_ => vlcControl.Stop())));
+			PlayIdle();
+			VideoChecker.SafeStop();
 		}
 
 		public void StartGame()

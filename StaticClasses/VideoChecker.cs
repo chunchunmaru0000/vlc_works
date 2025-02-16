@@ -117,15 +117,17 @@ namespace vlc_works
 				return;
 			}
 
-			Uri gameVideoUri = gameVideosQueue[0].Uri;
+			PathUri gameVideo = gameVideosQueue[0];
+            //code = Utils.GetCodeFromName(Utils.GetSafeFileName(gameVideo.Path), strFrom, strTo).TrimEnd(' ') + "E";
+            //accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo(gamePathUri.Path, code)));
 
-			videoGameTimeWas = 0;
+            videoGameTimeWas = 0;
 			errorsCount = 0;
 			clientForm.BeginInvoke(new Action(() =>
 			{
 				clientForm.prizeLabel.Hide();
 				clientForm.costLabel.Hide();
-				clientForm.Play(gameVideoUri, Stage.GAME);
+				clientForm.Play(gameVideo.Uri, Stage.GAME);
 			}));
 
 			new Thread(() =>
@@ -353,10 +355,8 @@ namespace vlc_works
 
 		public static void SafeStop()
 		{
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Stop());
-			}));
+			clientForm.BeginInvoke(new Action(
+				() => ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Stop())));
 		}
 
 		#endregion END_VIDEOS
