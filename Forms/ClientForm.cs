@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
@@ -130,7 +130,12 @@ namespace vlc_works
 			"cBox", "kBox", "mBox"
 		};
 
-		private void OnWinKeyDown(object sender, KeyEventArgs e)
+		private bool IsInputingUserData { get => 
+				accountingForm != null &&
+                accountingForm.ActiveControl != null &&
+                inputNames.Contains(accountingForm.ActiveControl.Name); }
+
+        private void OnWinKeyDown(object sender, KeyEventArgs e)
 		{
 			Keys k = e.KeyCode;
 
@@ -140,7 +145,10 @@ namespace vlc_works
 				return;
 			}
 
-			if (stage == Stage.SELECT_LANG)
+            if (IsInputingUserData)
+                return;
+
+            if (stage == Stage.SELECT_LANG)
 			{
 				ProceedSelectLang(k);
 				return;
@@ -164,11 +172,6 @@ namespace vlc_works
 					return; 
 				}
 			}
-
-			if (accountingForm != null &&
-				accountingForm.ActiveControl != null &&
-				inputNames.Contains(accountingForm.ActiveControl.Name))
-				return;
 
 			if (NumKeys.Contains(k) || k == Keys.Enter)
 				DrawNum(k);
