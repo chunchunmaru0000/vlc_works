@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Vlc.DotNet;
 using Vlc.DotNet.Core;
+using static System.Windows.Forms.AxHost;
 
 namespace vlc_works
 {
@@ -305,7 +306,13 @@ namespace vlc_works
 		public void PlayPlayAgain()
 		{
 			if (VideoChecker.gameVideosQueue.Count != 0) // its impossible but for sure
+			{
 				VideoChecker.gameVideosQueue.RemoveAt(0);
+				if (VideoChecker.gameVideosQueue.Count > 0)
+					VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Path);
+				else
+					accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo("", "")));
+			}
 			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
 		}
 

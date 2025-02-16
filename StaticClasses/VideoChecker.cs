@@ -97,10 +97,15 @@ namespace vlc_works
 			path != errorVideo.Path && path != selectLang.Path && path != idle.Path &&
 			langs.Values.All(l => l.Rules.Path != path && l.Params.Path != path && l.Victory.Path != path);
 
+		public static void SetCode(string path)
+		{
+            code = Utils.GetCodeFromName(Utils.GetSafeFileName(path), strFrom, strTo).TrimEnd(' ') + "E";
+            accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo(path, code)));
+        }
+
 		public static void VlcChanged(PathUri gamePathUri)
 		{
-			code = Utils.GetCodeFromName(Utils.GetSafeFileName(gamePathUri.Path), strFrom, strTo).TrimEnd(' ') + "E";
-			accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo(gamePathUri.Path, code)));
+			SetCode(gamePathUri.Path);
 
 			gameVideosQueue.Clear();
 			gameVideosQueue.Add(gamePathUri);
@@ -272,17 +277,7 @@ namespace vlc_works
 
 		private static void EndParamsShowVideo()
 		{
-			//afterShowParamsWaitThread = new Thread(() =>
-			//{
-				//const int waitTime = 5000;
-
-				//print($"AWAITS TO PLAY IDLE AFTER SHOW PARAMS ENDED: {waitTime}");
-				//Thread.Sleep(waitTime); // wait 5 seconds before play how to play or not there is no sush a thing in TZ
-
 			clientForm.PlayHowToPay();
-				//print("PLAYS IDLE AFTER SHOW PARAMS");
-			//});
-			//afterShowParamsWaitThread.Start();
 		}
 
 		private static void EndDefeatVideo()
