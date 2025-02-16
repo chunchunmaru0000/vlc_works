@@ -102,6 +102,7 @@ namespace vlc_works
 			code = Utils.GetCodeFromName(Utils.GetSafeFileName(gamePathUri.Path), strFrom, strTo).TrimEnd(' ') + "E";
 			accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo(gamePathUri.Path, code)));
 
+			gameVideosQueue.Clear();
 			gameVideosQueue.Add(gamePathUri);
 
 			if (awaitGameVideo)
