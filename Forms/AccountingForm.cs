@@ -633,6 +633,31 @@ namespace vlc_works
 				mBox.Text = player.M.ToString();
 			}
 		}
+
+		private bool LongParseTextBox(TextBox box, out long res, string param)
+		{
+			if (long.TryParse(box.Text.HebrewTrim().Trim(), out long result))
+			{
+				res = result;
+				return true;
+			}
+            MessageBox.Show($"НЕВЕРНЫЙ [{param}] ИГРОКА");
+            res = -1;
+			return false;
+		}
+
+        private void writePlayerBut_Click(object sender, EventArgs e)
+        {
+			if (!LongParseTextBox(playerNameBox, out long playerIdInt, "ID")) return;
+            if (!LongParseTextBox(cBox, out long cLvlInt, "C")) return;
+            if (!LongParseTextBox(kBox, out long kLvlInt, "K")) return;
+            if (!LongParseTextBox(mBox, out long mLvlInt, "M")) return;
+
+			if (Db.FindPlayer(playerIdInt) == null)
+				Db.InsertPlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
+			else
+				Db.UpdatePlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
+        }
 		#endregion TEMPORAL_CONTROLS
 		#region RELAY
 		private RelaysEnumerator relaysEnumerator { get; } = new RelaysEnumerator();
@@ -657,6 +682,6 @@ namespace vlc_works
 				.CollectInfo()
 				.ToArray());
 		}
-		#endregion
-	}
+        #endregion
+    }
 }

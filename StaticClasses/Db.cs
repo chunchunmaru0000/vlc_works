@@ -219,7 +219,7 @@ SELECT price_int from {TempPricesTableName}
 			}
 		}
 
-		private static void UpdatePlayer(long playerIdInt, long gameCLvl, long gameKLvl, long gameMLvl)
+		public static void UpdatePlayer(long playerIdInt, long gameCLvl, long gameKLvl, long gameMLvl)
 		{
 			if (gameCLvl != -1) // -1 is like - or Null or None 
 				UpdatePlayerIntData(playerIdInt, gameCLvl, "c_lvl_int");
