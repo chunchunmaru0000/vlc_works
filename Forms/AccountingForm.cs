@@ -559,7 +559,7 @@ namespace vlc_works
             if (faceForm != null && !faceForm.IsDisposed)
                 return;
 
-			faceForm = new FaceForm();
+			faceForm = new FaceForm(this);
             faceForm.Show();
             faceForm.Location = new Point(2000, 100);
 		}

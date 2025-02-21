@@ -15,6 +15,8 @@ namespace vlc_works
 {
 	public partial class FaceForm : Form
 	{
+        private AccountingForm accountingForm;
+
 		private AxFPCLOCK_Svr axFPCLOCK_Svr { get; set; }
         private AxFP_CLOCK axFP_CLOCK { get; set; }
 		private int machineNumber = 1;
@@ -22,9 +24,11 @@ namespace vlc_works
         private const string webCamPhotosDirectory = "web_cam_photos";
         private const string aiCamPhotosDirectory = "ai_cam_photos";
 
-        public FaceForm()
+        public FaceForm(AccountingForm accountingForm)
 		{
 			InitializeComponent();
+            this.accountingForm = accountingForm;
+
 			InitaxFPCLOCK_Svr();
 			InitListView();
         }
@@ -517,7 +521,7 @@ namespace vlc_works
 
             string photoPath = 
                 SavePhoto(
-                    aiCamPhotosDirectory, 
+                    webCamPhotosDirectory, 
                     takenPhotoPictureBox, 
                     prefix: "tmp_",
                     code: enrollId
@@ -545,6 +549,13 @@ namespace vlc_works
 				$"SET ENROLL PHOTO:    [{setEnrollPhotoCSResult}]",
 				$"[END SET USER]",
             }) + '\n');
+
+            if (!setEnrollPhotoCSResult)
+                MessageBox.Show("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
+            else
+            {
+
+            }
         }
 
         private void newIdBut_Click(object sender, EventArgs e)
