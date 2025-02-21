@@ -18,7 +18,7 @@ namespace vlc_works
 		private AxFPCLOCK_Svr axFPCLOCK_Svr { get; set; }
         private AxFP_CLOCK axFP_CLOCK { get; set; }
 		private int machineNumber = 1;
-		private int lastCode { get; set; } = -1;
+		private long lastCode { get; set; } = -1;
         private const string webCamPhotosDirectory = "web_cam_photos";
         private const string aiCamPhotosDirectory = "ai_cam_photos";
 
@@ -89,9 +89,21 @@ namespace vlc_works
 			if (takenPhotoPictureBox.Image == null)
 				return;
 
+            SavePhoto(webCamPhotosDirectory, takenPhotoPictureBox);
             Directory.CreateDirectory(webCamPhotosDirectory);
             string imageName = $"{webCamPhotosDirectory}\\img_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
             takenPhotoPictureBox.Image.Save(imageName, System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
+
+        private string SavePhoto(string directory, PictureBox pictureBox, string prefix = "", long code = -1)
+        {
+            code = code < 0 ? lastCode : code;
+            string imageName = $"{directory}\\{prefix}img_{code}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
+
+            Directory.CreateDirectory(directory);
+            pictureBox.Image.Save(imageName, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            return imageName;
         }
 
         private void saveAiBut_Click(object sender, EventArgs e)
@@ -99,9 +111,7 @@ namespace vlc_works
             if (aiPictureBox.Image == null)
                 return;
 
-            Directory.CreateDirectory(aiCamPhotosDirectory);
-            string imageName = $"{aiCamPhotosDirectory}\\img_{lastCode}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
-            aiPictureBox.Image.Save(imageName, System.Drawing.Imaging.ImageFormat.Jpeg);
+            SavePhoto(aiCamPhotosDirectory, aiPictureBox);
         }
 
         #endregion WEB_CAM
@@ -504,7 +514,14 @@ namespace vlc_works
 
 			int enrollId = int.Parse(idBox.Text);
 			machineNumber = int.Parse(machineIdBox.Text);
-            string photoPath = $"{aiCamPhotosDirectory}\\set_img_{lastCode}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
+
+            string photoPath = 
+                SavePhoto(
+                    aiCamPhotosDirectory, 
+                    takenPhotoPictureBox, 
+                    prefix: "tmp_",
+                    code: enrollId
+                    );
 
 			byte[] photoBytes = File.ReadAllBytes(photoPath);
             IntPtr ptrIndexFacePhoto = Marshal.AllocHGlobal(photoBytes.Length);
@@ -532,7 +549,8 @@ namespace vlc_works
 
         private void newIdBut_Click(object sender, EventArgs e)
         {
-
+            long id = Db.AutoincrementCounter(Db.PlayersTableName) + 1; // AUTOINCREMENT + 1
+            idBox.Text = id.ToString();
         }
         #endregion
     }
