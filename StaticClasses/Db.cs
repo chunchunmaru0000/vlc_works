@@ -47,7 +47,7 @@ VALUES (@playerIdInt, @cLvlInt, @kLvlInt, @mLvlInt);
 
 		private static string createGameRecordsTable = $@"
 CREATE TABLE IF NOT EXISTS {GameRecordsTableName} (
-	id INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 
 	player_id_int INTEGER NOT NULL,
 	unix_time_int INTEGER NOT NULL,
@@ -305,10 +305,27 @@ SELECT price_int from {TempPricesTableName}
 
         public static long AutoincrementCounter(string table)
         {
-            string query = $"SELECT seq FROM sqlite_sequence WHERE name = {table}";
+            string query = $"SELECT seq FROM sqlite_sequence WHERE name = @table";
 
-            using (SQLiteCommand command = new SQLiteCommand(query, SqLiteConnection))
-                return Convert.ToInt64(command.ExecuteScalar());
+            /*
+             * https://www.sqlite.org/autoinc.html#the_autoincrement_keyword
+             *  A row in the sqlite_sequence table corresponding to the table 
+             *  with the AUTOINCREMENT column is created the first time 
+             *  the AUTOINCREMENT table is written and updated on any subsequent 
+             *  writes that increase the maximum rowid.
+             */
+            try
+            {
+                using (SQLiteCommand command = new SQLiteCommand(query, SqLiteConnection))
+                {
+                    command.Parameters.AddWithValue("@table", table);
+                    return Convert.ToInt64(command.ExecuteScalar());
+                }
+            }
+            catch
+            { 
+                return 0;
+            }
         }
 	}
 }
