@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -20,7 +21,7 @@ namespace vlc_works
 		#region MAIN_TABLES
 		private static string createPlayersTable = $@"
 CREATE TABLE IF NOT EXISTS {PlayersTableName} (
-	id INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 
 	player_id_int INTEGER NOT NULL,
 	c_lvl_int INTEGER NOT NULL,
@@ -301,5 +302,13 @@ SELECT price_int from {TempPricesTableName}
 			}
 			return null;
 		}
+
+        public static long AutoincrementCounter(string table)
+        {
+            string query = $"SELECT seq FROM sqlite_sequence WHERE name = {table}";
+
+            using (SQLiteCommand command = new SQLiteCommand(query, SqLiteConnection))
+                return Convert.ToInt64(command.ExecuteScalar());
+        }
 	}
 }
