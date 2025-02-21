@@ -72,9 +72,9 @@ namespace vlc_works
             // userDataListView
             // 
             this.userDataListView.HideSelection = false;
-            this.userDataListView.Location = new System.Drawing.Point(0, 480);
+            this.userDataListView.Location = new System.Drawing.Point(0, 704);
             this.userDataListView.Name = "userDataListView";
-            this.userDataListView.Size = new System.Drawing.Size(448, 256);
+            this.userDataListView.Size = new System.Drawing.Size(448, 224);
             this.userDataListView.TabIndex = 0;
             this.userDataListView.UseCompatibleStateImageBehavior = false;
             this.userDataListView.View = System.Windows.Forms.View.Details;
@@ -82,9 +82,9 @@ namespace vlc_works
             // connectBut
             // 
             this.connectBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.connectBut.Location = new System.Drawing.Point(0, 96);
+            this.connectBut.Location = new System.Drawing.Point(0, 128);
             this.connectBut.Name = "connectBut";
-            this.connectBut.Size = new System.Drawing.Size(192, 32);
+            this.connectBut.Size = new System.Drawing.Size(352, 32);
             this.connectBut.TabIndex = 1;
             this.connectBut.Text = "Подключиться";
             this.connectBut.UseVisualStyleBackColor = true;
@@ -94,9 +94,9 @@ namespace vlc_works
             // 
             this.disconnectBut.Enabled = false;
             this.disconnectBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.disconnectBut.Location = new System.Drawing.Point(0, 128);
+            this.disconnectBut.Location = new System.Drawing.Point(0, 160);
             this.disconnectBut.Name = "disconnectBut";
-            this.disconnectBut.Size = new System.Drawing.Size(192, 32);
+            this.disconnectBut.Size = new System.Drawing.Size(352, 32);
             this.disconnectBut.TabIndex = 2;
             this.disconnectBut.Text = "Отключиться";
             this.disconnectBut.UseVisualStyleBackColor = true;
@@ -105,9 +105,9 @@ namespace vlc_works
             // clearList
             // 
             this.clearList.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.clearList.Location = new System.Drawing.Point(0, 160);
+            this.clearList.Location = new System.Drawing.Point(0, 192);
             this.clearList.Name = "clearList";
-            this.clearList.Size = new System.Drawing.Size(192, 32);
+            this.clearList.Size = new System.Drawing.Size(352, 32);
             this.clearList.TabIndex = 3;
             this.clearList.Text = "Очистить список";
             this.clearList.UseVisualStyleBackColor = true;
@@ -116,9 +116,9 @@ namespace vlc_works
             // textPort
             // 
             this.textPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textPort.Location = new System.Drawing.Point(128, 0);
+            this.textPort.Location = new System.Drawing.Point(128, 32);
             this.textPort.Name = "textPort";
-            this.textPort.Size = new System.Drawing.Size(160, 31);
+            this.textPort.Size = new System.Drawing.Size(224, 31);
             this.textPort.TabIndex = 4;
             this.textPort.Text = "7005";
             // 
@@ -134,16 +134,18 @@ namespace vlc_works
             this.panel1.Controls.Add(this.disconnectBut);
             this.panel1.Controls.Add(this.connectBut);
             this.panel1.Controls.Add(this.clearList);
+            this.panel1.Controls.Add(this.camBox);
+            this.panel1.Controls.Add(this.webCamTextLabel);
             this.panel1.Controls.Add(this.textPort);
-            this.panel1.Location = new System.Drawing.Point(448, 544);
+            this.panel1.Location = new System.Drawing.Point(448, 704);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(352, 192);
+            this.panel1.Size = new System.Drawing.Size(352, 224);
             this.panel1.TabIndex = 6;
             // 
             // ipPortBox
             // 
             this.ipPortBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ipPortBox.Location = new System.Drawing.Point(288, 32);
+            this.ipPortBox.Location = new System.Drawing.Point(288, 64);
             this.ipPortBox.Name = "ipPortBox";
             this.ipPortBox.Size = new System.Drawing.Size(64, 31);
             this.ipPortBox.TabIndex = 20;
@@ -153,7 +155,7 @@ namespace vlc_works
             // 
             this.passwordTextLabel.AutoSize = true;
             this.passwordTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passwordTextLabel.Location = new System.Drawing.Point(0, 64);
+            this.passwordTextLabel.Location = new System.Drawing.Point(0, 96);
             this.passwordTextLabel.Name = "passwordTextLabel";
             this.passwordTextLabel.Size = new System.Drawing.Size(108, 31);
             this.passwordTextLabel.TabIndex = 19;
@@ -162,9 +164,9 @@ namespace vlc_works
             // passwordBox
             // 
             this.passwordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passwordBox.Location = new System.Drawing.Point(128, 64);
+            this.passwordBox.Location = new System.Drawing.Point(128, 96);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.Size = new System.Drawing.Size(160, 31);
+            this.passwordBox.Size = new System.Drawing.Size(224, 31);
             this.passwordBox.TabIndex = 18;
             this.passwordBox.Text = "0";
             // 
@@ -172,7 +174,7 @@ namespace vlc_works
             // 
             this.ipAddressTextLabel.AutoSize = true;
             this.ipAddressTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ipAddressTextLabel.Location = new System.Drawing.Point(0, 32);
+            this.ipAddressTextLabel.Location = new System.Drawing.Point(0, 64);
             this.ipAddressTextLabel.Name = "ipAddressTextLabel";
             this.ipAddressTextLabel.Size = new System.Drawing.Size(40, 31);
             this.ipAddressTextLabel.TabIndex = 17;
@@ -181,7 +183,7 @@ namespace vlc_works
             // ipAdressBox
             // 
             this.ipAdressBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ipAdressBox.Location = new System.Drawing.Point(128, 32);
+            this.ipAdressBox.Location = new System.Drawing.Point(128, 64);
             this.ipAdressBox.Name = "ipAdressBox";
             this.ipAdressBox.Size = new System.Drawing.Size(160, 31);
             this.ipAdressBox.TabIndex = 16;
@@ -192,7 +194,7 @@ namespace vlc_works
             this.portLabel.AutoSize = true;
             this.portLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.portLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.portLabel.Location = new System.Drawing.Point(0, 0);
+            this.portLabel.Location = new System.Drawing.Point(0, 32);
             this.portLabel.Name = "portLabel";
             this.portLabel.Size = new System.Drawing.Size(76, 31);
             this.portLabel.TabIndex = 5;
@@ -202,9 +204,9 @@ namespace vlc_works
             // 
             this.camPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.camPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.camPictureBox.Location = new System.Drawing.Point(32, 32);
+            this.camPictureBox.Location = new System.Drawing.Point(0, 0);
             this.camPictureBox.Name = "camPictureBox";
-            this.camPictureBox.Size = new System.Drawing.Size(320, 256);
+            this.camPictureBox.Size = new System.Drawing.Size(384, 576);
             this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.camPictureBox.TabIndex = 8;
             this.camPictureBox.TabStop = false;
@@ -213,9 +215,9 @@ namespace vlc_works
             // 
             this.camBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.camBox.FormattingEnabled = true;
-            this.camBox.Location = new System.Drawing.Point(448, 512);
+            this.camBox.Location = new System.Drawing.Point(127, -1);
             this.camBox.Name = "camBox";
-            this.camBox.Size = new System.Drawing.Size(192, 33);
+            this.camBox.Size = new System.Drawing.Size(224, 33);
             this.camBox.TabIndex = 9;
             this.camBox.DropDown += new System.EventHandler(this.camBox_DropDown);
             this.camBox.SelectedIndexChanged += new System.EventHandler(this.camBox_SelectedIndexChanged);
@@ -223,19 +225,19 @@ namespace vlc_works
             // webCamTextLabel
             // 
             this.webCamTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.webCamTextLabel.Location = new System.Drawing.Point(448, 480);
+            this.webCamTextLabel.Location = new System.Drawing.Point(-1, -1);
             this.webCamTextLabel.Name = "webCamTextLabel";
-            this.webCamTextLabel.Size = new System.Drawing.Size(192, 32);
+            this.webCamTextLabel.Size = new System.Drawing.Size(128, 32);
             this.webCamTextLabel.TabIndex = 10;
-            this.webCamTextLabel.Text = "Веб камера";
-            this.webCamTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.webCamTextLabel.Text = "Камера";
+            this.webCamTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // saveCamBut
             // 
             this.saveCamBut.BackColor = System.Drawing.Color.PaleTurquoise;
             this.saveCamBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveCamBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.saveCamBut.Location = new System.Drawing.Point(480, 320);
+            this.saveCamBut.Location = new System.Drawing.Point(512, 608);
             this.saveCamBut.Name = "saveCamBut";
             this.saveCamBut.Size = new System.Drawing.Size(192, 64);
             this.saveCamBut.TabIndex = 11;
@@ -246,9 +248,9 @@ namespace vlc_works
             // takenPhotoPictureBox
             // 
             this.takenPhotoPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.takenPhotoPictureBox.Location = new System.Drawing.Point(416, 32);
+            this.takenPhotoPictureBox.Location = new System.Drawing.Point(416, 0);
             this.takenPhotoPictureBox.Name = "takenPhotoPictureBox";
-            this.takenPhotoPictureBox.Size = new System.Drawing.Size(320, 256);
+            this.takenPhotoPictureBox.Size = new System.Drawing.Size(384, 576);
             this.takenPhotoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.takenPhotoPictureBox.TabIndex = 12;
             this.takenPhotoPictureBox.TabStop = false;
@@ -258,7 +260,7 @@ namespace vlc_works
             this.takePhotoBut.BackColor = System.Drawing.Color.SpringGreen;
             this.takePhotoBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.takePhotoBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.takePhotoBut.Location = new System.Drawing.Point(96, 320);
+            this.takePhotoBut.Location = new System.Drawing.Point(96, 608);
             this.takePhotoBut.Name = "takePhotoBut";
             this.takePhotoBut.Size = new System.Drawing.Size(192, 64);
             this.takePhotoBut.TabIndex = 13;
@@ -269,9 +271,9 @@ namespace vlc_works
             // aiPictureBox
             // 
             this.aiPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.aiPictureBox.Location = new System.Drawing.Point(800, 32);
+            this.aiPictureBox.Location = new System.Drawing.Point(832, 0);
             this.aiPictureBox.Name = "aiPictureBox";
-            this.aiPictureBox.Size = new System.Drawing.Size(320, 256);
+            this.aiPictureBox.Size = new System.Drawing.Size(384, 576);
             this.aiPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.aiPictureBox.TabIndex = 14;
             this.aiPictureBox.TabStop = false;
@@ -280,7 +282,7 @@ namespace vlc_works
             // 
             this.idLabel.AutoSize = true;
             this.idLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.idLabel.Location = new System.Drawing.Point(832, 288);
+            this.idLabel.Location = new System.Drawing.Point(896, 576);
             this.idLabel.Name = "idLabel";
             this.idLabel.Size = new System.Drawing.Size(250, 31);
             this.idLabel.TabIndex = 15;
@@ -289,7 +291,7 @@ namespace vlc_works
             // testReadButton
             // 
             this.testReadButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.testReadButton.Location = new System.Drawing.Point(800, 448);
+            this.testReadButton.Location = new System.Drawing.Point(800, 704);
             this.testReadButton.Name = "testReadButton";
             this.testReadButton.Size = new System.Drawing.Size(160, 96);
             this.testReadButton.TabIndex = 16;
@@ -300,7 +302,7 @@ namespace vlc_works
             // testWriteButton
             // 
             this.testWriteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.testWriteButton.Location = new System.Drawing.Point(960, 448);
+            this.testWriteButton.Location = new System.Drawing.Point(960, 704);
             this.testWriteButton.Name = "testWriteButton";
             this.testWriteButton.Size = new System.Drawing.Size(160, 96);
             this.testWriteButton.TabIndex = 17;
@@ -317,9 +319,9 @@ namespace vlc_works
             this.panel2.Controls.Add(this.selectPhoto);
             this.panel2.Controls.Add(this.idBox);
             this.panel2.Controls.Add(this.idLabeltext);
-            this.panel2.Location = new System.Drawing.Point(800, 544);
+            this.panel2.Location = new System.Drawing.Point(800, 800);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(320, 192);
+            this.panel2.Size = new System.Drawing.Size(320, 128);
             this.panel2.TabIndex = 18;
             // 
             // machineIdBox
@@ -388,7 +390,7 @@ namespace vlc_works
             this.saveAiBut.BackColor = System.Drawing.Color.LightCyan;
             this.saveAiBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveAiBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.saveAiBut.Location = new System.Drawing.Point(864, 320);
+            this.saveAiBut.Location = new System.Drawing.Point(928, 608);
             this.saveAiBut.Name = "saveAiBut";
             this.saveAiBut.Size = new System.Drawing.Size(192, 64);
             this.saveAiBut.TabIndex = 19;
@@ -396,11 +398,11 @@ namespace vlc_works
             this.saveAiBut.UseVisualStyleBackColor = false;
             this.saveAiBut.Click += new System.EventHandler(this.saveAiBut_Click);
             // 
-            // MainForm
+            // FaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1154, 738);
+            this.ClientSize = new System.Drawing.Size(1216, 929);
             this.Controls.Add(this.saveAiBut);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.testWriteButton);
@@ -410,12 +412,10 @@ namespace vlc_works
             this.Controls.Add(this.takePhotoBut);
             this.Controls.Add(this.takenPhotoPictureBox);
             this.Controls.Add(this.saveCamBut);
-            this.Controls.Add(this.webCamTextLabel);
-            this.Controls.Add(this.camBox);
             this.Controls.Add(this.camPictureBox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.userDataListView);
-            this.Name = "MainForm";
+            this.Name = "FaceForm";
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.panel1.ResumeLayout(false);
