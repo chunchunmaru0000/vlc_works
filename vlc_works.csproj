@@ -206,6 +206,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="README.md" />
     <None Include="Related\-L¬-+-¦¦.pdf" />
     <None Include="Related\database_example.db" />
     <None Include="Related\ocxInit.bat" />
@@ -218,7 +219,7 @@
     <Content Include="Related\Apparat-Coins Operations.png" />
     <Content Include="Related\AxInterop.FPCLOCK_SVRLib.dll" />
     <Content Include="Related\AxInterop.FP_CLOCKLib.dll" />
-    <Content Include="Related\dlls setup.txt" />
+    <None Include="Related\dlls setup.md" />
     <Content Include="Related\FPCLOCK_Svr.ocx" />
     <Content Include="Related\games_table_structure.jpeg" />
     <Content Include="Related\Interop.FPCLOCK_SVRLib.dll" />

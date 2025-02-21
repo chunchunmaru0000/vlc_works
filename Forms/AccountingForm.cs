@@ -557,7 +557,8 @@ namespace vlc_works
 		private void faceControlBut_Click(object sender, EventArgs e)
 		{
 			faceForm = new FaceForm();
-			faceForm.Show();
+            faceForm.Show();
+            faceForm.Location = new Point(2000, 100);
 		}
 		#endregion FACE_CONTROL
 		#region TEMPORAL_CONTROLS
