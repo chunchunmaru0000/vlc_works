@@ -19,6 +19,8 @@ namespace vlc_works
         private AxFP_CLOCK axFP_CLOCK { get; set; }
 		private int machineNumber = 1;
 		private int lastCode { get; set; } = -1;
+        private const string webCamPhotosDirectory = "web_cam_photos";
+        private const string aiCamPhotosDirectory = "ai_cam_photos";
 
         public FaceForm()
 		{
@@ -79,6 +81,7 @@ namespace vlc_works
                 return;
 
 			takenPhotoPictureBox.Image = (Bitmap)camPictureBox.Image.Clone();
+            photoSelectedLabel.Text = "ВЫБРАНО";
         }
 
         private void saveCamBut_Click(object sender, EventArgs e)
@@ -86,7 +89,8 @@ namespace vlc_works
 			if (takenPhotoPictureBox.Image == null)
 				return;
 
-			string imageName = $"img_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
+            Directory.CreateDirectory(webCamPhotosDirectory);
+            string imageName = $"{webCamPhotosDirectory}\\img_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
             takenPhotoPictureBox.Image.Save(imageName, System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
@@ -95,7 +99,8 @@ namespace vlc_works
             if (aiPictureBox.Image == null)
                 return;
 
-            string imageName = $"img_{lastCode}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
+            Directory.CreateDirectory(aiCamPhotosDirectory);
+            string imageName = $"{aiCamPhotosDirectory}\\img_{lastCode}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
             aiPictureBox.Image.Save(imageName, System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
@@ -476,35 +481,10 @@ namespace vlc_works
 
 					byte[] photoBytes = new byte[dwPhotoSize];
 					Marshal.Copy(ptrIndexFacePhoto, photoBytes, 0, dwPhotoSize);
-					File.WriteAllBytes(photoName, photoBytes);
+					//File.WriteAllBytes(photoName, photoBytes);
 
-                    print($"PHOTO |> {photoName}\n");
+                    //print($"PHOTO |> {photoName}\n");
                 }
-				/* errors
-				else
-				{
-					continue;
-                    int dwMachinePrivilege = 0;
-                    object dwEnrollData = 0;
-                    int dwPassWord = 0;
-
-                    PerformOperation(() => axFP_CLOCK
-						.GetEnrollData(
-							machineNumber,
-							dwEnrollNumber,
-							dwEMachineNumber,
-							dwBackupNumber,
-							ref dwMachinePrivilege,
-							ref dwEnrollData,
-							ref dwPassWord
-							));
-
-                    File.AppendAllText(testFileName, 
-						$"DATA[{dwEnrollNumber}] |> dwMachinePrivilege |> {dwMachinePrivilege}\n" +
-                        $"DATA[{dwEnrollNumber}] |> dwEnrollData |> {dwEnrollData}\n" +
-                        $"DATA[{dwEnrollNumber}] |> dwPassWord |> {dwPassWord}\n");
-                }
-				 */
             }
 
             if (times < 2)
@@ -515,15 +495,16 @@ namespace vlc_works
 
         private void testWriteButton_Click(object sender, EventArgs e)
         {
-			if (photoPathBox.Text == "НЕ ВЫБРАНО")
+			if (takenPhotoPictureBox.Image == null)
 			{
+                MessageBox.Show("ФОТО НЕ ВЫБРАНО");
 				print("PHOTO IS NOT SELECTED AND TRYED TO WRITE USER");
 				return;
 			}
 
 			int enrollId = int.Parse(idBox.Text);
 			machineNumber = int.Parse(machineIdBox.Text);
-			string photoPath = photoPathBox.Text;
+            string photoPath = $"{aiCamPhotosDirectory}\\set_img_{lastCode}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg";
 
 			byte[] photoBytes = File.ReadAllBytes(photoPath);
             IntPtr ptrIndexFacePhoto = Marshal.AllocHGlobal(photoBytes.Length);
@@ -548,15 +529,6 @@ namespace vlc_works
 				$"[END SET USER]",
             }) + '\n');
         }
-
-        private void selectPhoto_Click(object sender, EventArgs e)
-        {
-			photoPathBox.Text =
-				openFileDialog.ShowDialog() == DialogResult.OK
-				? openFileDialog.FileName
-				: "НЕ ВЫБРАНО";
-        }
-
         #endregion
     }
 }

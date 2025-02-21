@@ -51,7 +51,6 @@ namespace vlc_works
             this.takePhotoBut = new System.Windows.Forms.Button();
             this.aiPictureBox = new System.Windows.Forms.PictureBox();
             this.idLabel = new System.Windows.Forms.Label();
-            this.testReadButton = new System.Windows.Forms.Button();
             this.testWriteButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.machineIdBox = new System.Windows.Forms.TextBox();
@@ -61,6 +60,9 @@ namespace vlc_works
             this.saveAiBut = new System.Windows.Forms.Button();
             this.photoTextLabel = new System.Windows.Forms.Label();
             this.photoSelectedLabel = new System.Windows.Forms.Label();
+            this.photoToSetTextLabel = new System.Windows.Forms.Label();
+            this.recognizedPersonTextLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.camPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenPhotoPictureBox)).BeginInit();
@@ -281,31 +283,20 @@ namespace vlc_works
             // 
             this.idLabel.AutoSize = true;
             this.idLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.idLabel.Location = new System.Drawing.Point(896, 576);
+            this.idLabel.Location = new System.Drawing.Point(800, 736);
             this.idLabel.Name = "idLabel";
             this.idLabel.Size = new System.Drawing.Size(250, 31);
             this.idLabel.TabIndex = 15;
             this.idLabel.Text = "ПОСЛЕДНИЙ ID:  ";
             // 
-            // testReadButton
-            // 
-            this.testReadButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.testReadButton.Location = new System.Drawing.Point(800, 704);
-            this.testReadButton.Name = "testReadButton";
-            this.testReadButton.Size = new System.Drawing.Size(160, 96);
-            this.testReadButton.TabIndex = 16;
-            this.testReadButton.Text = "тестовая кнопка чтения";
-            this.testReadButton.UseVisualStyleBackColor = true;
-            this.testReadButton.Click += new System.EventHandler(this.testButton_Click);
-            // 
             // testWriteButton
             // 
             this.testWriteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.testWriteButton.Location = new System.Drawing.Point(960, 704);
+            this.testWriteButton.Location = new System.Drawing.Point(0, 63);
             this.testWriteButton.Name = "testWriteButton";
-            this.testWriteButton.Size = new System.Drawing.Size(160, 96);
+            this.testWriteButton.Size = new System.Drawing.Size(319, 65);
             this.testWriteButton.TabIndex = 17;
-            this.testWriteButton.Text = "тестовая кнопка записи";
+            this.testWriteButton.Text = "Записать игрока";
             this.testWriteButton.UseVisualStyleBackColor = true;
             this.testWriteButton.Click += new System.EventHandler(this.testWriteButton_Click);
             // 
@@ -314,19 +305,20 @@ namespace vlc_works
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.photoSelectedLabel);
             this.panel2.Controls.Add(this.photoTextLabel);
+            this.panel2.Controls.Add(this.testWriteButton);
             this.panel2.Controls.Add(this.machineIdBox);
             this.panel2.Controls.Add(this.machineLabel);
             this.panel2.Controls.Add(this.idBox);
             this.panel2.Controls.Add(this.idLabeltext);
-            this.panel2.Location = new System.Drawing.Point(800, 800);
+            this.panel2.Location = new System.Drawing.Point(800, 768);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(320, 128);
+            this.panel2.Size = new System.Drawing.Size(320, 160);
             this.panel2.TabIndex = 18;
             // 
             // machineIdBox
             // 
             this.machineIdBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.machineIdBox.Location = new System.Drawing.Point(160, 64);
+            this.machineIdBox.Location = new System.Drawing.Point(160, 128);
             this.machineIdBox.Name = "machineIdBox";
             this.machineIdBox.Size = new System.Drawing.Size(160, 31);
             this.machineIdBox.TabIndex = 22;
@@ -336,7 +328,7 @@ namespace vlc_works
             // 
             this.machineLabel.AutoSize = true;
             this.machineLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.machineLabel.Location = new System.Drawing.Point(0, 64);
+            this.machineLabel.Location = new System.Drawing.Point(0, 128);
             this.machineLabel.Name = "machineLabel";
             this.machineLabel.Size = new System.Drawing.Size(157, 31);
             this.machineLabel.TabIndex = 21;
@@ -394,15 +386,46 @@ namespace vlc_works
             this.photoSelectedLabel.TabIndex = 24;
             this.photoSelectedLabel.Text = "НЕТ";
             // 
+            // photoToSetTextLabel
+            // 
+            this.photoToSetTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.photoToSetTextLabel.Location = new System.Drawing.Point(416, 576);
+            this.photoToSetTextLabel.Name = "photoToSetTextLabel";
+            this.photoToSetTextLabel.Size = new System.Drawing.Size(384, 32);
+            this.photoToSetTextLabel.TabIndex = 20;
+            this.photoToSetTextLabel.Text = "Фото на запись";
+            this.photoToSetTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // recognizedPersonTextLabel
+            // 
+            this.recognizedPersonTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.recognizedPersonTextLabel.Location = new System.Drawing.Point(832, 576);
+            this.recognizedPersonTextLabel.Name = "recognizedPersonTextLabel";
+            this.recognizedPersonTextLabel.Size = new System.Drawing.Size(384, 32);
+            this.recognizedPersonTextLabel.TabIndex = 21;
+            this.recognizedPersonTextLabel.Text = "Опознан";
+            this.recognizedPersonTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(0, 576);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(384, 32);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Веб камера";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 929);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.recognizedPersonTextLabel);
+            this.Controls.Add(this.photoToSetTextLabel);
             this.Controls.Add(this.saveAiBut);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.testWriteButton);
-            this.Controls.Add(this.testReadButton);
             this.Controls.Add(this.idLabel);
             this.Controls.Add(this.aiPictureBox);
             this.Controls.Add(this.takePhotoBut);
@@ -448,7 +471,6 @@ namespace vlc_works
         private System.Windows.Forms.Label passwordTextLabel;
         private System.Windows.Forms.TextBox passwordBox;
         private System.Windows.Forms.TextBox ipPortBox;
-        private System.Windows.Forms.Button testReadButton;
         private System.Windows.Forms.Button testWriteButton;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox idBox;
@@ -458,6 +480,9 @@ namespace vlc_works
         private System.Windows.Forms.Button saveAiBut;
         private System.Windows.Forms.Label photoSelectedLabel;
         private System.Windows.Forms.Label photoTextLabel;
+        private System.Windows.Forms.Label photoToSetTextLabel;
+        private System.Windows.Forms.Label recognizedPersonTextLabel;
+        private System.Windows.Forms.Label label1;
     }
 }
 

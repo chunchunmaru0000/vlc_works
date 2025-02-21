@@ -556,6 +556,9 @@ namespace vlc_works
 		#region FACE_CONTROL
 		private void faceControlBut_Click(object sender, EventArgs e)
 		{
+            if (faceForm != null && !faceForm.IsDisposed)
+                return;
+
 			faceForm = new FaceForm();
             faceForm.Show();
             faceForm.Location = new Point(2000, 100);
