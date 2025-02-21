@@ -342,7 +342,7 @@ namespace vlc_works
 			if (e.anSEnrollNumber > 0)
 			{
 				lastCode = e.anSEnrollNumber;
-                idLabel.Text = $"ПОСЛЕДНИЙ ID: {lastCode}";
+                lastIdLabel.Text = lastCode.ToString();
             }
 
 			if (e.anVerifyMode > 40)
@@ -423,7 +423,7 @@ namespace vlc_works
 			 */
         }
 
-        #region TEST_AREA
+        #region WRITE_PLAYER_AREA
 
         private void testButton_Click(object sender, EventArgs e)
         {
@@ -528,6 +528,11 @@ namespace vlc_works
 				$"SET ENROLL PHOTO:    [{setEnrollPhotoCSResult}]",
 				$"[END SET USER]",
             }) + '\n');
+        }
+
+        private void newIdBut_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
     }
