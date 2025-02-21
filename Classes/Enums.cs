@@ -34,4 +34,34 @@
 		[StringValue("Марио")]
 		Mario
 	}
+
+    public enum BackupNum
+    {
+        Finger0 = 0,
+        Finger1 = 1,
+        Finger2 = 2,
+        Finger3 = 3,
+        Finger4 = 4,
+        Finger5 = 5,
+        Finger6 = 6,
+        Finger7 = 7,
+        Finger8 = 8,
+        Finger9 = 9,
+
+        PasswordData = 10,
+        CardData = 11,
+        AllFingersPasswordsCards = 12,
+        AllFingers = 13,
+
+        Face20 = 20,
+        Face21 = 21,
+        Face22 = 22,
+        Face23 = 23,
+        Face24 = 24,
+        Face25 = 25,
+        Face26 = 26,
+        Face27 = 27,
+
+        AIFace = 50,
+    }
 }

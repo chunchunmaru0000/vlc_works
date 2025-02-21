@@ -1,0 +1,16 @@
+REGISTER FPCLOCK_Svr.ocx VIA OPENING cmd WITH ADMINISTRATOR RIGHTS AND DO:
+
+```
+regsvr32 FPCLOCK_Svr.ocx
+```
+
+NEXT GO TO 
+|> *.cs[Design] 
+|> Toolbox 
+|> RIGHT MOUSE CLICK 
+|> Choose items... 
+|> COM Components
+|> Browse...
+|> SELECT FPCLOCK_Svr.ocx
+
+NEXT NEED ALL OTHER DLLS TO BE IN THE APP TARGET DIRECTORY

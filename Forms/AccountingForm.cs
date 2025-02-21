@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace vlc_works
 		private TextSettings settings { get; set; }
 		// until here operator form
 		public ClientForm clientForm { get; set; }
+		public FaceForm faceForm { get; set; }
 		// selects
 		public long SelectedAward { get; set; }
 		public long SelectedLevel { get; set; }
@@ -554,7 +556,8 @@ namespace vlc_works
 		#region FACE_CONTROL
 		private void faceControlBut_Click(object sender, EventArgs e)
 		{
-
+			faceForm = new FaceForm();
+			faceForm.Show();
 		}
 		#endregion FACE_CONTROL
 		#region TEMPORAL_CONTROLS
