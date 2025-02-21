@@ -43,9 +43,9 @@ namespace vlc_works
             this.ipAddressTextLabel = new System.Windows.Forms.Label();
             this.ipAdressBox = new System.Windows.Forms.TextBox();
             this.portLabel = new System.Windows.Forms.Label();
-            this.camPictureBox = new System.Windows.Forms.PictureBox();
             this.camBox = new System.Windows.Forms.ComboBox();
             this.webCamTextLabel = new System.Windows.Forms.Label();
+            this.camPictureBox = new System.Windows.Forms.PictureBox();
             this.saveCamBut = new System.Windows.Forms.Button();
             this.takenPhotoPictureBox = new System.Windows.Forms.PictureBox();
             this.takePhotoBut = new System.Windows.Forms.Button();
@@ -56,12 +56,11 @@ namespace vlc_works
             this.panel2 = new System.Windows.Forms.Panel();
             this.machineIdBox = new System.Windows.Forms.TextBox();
             this.machineLabel = new System.Windows.Forms.Label();
-            this.photoPathBox = new System.Windows.Forms.RichTextBox();
-            this.selectPhoto = new System.Windows.Forms.Button();
             this.idBox = new System.Windows.Forms.TextBox();
             this.idLabeltext = new System.Windows.Forms.Label();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveAiBut = new System.Windows.Forms.Button();
+            this.photoTextLabel = new System.Windows.Forms.Label();
+            this.photoSelectedLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.camPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenPhotoPictureBox)).BeginInit();
@@ -200,17 +199,6 @@ namespace vlc_works
             this.portLabel.TabIndex = 5;
             this.portLabel.Text = "Порт";
             // 
-            // camPictureBox
-            // 
-            this.camPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.camPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.camPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.camPictureBox.Name = "camPictureBox";
-            this.camPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.camPictureBox.TabIndex = 8;
-            this.camPictureBox.TabStop = false;
-            // 
             // camBox
             // 
             this.camBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -231,6 +219,17 @@ namespace vlc_works
             this.webCamTextLabel.TabIndex = 10;
             this.webCamTextLabel.Text = "Камера";
             this.webCamTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // camPictureBox
+            // 
+            this.camPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.camPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.camPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.camPictureBox.Name = "camPictureBox";
+            this.camPictureBox.Size = new System.Drawing.Size(384, 576);
+            this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.camPictureBox.TabIndex = 8;
+            this.camPictureBox.TabStop = false;
             // 
             // saveCamBut
             // 
@@ -313,10 +312,10 @@ namespace vlc_works
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.photoSelectedLabel);
+            this.panel2.Controls.Add(this.photoTextLabel);
             this.panel2.Controls.Add(this.machineIdBox);
             this.panel2.Controls.Add(this.machineLabel);
-            this.panel2.Controls.Add(this.photoPathBox);
-            this.panel2.Controls.Add(this.selectPhoto);
             this.panel2.Controls.Add(this.idBox);
             this.panel2.Controls.Add(this.idLabeltext);
             this.panel2.Location = new System.Drawing.Point(800, 800);
@@ -327,7 +326,7 @@ namespace vlc_works
             // machineIdBox
             // 
             this.machineIdBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.machineIdBox.Location = new System.Drawing.Point(160, 96);
+            this.machineIdBox.Location = new System.Drawing.Point(160, 64);
             this.machineIdBox.Name = "machineIdBox";
             this.machineIdBox.Size = new System.Drawing.Size(160, 31);
             this.machineIdBox.TabIndex = 22;
@@ -337,35 +336,16 @@ namespace vlc_works
             // 
             this.machineLabel.AutoSize = true;
             this.machineLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.machineLabel.Location = new System.Drawing.Point(0, 96);
+            this.machineLabel.Location = new System.Drawing.Point(0, 64);
             this.machineLabel.Name = "machineLabel";
             this.machineLabel.Size = new System.Drawing.Size(157, 31);
             this.machineLabel.TabIndex = 21;
             this.machineLabel.Text = "Устройство";
             // 
-            // photoPathBox
-            // 
-            this.photoPathBox.Location = new System.Drawing.Point(160, 32);
-            this.photoPathBox.Name = "photoPathBox";
-            this.photoPathBox.Size = new System.Drawing.Size(160, 64);
-            this.photoPathBox.TabIndex = 20;
-            this.photoPathBox.Text = "НЕ ВЫБРАНО";
-            // 
-            // selectPhoto
-            // 
-            this.selectPhoto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.selectPhoto.Location = new System.Drawing.Point(0, 32);
-            this.selectPhoto.Name = "selectPhoto";
-            this.selectPhoto.Size = new System.Drawing.Size(160, 64);
-            this.selectPhoto.TabIndex = 19;
-            this.selectPhoto.Text = "Выбрать фото";
-            this.selectPhoto.UseVisualStyleBackColor = true;
-            this.selectPhoto.Click += new System.EventHandler(this.selectPhoto_Click);
-            // 
             // idBox
             // 
             this.idBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.idBox.Location = new System.Drawing.Point(160, 0);
+            this.idBox.Location = new System.Drawing.Point(160, 32);
             this.idBox.Name = "idBox";
             this.idBox.Size = new System.Drawing.Size(160, 31);
             this.idBox.TabIndex = 1;
@@ -375,15 +355,11 @@ namespace vlc_works
             // 
             this.idLabeltext.AutoSize = true;
             this.idLabeltext.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.idLabeltext.Location = new System.Drawing.Point(0, 0);
+            this.idLabeltext.Location = new System.Drawing.Point(0, 32);
             this.idLabeltext.Name = "idLabeltext";
             this.idLabeltext.Size = new System.Drawing.Size(42, 31);
             this.idLabeltext.TabIndex = 0;
             this.idLabeltext.Text = "ID";
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog1";
             // 
             // saveAiBut
             // 
@@ -397,6 +373,26 @@ namespace vlc_works
             this.saveAiBut.Text = "Сохранить AI изображение";
             this.saveAiBut.UseVisualStyleBackColor = false;
             this.saveAiBut.Click += new System.EventHandler(this.saveAiBut_Click);
+            // 
+            // photoTextLabel
+            // 
+            this.photoTextLabel.AutoSize = true;
+            this.photoTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.photoTextLabel.Location = new System.Drawing.Point(0, 0);
+            this.photoTextLabel.Name = "photoTextLabel";
+            this.photoTextLabel.Size = new System.Drawing.Size(79, 31);
+            this.photoTextLabel.TabIndex = 23;
+            this.photoTextLabel.Text = "Фото";
+            // 
+            // photoSelectedLabel
+            // 
+            this.photoSelectedLabel.AutoSize = true;
+            this.photoSelectedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.photoSelectedLabel.Location = new System.Drawing.Point(160, 0);
+            this.photoSelectedLabel.Name = "photoSelectedLabel";
+            this.photoSelectedLabel.Size = new System.Drawing.Size(69, 31);
+            this.photoSelectedLabel.TabIndex = 24;
+            this.photoSelectedLabel.Text = "НЕТ";
             // 
             // FaceForm
             // 
@@ -457,12 +453,11 @@ namespace vlc_works
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox idBox;
         private System.Windows.Forms.Label idLabeltext;
-        private System.Windows.Forms.Button selectPhoto;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.RichTextBox photoPathBox;
         private System.Windows.Forms.TextBox machineIdBox;
         private System.Windows.Forms.Label machineLabel;
         private System.Windows.Forms.Button saveAiBut;
+        private System.Windows.Forms.Label photoSelectedLabel;
+        private System.Windows.Forms.Label photoTextLabel;
     }
 }
 
