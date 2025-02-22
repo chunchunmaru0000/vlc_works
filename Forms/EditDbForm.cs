@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
 
@@ -184,11 +185,12 @@ namespace vlc_works
         }
 
         private bool DeleteEnrollmentFromAiDevice(long id) =>
-            axFP_CLOCK.DeleteEnrollData(
-                machineNumber, 
-                Convert.ToInt32(id), 
-                machineNumber, 
-                (int)BackupNum.AIFace);
+            faceForm.PerformOperation(() => 
+                axFP_CLOCK.DeleteEnrollData(
+                    machineNumber, 
+                    Convert.ToInt32(id), 
+                    machineNumber, 
+                    (int)BackupNum.AIFace));
 
         #endregion
 
@@ -197,7 +199,7 @@ namespace vlc_works
             return;
         }
 
-        private Dictionary<int, byte[]> rowIndexToSelectedImage = new Dictionary<int, byte[]>();
+        private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
 
         private void SelectPhoto(int rowIndex)
         {
@@ -216,8 +218,8 @@ namespace vlc_works
 
                 if (photoBytes.Length > 153_600)
                     throw new Exception(
-                        $"РАЗМЕР ИЗОБРАЖЕНИЯ: {photoBytes.Length / 1024}КБ\n" +
-                        $"РАЗМЕР ИЗОБРАЖЕНИЯ НЕ ДОЛЖЕН ПРЕВЫШАТЬ 150КБ");
+                        $"РАЗМЕР ИЗОБРАЖЕНИЯ: {Math.Round(photoBytes.Length / 1024.0, 1)} КБ\n" +
+                        $"РАЗМЕР ИЗОБРАЖЕНИЯ НЕ ДОЛЖЕН ПРЕВЫШАТЬ 150.0 КБ");
             }
             catch (Exception e) {
                 MessageBox.Show(e.Message, "ОШИБКА ПРИ ВЫБОРЕ ФОТО");
@@ -226,9 +228,50 @@ namespace vlc_works
             rowIndexToSelectedImage[rowIndex] = photoBytes;
         }
 
+        private PhotoForm photoForm { get; set; }
+
         private void ShowPhoto(int rowIndex)
         {
-            
+            if (photoForm != null && !photoForm.IsDisposed)
+                return;
+
+            byte[] photoBytes = new byte[0];
+
+            if (rowIndexToSelectedImage.ContainsKey(rowIndex))
+                photoBytes = rowIndexToSelectedImage[rowIndex];
+            else if (mainGrid.Rows[rowIndex].Cells[0].Value is string) {
+                MessageBox.Show("ФОТО ЕЩЕ НЕ БЫЛО ВЫБРАНО ДЛЯ ДАННОГО ИГРОКА");
+                return;
+            }
+            else {
+                int dwEnrollNumber = Convert.ToInt32(mainGrid.Rows[rowIndex].Cells[0].Value);
+                int dwPhotoSize = 0;
+                IntPtr ptrIndexFacePhoto = Marshal.AllocHGlobal(400800);
+
+                bool successffulyReadedPhoto =
+                    faceForm.PerformOperation(() =>
+                        axFP_CLOCK.GetEnrollPhotoCS(
+                            machineNumber,
+                            dwEnrollNumber,
+                            ref dwPhotoSize,
+                            ptrIndexFacePhoto
+                            ));
+
+                if (successffulyReadedPhoto)
+                {
+                    photoBytes = new byte[dwPhotoSize];
+                    Marshal.Copy(ptrIndexFacePhoto, photoBytes, 0, dwPhotoSize);
+
+                    rowIndexToSelectedImage[rowIndex] = photoBytes;
+                } else {
+                    MessageBox.Show("ФОТО НЕ БЫЛО УСПЕШНО ПРОЧИТАНО ИЗ УСТРОЙСТВА");
+                    return;
+                }
+            }
+
+            photoForm = new PhotoForm(photoBytes);
+            photoForm.Show();
+            photoForm.Location = new Point(2000, 100);
         }
 
         #endregion GRID_BUTTONS

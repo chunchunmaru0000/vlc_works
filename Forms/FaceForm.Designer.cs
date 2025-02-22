@@ -235,11 +235,10 @@ namespace vlc_works
             // camPictureBox
             // 
             this.camPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.camPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.camPictureBox.Location = new System.Drawing.Point(0, 32);
             this.camPictureBox.Name = "camPictureBox";
             this.camPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.camPictureBox.TabIndex = 8;
             this.camPictureBox.TabStop = false;
             // 
@@ -262,7 +261,7 @@ namespace vlc_works
             this.takenPhotoPictureBox.Location = new System.Drawing.Point(416, 32);
             this.takenPhotoPictureBox.Name = "takenPhotoPictureBox";
             this.takenPhotoPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.takenPhotoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.takenPhotoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.takenPhotoPictureBox.TabIndex = 12;
             this.takenPhotoPictureBox.TabStop = false;
             // 
@@ -285,7 +284,7 @@ namespace vlc_works
             this.aiPictureBox.Location = new System.Drawing.Point(832, 32);
             this.aiPictureBox.Name = "aiPictureBox";
             this.aiPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.aiPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.aiPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.aiPictureBox.TabIndex = 14;
             this.aiPictureBox.TabStop = false;
             // 

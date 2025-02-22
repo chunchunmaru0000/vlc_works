@@ -254,7 +254,7 @@ namespace vlc_works
         #endregion
 
         #region AX_FP_CLOCK
-        private T PerformOperation<T>(Func<T> operation, bool close = true, bool open = true)
+        public T PerformOperation<T>(Func<T> operation, bool close = true, bool open = true)
         {
             if (axFP_CLOCK == null)
                 return default;
@@ -264,7 +264,7 @@ namespace vlc_works
 			 * Before performing any operation, the device should be set to the non-attendance state (bFlag=0), 
 			 */
 			if (open)
-				axFP_CLOCK.EnableDevice(machineNumber, 0);
+				Invoke(new Action(() => axFP_CLOCK.EnableDevice(machineNumber, 0)));
 
             // do operation
             T result = operation();
@@ -274,7 +274,7 @@ namespace vlc_works
 			 * the device should be set to the attendance state (bFlag=1).
 			 */
 			if (close)
-				axFP_CLOCK.EnableDevice(machineNumber, 1);
+                Invoke(new Action(() => axFP_CLOCK.EnableDevice(machineNumber, 1)));
 
 			return result;
         }
@@ -493,7 +493,7 @@ namespace vlc_works
 
 				//print(userID.ToString().Replace('\n', ' ').Replace("\r\n", " ") + '\n');
 
-				if (dwBackupNumber == (int)BackupNum.AIFace )
+				if (dwBackupNumber == (int)BackupNum.AIFace)
 				{
 					int[] indexDataFacePhoto = new int[400800]; // BackupNum.AIFace...
 																// 400800 = 835 * 480 so it's like 480p?
