@@ -24,11 +24,32 @@ namespace vlc_works
             this.faceForm = faceForm;
             this.axFP_CLOCK = axFP_CLOCK;
             this.machineNumber = machineNumber;
+
+            SelectPlayersFromDb();
         }
 
         private void EditDbForm_SizeChanged(object sender, EventArgs e)
         {
-            mainGrid.Size = new Size(Size.Width, Size.Height - 39); // 39 is form header size
+            mainGrid.Size = new Size(Size.Width - 16, Size.Height - 39);
+        }
+
+        private void mainGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            for (int i = e.RowIndex - 1; i < e.RowIndex + e.RowCount - 1; i++)
+            {
+                mainGrid.Rows[i].Cells["C"].Value = 0;
+                mainGrid.Rows[i].Cells["K"].Value = 0;
+                mainGrid.Rows[i].Cells["M"].Value = 0;
+                mainGrid.Rows[i].Cells["photo"].Value = "Выбрать фото";
+                mainGrid.Rows[i].Cells["save"].Value = "Сохранить";
+                mainGrid.Rows[i].Cells["delete"].Value = "УДАЛИТЬ";
+                
+            }
+        }
+
+        private void SelectPlayersFromDb()
+        {
+            //DbPlayer[] players = Db.
         }
     }
 }

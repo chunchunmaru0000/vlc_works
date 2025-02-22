@@ -4,13 +4,15 @@ namespace vlc_works
 {
 	public class DbPlayer
 	{
+        public long Id { get; }
 		public long PlayerIdInt { get; set; }
 		public long C { get; set; }
 		public long K { get; set; }
 		public long M { get; set; }
 
-		public DbPlayer(long playerIdInt, long c, long k, long m)
+		public DbPlayer(long id, long playerIdInt, long c, long k, long m)
 		{
+            Id = id;
 			PlayerIdInt = playerIdInt;
 			C = c;
 			K = k;
@@ -19,7 +21,8 @@ namespace vlc_works
 
 		public static DbPlayer FromArray(object[] arr) =>
 			new DbPlayer(
-				Convert.ToInt64(arr[1]), // 0 is id that is not used
+                Convert.ToInt64(arr[0]),
+				Convert.ToInt64(arr[1]),
 				Convert.ToInt64(arr[2]),
 				Convert.ToInt64(arr[3]),
 				Convert.ToInt64(arr[4]));

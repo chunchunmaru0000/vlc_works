@@ -67,6 +67,7 @@ namespace vlc_works
             this.recognizedPersonTextLabel = new System.Windows.Forms.Label();
             this.upCamBut = new System.Windows.Forms.Button();
             this.downCamBut = new System.Windows.Forms.Button();
+            this.faceControlProgramTextLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.camPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenPhotoPictureBox)).BeginInit();
@@ -77,7 +78,7 @@ namespace vlc_works
             // userDataListView
             // 
             this.userDataListView.HideSelection = false;
-            this.userDataListView.Location = new System.Drawing.Point(0, 704);
+            this.userDataListView.Location = new System.Drawing.Point(0, 736);
             this.userDataListView.Name = "userDataListView";
             this.userDataListView.Size = new System.Drawing.Size(448, 224);
             this.userDataListView.TabIndex = 0;
@@ -147,7 +148,7 @@ namespace vlc_works
             this.panel1.Controls.Add(this.camBox);
             this.panel1.Controls.Add(this.webCamTextLabel);
             this.panel1.Controls.Add(this.textPort);
-            this.panel1.Location = new System.Drawing.Point(448, 704);
+            this.panel1.Location = new System.Drawing.Point(448, 736);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(352, 224);
             this.panel1.TabIndex = 6;
@@ -235,7 +236,7 @@ namespace vlc_works
             // 
             this.camPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.camPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.camPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.camPictureBox.Location = new System.Drawing.Point(0, 32);
             this.camPictureBox.Name = "camPictureBox";
             this.camPictureBox.Size = new System.Drawing.Size(384, 576);
             this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -247,7 +248,7 @@ namespace vlc_works
             this.saveCamBut.BackColor = System.Drawing.Color.PaleTurquoise;
             this.saveCamBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveCamBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.saveCamBut.Location = new System.Drawing.Point(512, 608);
+            this.saveCamBut.Location = new System.Drawing.Point(512, 640);
             this.saveCamBut.Name = "saveCamBut";
             this.saveCamBut.Size = new System.Drawing.Size(192, 64);
             this.saveCamBut.TabIndex = 11;
@@ -258,7 +259,7 @@ namespace vlc_works
             // takenPhotoPictureBox
             // 
             this.takenPhotoPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.takenPhotoPictureBox.Location = new System.Drawing.Point(416, 0);
+            this.takenPhotoPictureBox.Location = new System.Drawing.Point(416, 32);
             this.takenPhotoPictureBox.Name = "takenPhotoPictureBox";
             this.takenPhotoPictureBox.Size = new System.Drawing.Size(384, 576);
             this.takenPhotoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -270,7 +271,7 @@ namespace vlc_works
             this.takePhotoBut.BackColor = System.Drawing.Color.SpringGreen;
             this.takePhotoBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.takePhotoBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.takePhotoBut.Location = new System.Drawing.Point(96, 576);
+            this.takePhotoBut.Location = new System.Drawing.Point(96, 608);
             this.takePhotoBut.Name = "takePhotoBut";
             this.takePhotoBut.Size = new System.Drawing.Size(192, 64);
             this.takePhotoBut.TabIndex = 13;
@@ -281,7 +282,7 @@ namespace vlc_works
             // aiPictureBox
             // 
             this.aiPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.aiPictureBox.Location = new System.Drawing.Point(832, 0);
+            this.aiPictureBox.Location = new System.Drawing.Point(832, 32);
             this.aiPictureBox.Name = "aiPictureBox";
             this.aiPictureBox.Size = new System.Drawing.Size(384, 576);
             this.aiPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -324,7 +325,7 @@ namespace vlc_works
             this.panel2.Controls.Add(this.machineIdBox);
             this.panel2.Controls.Add(this.idLabel);
             this.panel2.Controls.Add(this.idLabeltext);
-            this.panel2.Location = new System.Drawing.Point(800, 704);
+            this.panel2.Location = new System.Drawing.Point(800, 736);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(320, 224);
             this.panel2.TabIndex = 18;
@@ -427,7 +428,7 @@ namespace vlc_works
             this.saveAiBut.BackColor = System.Drawing.Color.LightCyan;
             this.saveAiBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveAiBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.saveAiBut.Location = new System.Drawing.Point(928, 608);
+            this.saveAiBut.Location = new System.Drawing.Point(928, 640);
             this.saveAiBut.Name = "saveAiBut";
             this.saveAiBut.Size = new System.Drawing.Size(192, 64);
             this.saveAiBut.TabIndex = 19;
@@ -438,7 +439,7 @@ namespace vlc_works
             // photoToSetTextLabel
             // 
             this.photoToSetTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.photoToSetTextLabel.Location = new System.Drawing.Point(416, 576);
+            this.photoToSetTextLabel.Location = new System.Drawing.Point(416, 608);
             this.photoToSetTextLabel.Name = "photoToSetTextLabel";
             this.photoToSetTextLabel.Size = new System.Drawing.Size(384, 32);
             this.photoToSetTextLabel.TabIndex = 20;
@@ -448,7 +449,7 @@ namespace vlc_works
             // recognizedPersonTextLabel
             // 
             this.recognizedPersonTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.recognizedPersonTextLabel.Location = new System.Drawing.Point(832, 576);
+            this.recognizedPersonTextLabel.Location = new System.Drawing.Point(832, 608);
             this.recognizedPersonTextLabel.Name = "recognizedPersonTextLabel";
             this.recognizedPersonTextLabel.Size = new System.Drawing.Size(384, 32);
             this.recognizedPersonTextLabel.TabIndex = 21;
@@ -460,7 +461,7 @@ namespace vlc_works
             this.upCamBut.BackColor = System.Drawing.Color.SkyBlue;
             this.upCamBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.upCamBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.upCamBut.Location = new System.Drawing.Point(0, 640);
+            this.upCamBut.Location = new System.Drawing.Point(0, 672);
             this.upCamBut.Name = "upCamBut";
             this.upCamBut.Size = new System.Drawing.Size(192, 64);
             this.upCamBut.TabIndex = 24;
@@ -473,7 +474,7 @@ namespace vlc_works
             this.downCamBut.BackColor = System.Drawing.Color.LightCoral;
             this.downCamBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.downCamBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.downCamBut.Location = new System.Drawing.Point(192, 640);
+            this.downCamBut.Location = new System.Drawing.Point(192, 672);
             this.downCamBut.Name = "downCamBut";
             this.downCamBut.Size = new System.Drawing.Size(192, 64);
             this.downCamBut.TabIndex = 25;
@@ -481,11 +482,22 @@ namespace vlc_works
             this.downCamBut.UseVisualStyleBackColor = false;
             this.downCamBut.Click += new System.EventHandler(this.downCamBut_Click);
             // 
+            // faceControlProgramTextLabel
+            // 
+            this.faceControlProgramTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.faceControlProgramTextLabel.Location = new System.Drawing.Point(0, 0);
+            this.faceControlProgramTextLabel.Name = "faceControlProgramTextLabel";
+            this.faceControlProgramTextLabel.Size = new System.Drawing.Size(1216, 32);
+            this.faceControlProgramTextLabel.TabIndex = 26;
+            this.faceControlProgramTextLabel.Text = "ПРОГРАММА ФЭЙС КОНТРОЛЯ";
+            this.faceControlProgramTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1216, 929);
+            this.ClientSize = new System.Drawing.Size(1216, 961);
+            this.Controls.Add(this.faceControlProgramTextLabel);
             this.Controls.Add(this.downCamBut);
             this.Controls.Add(this.upCamBut);
             this.Controls.Add(this.recognizedPersonTextLabel);
@@ -551,6 +563,7 @@ namespace vlc_works
         private System.Windows.Forms.Button upCamBut;
         private System.Windows.Forms.Button downCamBut;
         private System.Windows.Forms.Button openEditDbFormBut;
+        private System.Windows.Forms.Label faceControlProgramTextLabel;
     }
 }
 
