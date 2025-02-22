@@ -85,29 +85,34 @@ namespace vlc_works
             // 
             // connectBut
             // 
+            this.connectBut.BackColor = System.Drawing.Color.LightCoral;
+            this.connectBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.connectBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.connectBut.Location = new System.Drawing.Point(0, 128);
             this.connectBut.Name = "connectBut";
             this.connectBut.Size = new System.Drawing.Size(352, 32);
             this.connectBut.TabIndex = 1;
             this.connectBut.Text = "Подключиться";
-            this.connectBut.UseVisualStyleBackColor = true;
-            this.connectBut.Click += new System.EventHandler(this.button1_Click);
+            this.connectBut.UseVisualStyleBackColor = false;
+            this.connectBut.Click += new System.EventHandler(this.Connect_Click);
             // 
             // disconnectBut
             // 
+            this.disconnectBut.BackColor = System.Drawing.Color.LightCoral;
             this.disconnectBut.Enabled = false;
+            this.disconnectBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.disconnectBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.disconnectBut.Location = new System.Drawing.Point(0, 160);
             this.disconnectBut.Name = "disconnectBut";
             this.disconnectBut.Size = new System.Drawing.Size(352, 32);
             this.disconnectBut.TabIndex = 2;
             this.disconnectBut.Text = "Отключиться";
-            this.disconnectBut.UseVisualStyleBackColor = true;
+            this.disconnectBut.UseVisualStyleBackColor = false;
             this.disconnectBut.Click += new System.EventHandler(this.Disconnect_Click);
             // 
             // clearList
             // 
+            this.clearList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearList.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.clearList.Location = new System.Drawing.Point(0, 192);
             this.clearList.Name = "clearList";
@@ -232,7 +237,7 @@ namespace vlc_works
             this.camPictureBox.Location = new System.Drawing.Point(0, 0);
             this.camPictureBox.Name = "camPictureBox";
             this.camPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.camPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.camPictureBox.TabIndex = 8;
             this.camPictureBox.TabStop = false;
             // 
@@ -255,7 +260,7 @@ namespace vlc_works
             this.takenPhotoPictureBox.Location = new System.Drawing.Point(416, 0);
             this.takenPhotoPictureBox.Name = "takenPhotoPictureBox";
             this.takenPhotoPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.takenPhotoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.takenPhotoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.takenPhotoPictureBox.TabIndex = 12;
             this.takenPhotoPictureBox.TabStop = false;
             // 
@@ -278,7 +283,7 @@ namespace vlc_works
             this.aiPictureBox.Location = new System.Drawing.Point(832, 0);
             this.aiPictureBox.Name = "aiPictureBox";
             this.aiPictureBox.Size = new System.Drawing.Size(384, 576);
-            this.aiPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.aiPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.aiPictureBox.TabIndex = 14;
             this.aiPictureBox.TabStop = false;
             // 
@@ -294,6 +299,7 @@ namespace vlc_works
             // 
             // testWriteButton
             // 
+            this.testWriteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.testWriteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.testWriteButton.Location = new System.Drawing.Point(0, 63);
             this.testWriteButton.Name = "testWriteButton";

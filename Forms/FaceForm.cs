@@ -175,7 +175,7 @@ namespace vlc_works
 		#endregion
 
 		#region BUTS
-		private void button1_Click(object sender, EventArgs e)
+		private void Connect_Click(object sender, EventArgs e)
 		{
 			if (int.TryParse(textPort.Text, out int port))
 			{
@@ -183,7 +183,9 @@ namespace vlc_works
 				{
 					connectBut.Enabled = false;
 					disconnectBut.Enabled = true;
-					axFPCLOCK_Svr.OpenNetwork(port);
+                    connectBut.BackColor = Color.LightGreen;
+                    disconnectBut.BackColor = Color.LightGreen;
+                    axFPCLOCK_Svr.OpenNetwork(port);
 				}
 				else
                     MessageBox.Show("НЕ ПОДКЛЮЧИЛОСЬ");
@@ -235,7 +237,9 @@ namespace vlc_works
                 axFP_CLOCK.CloseCommPort();
                 connectBut.Enabled = true;
 				disconnectBut.Enabled = false;
-			}
+                connectBut.BackColor = Color.LightCoral;
+                disconnectBut.BackColor = Color.LightCoral;
+            }
 			else
 				MessageBox.Show("НЕВРНОЕ ЧИСЛО ДЛЯ ЗАКРЫВАЕМОГО ПОРТА");
 		}
@@ -577,9 +581,10 @@ namespace vlc_works
         {
             new Thread(() =>
             {
-                RelayChecker.Transmit(2, false); // camera DOWN off
-                Thread.Sleep(100);
+                //RelayChecker.Transmit(2, false); // camera DOWN off
                 RelayChecker.Transmit(1, true); // camera UP on
+                Thread.Sleep(1000);
+                RelayChecker.Transmit(1, false);
             }).Start();
         }
 
@@ -587,9 +592,10 @@ namespace vlc_works
         {
             new Thread(() =>
             {
-                RelayChecker.Transmit(1, false); // camera UP off
-                Thread.Sleep(100);
+                //RelayChecker.Transmit(1, false); // camera UP off
                 RelayChecker.Transmit(2, true); // camera DOWN on
+                Thread.Sleep(100);
+                RelayChecker.Transmit(2, false);
             }).Start();
         }
         #endregion RELAY
