@@ -49,7 +49,8 @@ namespace vlc_works
 
         private void SelectPlayersFromDb()
         {
-            //DbPlayer[] players = Db.
+            foreach (DbPlayer player in Db.SelectAllPlayers()) ;
+
         }
     }
 }

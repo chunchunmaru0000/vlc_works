@@ -327,5 +327,26 @@ SELECT price_int from {TempPricesTableName}
                 return 0;
             }
         }
+
+        public static DbPlayer[] SelectAllPlayers()
+        {
+            string query = $"SELECT * FROM {PlayersTableName}";
+
+            using (SQLiteCommand cmd = new SQLiteCommand(query, SqLiteConnection))
+            {
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                DataTable table = new DataTable();
+                table.Load(reader);
+                reader.Close();
+
+                DbPlayer[] selectItems =
+                    table.Rows
+                    .Cast<DataRow>()
+                    .Select(row => DbPlayer.FromArray(row.ItemArray))
+                    .ToArray();
+
+                return selectItems;
+            }
+        }
 	}
 }

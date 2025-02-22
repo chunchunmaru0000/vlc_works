@@ -448,12 +448,13 @@ namespace vlc_works
             // 
             // recognizedPersonTextLabel
             // 
+            this.recognizedPersonTextLabel.BackColor = System.Drawing.Color.LightCoral;
             this.recognizedPersonTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.recognizedPersonTextLabel.Location = new System.Drawing.Point(832, 608);
             this.recognizedPersonTextLabel.Name = "recognizedPersonTextLabel";
             this.recognizedPersonTextLabel.Size = new System.Drawing.Size(384, 32);
             this.recognizedPersonTextLabel.TabIndex = 21;
-            this.recognizedPersonTextLabel.Text = "Опознан";
+            this.recognizedPersonTextLabel.Text = "Не опознан";
             this.recognizedPersonTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // upCamBut

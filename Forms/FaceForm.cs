@@ -367,16 +367,24 @@ namespace vlc_works
 			{
 				lastCode = e.anSEnrollNumber;
                 lastIdLabel.Text = lastCode.ToString();
+
+                recognizedPersonTextLabel.Text = "Опознан";
+                recognizedPersonTextLabel.BackColor = Color.LightGreen;
+            } 
+            else if (e.anSEnrollNumber < 0)
+            {
+                recognizedPersonTextLabel.Text = "Не опознан";
+                recognizedPersonTextLabel.BackColor = Color.LightCoral;
             }
 
-			if (e.anVerifyMode > 40)
-			{
-				aTemperature = e.anVerifyMode;
-				aTemperature = (250 + aTemperature) / 10;
-				str = aTemperature.ToString("#0.0");
-			}
-			else
-				str = FormString(e.anVerifyMode, e.anSEnrollNumber);
+            if (e.anVerifyMode > 40)
+            {
+                aTemperature = e.anVerifyMode;
+                aTemperature = (250 + aTemperature) / 10;
+                str = aTemperature.ToString("#0.0");
+            }
+            else
+                str = FormString(e.anVerifyMode, e.anSEnrollNumber);
 
 			if (e.anSEnrollNumber < 0)
 			{
