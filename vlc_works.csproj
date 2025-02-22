@@ -239,9 +239,11 @@
     <Content Include="Related\AxInterop.FP_CLOCKLib.dll" />
     <None Include="Related\dlls setup.md" />
     <Content Include="Related\FPCLOCK_Svr.ocx" />
+    <Content Include="Related\FP_CLOCK.ocx" />
     <Content Include="Related\games_table_structure.jpeg" />
     <Content Include="Related\Interop.FPCLOCK_SVRLib.dll" />
     <Content Include="Related\Interop.FP_CLOCKLib.dll" />
+    <Content Include="Related\TMPCCOMM.dll" />
     <Content Include="Related\todo.txt" />
     <Content Include="Related\videonames.txt" />
     <Content Include="Related\План.png" />

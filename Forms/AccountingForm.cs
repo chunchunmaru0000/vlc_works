@@ -59,7 +59,6 @@ namespace vlc_works
 			InitClearFocusThread();
 
             faceControlBut_Click(this, EventArgs.Empty);
-
         }
 
 		#region SOME_INITS

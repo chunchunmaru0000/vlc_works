@@ -534,7 +534,14 @@ namespace vlc_works
 				return;
 			}
 
-			int enrollId = int.Parse(idBox.Text);
+            int enrollId;
+            if (int.TryParse(idBox.Text, out int id))
+                enrollId = id;
+            else
+            {
+                MessageBox.Show("НЕВЕРНЫЙ ФОРМАТ ID");
+                return;
+            }
 			machineNumber = int.Parse(machineIdBox.Text);
 
             string photoPath = 

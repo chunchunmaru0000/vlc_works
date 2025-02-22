@@ -401,7 +401,6 @@ namespace vlc_works
             this.idBox.Name = "idBox";
             this.idBox.Size = new System.Drawing.Size(160, 31);
             this.idBox.TabIndex = 1;
-            this.idBox.Text = "1001";
             // 
             // machineIdBox
             // 
