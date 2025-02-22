@@ -62,6 +62,11 @@ namespace vlc_works
 
         #region GRID_ADD
         private bool isManuallyAdded { get; set; } = true;
+        private DataGridViewCellStyle khakiStyle { get; set; } = new DataGridViewCellStyle()
+        {
+            BackColor = Color.Khaki,
+            SelectionBackColor = Color.DarkKhaki
+        };
 
         private void mainGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
@@ -94,11 +99,7 @@ namespace vlc_works
             if (cell is DataGridViewButtonCell)
                 return;
 
-            cell.Style = new DataGridViewCellStyle()
-            {
-                BackColor = Color.Khaki,
-                SelectionBackColor = Color.DarkKhaki
-            };
+            cell.Style = khakiStyle.Clone();
         }
 
         private void SelectPlayersFromDb()
@@ -196,7 +197,7 @@ namespace vlc_works
 
         private void SetPlayer(int rowIndex)
         {
-            return;
+
         }
 
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
@@ -225,6 +226,8 @@ namespace vlc_works
                 MessageBox.Show(e.Message, "ОШИБКА ПРИ ВЫБОРЕ ФОТО");
                 return;
             }
+
+            mainGrid.Rows[rowIndex].Cells[5].Style = khakiStyle.Clone();
             rowIndexToSelectedImage[rowIndex] = photoBytes;
         }
 
