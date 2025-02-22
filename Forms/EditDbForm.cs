@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
 
@@ -13,9 +10,11 @@ namespace vlc_works
 {
     public partial class EditDbForm: Form
     {
+        #region VAR
         private FaceForm faceForm;
         private AxFP_CLOCK axFP_CLOCK { get; set; }
         private int machineNumber = 1;
+        #endregion VAR
 
         public EditDbForm(FaceForm faceForm, AxFP_CLOCK axFP_CLOCK, int machineNumber)
         {
@@ -136,9 +135,10 @@ namespace vlc_works
         {
             switch (mainGrid.Columns[e.ColumnIndex].Name)
             {
-                case "photo": SelectPhoto(e.RowIndex); break;
-                case "save": SetPlayer(e.RowIndex); break;
-                case "delete": DeletePlayer(e.RowIndex); break;
+                case "id":     ShowPhoto    (e.RowIndex); break;
+                case "photo":  SelectPhoto  (e.RowIndex); break;
+                case "save":   SetPlayer    (e.RowIndex); break;
+                case "delete": DeletePlayer (e.RowIndex); break;
                 default:
                     break;
             }
@@ -201,7 +201,34 @@ namespace vlc_works
 
         private void SelectPhoto(int rowIndex)
         {
-            return;
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            string selectedFilePath = openFileDialog.FileName;
+            byte[] photoBytes = new byte[0];
+
+            try {
+                if (!selectedFilePath.ToLower().EndsWith(".jpg") &&
+                    !selectedFilePath.ToLower().EndsWith(".jpeg"))
+                    throw new Exception("ИЗОБРАЖЕНИЕ ДОЛЖНО БЫТЬ С РАСШИРЕНИЕМ .jpg ИЛИ .jpeg");
+
+                photoBytes = System.IO.File.ReadAllBytes(selectedFilePath);
+
+                if (photoBytes.Length > 153_600)
+                    throw new Exception(
+                        $"РАЗМЕР ИЗОБРАЖЕНИЯ: {photoBytes.Length / 1024}КБ\n" +
+                        $"РАЗМЕР ИЗОБРАЖЕНИЯ НЕ ДОЛЖЕН ПРЕВЫШАТЬ 150КБ");
+            }
+            catch (Exception e) {
+                MessageBox.Show(e.Message, "ОШИБКА ПРИ ВЫБОРЕ ФОТО");
+                return;
+            }
+            rowIndexToSelectedImage[rowIndex] = photoBytes;
+        }
+
+        private void ShowPhoto(int rowIndex)
+        {
+            
         }
 
         #endregion GRID_BUTTONS

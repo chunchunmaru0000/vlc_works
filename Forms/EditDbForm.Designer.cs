@@ -39,6 +39,7 @@
             this.photo = new System.Windows.Forms.DataGridViewButtonColumn();
             this.save = new System.Windows.Forms.DataGridViewButtonColumn();
             this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.mainGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -130,6 +131,10 @@
             this.delete.Name = "delete";
             this.delete.Text = "УДАЛИТЬ";
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // EditDbForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,5 +160,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn photo;
         private System.Windows.Forms.DataGridViewButtonColumn save;
         private System.Windows.Forms.DataGridViewButtonColumn delete;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
