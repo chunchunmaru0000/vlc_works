@@ -363,7 +363,7 @@ namespace vlc_works
 			else
 				lvi.SubItems.Add(str);
 
-			if (e.anSEnrollNumber > 0)
+			if (e.anSEnrollNumber > 0 && e.anSEnrollNumber != 99999999)
 			{
 				lastCode = e.anSEnrollNumber;
                 lastIdLabel.Text = lastCode.ToString();
