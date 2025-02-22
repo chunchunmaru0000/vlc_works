@@ -144,13 +144,15 @@ namespace vlc_works
             }
         }
 
+        #region DeletePlayer
+
         private void DeletePlayer(int rowIndex)
         {
             if (MessageBox.Show(
                 $"ВЫ УВЕРЕНЫ ЧТО ХОТИТЕ УДАЛИТЬ ЗАПИСЬ: [ {MainGridRowToString(rowIndex)} ]?",
                 "ВЫ УВЕРЕНЫ???",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
+                MessageBoxIcon.Question
                 ) == DialogResult.Yes)
                 DefinetlyDeletePlayer(mainGrid.Rows[rowIndex]);
         }
@@ -170,7 +172,14 @@ namespace vlc_works
                 long id = Convert.ToInt64(cells[0]);
 
                 if (DeleteEnrollmentFromAiDevice(id))
+                {
                     Db.DeletePlayerWhomIdEquals(id);
+                    mainGrid.Rows.Remove(playerRow);
+                }
+                else
+                    MessageBox.Show(
+                        "ЗАПИСЬ НЕ БЫЛА УДАЛЕНА\n" +
+                        "- Проверьте подключение");
             }
         }
 
@@ -181,10 +190,14 @@ namespace vlc_works
                 machineNumber, 
                 (int)BackupNum.AIFace);
 
+        #endregion
+
         private void SetPlayer(int rowIndex)
         {
             return;
         }
+
+        //private Dictionary<int, byte[]> 
 
         private void SelectPhoto(int rowIndex)
         {
