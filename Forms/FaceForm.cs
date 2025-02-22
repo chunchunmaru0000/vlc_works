@@ -16,6 +16,8 @@ namespace vlc_works
 {
 	public partial class FaceForm : Form
 	{
+        #region VAR
+
         private AccountingForm accountingForm;
 
 		private AxFPCLOCK_Svr axFPCLOCK_Svr { get; set; }
@@ -24,6 +26,8 @@ namespace vlc_works
 		private long lastCode { get; set; } = -1;
         private const string webCamPhotosDirectory = "web_cam_photos";
         private const string aiCamPhotosDirectory = "ai_cam_photos";
+
+        #endregion VAR
 
         public FaceForm(AccountingForm accountingForm)
 		{
@@ -556,7 +560,8 @@ namespace vlc_works
             else
             {
                 accountingForm.SetUserId(enrollId);
-                accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty);
+                accountingForm.Invoke(new Action(() => 
+                accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
             }
         }
 
@@ -567,6 +572,7 @@ namespace vlc_works
         }
         #endregion
 
+        #region REALY
         private void upCamBut_Click(object sender, EventArgs e)
         {
             new Thread(() =>
@@ -586,5 +592,6 @@ namespace vlc_works
                 RelayChecker.Transmit(2, true); // camera DOWN on
             }).Start();
         }
+        #endregion RELAY
     }
 }
