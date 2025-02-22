@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -565,6 +564,11 @@ namespace vlc_works
 		}
 		#endregion FACE_CONTROL
 		#region TEMPORAL_CONTROLS
+        public void SetUserId(long id)
+        {
+            Invoke(new Action(() => playerNameBox.Text = id.ToString()));
+        }
+
 		public void SetIsFirstGame(bool firstGame)
 		{
 			Invoke(new Action(() =>
@@ -613,7 +617,7 @@ namespace vlc_works
 
 		private void mBut_Click(object sender, EventArgs e) => DoCKMButClick(mBut);
 
-		private void requestDbUserDataBut_Click(object sender, EventArgs e)
+		public void requestDbUserDataBut_Click(object sender, EventArgs e)
 		{
 			long playerIdInt;
 			if (long.TryParse(playerNameBox.Text.HebrewTrim().Trim(), out long playerId))

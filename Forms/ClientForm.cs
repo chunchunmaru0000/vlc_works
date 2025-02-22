@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Vlc.DotNet;
 using Vlc.DotNet.Core;
-using static System.Windows.Forms.AxHost;
 
 namespace vlc_works
 {
@@ -50,16 +49,15 @@ namespace vlc_works
 			// key logger
 			hook = Hook.GlobalEvents();
 			hook.KeyUp += OnWinKeyDown;
-			// accounting form
-			accountingForm = new AccountingForm(this);
+            // accounting form and RelayChecker
+            accountingForm = new AccountingForm(this);
 			accountingForm.Show();
 			RelayChecker.Constructor(accountingForm);
-			// set vlc
+			// set vlcControl
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;
-			// cheker
-			//VLCChecker = new VLCChecker(this, accountingForm);
-			VLCChecker.Constructor(this, accountingForm);
+            // VLCChecker and VideoChecker
+            VLCChecker.Constructor(this, accountingForm);
 			// set form
 			Form1_SizeChanged(inputLabel, EventArgs.Empty); // includes align inputLabel
 			inputLabel.SizeChanged += AlignInputLabel;
@@ -70,8 +68,8 @@ namespace vlc_works
 		#region SCREEN
 		void SetFormFullScreen()
 		{
-			// of course its better but im not sure in screens order
-			/* 
+            // of course its better but im not sure in screens order
+            /* 
 			Screen[] screens = Screen.AllScreens;
 			screen = screens.Length > 1 ? 
 				screens[1] : 
@@ -80,9 +78,10 @@ namespace vlc_works
 			Location = PointToScreen(new Point(
 				(screens.Length > 1 ? screens[0].Bounds.Width : 0) + hmh(screen.Bounds.Width), 0));
 			*/
-			// need right monitor
-			Location = new Point(2000, 100);
-			print($"X: {Location.X}");
+            // need right monitor
+            //Location = new Point(2000, 100);
+            Location = new Point(100, -2000);
+            print($"X: {Location.X}; Y: {Location.Y}");
 			FullScreen();
 		}
 

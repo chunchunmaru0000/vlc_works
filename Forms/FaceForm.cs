@@ -10,6 +10,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 
 namespace vlc_works
 {
@@ -507,7 +508,7 @@ namespace vlc_works
             print("Успешно прочитано\n");
         }
 
-        private void testWriteButton_Click(object sender, EventArgs e)
+        private void WriteButton_Click(object sender, EventArgs e)
         {
 			if (takenPhotoPictureBox.Image == null)
 			{
@@ -554,7 +555,8 @@ namespace vlc_works
                 MessageBox.Show("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
             else
             {
-
+                accountingForm.SetUserId(enrollId);
+                accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty);
             }
         }
 
@@ -564,5 +566,25 @@ namespace vlc_works
             idBox.Text = id.ToString();
         }
         #endregion
+
+        private void upCamBut_Click(object sender, EventArgs e)
+        {
+            new Thread(() =>
+            {
+                RelayChecker.Transmit(2, false); // camera DOWN off
+                Thread.Sleep(100);
+                RelayChecker.Transmit(1, true); // camera UP on
+            }).Start();
+        }
+
+        private void downCamBut_Click(object sender, EventArgs e)
+        {
+            new Thread(() =>
+            {
+                RelayChecker.Transmit(1, false); // camera UP off
+                Thread.Sleep(100);
+                RelayChecker.Transmit(2, true); // camera DOWN on
+            }).Start();
+        }
     }
 }

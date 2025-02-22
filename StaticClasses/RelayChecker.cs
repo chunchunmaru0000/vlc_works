@@ -20,10 +20,10 @@ namespace vlc_works
 			AccountingForm = accountingForm;
 			ChannelLabels = new Dictionary<int, Label>
 			{
-				{ 1, AccountingForm.relayCh1 },
-				{ 2, AccountingForm.relayCh2 },
-				{ 3, AccountingForm.relayCh3 },
-				{ 4, AccountingForm.relayCh4 },
+				{ 1, AccountingForm.relayCh1 }, // camera UP
+				{ 2, AccountingForm.relayCh2 }, // camera DOWN
+				{ 3, AccountingForm.relayCh3 }, // coins light on
+				{ 4, AccountingForm.relayCh4 }, // apparat light on
 			};
 		}
 
