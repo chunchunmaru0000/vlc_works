@@ -71,16 +71,21 @@ namespace vlc_works
             // of course its better but im not sure in screens order
             /* 
 			Screen[] screens = Screen.AllScreens;
-			screen = screens.Length > 1 ? 
-				screens[1] : 
-				screens[0];
+			screen = screens.Length > 1 
+                ? screens[1] 
+                : screens[0];
 			StartPosition = FormStartPosition.Manual;
 			Location = PointToScreen(new Point(
 				(screens.Length > 1 ? screens[0].Bounds.Width : 0) + hmh(screen.Bounds.Width), 0));
 			*/
             // need right monitor
             //Location = new Point(2000, 100);
-            Location = new Point(100, -2000);
+            // need upper monitor
+            foreach(Screen screen in Screen.AllScreens)
+            {
+                Console.WriteLine($"###{screen.DeviceName} {screen.WorkingArea} {screen.Bounds}");
+            }
+            Location = new Point(100, -1000);
             print($"X: {Location.X}; Y: {Location.Y}");
 			FullScreen();
 		}
