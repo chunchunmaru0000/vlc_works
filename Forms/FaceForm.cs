@@ -604,7 +604,7 @@ namespace vlc_works
             if (editDbForm != null && !editDbForm.IsDisposed)
                 return;
 
-            editDbForm = new EditDbForm(this);
+            editDbForm = new EditDbForm(this, axFP_CLOCK, machineNumber);
             editDbForm.Show();
             editDbForm.Location = new System.Drawing.Point(2000, 100);
         }

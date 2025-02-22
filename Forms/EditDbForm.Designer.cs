@@ -28,12 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.mainGrid = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.mainGrid)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // mainGrid
+            // 
+            this.mainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mainGrid.Location = new System.Drawing.Point(0, 0);
+            this.mainGrid.Name = "mainGrid";
+            this.mainGrid.Size = new System.Drawing.Size(800, 448);
+            this.mainGrid.TabIndex = 0;
+            // 
+            // EditDbForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 448);
+            this.Controls.Add(this.mainGrid);
+            this.Name = "EditDbForm";
             this.Text = "EditDbForm";
+            this.SizeChanged += new System.EventHandler(this.EditDbForm_SizeChanged);
+            ((System.ComponentModel.ISupportInitialize)(this.mainGrid)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView mainGrid;
     }
 }

@@ -57,7 +57,10 @@ namespace vlc_works
 			StartTables();
 
 			InitClearFocusThread();
-		}
+
+            faceControlBut_Click(this, EventArgs.Empty);
+
+        }
 
 		#region SOME_INITS
 		private void InitTimeLabelThread()
@@ -569,7 +572,7 @@ namespace vlc_works
 
 			faceForm = new FaceForm(this);
             faceForm.Show();
-            faceForm.Location = new Point(2000, 100);
+            faceForm.Location = new Point(1920, 0);
 		}
 		#endregion FACE_CONTROL
 

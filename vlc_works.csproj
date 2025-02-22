@@ -187,6 +187,9 @@
     <EmbeddedResource Include="Forms\ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditDbForm.resx">
+      <DependentUpon>EditDbForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FaceForm.resx">
       <DependentUpon>FaceForm.cs</DependentUpon>
     </EmbeddedResource>

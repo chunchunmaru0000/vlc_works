@@ -957,7 +957,7 @@
             this.titleBut.Name = "titleBut";
             this.titleBut.Size = new System.Drawing.Size(1472, 32);
             this.titleBut.TabIndex = 40;
-            this.titleBut.Text = "ПРОГРАММА УПРАВЛЕНИЯ ИНТЕЛЛЕКТУАЛЬНОЙ ИГРОЙ GOLDinSAFE 2.1";
+            this.titleBut.Text = "ПРОГРАММА УПРАВЛЕНИЯ ИНТЕЛЛЕКТУАЛЬНОЙ ИГРОЙ GOLDinSAFE 2.2";
             this.titleBut.UseVisualStyleBackColor = true;
             // 
             // faceControlBut
