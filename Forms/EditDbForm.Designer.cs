@@ -77,6 +77,8 @@
             this.mainGrid.RowHeadersVisible = false;
             this.mainGrid.Size = new System.Drawing.Size(1218, 673);
             this.mainGrid.TabIndex = 0;
+            this.mainGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainGrid_CellContentClick);
+            this.mainGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainGrid_CellValueChanged);
             this.mainGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.mainGrid_RowsAdded);
             // 
             // id
@@ -108,21 +110,21 @@
             // photo
             // 
             this.photo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.photo.HeaderText = "Выбрать фото";
+            this.photo.HeaderText = "Выбор";
             this.photo.Name = "photo";
             this.photo.Text = "Выбрать фото";
             // 
             // save
             // 
             this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.save.HeaderText = "Сохранить";
+            this.save.HeaderText = "Сохранение";
             this.save.Name = "save";
             this.save.Text = "Сохранить";
             // 
             // delete
             // 
             this.delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.delete.HeaderText = "УДАЛИТЬ";
+            this.delete.HeaderText = "Удаление";
             this.delete.Name = "delete";
             this.delete.Text = "УДАЛИТЬ";
             // 

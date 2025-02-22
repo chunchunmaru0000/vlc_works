@@ -26,5 +26,8 @@ namespace vlc_works
 				Convert.ToInt64(arr[2]),
 				Convert.ToInt64(arr[3]),
 				Convert.ToInt64(arr[4]));
-	}
+
+        public override string ToString() =>
+            $"Id:{Id}|PId:{PlayerIdInt}|C:{C}|K:{K}|M:{M}";
+    }
 }
