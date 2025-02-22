@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -348,5 +347,17 @@ SELECT price_int from {TempPricesTableName}
                 return selectItems;
             }
         }
-	}
+
+        public static void DeletePlayerWhomIdEquals(long id)
+        {
+            string query = $"DELETE FROM {PlayersTableName} WHERE id = @id";
+
+            using (SQLiteCommand cmd = new SQLiteCommand(query, SqLiteConnection))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+    }
 }

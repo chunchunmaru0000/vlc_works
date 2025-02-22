@@ -146,19 +146,13 @@ namespace vlc_works
 
         private void DeletePlayer(int rowIndex)
         {
-            switch (MessageBox.Show(
+            if (MessageBox.Show(
                 $"ВЫ УВЕРЕНЫ ЧТО ХОТИТЕ УДАЛИТЬ ЗАПИСЬ: [ {MainGridRowToString(rowIndex)} ]?",
                 "ВЫ УВЕРЕНЫ???",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
-                ))
-            {
-                case DialogResult.Yes:
-                    DefinetlyDeletePlayer(mainGrid.Rows[rowIndex]);
-                    break;
-                case DialogResult.No: break;
-                default: break;
-            }
+                ) == DialogResult.Yes)
+                DefinetlyDeletePlayer(mainGrid.Rows[rowIndex]);
         }
 
         private void DefinetlyDeletePlayer(DataGridViewRow playerRow)
@@ -172,8 +166,20 @@ namespace vlc_works
             if (cells[0] is string) // id cell is "_"
                 mainGrid.Rows.Remove(playerRow);
             else
-                MessageBox.Show("123");
+            {
+                long id = Convert.ToInt64(cells[0]);
+
+                if (DeleteEnrollmentFromAiDevice(id))
+                    Db.DeletePlayerWhomIdEquals(id);
+            }
         }
+
+        private bool DeleteEnrollmentFromAiDevice(long id) =>
+            axFP_CLOCK.DeleteEnrollData(
+                machineNumber, 
+                Convert.ToInt32(id), 
+                machineNumber, 
+                (int)BackupNum.AIFace);
 
         private void SetPlayer(int rowIndex)
         {
