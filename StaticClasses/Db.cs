@@ -207,7 +207,7 @@ SELECT price_int from {TempPricesTableName}
 			}
 		}
 
-		private static void UpdatePlayerIntData(long playerIdInt, long data, string param)
+		public static void UpdatePlayerIntData(long playerIdInt, long data, string param)
 		{
 			string query = $"UPDATE {PlayersTableName} SET {param} = @data WHERE player_id_int = @playerIdInt";
 

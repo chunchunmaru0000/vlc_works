@@ -31,15 +31,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGrid = new System.Windows.Forms.DataGridView();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.id = new System.Windows.Forms.DataGridViewButtonColumn();
             this.player_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.C = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.k = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.K = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.M = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.photo = new System.Windows.Forms.DataGridViewButtonColumn();
             this.save = new System.Windows.Forms.DataGridViewButtonColumn();
             this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.mainGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +60,7 @@
             this.id,
             this.player_id,
             this.C,
-            this.k,
+            this.K,
             this.M,
             this.photo,
             this.save,
@@ -82,6 +82,10 @@
             this.mainGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainGrid_CellValueChanged);
             this.mainGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.mainGrid_RowsAdded);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // id
             // 
             this.id.HeaderText = "id";
@@ -100,10 +104,10 @@
             this.C.HeaderText = "C";
             this.C.Name = "C";
             // 
-            // k
+            // K
             // 
-            this.k.HeaderText = "K";
-            this.k.Name = "k";
+            this.K.HeaderText = "K";
+            this.K.Name = "K";
             // 
             // M
             // 
@@ -131,10 +135,6 @@
             this.delete.Name = "delete";
             this.delete.Text = "УДАЛИТЬ";
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog1";
-            // 
             // EditDbForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,14 +152,14 @@
         #endregion
 
         private System.Windows.Forms.DataGridView mainGrid;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.DataGridViewButtonColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn player_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn C;
-        private System.Windows.Forms.DataGridViewTextBoxColumn k;
+        private System.Windows.Forms.DataGridViewTextBoxColumn K;
         private System.Windows.Forms.DataGridViewTextBoxColumn M;
         private System.Windows.Forms.DataGridViewButtonColumn photo;
         private System.Windows.Forms.DataGridViewButtonColumn save;
         private System.Windows.Forms.DataGridViewButtonColumn delete;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }

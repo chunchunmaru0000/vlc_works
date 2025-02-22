@@ -195,11 +195,78 @@ namespace vlc_works
 
         #endregion
 
+
+        #region SetPlayer
+
+        private readonly Dictionary<string, string> columnNameToDbColumnName = new Dictionary<string, string>()
+        {
+            { "player_id", "player_id_int" },
+            { "C", "c_lvl_int" },
+            { "K", "k_lvl_int" },
+            { "M", "m_lvl_int" },
+        };
+
         private void SetPlayer(int rowIndex)
+        {
+            DataGridViewRow row = mainGrid.Rows[rowIndex];
+            DataGridViewCell[] changedCells = 
+                row
+                .Cells
+                .Cast<DataGridViewCell>()
+                .Where(cell => cell.Style.BackColor == khakiStyle.BackColor)
+                .ToArray();
+
+            if (changedCells.Length == 0)
+            {
+                MessageBox.Show("НЕЧЕГО СОХРАНЯТЬ");
+                return;
+            }
+
+            // TODO:
+            // - do new row player id = Db.Autoincrement
+            long rowPlayerId = Convert.ToInt64(row.Cells[1].Value);
+
+            foreach (DataGridViewCell cell in changedCells)
+            {
+                string cellColumnName = mainGrid.Columns[cell.ColumnIndex].Name;
+
+                // TODO:
+                // - cant change PlayerId
+                // - cant add more than 1 player to table at once
+
+                switch (cellColumnName)
+                {
+                    case "id": 
+                        AddNewPlayer(changedCells);
+                        return; // return because nothing will be left to set
+                    case "photo":
+                        UpdatePlayerPhoto(cell);
+                        break;
+                    default:
+                        Db.UpdatePlayerIntData(
+                            rowPlayerId,
+                            Convert.ToInt64(cell.Value),
+                            columnNameToDbColumnName[cellColumnName]
+                            );
+                        cell.Style = mainGrid.DefaultCellStyle;
+                        break;
+                }
+            }
+        }
+
+        private void AddNewPlayer(DataGridViewCell[] changedCells)
         {
 
         }
 
+        private void UpdatePlayerPhoto(DataGridViewCell choosePhotoButCell)
+        {
+
+        }
+
+        #endregion SetPlayer
+
+        #region SelectPhoto_AND_ShowPhoto
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
 
         private void SelectPhoto(int rowIndex)
@@ -276,6 +343,8 @@ namespace vlc_works
             photoForm.Show();
             photoForm.Location = new Point(2000, 100);
         }
+
+        #endregion SelectPhoto_AND_ShowPhoto
 
         #endregion GRID_BUTTONS
     }
