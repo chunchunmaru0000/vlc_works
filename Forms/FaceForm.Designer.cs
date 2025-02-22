@@ -53,20 +53,20 @@ namespace vlc_works
             this.idLabel = new System.Windows.Forms.Label();
             this.testWriteButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.openEditDbFormBut = new System.Windows.Forms.Button();
             this.newIdBut = new System.Windows.Forms.Button();
             this.photoSelectedLabel = new System.Windows.Forms.Label();
+            this.lastIdLabel = new System.Windows.Forms.Label();
             this.photoTextLabel = new System.Windows.Forms.Label();
-            this.machineIdBox = new System.Windows.Forms.TextBox();
             this.machineLabel = new System.Windows.Forms.Label();
             this.idBox = new System.Windows.Forms.TextBox();
+            this.machineIdBox = new System.Windows.Forms.TextBox();
             this.idLabeltext = new System.Windows.Forms.Label();
             this.saveAiBut = new System.Windows.Forms.Button();
             this.photoToSetTextLabel = new System.Windows.Forms.Label();
             this.recognizedPersonTextLabel = new System.Windows.Forms.Label();
-            this.lastIdLabel = new System.Windows.Forms.Label();
             this.upCamBut = new System.Windows.Forms.Button();
             this.downCamBut = new System.Windows.Forms.Button();
-            this.openEditDbFormBut = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.camPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenPhotoPictureBox)).BeginInit();
@@ -329,6 +329,20 @@ namespace vlc_works
             this.panel2.Size = new System.Drawing.Size(320, 224);
             this.panel2.TabIndex = 18;
             // 
+            // openEditDbFormBut
+            // 
+            this.openEditDbFormBut.BackColor = System.Drawing.Color.Khaki;
+            this.openEditDbFormBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.openEditDbFormBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.openEditDbFormBut.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.openEditDbFormBut.Location = new System.Drawing.Point(0, 192);
+            this.openEditDbFormBut.Name = "openEditDbFormBut";
+            this.openEditDbFormBut.Size = new System.Drawing.Size(320, 32);
+            this.openEditDbFormBut.TabIndex = 26;
+            this.openEditDbFormBut.Text = "Редактирование";
+            this.openEditDbFormBut.UseVisualStyleBackColor = false;
+            this.openEditDbFormBut.Click += new System.EventHandler(this.openEditDbFormBut_Click);
+            // 
             // newIdBut
             // 
             this.newIdBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -350,6 +364,16 @@ namespace vlc_works
             this.photoSelectedLabel.TabIndex = 24;
             this.photoSelectedLabel.Text = "НЕТ";
             // 
+            // lastIdLabel
+            // 
+            this.lastIdLabel.AutoSize = true;
+            this.lastIdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lastIdLabel.Location = new System.Drawing.Point(223, -1);
+            this.lastIdLabel.Name = "lastIdLabel";
+            this.lastIdLabel.Size = new System.Drawing.Size(29, 31);
+            this.lastIdLabel.TabIndex = 23;
+            this.lastIdLabel.Text = "_";
+            // 
             // photoTextLabel
             // 
             this.photoTextLabel.AutoSize = true;
@@ -359,15 +383,6 @@ namespace vlc_works
             this.photoTextLabel.Size = new System.Drawing.Size(79, 31);
             this.photoTextLabel.TabIndex = 23;
             this.photoTextLabel.Text = "Фото";
-            // 
-            // machineIdBox
-            // 
-            this.machineIdBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.machineIdBox.Location = new System.Drawing.Point(160, 160);
-            this.machineIdBox.Name = "machineIdBox";
-            this.machineIdBox.Size = new System.Drawing.Size(160, 31);
-            this.machineIdBox.TabIndex = 22;
-            this.machineIdBox.Text = "1";
             // 
             // machineLabel
             // 
@@ -387,6 +402,15 @@ namespace vlc_works
             this.idBox.Size = new System.Drawing.Size(160, 31);
             this.idBox.TabIndex = 1;
             this.idBox.Text = "1001";
+            // 
+            // machineIdBox
+            // 
+            this.machineIdBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.machineIdBox.Location = new System.Drawing.Point(160, 160);
+            this.machineIdBox.Name = "machineIdBox";
+            this.machineIdBox.Size = new System.Drawing.Size(160, 31);
+            this.machineIdBox.TabIndex = 22;
+            this.machineIdBox.Text = "1";
             // 
             // idLabeltext
             // 
@@ -431,16 +455,6 @@ namespace vlc_works
             this.recognizedPersonTextLabel.Text = "Опознан";
             this.recognizedPersonTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lastIdLabel
-            // 
-            this.lastIdLabel.AutoSize = true;
-            this.lastIdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lastIdLabel.Location = new System.Drawing.Point(223, -1);
-            this.lastIdLabel.Name = "lastIdLabel";
-            this.lastIdLabel.Size = new System.Drawing.Size(29, 31);
-            this.lastIdLabel.TabIndex = 23;
-            this.lastIdLabel.Text = "_";
-            // 
             // upCamBut
             // 
             this.upCamBut.BackColor = System.Drawing.Color.SkyBlue;
@@ -467,20 +481,6 @@ namespace vlc_works
             this.downCamBut.UseVisualStyleBackColor = false;
             this.downCamBut.Click += new System.EventHandler(this.downCamBut_Click);
             // 
-            // openEditDbFormBut
-            // 
-            this.openEditDbFormBut.BackColor = System.Drawing.Color.Khaki;
-            this.openEditDbFormBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.openEditDbFormBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.openEditDbFormBut.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.openEditDbFormBut.Location = new System.Drawing.Point(0, 192);
-            this.openEditDbFormBut.Name = "openEditDbFormBut";
-            this.openEditDbFormBut.Size = new System.Drawing.Size(320, 32);
-            this.openEditDbFormBut.TabIndex = 26;
-            this.openEditDbFormBut.Text = "Редактирование";
-            this.openEditDbFormBut.UseVisualStyleBackColor = false;
-            this.openEditDbFormBut.Click += new System.EventHandler(this.openEditDbFormBut_Click);
-            // 
             // FaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -500,7 +500,7 @@ namespace vlc_works
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.userDataListView);
             this.Name = "FaceForm";
-            this.Text = "Form1";
+            this.Text = "Программа фэйс контроля";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
