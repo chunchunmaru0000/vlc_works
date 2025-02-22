@@ -19,6 +19,7 @@ namespace vlc_works
         #region VAR
 
         private AccountingForm accountingForm;
+        private EditDbForm editDbForm;
 
 		private AxFPCLOCK_Svr axFPCLOCK_Svr { get; set; }
         private AxFP_CLOCK axFP_CLOCK { get; set; }
@@ -597,5 +598,15 @@ namespace vlc_works
             }).Start();
         }
         #endregion RELAY
+
+        private void openEditDbFormBut_Click(object sender, EventArgs e)
+        {
+            if (editDbForm != null && !editDbForm.IsDisposed)
+                return;
+
+            editDbForm = new EditDbForm(this);
+            editDbForm.Show();
+            editDbForm.Location = new System.Drawing.Point(2000, 100);
+        }
     }
 }

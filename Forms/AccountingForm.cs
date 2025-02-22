@@ -192,6 +192,7 @@ namespace vlc_works
 			price200But.Click += OnPriceButClicked;
 		}
 		#endregion
+
 		#region SET_INC_DEC
 		public void SetAward(long award)
 		{
@@ -243,6 +244,7 @@ namespace vlc_works
 			}));
 		}
 		#endregion
+
 		#region SELECT_BUTTONS	
 		private void OnLevelButClicked(object sender, EventArgs e)
 		{
@@ -258,6 +260,7 @@ namespace vlc_works
 			SetPrice(PriceBut2long[priceButton]);
 		}
 		#endregion
+
 		#region TABLES
 		private DataGridViewRow GetRowWithTextCell(string cellText)
 		{
@@ -327,6 +330,7 @@ namespace vlc_works
 			}
 		}
 		#endregion
+
 		#region FORM_CLOSED
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -335,6 +339,7 @@ namespace vlc_works
 			Environment.Exit(0);
 		}
 		#endregion
+
 		#region OPERATOR_FORM
 		// <-------------- OPERATOR FORM BELOW -------------->
 		// <-------------- OPERATOR FORM BELOW -------------->
@@ -406,6 +411,7 @@ namespace vlc_works
 		// <-------------- OPERATOR FORM ABOVE -------------->
 		// <-------------- OPERATOR FORM ABOVE -------------->
 		#endregion
+
 		#region DOWN_PART_BUTTONS
 		private void dropWinsBut_Click(object sender, EventArgs e)
 		{
@@ -459,6 +465,7 @@ namespace vlc_works
 				ReturnCoins(oneCommandCoins);
 		}
 		#endregion
+
 		#region UPPER_PART_BUTTONS
 		public void showButton_Click(object sender, EventArgs e)
 		{
@@ -533,6 +540,7 @@ namespace vlc_works
 			}
 		}
 		#endregion
+
 		#region COM
 		private void comBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -552,6 +560,7 @@ namespace vlc_works
 			IncCoinsInStock(-CoinsInStock);
 		}
 		#endregion
+
 		#region FACE_CONTROL
 		private void faceControlBut_Click(object sender, EventArgs e)
 		{
@@ -563,6 +572,7 @@ namespace vlc_works
             faceForm.Location = new Point(2000, 100);
 		}
 		#endregion FACE_CONTROL
+
 		#region TEMPORAL_CONTROLS
         public void SetUserId(long id)
         {
@@ -670,6 +680,7 @@ namespace vlc_works
 				Db.UpdatePlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
         }
 		#endregion TEMPORAL_CONTROLS
+
 		#region RELAY
 		private RelaysEnumerator relaysEnumerator { get; } = new RelaysEnumerator();
 
