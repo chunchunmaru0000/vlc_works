@@ -46,10 +46,6 @@ namespace vlc_works
 		public static int errorsCount { get; set; } // how much errors inputed this game
 
 		public static int currentVideoPlayCount { get; set; } = 0;
-
-		// game with ai datas
-		public static bool isFirstGame { get; set; } = true;
-
 		// some
 		private static void print(object str = null)
 		{

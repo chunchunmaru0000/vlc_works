@@ -31,7 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGrid = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewButtonColumn();
             this.player_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.C = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.k = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -86,6 +86,8 @@
             this.id.HeaderText = "id";
             this.id.Name = "id";
             this.id.ReadOnly = true;
+            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // player_id
             // 
@@ -145,7 +147,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView mainGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewButtonColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn player_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn C;
         private System.Windows.Forms.DataGridViewTextBoxColumn k;

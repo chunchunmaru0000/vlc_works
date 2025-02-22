@@ -113,7 +113,7 @@ namespace vlc_works
 
                 row.Cells.AddRange(new DataGridViewCell[]
                 {
-                    new DataGridViewTextBoxCell(){ Value = player.Id },
+                    new DataGridViewButtonCell(){ Value = player.Id, FlatStyle = FlatStyle.Flat },
                     new DataGridViewTextBoxCell(){ Value = player.PlayerIdInt },
                     new DataGridViewTextBoxCell(){ Value = player.C },
                     new DataGridViewTextBoxCell(){ Value = player.K },
@@ -197,7 +197,7 @@ namespace vlc_works
             return;
         }
 
-        //private Dictionary<int, byte[]> 
+        private Dictionary<int, byte[]> rowIndexToSelectedImage = new Dictionary<int, byte[]>();
 
         private void SelectPhoto(int rowIndex)
         {

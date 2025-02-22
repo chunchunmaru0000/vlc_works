@@ -534,7 +534,7 @@ namespace vlc_works
 
 			if (accountingForm.isFirstGame)
 			{
-				accountingForm.SetAward(0);
+				accountingForm.SetAward(20);
 				accountingForm.SetPrice(0);
 				accountingForm.SetLvl(0);
 			}
