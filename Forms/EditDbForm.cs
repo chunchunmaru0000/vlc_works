@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
 
@@ -65,6 +66,7 @@ namespace vlc_works
         #endregion COMMON
 
         #region GRID_ADD
+
         private bool isManuallyAdded { get; set; } = true;
         private DataGridViewCellStyle khakiStyle { get; set; } = new DataGridViewCellStyle()
         {
@@ -82,6 +84,8 @@ namespace vlc_works
                 DataGridViewRow row = mainGrid.Rows[i];
 
                 playerTableAutoincerentCounter++;
+                isAddedRow = true;
+
                 row.Cells["id"].Value = $"_{playerTableAutoincerentCounter}";
                 row.Cells["player_id"].Value = $"_{playerTableAutoincerentCounter}";
 
@@ -93,6 +97,12 @@ namespace vlc_works
                 row.Cells["delete"].Value = "УДАЛИТЬ";
                 row.Height = 32;
             }
+
+            new Thread(() =>
+            {
+                Thread.Sleep(100);
+                Invoke(new Action(() => mainGrid.AllowUserToAddRows = false));
+            }).Start();
         }
 
         private void mainGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -135,12 +145,14 @@ namespace vlc_works
 
             isManuallyAdded = true;
         }
+
         #endregion GRID_ADD
 
         #region GRID_BUTTONS
 
         private void mainGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            print($"PRESSED BITTON ROW INDEX: {e.RowIndex}");
             switch (mainGrid.Columns[e.ColumnIndex].Name) {
                 case "id":     ShowPhoto    (e.RowIndex); break;
                 case "photo":  SelectPhoto  (e.RowIndex); break;
@@ -175,6 +187,8 @@ namespace vlc_works
             if (cells[0] is string) { // id cell is "_{autoincrement}"
                 mainGrid.Rows.Remove(playerRow);
                 playerTableAutoincerentCounter--;
+                mainGrid.AllowUserToAddRows = true;
+                isAddedRow = false;
             }
 
             else {
