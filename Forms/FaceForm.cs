@@ -377,7 +377,7 @@ namespace vlc_works
                 accountingForm.Invoke(new Action(() =>
                 accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
             } 
-            else if (e.anSEnrollNumber < 0)
+            else //if (e.anSEnrollNumber < 0)
             {
                 recognizedPersonTextLabel.Text = "Не опознан";
                 recognizedPersonTextLabel.BackColor = Color.LightCoral;
