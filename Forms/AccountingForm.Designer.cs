@@ -34,6 +34,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.balanceTextLabel = new System.Windows.Forms.Label();
             this.balanceLabel = new System.Windows.Forms.Label();
             this.labelNowSelected = new System.Windows.Forms.Label();
@@ -62,30 +66,17 @@
             this.selectLevelTextLabel = new System.Windows.Forms.Label();
             this.selectPayTextLabel = new System.Windows.Forms.Label();
             this.levelButsPanel = new System.Windows.Forms.Panel();
+            this.lvlButsGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.levelRecPanel = new System.Windows.Forms.Panel();
             this.lvlRecLabel = new System.Windows.Forms.Label();
             this.lvlRecTextLabel = new System.Windows.Forms.Label();
-            this.lvl9But = new System.Windows.Forms.Button();
-            this.lvl8But = new System.Windows.Forms.Button();
-            this.lvl7But = new System.Windows.Forms.Button();
-            this.lvl6But = new System.Windows.Forms.Button();
-            this.lvl5But = new System.Windows.Forms.Button();
-            this.lvl3But = new System.Windows.Forms.Button();
-            this.lvl4But = new System.Windows.Forms.Button();
-            this.lvl2But = new System.Windows.Forms.Button();
-            this.lvl1But = new System.Windows.Forms.Button();
-            this.lvl0But = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.priceButsGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridViewButtonColumn2 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.priceRecPanel = new System.Windows.Forms.Panel();
             this.priceRecLabel = new System.Windows.Forms.Label();
             this.priceRecTextLabel = new System.Windows.Forms.Label();
-            this.price200But = new System.Windows.Forms.Button();
-            this.price100But = new System.Windows.Forms.Button();
-            this.price50But = new System.Windows.Forms.Button();
-            this.price30But = new System.Windows.Forms.Button();
-            this.price40But = new System.Windows.Forms.Button();
-            this.price20But = new System.Windows.Forms.Button();
-            this.price0But = new System.Windows.Forms.Button();
             this.codeLabel = new System.Windows.Forms.Label();
             this.inputLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -150,8 +141,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.winsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.priceDataGridView)).BeginInit();
             this.levelButsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lvlButsGrid)).BeginInit();
             this.levelRecPanel.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.priceButsGrid)).BeginInit();
             this.priceRecPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.payedPanel.SuspendLayout();
@@ -483,22 +476,58 @@
             // 
             this.levelButsPanel.BackColor = System.Drawing.Color.Khaki;
             this.levelButsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.levelButsPanel.Controls.Add(this.lvlButsGrid);
             this.levelButsPanel.Controls.Add(this.levelRecPanel);
-            this.levelButsPanel.Controls.Add(this.lvl9But);
-            this.levelButsPanel.Controls.Add(this.lvl8But);
-            this.levelButsPanel.Controls.Add(this.lvl7But);
-            this.levelButsPanel.Controls.Add(this.lvl6But);
-            this.levelButsPanel.Controls.Add(this.lvl5But);
-            this.levelButsPanel.Controls.Add(this.lvl3But);
-            this.levelButsPanel.Controls.Add(this.lvl4But);
-            this.levelButsPanel.Controls.Add(this.lvl2But);
-            this.levelButsPanel.Controls.Add(this.lvl1But);
-            this.levelButsPanel.Controls.Add(this.lvl0But);
             this.levelButsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.levelButsPanel.Location = new System.Drawing.Point(1216, 576);
             this.levelButsPanel.Name = "levelButsPanel";
             this.levelButsPanel.Size = new System.Drawing.Size(224, 416);
             this.levelButsPanel.TabIndex = 19;
+            // 
+            // lvlButsGrid
+            // 
+            this.lvlButsGrid.AllowUserToAddRows = false;
+            this.lvlButsGrid.AllowUserToDeleteRows = false;
+            this.lvlButsGrid.AllowUserToResizeColumns = false;
+            this.lvlButsGrid.AllowUserToResizeRows = false;
+            this.lvlButsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.lvlButsGrid.BackgroundColor = System.Drawing.Color.Khaki;
+            this.lvlButsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.lvlButsGrid.ColumnHeadersVisible = false;
+            this.lvlButsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewButtonColumn1});
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.lvlButsGrid.DefaultCellStyle = dataGridViewCellStyle6;
+            this.lvlButsGrid.GridColor = System.Drawing.Color.Khaki;
+            this.lvlButsGrid.Location = new System.Drawing.Point(0, 0);
+            this.lvlButsGrid.Name = "lvlButsGrid";
+            this.lvlButsGrid.RowHeadersVisible = false;
+            this.lvlButsGrid.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
+            this.lvlButsGrid.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lvlButsGrid.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.lvlButsGrid.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.lvlButsGrid.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.lvlButsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.lvlButsGrid.Size = new System.Drawing.Size(224, 320);
+            this.lvlButsGrid.TabIndex = 56;
+            this.lvlButsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.lvlButsGrid_CellContentClick);
+            // 
+            // dataGridViewButtonColumn1
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            this.dataGridViewButtonColumn1.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewButtonColumn1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.dataGridViewButtonColumn1.HeaderText = "Column2";
+            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
             // 
             // levelRecPanel
             // 
@@ -531,123 +560,62 @@
             this.lvlRecTextLabel.Text = "УРОВЕНЬ";
             this.lvlRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lvl9But
-            // 
-            this.lvl9But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl9But.Location = new System.Drawing.Point(0, 288);
-            this.lvl9But.Name = "lvl9But";
-            this.lvl9But.Size = new System.Drawing.Size(224, 32);
-            this.lvl9But.TabIndex = 9;
-            this.lvl9But.Text = "Уровень 9";
-            this.lvl9But.UseVisualStyleBackColor = false;
-            // 
-            // lvl8But
-            // 
-            this.lvl8But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl8But.Location = new System.Drawing.Point(0, 256);
-            this.lvl8But.Name = "lvl8But";
-            this.lvl8But.Size = new System.Drawing.Size(224, 32);
-            this.lvl8But.TabIndex = 8;
-            this.lvl8But.Text = "Уровень 8";
-            this.lvl8But.UseVisualStyleBackColor = false;
-            // 
-            // lvl7But
-            // 
-            this.lvl7But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl7But.Location = new System.Drawing.Point(0, 224);
-            this.lvl7But.Name = "lvl7But";
-            this.lvl7But.Size = new System.Drawing.Size(224, 32);
-            this.lvl7But.TabIndex = 7;
-            this.lvl7But.Text = "Уровень 7";
-            this.lvl7But.UseVisualStyleBackColor = false;
-            // 
-            // lvl6But
-            // 
-            this.lvl6But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl6But.Location = new System.Drawing.Point(0, 192);
-            this.lvl6But.Name = "lvl6But";
-            this.lvl6But.Size = new System.Drawing.Size(224, 32);
-            this.lvl6But.TabIndex = 6;
-            this.lvl6But.Text = "Уровень 6";
-            this.lvl6But.UseVisualStyleBackColor = false;
-            // 
-            // lvl5But
-            // 
-            this.lvl5But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl5But.Location = new System.Drawing.Point(0, 160);
-            this.lvl5But.Name = "lvl5But";
-            this.lvl5But.Size = new System.Drawing.Size(224, 32);
-            this.lvl5But.TabIndex = 5;
-            this.lvl5But.Text = "Уровень 5";
-            this.lvl5But.UseVisualStyleBackColor = false;
-            // 
-            // lvl3But
-            // 
-            this.lvl3But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl3But.Location = new System.Drawing.Point(0, 96);
-            this.lvl3But.Name = "lvl3But";
-            this.lvl3But.Size = new System.Drawing.Size(224, 32);
-            this.lvl3But.TabIndex = 4;
-            this.lvl3But.Text = "Уровень 3";
-            this.lvl3But.UseVisualStyleBackColor = false;
-            // 
-            // lvl4But
-            // 
-            this.lvl4But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl4But.Location = new System.Drawing.Point(0, 128);
-            this.lvl4But.Name = "lvl4But";
-            this.lvl4But.Size = new System.Drawing.Size(224, 32);
-            this.lvl4But.TabIndex = 3;
-            this.lvl4But.Text = "Уровень 4";
-            this.lvl4But.UseVisualStyleBackColor = false;
-            // 
-            // lvl2But
-            // 
-            this.lvl2But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl2But.Location = new System.Drawing.Point(0, 64);
-            this.lvl2But.Name = "lvl2But";
-            this.lvl2But.Size = new System.Drawing.Size(224, 32);
-            this.lvl2But.TabIndex = 2;
-            this.lvl2But.Text = "Уровень 2";
-            this.lvl2But.UseVisualStyleBackColor = false;
-            // 
-            // lvl1But
-            // 
-            this.lvl1But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl1But.Location = new System.Drawing.Point(0, 32);
-            this.lvl1But.Name = "lvl1But";
-            this.lvl1But.Size = new System.Drawing.Size(224, 32);
-            this.lvl1But.TabIndex = 1;
-            this.lvl1But.Text = "Уровень 1";
-            this.lvl1But.UseVisualStyleBackColor = false;
-            // 
-            // lvl0But
-            // 
-            this.lvl0But.BackColor = System.Drawing.Color.Khaki;
-            this.lvl0But.Location = new System.Drawing.Point(0, 0);
-            this.lvl0But.Name = "lvl0But";
-            this.lvl0But.Size = new System.Drawing.Size(224, 32);
-            this.lvl0But.TabIndex = 0;
-            this.lvl0But.Text = "Уровень 0";
-            this.lvl0But.UseVisualStyleBackColor = false;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Khaki;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.priceButsGrid);
             this.panel1.Controls.Add(this.priceRecPanel);
-            this.panel1.Controls.Add(this.price200But);
-            this.panel1.Controls.Add(this.price100But);
-            this.panel1.Controls.Add(this.price50But);
-            this.panel1.Controls.Add(this.price30But);
-            this.panel1.Controls.Add(this.price40But);
-            this.panel1.Controls.Add(this.price20But);
-            this.panel1.Controls.Add(this.price0But);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.panel1.Location = new System.Drawing.Point(1504, 576);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(256, 416);
             this.panel1.TabIndex = 20;
+            // 
+            // priceButsGrid
+            // 
+            this.priceButsGrid.AllowUserToAddRows = false;
+            this.priceButsGrid.AllowUserToDeleteRows = false;
+            this.priceButsGrid.AllowUserToResizeColumns = false;
+            this.priceButsGrid.AllowUserToResizeRows = false;
+            this.priceButsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.priceButsGrid.BackgroundColor = System.Drawing.Color.Khaki;
+            this.priceButsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.priceButsGrid.ColumnHeadersVisible = false;
+            this.priceButsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewButtonColumn2});
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.priceButsGrid.DefaultCellStyle = dataGridViewCellStyle8;
+            this.priceButsGrid.GridColor = System.Drawing.Color.Khaki;
+            this.priceButsGrid.Location = new System.Drawing.Point(0, 0);
+            this.priceButsGrid.Name = "priceButsGrid";
+            this.priceButsGrid.RowHeadersVisible = false;
+            this.priceButsGrid.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
+            this.priceButsGrid.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.priceButsGrid.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.priceButsGrid.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.priceButsGrid.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.priceButsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.priceButsGrid.Size = new System.Drawing.Size(256, 320);
+            this.priceButsGrid.TabIndex = 57;
+            this.priceButsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.priceGridButs_CellContentClick);
+            // 
+            // dataGridViewButtonColumn2
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            this.dataGridViewButtonColumn2.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dataGridViewButtonColumn2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.dataGridViewButtonColumn2.HeaderText = "Column2";
+            this.dataGridViewButtonColumn2.Name = "dataGridViewButtonColumn2";
             // 
             // priceRecPanel
             // 
@@ -679,76 +647,6 @@
             this.priceRecTextLabel.TabIndex = 0;
             this.priceRecTextLabel.Text = "СТОИМОСТЬ";
             this.priceRecTextLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // price200But
-            // 
-            this.price200But.BackColor = System.Drawing.Color.Khaki;
-            this.price200But.Location = new System.Drawing.Point(0, 192);
-            this.price200But.Name = "price200But";
-            this.price200But.Size = new System.Drawing.Size(256, 32);
-            this.price200But.TabIndex = 6;
-            this.price200But.Text = "200";
-            this.price200But.UseVisualStyleBackColor = false;
-            // 
-            // price100But
-            // 
-            this.price100But.BackColor = System.Drawing.Color.Khaki;
-            this.price100But.Location = new System.Drawing.Point(0, 160);
-            this.price100But.Name = "price100But";
-            this.price100But.Size = new System.Drawing.Size(256, 32);
-            this.price100But.TabIndex = 5;
-            this.price100But.Text = "100";
-            this.price100But.UseVisualStyleBackColor = false;
-            // 
-            // price50But
-            // 
-            this.price50But.BackColor = System.Drawing.Color.Khaki;
-            this.price50But.Location = new System.Drawing.Point(0, 128);
-            this.price50But.Name = "price50But";
-            this.price50But.Size = new System.Drawing.Size(256, 32);
-            this.price50But.TabIndex = 4;
-            this.price50But.Text = "50";
-            this.price50But.UseVisualStyleBackColor = false;
-            // 
-            // price30But
-            // 
-            this.price30But.BackColor = System.Drawing.Color.Khaki;
-            this.price30But.Location = new System.Drawing.Point(0, 64);
-            this.price30But.Name = "price30But";
-            this.price30But.Size = new System.Drawing.Size(256, 32);
-            this.price30But.TabIndex = 3;
-            this.price30But.Text = "30";
-            this.price30But.UseVisualStyleBackColor = false;
-            // 
-            // price40But
-            // 
-            this.price40But.BackColor = System.Drawing.Color.Khaki;
-            this.price40But.Location = new System.Drawing.Point(0, 96);
-            this.price40But.Name = "price40But";
-            this.price40But.Size = new System.Drawing.Size(256, 32);
-            this.price40But.TabIndex = 2;
-            this.price40But.Text = "40";
-            this.price40But.UseVisualStyleBackColor = false;
-            // 
-            // price20But
-            // 
-            this.price20But.BackColor = System.Drawing.Color.Khaki;
-            this.price20But.Location = new System.Drawing.Point(0, 32);
-            this.price20But.Name = "price20But";
-            this.price20But.Size = new System.Drawing.Size(256, 32);
-            this.price20But.TabIndex = 1;
-            this.price20But.Text = "20";
-            this.price20But.UseVisualStyleBackColor = false;
-            // 
-            // price0But
-            // 
-            this.price0But.BackColor = System.Drawing.Color.Khaki;
-            this.price0But.Location = new System.Drawing.Point(0, 0);
-            this.price0But.Name = "price0But";
-            this.price0But.Size = new System.Drawing.Size(256, 32);
-            this.price0But.TabIndex = 0;
-            this.price0But.Text = "0";
-            this.price0But.UseVisualStyleBackColor = false;
             // 
             // codeLabel
             // 
@@ -1218,14 +1116,14 @@
             this.prizeButsGrid.ColumnHeadersVisible = false;
             this.prizeButsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column2});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Khaki;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Khaki;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.Desktop;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.prizeButsGrid.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.prizeButsGrid.DefaultCellStyle = dataGridViewCellStyle10;
             this.prizeButsGrid.GridColor = System.Drawing.Color.Khaki;
             this.prizeButsGrid.Location = new System.Drawing.Point(0, 0);
             this.prizeButsGrid.Name = "prizeButsGrid";
@@ -1242,11 +1140,11 @@
             // 
             // Column2
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Khaki;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.Khaki;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle9;
             this.Column2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
@@ -1435,8 +1333,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.winsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.priceDataGridView)).EndInit();
             this.levelButsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.lvlButsGrid)).EndInit();
             this.levelRecPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.priceButsGrid)).EndInit();
             this.priceRecPanel.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1480,23 +1380,6 @@
 		private System.Windows.Forms.Label selectPayTextLabel;
 		private System.Windows.Forms.Panel levelButsPanel;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button lvl7But;
-		private System.Windows.Forms.Button lvl6But;
-		private System.Windows.Forms.Button lvl5But;
-		private System.Windows.Forms.Button lvl3But;
-		private System.Windows.Forms.Button lvl4But;
-		private System.Windows.Forms.Button lvl2But;
-		private System.Windows.Forms.Button lvl1But;
-		private System.Windows.Forms.Button lvl0But;
-		private System.Windows.Forms.Button lvl9But;
-		private System.Windows.Forms.Button lvl8But;
-		private System.Windows.Forms.Button price200But;
-		private System.Windows.Forms.Button price100But;
-		private System.Windows.Forms.Button price50But;
-		private System.Windows.Forms.Button price30But;
-		private System.Windows.Forms.Button price40But;
-		private System.Windows.Forms.Button price20But;
-		private System.Windows.Forms.Button price0But;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 		public System.Windows.Forms.Label codeLabel;
@@ -1562,5 +1445,9 @@
 		public System.Windows.Forms.Label relayCh4;
 		private System.Windows.Forms.Button resetCounterBut;
         private System.Windows.Forms.Button writePlayerBut;
+        private System.Windows.Forms.DataGridView lvlButsGrid;
+        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
+        private System.Windows.Forms.DataGridView priceButsGrid;
+        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn2;
     }
 }

@@ -34,9 +34,6 @@ namespace vlc_works
 		public static long Game_id { get; set; }
 		// consts
 		private const string NullText = "####";
-		private Dictionary<Button, long> LevelBut2long { get; set; }
-        private Dictionary<long, Button> long2LevelBut { get; set; }
-        private Dictionary<Button, long> PriceBut2long { get; set; }
 		private Dictionary<Button, GameType> ButToGameType { get; set; }
 		public const int oneCoinShekels = 10;
 		public const int oneCommandCoins = 1;
@@ -52,9 +49,13 @@ namespace vlc_works
 
 			InitSettings();
 			InitDictionares();
+
 			InitAwardGrid();
-			InitButtons();
-			InitBalance();
+            InitLvlGrid();
+            InitPriceGrid();
+            doOnlyDark(cBut);
+
+            InitBalance();
 			StartTables();
 
 			InitClearFocusThread();
@@ -119,24 +120,6 @@ namespace vlc_works
 
 		private void InitDictionares()
 		{
-			LevelBut2long = new Dictionary<Button, long>() {
-				{ lvl0But, 0 },         { lvl1But, 1 },
-				{ lvl2But, 2 },         { lvl3But, 3 },
-				{ lvl4But, 4 },         { lvl5But, 5 },
-				{ lvl6But, 6 },         { lvl7But, 7 },
-				{ lvl8But, 8 },         { lvl9But, 9 },
-			};
-            long2LevelBut =
-                LevelBut2long
-                .ToDictionary(
-                    pair => pair.Value, 
-                    pair => pair.Key);
-			PriceBut2long = new Dictionary<Button, long>() {
-				{ price0But, 0 },       { price20But, 20 },
-				{ price30But, 30 },     { price40But, 40 },
-				{ price50But, 50 },     { price100But, 100 },
-				{ price200But, 200 },
-			};
 			ButToGameType = new Dictionary<Button, GameType>() {
 				{ cBut, GameType.Guard },
 				{ kBut, GameType.Painting },
@@ -144,58 +127,66 @@ namespace vlc_works
 			};
 		}
 
-		private DataGridViewRow GetAwardGridRow(long value)
-		{
-			DataGridViewRow row = new DataGridViewRow();
-			row.Cells.Add(new DataGridViewButtonCell() 
-			{ 
-				Value = value,
-				FlatStyle = FlatStyle.Popup,
-			});
-			row.Height = 32;
-			return row;
-		}
+        private DataGridViewRow GetGridRow(object value)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            row.Cells.Add(new DataGridViewButtonCell()
+            {
+                Value = value,
+                FlatStyle = FlatStyle.Popup,
+            });
+            row.Height = 32;
+            return row;
+        }
 
-		private void InitAwardGrid()
+        private void InitAwardGrid()
 		{
 			long[] values = new long[] { 
 				0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 
-				110, 120, 130, 140, 150,
-                200, 250, 300, 500, 1000, 3000 
+				110, 120, 130, 140, 150, 160, 170, 180, 190, 
+                200, 250, 300, 350, 400, 450, 500, 
+                1000, 3000 
 			};
-
-			prizeButsGrid.Rows.AddRange(values.Select(v => GetAwardGridRow(v)).ToArray());
+			prizeButsGrid.Rows.AddRange(values.Select(v => GetGridRow(v)).ToArray());
 		}
 
-		private void prizeButsGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void InitLvlGrid()
+        {
+            lvlButsGrid
+            .Rows
+            .AddRange(
+                Enumerable.Range(0, 10)
+                .Select(l => GetGridRow($"Уровень {l}"))
+                .ToArray());
+        }
+
+        private void InitPriceGrid()
+        {
+            long[] values = new long[] {
+                0, 10, 20, 30, 40, 50
+            };
+            priceButsGrid.Rows.AddRange(values.Select(v => GetGridRow(v)).ToArray());
+        }
+
+        private void prizeButsGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
 			long prize = (long)prizeButsGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
 			SetAward(prize);
 		}
 
-		private void InitButtons()
-		{
-			doOnlyDark(cBut);
+        private void lvlButsGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string lvlStr = lvlButsGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            long lvl = Convert.ToInt64(lvlStr.Split(' ')[1]);
+            SetLvl(lvl);
+        }
 
-			lvl0But.Click += OnLevelButClicked;
-			lvl1But.Click += OnLevelButClicked;
-			lvl2But.Click += OnLevelButClicked;
-			lvl3But.Click += OnLevelButClicked;
-			lvl4But.Click += OnLevelButClicked;
-			lvl5But.Click += OnLevelButClicked;
-			lvl6But.Click += OnLevelButClicked;
-			lvl7But.Click += OnLevelButClicked;
-			lvl8But.Click += OnLevelButClicked;
-			lvl9But.Click += OnLevelButClicked;
+        private void priceGridButs_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            long price = (long)priceButsGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            SetPrice(price);
+        }
 
-			price0But.Click +=   OnPriceButClicked;
-			price20But.Click +=  OnPriceButClicked;
-			price30But.Click +=  OnPriceButClicked;
-			price40But.Click +=  OnPriceButClicked;
-			price50But.Click +=  OnPriceButClicked;
-			price100But.Click += OnPriceButClicked;
-			price200But.Click += OnPriceButClicked;
-		}
 		#endregion
 
 		#region SET_INC_DEC
@@ -250,21 +241,6 @@ namespace vlc_works
 		}
 		#endregion
 
-		#region SELECT_BUTTONS	
-		private void OnLevelButClicked(object sender, EventArgs e)
-		{
-			Button levelButton = sender as Button;
-
-			SetLvl(LevelBut2long[levelButton]);
-		}
-
-		private void OnPriceButClicked(object sender, EventArgs e)
-		{
-			Button priceButton = sender as Button;
-
-			SetPrice(PriceBut2long[priceButton]);
-		}
-		#endregion
 
 		#region TABLES
 		private DataGridViewRow GetRowWithTextCell(string cellText)
@@ -733,12 +709,14 @@ namespace vlc_works
 
         private void ColorLvlBut(long lvl)
         {
+            /*
             for (int i = 0; i < 10; i++) {
                 long2LevelBut[i].BackColor =
                     i == lvl
                     ? Color.GreenYellow
                     : Color.Khaki;
             }
+             */
         }
 
         #endregion RECOMMEND

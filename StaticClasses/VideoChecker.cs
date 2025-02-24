@@ -114,6 +114,8 @@ namespace vlc_works
 
             accountingForm.Invoke(new Action(() => {
                 accountingForm.GotGameVideo(path, code);
+                accountingForm.SetGameType(gameType);
+                // something more?
             }));
         }
 
@@ -218,8 +220,11 @@ namespace vlc_works
 			{
 				accountingForm.StartTables(); // refresh tables
 				COMPort.MoneyOut(DbCurrentRecord.SelectedPrize, accountingForm);
+
+                accountingForm.RecommendLevelAndAward(++level);
 			}));
 
+            // relay
 			new Thread(() =>
 			{
 				RelayChecker.Transmit(3, true); // 10 seconds on to 3 channel
