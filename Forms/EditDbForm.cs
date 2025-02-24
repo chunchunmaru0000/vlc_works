@@ -4,7 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
 
@@ -12,6 +11,7 @@ namespace vlc_works
 {
     public partial class EditDbForm: Form
     {
+        const bool IS_DEBUG = true;
         #region VAR
         private FaceForm faceForm;
         private AxFP_CLOCK axFP_CLOCK { get; set; }
@@ -86,12 +86,9 @@ namespace vlc_works
                     FlatStyle = FlatStyle.Flat },
                 new DataGridViewTextBoxCell(){ 
                     Value = $"_{playerTableAutoincerentCounter}" },
-                new DataGridViewTextBoxCell(){ 
-                    Value = 0 },
-                new DataGridViewTextBoxCell(){ 
-                    Value = 0 },
-                new DataGridViewTextBoxCell(){ 
-                    Value = 0 },
+                new DataGridViewTextBoxCell(){ Value = 0 },
+                new DataGridViewTextBoxCell(){ Value = 0 },
+                new DataGridViewTextBoxCell(){ Value = 0 },
                 new DataGridViewButtonCell() { 
                     Value = "Выбрать фото", 
                     FlatStyle = FlatStyle.Flat },
@@ -114,10 +111,8 @@ namespace vlc_works
             //print($"{e.RowIndex}, {e.ColumnIndex}, {mainGrid.Rows.Count} {mainGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value}");
 
             DataGridViewCell cell = mainGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            if (cell is DataGridViewButtonCell)
-                return;
-
-            cell.Style = khakiStyle.Clone();
+            if (!(cell is DataGridViewButtonCell))
+                cell.Style = khakiStyle.Clone();
         }
 
         private void SelectPlayersFromDb()
@@ -189,7 +184,11 @@ namespace vlc_works
             print(MainGridRowToString(playerRow.Cells[0].RowIndex));
 
             if (cells[0] is string) { // id cell is "_{autoincrement}"
-                print($"here {playerRow.Index}");
+                print($"deleted {playerRow.Index} row");
+
+                if (rowIndexToSelectedImage.ContainsKey(playerRow.Index))
+                    rowIndexToSelectedImage.Remove(playerRow.Index);
+
                 mainGrid.Rows.Remove(playerRow);
                 playerTableAutoincerentCounter--;
 
@@ -199,7 +198,7 @@ namespace vlc_works
             else {
                 long id = Convert.ToInt64(cells[0]);
 
-                if (DeleteEnrollmentFromAiDevice(id) || true) {
+                if (DeleteEnrollmentFromAiDevice(id) || IS_DEBUG) {
                     Db.DeletePlayerWhomIdEquals(id);
                     mainGrid.Rows.Remove(playerRow);
                 }
@@ -326,6 +325,7 @@ namespace vlc_works
 
         private void ShowPhoto(int rowIndex)
         {
+            print(string.Join("|", rowIndexToSelectedImage.Keys.Select(k => k.ToString())) + " KEYS");
             if (photoForm != null && !photoForm.IsDisposed)
                 return;
 
@@ -366,6 +366,7 @@ namespace vlc_works
             photoForm = new PhotoForm(photoBytes);
             photoForm.Show();
             photoForm.Location = new Point(2000, 100);
+
         }
 
         #endregion SelectPhoto_AND_ShowPhoto
