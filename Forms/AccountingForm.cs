@@ -35,7 +35,8 @@ namespace vlc_works
 		// consts
 		private const string NullText = "####";
 		private Dictionary<Button, long> LevelBut2long { get; set; }
-		private Dictionary<Button, long> PriceBut2long { get; set; }
+        private Dictionary<long, Button> long2LevelBut { get; set; }
+        private Dictionary<Button, long> PriceBut2long { get; set; }
 		private Dictionary<Button, GameType> ButToGameType { get; set; }
 		public const int oneCoinShekels = 10;
 		public const int oneCommandCoins = 1;
@@ -118,23 +119,25 @@ namespace vlc_works
 
 		private void InitDictionares()
 		{
-			LevelBut2long = new Dictionary<Button, long>()
-			{
+			LevelBut2long = new Dictionary<Button, long>() {
 				{ lvl0But, 0 },         { lvl1But, 1 },
 				{ lvl2But, 2 },         { lvl3But, 3 },
 				{ lvl4But, 4 },         { lvl5But, 5 },
 				{ lvl6But, 6 },         { lvl7But, 7 },
 				{ lvl8But, 8 },         { lvl9But, 9 },
 			};
-			PriceBut2long = new Dictionary<Button, long>()
-			{
+            long2LevelBut =
+                LevelBut2long
+                .ToDictionary(
+                    pair => pair.Value, 
+                    pair => pair.Key);
+			PriceBut2long = new Dictionary<Button, long>() {
 				{ price0But, 0 },       { price20But, 20 },
 				{ price30But, 30 },     { price40But, 40 },
 				{ price50But, 50 },     { price100But, 100 },
 				{ price200But, 200 },
 			};
-			ButToGameType = new Dictionary<Button, GameType>()
-			{
+			ButToGameType = new Dictionary<Button, GameType>() {
 				{ cBut, GameType.Guard },
 				{ kBut, GameType.Painting },
 				{ mBut, GameType.Mario },
@@ -155,10 +158,10 @@ namespace vlc_works
 
 		private void InitAwardGrid()
 		{
-			long[] values = new long[] 
-			{ 
-				0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 
-				150, 200, 250, 300, 500, 1000, 3000 
+			long[] values = new long[] { 
+				0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 
+				110, 120, 130, 140, 150,
+                200, 250, 300, 500, 1000, 3000 
 			};
 
 			prizeButsGrid.Rows.AddRange(values.Select(v => GetAwardGridRow(v)).ToArray());
@@ -623,6 +626,15 @@ namespace vlc_works
 			SelectedGameType = ButToGameType[but];
 		}
 
+        public void SetGameType(GameType gameType)
+        {
+            switch (gameType) {
+                case GameType.Guard:    DoCKMButClick(cBut); break;
+                case GameType.Painting: DoCKMButClick(kBut); break;
+                case GameType.Mario:    DoCKMButClick(mBut); break;
+            }
+        }
+
 		private void cBut_Click(object sender, EventArgs e) => DoCKMButClick(cBut);
 
 		private void kBut_Click(object sender, EventArgs e) => DoCKMButClick(kBut);
@@ -707,5 +719,28 @@ namespace vlc_works
 				.ToArray());
 		}
         #endregion
+
+        #region RECOMMEND
+
+        public void RecommendLevelAndAward(long lvl)
+        {
+            if (lvl >= 10) {
+
+            }
+            else
+                ColorLvlBut(lvl);
+        }
+
+        private void ColorLvlBut(long lvl)
+        {
+            for (int i = 0; i < 10; i++) {
+                long2LevelBut[i].BackColor =
+                    i == lvl
+                    ? Color.GreenYellow
+                    : Color.Khaki;
+            }
+        }
+
+        #endregion RECOMMEND
     }
 }

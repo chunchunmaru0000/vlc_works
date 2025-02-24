@@ -6,7 +6,7 @@ regsvr32 FPCLOCK_Svr.ocx
 regsvr32 FP_CLOCK.ocx
 ```
 
-!!! TMPCCOMM.dll IS NEED TO BE IN ONE FOLDER WITH FP_CLOCK.ocx !!!
+!!! TMPCCOMM.dll NEED TO BE IN ONE FOLDER WITH FP_CLOCK.ocx !!!
 
 NEXT GO TO <br>
 |> *.cs[Design] # ANY FORM DESIGNER<br>

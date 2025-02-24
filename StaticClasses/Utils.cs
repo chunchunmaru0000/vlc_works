@@ -72,13 +72,11 @@ namespace vlc_works
 
 		public static string GetCodeFromName(string codename, int strFrom, int strTo)
 		{
-			try
-			{
+			try {
 				// "51012345 only 5 nums matter eng.mp4"
 				return codename.Substring(strFrom, strTo);
 			}
-			catch
-			{
+			catch {
 				return "#";
 			}
 		}
