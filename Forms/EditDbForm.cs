@@ -291,13 +291,13 @@ namespace vlc_works
 
         private void AddNewPlayer(DataGridViewCell[] changedCells, int rowIndex)
         {
-            if (!rowIndexToSelectedImage.ContainsKey(rowIndex)) {
+            if (!rowIndexToSelectedImage.ContainsKey(rowIndex) && 
+                !SelectPhoto(rowIndex)) {
                 MessageBox.Show(
                     "ФОТО НЕ БЫЛО ВЫБРАНО И ПОЭТОМУ ИГРОК НЕ МОЖЕТ БЫТЬ ДОБАВЛЕН\n" +
                     "ВЫБЕРИТЕ ФОТО ДЛЯ НЕГО И ПОПЫТАЙТЕСЬ ЕЩЕ РАЗ");
                 return;
             }
-
             DbPlayer dbPlayer = 
                 DbPlayer.FromArray(
                     changedCells
@@ -360,10 +360,10 @@ namespace vlc_works
 
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
 
-        private void SelectPhoto(int rowIndex)
+        private byte[] SelectPhotoBytes()
         {
             if (openFileDialog.ShowDialog() != DialogResult.OK)
-                return;
+                return null;
 
             string selectedFilePath = openFileDialog.FileName;
             byte[] photoBytes = new byte[0];
@@ -382,11 +382,22 @@ namespace vlc_works
             }
             catch (Exception e) {
                 MessageBox.Show(e.Message, "ОШИБКА ПРИ ВЫБОРЕ ФОТО");
-                return;
+                return null;
             }
+
+            return photoBytes;
+        }
+
+        private bool SelectPhoto(int rowIndex)
+        {
+            byte[] photoBytes = SelectPhotoBytes();
+            if (photoBytes == null)
+                return false;
 
             mainGrid.Rows[rowIndex].Cells[5].Style = khakiStyle.Clone();
             rowIndexToSelectedImage[rowIndex] = photoBytes;
+
+            return true;
         }
 
         private PhotoForm photoForm { get; set; }
