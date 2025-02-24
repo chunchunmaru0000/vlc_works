@@ -15,6 +15,9 @@ namespace vlc_works
         private FaceForm faceForm;
         private AxFP_CLOCK axFP_CLOCK { get; set; }
         private int machineNumber = 1;
+
+        private bool isAddedRow { get; set; } = false;
+        private long playerAutoincerentCounter { get; set; }
         #endregion VAR
 
         public EditDbForm(FaceForm faceForm, AxFP_CLOCK axFP_CLOCK, int machineNumber)
@@ -24,6 +27,7 @@ namespace vlc_works
             this.faceForm = faceForm;
             this.axFP_CLOCK = axFP_CLOCK;
             this.machineNumber = machineNumber;
+            playerAutoincerentCounter = Db.AutoincrementCounter(Db.PlayersTableName);
 
             SelectPlayersFromDb();
         }
