@@ -160,14 +160,23 @@ namespace vlc_works
 
         private void mainGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            print($"PRESSED BITTON ROW INDEX: {e.RowIndex}");
-            switch (mainGrid.Columns[e.ColumnIndex].Name) {
-                case "id":     ShowPhoto    (e.RowIndex); break;
-                case "photo":  SelectPhoto  (e.RowIndex); break;
-                case "save":   SetPlayer    (e.RowIndex); break;
-                case "delete": DeletePlayer (e.RowIndex); break;
-                default:
-                    break;
+            try {
+                print($"PRESSED BITTON ROW INDEX: {e.RowIndex}");
+                switch (mainGrid.Columns[e.ColumnIndex].Name) {
+                    case "id":     ShowPhoto    (e.RowIndex); break;
+                    case "photo":  SelectPhoto  (e.RowIndex); break;
+                    case "save":   SetPlayer    (e.RowIndex); break;
+                    case "delete": DeletePlayer (e.RowIndex); break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception exception) {
+                MessageBox.Show(
+                    $"ПРОИЗОШЛА НЕОЖИДАННАЯ ОШИБКА ПРИ НАЖАТИИ КНОПКИ\n" +
+                    $"РАБОТА ПИЛОЖЕНИЯ НЕ БУДЕТ ОСТАНОВЛЕНА НО ВОТ ТЕКСТ ОШИБКИ:\n" +
+                    $"{exception.Message}"
+                    );
             }
         }
 
