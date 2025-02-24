@@ -17,7 +17,7 @@ namespace vlc_works
         private int machineNumber = 1;
 
         private bool isAddedRow { get; set; } = false;
-        private long playerAutoincerentCounter { get; set; }
+        private long playerTableAutoincerentCounter { get; set; }
         #endregion VAR
 
         public EditDbForm(FaceForm faceForm, AxFP_CLOCK axFP_CLOCK, int machineNumber)
@@ -27,7 +27,7 @@ namespace vlc_works
             this.faceForm = faceForm;
             this.axFP_CLOCK = axFP_CLOCK;
             this.machineNumber = machineNumber;
-            playerAutoincerentCounter = Db.AutoincrementCounter(Db.PlayersTableName);
+            playerTableAutoincerentCounter = Db.AutoincrementCounter(Db.PlayersTableName);
 
             SelectPlayersFromDb();
         }
@@ -81,8 +81,10 @@ namespace vlc_works
             {
                 DataGridViewRow row = mainGrid.Rows[i];
 
-                row.Cells["id"].Value = "_";
-                row.Cells["player_id"].Value = "_";
+                playerTableAutoincerentCounter++;
+                row.Cells["id"].Value = $"_{playerTableAutoincerentCounter}";
+                row.Cells["player_id"].Value = $"_{playerTableAutoincerentCounter}";
+
                 row.Cells["C"].Value = 0;
                 row.Cells["K"].Value = 0;
                 row.Cells["M"].Value = 0;
@@ -139,8 +141,7 @@ namespace vlc_works
 
         private void mainGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            switch (mainGrid.Columns[e.ColumnIndex].Name)
-            {
+            switch (mainGrid.Columns[e.ColumnIndex].Name) {
                 case "id":     ShowPhoto    (e.RowIndex); break;
                 case "photo":  SelectPhoto  (e.RowIndex); break;
                 case "save":   SetPlayer    (e.RowIndex); break;
@@ -171,21 +172,22 @@ namespace vlc_works
                 .Select(cell => cell.Value)
                 .ToArray();
 
-            if (cells[0] is string) // id cell is "_"
+            if (cells[0] is string) { // id cell is "_{autoincrement}"
                 mainGrid.Rows.Remove(playerRow);
-            else
-            {
+                playerTableAutoincerentCounter--;
+            }
+
+            else {
                 long id = Convert.ToInt64(cells[0]);
 
-                if (DeleteEnrollmentFromAiDevice(id))
-                {
+                if (DeleteEnrollmentFromAiDevice(id)) {
                     Db.DeletePlayerWhomIdEquals(id);
                     mainGrid.Rows.Remove(playerRow);
                 }
                 else
                     MessageBox.Show(
                         "ЗАПИСЬ НЕ БЫЛА УДАЛЕНА\n" +
-                        "- Проверьте подключение");
+                        "- Проверьте подключение к устройству");
             }
         }
 
@@ -198,7 +200,6 @@ namespace vlc_works
                     (int)BackupNum.AIFace));
 
         #endregion
-
 
         #region SetPlayer
 
