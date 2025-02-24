@@ -17,7 +17,6 @@ namespace vlc_works
         private AxFP_CLOCK axFP_CLOCK { get; set; }
         private int machineNumber = 1;
 
-        private bool isAddedRow { get; set; } = false;
         private long playerTableAutoincerentCounter { get; set; }
         #endregion VAR
 
@@ -60,7 +59,7 @@ namespace vlc_works
 
         private void EditDbForm_SizeChanged(object sender, EventArgs e)
         {
-            mainGrid.Size = new Size(Size.Width - 16, Size.Height - 39);
+            mainGrid.Size = new Size(Size.Width - 16, Size.Height - 39 - 32);
         }
 
         #endregion COMMON
@@ -74,42 +73,45 @@ namespace vlc_works
             SelectionBackColor = Color.DarkKhaki
         };
 
-        private void mainGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        private void newPlayerBut_Click(object sender, EventArgs e)
         {
-            if (!isManuallyAdded)
-                return;
+            DataGridViewRow row = new DataGridViewRow()
+            { Height = 32 };
 
-            for (int i = e.RowIndex - 1; i < e.RowIndex + e.RowCount - 1; i++)
-            {
-                DataGridViewRow row = mainGrid.Rows[i];
+            playerTableAutoincerentCounter++;
 
-                playerTableAutoincerentCounter++;
-                isAddedRow = true;
+            row.Cells.AddRange(new DataGridViewCell[] {
+                new DataGridViewButtonCell(){ 
+                    Value = $"_{playerTableAutoincerentCounter}", 
+                    FlatStyle = FlatStyle.Flat },
+                new DataGridViewTextBoxCell(){ 
+                    Value = $"_{playerTableAutoincerentCounter}" },
+                new DataGridViewTextBoxCell(){ 
+                    Value = 0 },
+                new DataGridViewTextBoxCell(){ 
+                    Value = 0 },
+                new DataGridViewTextBoxCell(){ 
+                    Value = 0 },
+                new DataGridViewButtonCell() { 
+                    Value = "Выбрать фото", 
+                    FlatStyle = FlatStyle.Flat },
+                new DataGridViewButtonCell() { 
+                    Value = "Сохранить", 
+                    FlatStyle = FlatStyle.Flat },
+                new DataGridViewButtonCell() { 
+                    Value = "УДАЛИТЬ", 
+                    FlatStyle = FlatStyle.Flat },
+            });
 
-                row.Cells["id"].Value = $"_{playerTableAutoincerentCounter}";
-                row.Cells["player_id"].Value = $"_{playerTableAutoincerentCounter}";
-
-                row.Cells["C"].Value = 0;
-                row.Cells["K"].Value = 0;
-                row.Cells["M"].Value = 0;
-                row.Cells["photo"].Value = "Выбрать фото";
-                row.Cells["save"].Value = "Сохранить";
-                row.Cells["delete"].Value = "УДАЛИТЬ";
-                row.Height = 32;
-            }
-
-            new Thread(() =>
-            {
-                Thread.Sleep(100);
-                Invoke(new Action(() => mainGrid.AllowUserToAddRows = false));
-            }).Start();
+            mainGrid.Rows.Add(row);
+            newPlayerBut.Enabled = false;
         }
 
         private void mainGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (!isManuallyAdded || e.RowIndex < 0)
                 return;
-            Console.WriteLine($"{e.RowIndex}, {e.ColumnIndex}, {mainGrid.Rows.Count}");
+            //print($"{e.RowIndex}, {e.ColumnIndex}, {mainGrid.Rows.Count} {mainGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value}");
 
             DataGridViewCell cell = mainGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
             if (cell is DataGridViewButtonCell)
@@ -184,17 +186,20 @@ namespace vlc_works
                 .Select(cell => cell.Value)
                 .ToArray();
 
+            print(MainGridRowToString(playerRow.Cells[0].RowIndex));
+
             if (cells[0] is string) { // id cell is "_{autoincrement}"
+                print($"here {playerRow.Index}");
                 mainGrid.Rows.Remove(playerRow);
                 playerTableAutoincerentCounter--;
-                mainGrid.AllowUserToAddRows = true;
-                isAddedRow = false;
+
+                newPlayerBut.Enabled = true;
             }
 
             else {
                 long id = Convert.ToInt64(cells[0]);
 
-                if (DeleteEnrollmentFromAiDevice(id)) {
+                if (DeleteEnrollmentFromAiDevice(id) || true) {
                     Db.DeletePlayerWhomIdEquals(id);
                     mainGrid.Rows.Remove(playerRow);
                 }
