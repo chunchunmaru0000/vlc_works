@@ -365,11 +365,17 @@ namespace vlc_works
 
 			if (e.anSEnrollNumber > 0 && e.anSEnrollNumber != 99999999)
 			{
-				lastCode = e.anSEnrollNumber;
+                int enrollId = e.anSEnrollNumber;
+
+                lastCode = enrollId;
                 lastIdLabel.Text = lastCode.ToString();
 
                 recognizedPersonTextLabel.Text = "Опознан";
                 recognizedPersonTextLabel.BackColor = Color.LightGreen;
+
+                accountingForm.SetUserId(enrollId);
+                accountingForm.Invoke(new Action(() =>
+                accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
             } 
             else if (e.anSEnrollNumber < 0)
             {
