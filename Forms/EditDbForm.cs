@@ -266,7 +266,7 @@ namespace vlc_works
                         AddNewPlayer(changedCells, rowIndex);
                         return; // cease loop because nothing will be left to set
                     case "photo":
-                        UpdatePlayerPhoto(cell as DataGridViewButtonCell);
+                        UpdatePlayerPhoto(rowIndex);
                         break;
                     default:
                         Db.UpdatePlayerIntData(
@@ -294,7 +294,10 @@ namespace vlc_works
                     changedCells
                     .Select(c => c.Value).ToArray());
 
-            if (SetEnrollmentToAiDevice(rowIndexToSelectedImage[rowIndex]) || IS_DEBUG) {
+            if (SetEnrollmentToAiDevice(
+                rowIndexToSelectedImage[rowIndex], 
+                Convert.ToInt32(dbPlayer.PlayerIdInt))
+                ) {
                 Db.InsertPlayer(dbPlayer);
                 changedCells[0].Value = dbPlayer.Id;
                 foreach (DataGridViewCell cell in changedCells)
@@ -308,14 +311,38 @@ namespace vlc_works
                     "ПРОВЕРЬТЕ ПОДКЛЮЧЕНИЕ ИЛИ ПОМЕНЯЙТЕ ФОТО И ПОПРОБУЙТЕ ЕЩЕ РАЗ");
         }
 
-        private bool SetEnrollmentToAiDevice(byte[] photBytes)
+        private bool SetEnrollmentToAiDevice(byte[] photoBytes, int enrollId)
         {
-            return false;
+            IntPtr ptrIndexFacePhoto = Marshal.AllocHGlobal(photoBytes.Length);
+            Marshal.Copy(photoBytes, 0, ptrIndexFacePhoto, photoBytes.Length);
+
+            return faceForm.PerformOperation(() => axFP_CLOCK
+                .SetEnrollPhotoCS(
+                    machineNumber,
+                    enrollId,
+                    photoBytes.Length,
+                    ptrIndexFacePhoto
+                    )) || IS_DEBUG;
         }
 
-        private void UpdatePlayerPhoto(DataGridViewButtonCell choosePhotoButCell)
+        private void UpdatePlayerPhoto(int rowIndex)
         {
+            if (!rowIndexToSelectedImage.ContainsKey(rowIndex)) { // unreachable though
+                MessageBox.Show(
+                    "ФОТО НЕ БЫЛО ВЫБРАНО И ПОЭТОМУ ОНО НЕ МОЖЕТ БЫТЬ СОХРАНЕНО\n" +
+                    "ВЫБЕРИТЕ ФОТО И ПОПЫТАЙТЕСЬ ЕЩЕ РАЗ");
+                return;
+            }
 
+            if (SetEnrollmentToAiDevice(
+                rowIndexToSelectedImage[rowIndex],
+                Convert.ToInt32(mainGrid.Rows[rowIndex].Cells["player_id"].Value)
+                ))
+                mainGrid.Rows[rowIndex].Cells["photo"].Style = defaultStyle;
+            else
+                MessageBox.Show(
+                    "НЕ УДАЛОСЬ ОТПРАВИТЬ ФОТО В УСТРОЙСТВО\n" +
+                    "ПРОВЕРЬТЕ ПОДКЛЮЧЕНИЕ ИЛИ ПОМЕНЯЙТЕ ФОТО И ПОПРОБУЙТЕ ЕЩЕ РАЗ");
         }
 
         #endregion SetPlayer
