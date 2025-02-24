@@ -29,20 +29,23 @@ CREATE TABLE IF NOT EXISTS {PlayersTableName} (
 );
 ";
 		public static void InsertPlayer(long playerIdInt, long cLvlInt, long kLvlInt, long mLvlInt)
-			{ 
-				string command = $@"
+		{ 
+			string command = $@"
 INSERT INTO {PlayersTableName} (player_id_int, c_lvl_int, k_lvl_int, m_lvl_int)
 VALUES (@playerIdInt, @cLvlInt, @kLvlInt, @mLvlInt);
 ";
-				using (SQLiteCommand cmd = new SQLiteCommand(command, SqLiteConnection))
-				{
-					cmd.Parameters.AddWithValue("@playerIdInt", playerIdInt);
-					cmd.Parameters.AddWithValue("@cLvlInt", cLvlInt);
-					cmd.Parameters.AddWithValue("@kLvlInt", kLvlInt);
-					cmd.Parameters.AddWithValue("@mLvlInt", mLvlInt);
-					cmd.ExecuteNonQuery();
-				}
+			using (SQLiteCommand cmd = new SQLiteCommand(command, SqLiteConnection))
+			{
+				cmd.Parameters.AddWithValue("@playerIdInt", playerIdInt);
+				cmd.Parameters.AddWithValue("@cLvlInt", cLvlInt);
+				cmd.Parameters.AddWithValue("@kLvlInt", kLvlInt);
+				cmd.Parameters.AddWithValue("@mLvlInt", mLvlInt);
+				cmd.ExecuteNonQuery();
 			}
+		}
+
+        public static void InsertPlayer(DbPlayer dbPlayer) =>
+            InsertPlayer(dbPlayer.PlayerIdInt, dbPlayer.C, dbPlayer.K, dbPlayer.M);
 
 		private static string createGameRecordsTable = $@"
 CREATE TABLE IF NOT EXISTS {GameRecordsTableName} (

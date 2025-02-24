@@ -11,7 +11,7 @@ namespace vlc_works
 {
     public partial class EditDbForm: Form
     {
-        const bool IS_DEBUG = true;
+        private const bool IS_DEBUG = false;
         #region VAR
         private FaceForm faceForm;
         private AxFP_CLOCK axFP_CLOCK { get; set; }
@@ -73,6 +73,12 @@ namespace vlc_works
             SelectionBackColor = Color.DarkKhaki
         };
 
+        private DataGridViewCellStyle defaultStyle { get; set; } = new DataGridViewCellStyle()
+        {
+            BackColor = Color.White,
+            SelectionBackColor = Color.Blue
+        };
+
         private void newPlayerBut_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = new DataGridViewRow()
@@ -82,10 +88,10 @@ namespace vlc_works
 
             row.Cells.AddRange(new DataGridViewCell[] {
                 new DataGridViewButtonCell(){ 
-                    Value = $"_{playerTableAutoincerentCounter}", 
+                    Value = playerTableAutoincerentCounter.ToString(),
                     FlatStyle = FlatStyle.Flat },
                 new DataGridViewTextBoxCell(){ 
-                    Value = $"_{playerTableAutoincerentCounter}" },
+                    Value = playerTableAutoincerentCounter },
                 new DataGridViewTextBoxCell(){ Value = 0 },
                 new DataGridViewTextBoxCell(){ Value = 0 },
                 new DataGridViewTextBoxCell(){ Value = 0 },
@@ -101,6 +107,11 @@ namespace vlc_works
             });
 
             mainGrid.Rows.Add(row);
+
+            foreach (DataGridViewCell cell in row.Cells)
+                if (!(cell is DataGridViewButtonCell) || cell.ColumnIndex == 0) // id cell
+                    cell.Style = khakiStyle.Clone();
+            
             newPlayerBut.Enabled = false;
         }
 
@@ -239,31 +250,23 @@ namespace vlc_works
                 .Where(cell => cell.Style.BackColor == khakiStyle.BackColor)
                 .ToArray();
 
-            if (changedCells.Length == 0)
-            {
+            if (changedCells.Length == 0) {
                 MessageBox.Show("НЕЧЕГО СОХРАНЯТЬ");
                 return;
             }
 
-            // TODO:
-            // - do new row player id = Db.Autoincrement
             long rowPlayerId = Convert.ToInt64(row.Cells[1].Value);
 
-            foreach (DataGridViewCell cell in changedCells)
-            {
+            foreach (DataGridViewCell cell in changedCells) {
                 string cellColumnName = mainGrid.Columns[cell.ColumnIndex].Name;
-
                 // TODO:
-                // - cant change PlayerId
-                // - cant add more than 1 player to table at once
-
-                switch (cellColumnName)
-                {
+                // - cant change PlayerId <?> is it really of any need
+                switch (cellColumnName) {
                     case "id": 
-                        AddNewPlayer(changedCells);
-                        return; // return because nothing will be left to set
+                        AddNewPlayer(changedCells, rowIndex);
+                        return; // cease loop because nothing will be left to set
                     case "photo":
-                        UpdatePlayerPhoto(cell);
+                        UpdatePlayerPhoto(cell as DataGridViewButtonCell);
                         break;
                     default:
                         Db.UpdatePlayerIntData(
@@ -271,18 +274,46 @@ namespace vlc_works
                             Convert.ToInt64(cell.Value),
                             columnNameToDbColumnName[cellColumnName]
                             );
-                        cell.Style = mainGrid.DefaultCellStyle;
+                        cell.Style = defaultStyle.Clone();
                         break;
                 }
             }
         }
 
-        private void AddNewPlayer(DataGridViewCell[] changedCells)
+        private void AddNewPlayer(DataGridViewCell[] changedCells, int rowIndex)
         {
+            if (!rowIndexToSelectedImage.ContainsKey(rowIndex)) {
+                MessageBox.Show(
+                    "ФОТО НЕ БЫЛО ВЫБРАНО И ПОЭТОМУ ИГРОК НЕ МОЖЕТ БЫТЬ ДОБАВЛЕН\n" +
+                    "ВЫБЕРИТЕ ФОТО ДЛЯ НЕГО И ПОПЫТАЙТЕСЬ ЕЩЕ РАЗ");
+                return;
+            }
 
+            DbPlayer dbPlayer = 
+                DbPlayer.FromArray(
+                    changedCells
+                    .Select(c => c.Value).ToArray());
+
+            if (SetEnrollmentToAiDevice(rowIndexToSelectedImage[rowIndex]) || IS_DEBUG) {
+                Db.InsertPlayer(dbPlayer);
+                changedCells[0].Value = dbPlayer.Id;
+                foreach (DataGridViewCell cell in changedCells)
+                    cell.Style = defaultStyle.Clone();
+
+                newPlayerBut.Enabled = true;
+            }
+            else
+                MessageBox.Show(
+                    "НЕ УДАЛОСЬ ОТПРАВИТЬ ФОТО В УСТРОЙСТВО\n" +
+                    "ПРОВЕРЬТЕ ПОДКЛЮЧЕНИЕ ИЛИ ПОМЕНЯЙТЕ ФОТО И ПОПРОБУЙТЕ ЕЩЕ РАЗ");
         }
 
-        private void UpdatePlayerPhoto(DataGridViewCell choosePhotoButCell)
+        private bool SetEnrollmentToAiDevice(byte[] photBytes)
+        {
+            return false;
+        }
+
+        private void UpdatePlayerPhoto(DataGridViewButtonCell choosePhotoButCell)
         {
 
         }
@@ -290,6 +321,7 @@ namespace vlc_works
         #endregion SetPlayer
 
         #region SelectPhoto_AND_ShowPhoto
+
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
 
         private void SelectPhoto(int rowIndex)
@@ -325,7 +357,7 @@ namespace vlc_works
 
         private void ShowPhoto(int rowIndex)
         {
-            print(string.Join("|", rowIndexToSelectedImage.Keys.Select(k => k.ToString())) + " KEYS");
+            //print(string.Join("|", rowIndexToSelectedImage.Keys.Select(k => k.ToString())) + " KEYS");
             if (photoForm != null && !photoForm.IsDisposed)
                 return;
 
@@ -366,7 +398,6 @@ namespace vlc_works
             photoForm = new PhotoForm(photoBytes);
             photoForm.Show();
             photoForm.Location = new Point(2000, 100);
-
         }
 
         #endregion SelectPhoto_AND_ShowPhoto
