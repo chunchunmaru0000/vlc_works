@@ -20,8 +20,11 @@
 
 	public enum Langs
 	{
+        [StringValue("русский")]
 		RUSSIAN,
+        [StringValue("английский")]
 		ENGLISH,
+        [StringValue("иврит")]
 		HEBREW,
 	}
 

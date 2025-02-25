@@ -17,9 +17,11 @@ namespace vlc_works
 		#region UNCHANGING_VAR
 		private IKeyboardEvents hook { get; set; } // hook for hook keys
 		public AccountingForm accountingForm { get; set; }
-		#endregion UNCHANGING_VAR
-		#region CONSTS
-		private Keys[] NumKeys { get; } = new Keys[] // keys of numpad
+        public GameScript firstGame { get; set; }
+        public List<GameScript> gameScripts { get; set; }
+        #endregion UNCHANGING_VAR
+        #region CONSTS
+        private Keys[] NumKeys { get; } = new Keys[] // keys of numpad
 		{
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
@@ -29,8 +31,9 @@ namespace vlc_works
 		#endregion CONSTS
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
-		#region SOME_VAR
-		private bool isFullScreen { get; set; } = false;
+        public int gameIndex { get; set; } = -1; // -1 is firstGame else gameScripts[index]
+        #region SOME_VAR
+        private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
 		{
 			string stroke = str == null ? "" : str.ToString();
@@ -73,12 +76,8 @@ namespace vlc_works
         {
             try {
                 Tuple<GameScript, List<GameScript>> tuple = new ScriptParser("gameScript.txt").Parse();
-                GameScript firstGame = tuple.Item1;
-                List<GameScript> gameScripts = tuple.Item2;
-
-                print(firstGame);
-                foreach (GameScript gameScript in gameScripts)
-                    print(gameScript);
+                firstGame = tuple.Item1;
+                gameScripts = tuple.Item2;
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);
