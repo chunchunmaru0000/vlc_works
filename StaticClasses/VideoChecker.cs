@@ -70,8 +70,7 @@ namespace vlc_works
 
 		private static void SetPathsAndUri(string[] lines)
 		{
-			try
-			{
+			try {
 				langs[Langs.RUSSIAN] = Language.Get(Langs.RUSSIAN, lines, 0);
 				langs[Langs.ENGLISH] = Language.Get(Langs.ENGLISH, lines, 1);
 				langs[Langs.HEBREW] = Language.Get(Langs.HEBREW, lines, 2);
@@ -81,12 +80,24 @@ namespace vlc_works
 				errorVideo = new PathUri(lines[afterLangsLinesOffset++]);
 				idle = new PathUri(lines[afterLangsLinesOffset++]);
 				selectLang = new PathUri(lines[afterLangsLinesOffset++]);
-			}
-			catch
-			{
+
+                string gameDirectoryPath = lines[afterLangsLinesOffset++];
+                Dictionary<GameType, string> gttofn = new Dictionary<GameType, string>() {
+                    { GameType.Guard, lines[afterLangsLinesOffset++] },
+                    { GameType.Painting, lines[afterLangsLinesOffset++] },
+                    { GameType.Mario, lines[afterLangsLinesOffset++] },
+                };
+
+                clientForm.gameDirectory = new GameDirectory(gameDirectoryPath, gttofn);
+                string[] errors = clientForm.gameDirectory.AssertGameDirectoryFolders();
+
+                if (errors.Length > 0)
+                    throw new Exception(string.Join("\n\t", errors));
+            }
+			catch (Exception e) {
 				MessageBox.Show(
 					$"ФАЙЛ {VLCChecker.videonamestxt} НЕ БЫЛ УСПЕШНО ПРОЧИТАН\n" +
-					$"ТАК КАК ВЕРОЯТНО БЫЛО НЕДОСТАТОЧНО ПУТЕЙ");
+					$"ОШИБКА: \n{e.Message}");
 				Environment.Exit(0);
 			}
 		}

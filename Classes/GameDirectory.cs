@@ -15,15 +15,13 @@ namespace vlc_works
             GameTypeToFolderName = gameTypeToFolderName;
         }
 
-        public string GetScriptDirectory(GameScript gameScript, Langs language)
-        {
-            return Path.Combine(new string[] {
+        public string GetScriptDirectory(GameScript gameScript, Langs language) =>
+            Path.Combine(new string[] {
                 GameDirectoryPath,
                 language.View(),
                 $"уровень {gameScript.Lvl}",
                 GameTypeToFolderName[gameScript.GameType],
             });
-        }
 
         /// <summary>
         /// Returns an array of unexisting directores

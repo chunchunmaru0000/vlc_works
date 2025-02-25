@@ -19,6 +19,7 @@ namespace vlc_works
 		public AccountingForm accountingForm { get; set; }
         public GameScript firstGame { get; set; }
         public List<GameScript> gameScripts { get; set; }
+        public GameDirectory gameDirectory { get; set; }
         #endregion UNCHANGING_VAR
         #region CONSTS
         private Keys[] NumKeys { get; } = new Keys[] // keys of numpad

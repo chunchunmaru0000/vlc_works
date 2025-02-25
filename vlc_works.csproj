@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\EnumExtentions.cs" />
+    <Compile Include="Classes\GameDirectory.cs" />
     <Compile Include="Classes\GameScript.cs" />
     <Compile Include="Classes\PathUri.cs" />
     <Compile Include="Classes\ScriptParser.cs" />
