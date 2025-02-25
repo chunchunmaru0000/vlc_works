@@ -63,10 +63,31 @@ namespace vlc_works
 			inputLabel.SizeChanged += AlignInputLabel;
 			DeleteInput();
 			SetFormFullScreen();
+            // parse game script
+            InitGameScript();
 		}
 
-		#region SCREEN
-		void SetFormFullScreen()
+        #region SCRIPT
+
+        private void InitGameScript()
+        {
+            try {
+                Tuple<GameScript, List<GameScript>> tuple = new ScriptParser("gameScript.txt").Parse();
+                GameScript firstGame = tuple.Item1;
+                List<GameScript> gameScripts = tuple.Item2;
+
+                print(firstGame);
+                foreach (GameScript gameScript in gameScripts)
+                    print(gameScript);
+            } catch (Exception e) {
+                MessageBox.Show(e.Message);
+                Environment.Exit(1);
+            }
+        }
+
+        #endregion SCRIPT
+        #region SCREEN
+        void SetFormFullScreen()
 		{
             // of course its better but im not sure in screens order
             /* 

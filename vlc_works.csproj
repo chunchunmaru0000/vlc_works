@@ -141,7 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\EnumExtentions.cs" />
+    <Compile Include="Classes\GameScript.cs" />
     <Compile Include="Classes\PathUri.cs" />
+    <Compile Include="Classes\ScriptParser.cs" />
     <Compile Include="Classes\StringExtensions.cs" />
     <Compile Include="Forms\AccountingForm.cs">
       <SubType>Form</SubType>
@@ -240,6 +242,7 @@
     <None Include="Related\dlls setup.md" />
     <Content Include="Related\FPCLOCK_Svr.ocx" />
     <Content Include="Related\FP_CLOCK.ocx" />
+    <Content Include="Related\gameScript.txt" />
     <Content Include="Related\games_table_structure.jpeg" />
     <Content Include="Related\Interop.FPCLOCK_SVRLib.dll" />
     <Content Include="Related\Interop.FP_CLOCKLib.dll" />

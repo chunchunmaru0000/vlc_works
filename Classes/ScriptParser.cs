@@ -57,7 +57,9 @@ namespace vlc_works
                     .Replace("\r", "")
                     .Split('\n')
                     .Where(line => 
-                        !line.StartsWith("\\"))
+                        !line.StartsWith("//") &&
+                        !string.IsNullOrEmpty(line) && 
+                        !string.IsNullOrWhiteSpace(line))
                     .Select(line => 
                         line
                         .Trim()
@@ -70,6 +72,7 @@ namespace vlc_works
 
         private string FindFirstGameLine(string[] scriptLines)
         {
+            //Console.WriteLine(string.Join("\n", scriptLines));
             string firstGameLine =
                 scriptLines
                 .FirstOrDefault(line => line.StartsWith("первая"));
@@ -120,10 +123,10 @@ namespace vlc_works
                     long.TryParse(parts[0].Substring(1), out lvl) &&
                     long.TryParse(parts[1], out prize) &&
                     long.TryParse(parts[2], out price);
+                if (!parseResult)
+                    throw new Exception(errorPartParse);
 
-                if (parseResult)
-                    return new GameScript(gameType, lvl, prize, price);
-                throw new Exception(errorPartParse);
+                return new GameScript(gameType, lvl, prize, price);
             } catch (Exception e) {
                 throw new Exception(errorParseGameLine(e.Message, gameLine));
             }
