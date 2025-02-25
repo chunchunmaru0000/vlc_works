@@ -76,7 +76,8 @@ namespace vlc_works
         private void InitGameScript()
         {
             try {
-                Tuple<GameScript, List<GameScript>> tuple = new ScriptParser("gameScript.txt").Parse();
+                Tuple<GameScript, List<GameScript>> tuple = 
+                    new ScriptParser("gameScript.txt").Parse();
                 firstGame = tuple.Item1;
                 gameScripts = tuple.Item2;
             } catch (Exception e) {

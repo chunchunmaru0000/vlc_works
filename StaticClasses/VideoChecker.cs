@@ -82,15 +82,9 @@ namespace vlc_works
 				selectLang = new PathUri(lines[afterLangsLinesOffset++]);
 
                 string gameDirectoryPath = lines[afterLangsLinesOffset++];
-                Dictionary<GameType, string> gttofn = new Dictionary<GameType, string>() {
-                    { GameType.Guard, lines[afterLangsLinesOffset++] },
-                    { GameType.Painting, lines[afterLangsLinesOffset++] },
-                    { GameType.Mario, lines[afterLangsLinesOffset++] },
-                };
+                clientForm.gameDirectory = new GameDirectory(gameDirectoryPath);
 
-                clientForm.gameDirectory = new GameDirectory(gameDirectoryPath, gttofn);
                 string[] errors = clientForm.gameDirectory.AssertGameDirectoryFolders();
-
                 if (errors.Length > 0)
                     throw new Exception(string.Join("\n\t", errors));
             }

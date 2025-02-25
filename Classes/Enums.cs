@@ -30,11 +30,11 @@
 
 	public enum GameType
 	{
-		[StringValue("Сторож")]
+		[StringValue("сторож")]
 		Guard,
-		[StringValue("Картины")]
+		[StringValue("картины")]
 		Painting,
-		[StringValue("Марио")]
+		[StringValue("марио")]
 		Mario
 	}
 
