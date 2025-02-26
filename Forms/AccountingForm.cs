@@ -216,6 +216,9 @@ namespace vlc_works
             SetGameType(gameScript.GameType);
         }
 
+        public void SetLangLabel(string text) =>
+            Invoke(new Action(() => langLabel.Text = text));
+
 		public void IncCoinsInStock(long coins)
 		{
 			Invoke(new Action(() =>
@@ -682,7 +685,6 @@ namespace vlc_works
 
             return 0;
         }
-
 
         private bool LongParseTextBox(TextBox box, out long res, string param)
 		{

@@ -84,7 +84,7 @@ namespace vlc_works
 				for (int i = 0; i < times; i++)
 				{
 					Execute("Coins out");
-					Thread.Sleep(1500);
+					Thread.Sleep(500);
 				}
 			}).Start();
 		}

@@ -231,21 +231,19 @@ namespace vlc_works
 
 		private void SetNewBoxesValues(long c, long k, long m)
 		{
-			accountingForm.Invoke(new Action(() =>
-			{
+			accountingForm.Invoke(new Action(() => {
 				if (!VideoChecker.won) // if not won does not update antng because lvl remains the same
 					return;
 
-				switch (DbCurrentRecord.SelectedGameType)
-				{
+				switch (DbCurrentRecord.SelectedGameType) {
 					case GameType.Guard:
-						accountingForm.cBox.Text = c.ToString();
+						accountingForm.cBox.Text = (c + 1).ToString();
 						break;
 					case GameType.Painting:
-						accountingForm.kBox.Text = k.ToString();
+						accountingForm.kBox.Text = (k + 1).ToString();
 						break;
 					case GameType.Mario:
-						accountingForm.mBox.Text = m.ToString();
+						accountingForm.mBox.Text = (m + 1).ToString();
 						break;
 					default:
 						break;
@@ -294,13 +292,6 @@ namespace vlc_works
 				priceInt: DbCurrentRecord.SelectedPrice
 			);
 
-            /*
-			if (VideoChecker.won && 
-				DbCurrentRecord.SelectedLvl == 0 && 
-				DbCurrentRecord.SelectedGameType == accountingForm.SelectedGameType)
-				accountingForm.SetLvl(1);
-             */
-
             if (accountingForm.isFirstGame) {
                 accountingForm.SetIsFirstGame(false);
                 gameIndex =
@@ -310,6 +301,9 @@ namespace vlc_works
             }
             else if (VideoChecker.won)
                 gameIndex++;
+
+            if (!VideoChecker.continued)
+                accountingForm.SetLangLabel("#");
 
             VideoChecker.won = false;
 			VideoChecker.continued = false;
@@ -402,6 +396,8 @@ namespace vlc_works
                 ? gameDirectory.GetRandomGame(firstGame, VideoChecker.language)
                 : gameDirectory.GetRandomGame(gameScripts[gameIndex], VideoChecker.language);
             VideoChecker.VlcChanged(pathUri);
+
+            accountingForm.SetLangLabel(VideoChecker.language.View());
 
             new Thread(() =>
 			{

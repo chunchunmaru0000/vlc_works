@@ -134,6 +134,8 @@
             this.relayCh3 = new System.Windows.Forms.Label();
             this.relayCh4 = new System.Windows.Forms.Label();
             this.resetCounterBut = new System.Windows.Forms.Button();
+            this.langTextLabel = new System.Windows.Forms.Label();
+            this.langLabel = new System.Windows.Forms.Label();
             this.selectedPanel.SuspendLayout();
             this.pricePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -1265,11 +1267,34 @@
             this.resetCounterBut.UseVisualStyleBackColor = true;
             this.resetCounterBut.Click += new System.EventHandler(this.resetCounterBut_Click);
             // 
+            // langTextLabel
+            // 
+            this.langTextLabel.AutoSize = true;
+            this.langTextLabel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.langTextLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.langTextLabel.Location = new System.Drawing.Point(0, 352);
+            this.langTextLabel.Name = "langTextLabel";
+            this.langTextLabel.Size = new System.Drawing.Size(96, 31);
+            this.langTextLabel.TabIndex = 56;
+            this.langTextLabel.Text = "Язык: ";
+            // 
+            // langLabel
+            // 
+            this.langLabel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.langLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.langLabel.Location = new System.Drawing.Point(96, 352);
+            this.langLabel.Name = "langLabel";
+            this.langLabel.Size = new System.Drawing.Size(416, 31);
+            this.langLabel.TabIndex = 57;
+            this.langLabel.Text = "#";
+            // 
             // AccountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
+            this.Controls.Add(this.langLabel);
+            this.Controls.Add(this.langTextLabel);
             this.Controls.Add(this.resetCounterBut);
             this.Controls.Add(this.relayCh4);
             this.Controls.Add(this.relayCh3);
@@ -1449,5 +1474,7 @@
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
         private System.Windows.Forms.DataGridView priceButsGrid;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn2;
+        private System.Windows.Forms.Label langTextLabel;
+        private System.Windows.Forms.Label langLabel;
     }
 }
