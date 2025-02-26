@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -7,6 +8,7 @@ namespace vlc_works
     public class GameDirectory
     {
         private string GameDirectoryPath { get; set; }
+        private Random rnd = new Random();
 
         public GameDirectory(string gameDirectoryPath)
         {
@@ -129,14 +131,19 @@ namespace vlc_works
 
             // game file starts with 8 nums e.g. 10512345 and ends on .mp4
             string[] files = 
-                Directory.GetFiles(directory)
+                Directory.EnumerateFiles(directory)
                 .Where(f => 
-                    Path.GetExtension(f) == "mp4" && 
-                    f.Substring(0, 8).All(fc => char.IsNumber(fc))
+                    Path.GetFileName(f).Length > 8 &&
+                    Path.GetExtension(f) == ".mp4" && 
+                    Path.GetFileName(f)
+                        .Substring(0, 8)
+                        .All(fc => char.IsNumber(fc))
                     )
                 .ToArray();
+            if (files.Length < 1)
+                throw new InvalidOperationException($"НЕТ ФАЙЛОВ ВИДЕО В ПАПКЕ: \n{directory}");
 
-            return new PathUri(path);
+            return new PathUri(files[rnd.Next(files.Length)]);
         }
     }
 }
