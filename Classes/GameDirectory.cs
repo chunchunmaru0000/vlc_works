@@ -19,7 +19,6 @@ namespace vlc_works
                 GameDirectoryPath,
                 language.View(),
                 $"уровень {gameScript.Lvl}",
-                //GameTypeToFolderName[gameScript.GameType],
             });
 
             string[] gameScriptFolders =
@@ -37,14 +36,14 @@ namespace vlc_works
         /// <summary>
         /// Returns an array of unexisting directores
         /// </summary>
-        public string[] AssertGameDirectoryFolders()
+        public string[] AssertAllGameDirectoryFolders()
         {
             Langs[] langs = new Langs[] { Langs.RUSSIAN, Langs.ENGLISH, Langs.HEBREW };
             int[] levels = Enumerable.Range(0, 10).ToArray();
             string[] games = new string[] {
                 GameType.Guard.View(),
                 GameType.Painting.View(),
-                //GameType.Mario.View(),
+                GameType.Mario.View(),
             };
 
             List<string> errs = new List<string>();
@@ -75,6 +74,53 @@ namespace vlc_works
                     }
                 }
             return errs.ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array of unexisting directores
+        /// </summary>
+        public string[] AssertScriptDirectoryFolders(GameScript firstScript, GameScript[] gameScripts) =>
+            new List<string[]> {
+                AssertGameScriptForAllLangs(firstScript),
+
+                gameScripts.Select(AssertGameScriptForAllLangs)
+                .SelectMany(s => s)
+                .ToArray()
+            }
+            .SelectMany(a => a)
+            .ToArray();
+
+        public string[] AssertGameScriptForAllLangs(GameScript gameScript) =>
+            new List<string[]> {
+                TryGameScriptForLang(gameScript, Langs.RUSSIAN),
+                TryGameScriptForLang(gameScript, Langs.ENGLISH),
+                TryGameScriptForLang(gameScript, Langs.HEBREW),
+            }
+            .SelectMany(a => a)
+            .ToArray();
+
+        private string[] TryGameScriptForLang(GameScript gameScript, Langs language)
+        {
+            string gameFoldersDirectory = Path.Combine(new string[] {
+                GameDirectoryPath,
+                language.View(),
+                $"уровень {gameScript.Lvl}",
+            });
+
+            string game = gameScript.GameType.View();
+
+            string[] gameScriptFolders =
+                Directory
+                .GetDirectories(gameFoldersDirectory)
+                .Where(f =>
+                    Path
+                    .GetFileName(f)
+                    .StartsWith(game))
+                .ToArray();
+
+            return gameScriptFolders.Length == 0
+                ? new string[1] { $"НЕСУЩЕСТВУЮЩАЯ ПАПКА {gameFoldersDirectory} + \\{game}..." }
+                : new string[0];
         }
     }
 }

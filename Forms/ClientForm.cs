@@ -18,7 +18,7 @@ namespace vlc_works
 		private IKeyboardEvents hook { get; set; } // hook for hook keys
 		public AccountingForm accountingForm { get; set; }
         public GameScript firstGame { get; set; }
-        public List<GameScript> gameScripts { get; set; }
+        public GameScript[] gameScripts { get; set; }
         public GameDirectory gameDirectory { get; set; }
         #endregion UNCHANGING_VAR
         #region CONSTS
@@ -60,6 +60,8 @@ namespace vlc_works
 			// set vlcControl
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;
+            // parse game script
+            InitGameScript();
             // VLCChecker and VideoChecker
             VLCChecker.Constructor(this, accountingForm);
 			// set form
@@ -67,8 +69,6 @@ namespace vlc_works
 			inputLabel.SizeChanged += AlignInputLabel;
 			DeleteInput();
 			SetFormFullScreen();
-            // parse game script
-            InitGameScript();
 		}
 
         #region SCRIPT
@@ -79,7 +79,7 @@ namespace vlc_works
                 Tuple<GameScript, List<GameScript>> tuple = 
                     new ScriptParser("gameScript.txt").Parse();
                 firstGame = tuple.Item1;
-                gameScripts = tuple.Item2;
+                gameScripts = tuple.Item2.ToArray();
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);

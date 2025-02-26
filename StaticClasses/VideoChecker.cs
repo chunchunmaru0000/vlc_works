@@ -84,7 +84,12 @@ namespace vlc_works
                 string gameDirectoryPath = lines[afterLangsLinesOffset++];
                 clientForm.gameDirectory = new GameDirectory(gameDirectoryPath);
 
-                string[] errors = clientForm.gameDirectory.AssertGameDirectoryFolders();
+                string[] errors = 
+                    clientForm.gameDirectory
+                    .AssertScriptDirectoryFolders(
+                        clientForm.firstGame,
+                        clientForm.gameScripts
+                        );
                 if (errors.Length > 0)
                     throw new Exception(string.Join("\n\t", errors));
             }
