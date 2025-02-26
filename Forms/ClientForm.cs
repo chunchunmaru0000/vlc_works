@@ -80,6 +80,8 @@ namespace vlc_works
                     new ScriptParser("gameScript.txt").Parse();
                 firstGame = tuple.Item1;
                 gameScripts = tuple.Item2.ToArray();
+
+                accountingForm.InitScript(gameScripts);
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);

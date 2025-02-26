@@ -250,10 +250,23 @@ namespace vlc_works
 				StartTables(); // refersh tables
 			}));
 		}
-		#endregion
+        #endregion
 
-		#region TABLES
-		private DataGridViewRow GetRowWithTextCell(string cellText)
+        #region SCRIPT
+
+        public void InitScript(GameScript[] gameScripts)
+        {
+            new Thread(() => { Thread.Sleep(2000); Invoke(new Action(() => {
+                foreach(GameScript gameScript in gameScripts) { 
+
+                }
+            }));}).Start();
+        }
+
+        #endregion SCRIPT
+
+        #region TABLES
+        private DataGridViewRow GetRowWithTextCell(string cellText)
 		{
 			DataGridViewRow row = new DataGridViewRow();
 			DataGridViewTextBoxCell rowCell = new DataGridViewTextBoxCell()
