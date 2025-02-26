@@ -219,7 +219,6 @@ namespace vlc_works
 			VideoChecker.continued = true;
 
 			DoDataBaseGameRecord();
-			accountingForm.SetIsFirstGame(false);
 			EmulateShowParamsButton();
 			//VideoChecker.SafeStop();
 			// here need to play game video
@@ -295,15 +294,29 @@ namespace vlc_works
 				priceInt: DbCurrentRecord.SelectedPrice
 			);
 
+            /*
 			if (VideoChecker.won && 
 				DbCurrentRecord.SelectedLvl == 0 && 
 				DbCurrentRecord.SelectedGameType == accountingForm.SelectedGameType)
 				accountingForm.SetLvl(1);
+             */
 
-			VideoChecker.won = false;
+            if (accountingForm.isFirstGame) {
+                accountingForm.SetIsFirstGame(false);
+                gameIndex =
+                    VideoChecker.won
+                    ? gameIndex = 1
+                    : gameIndex = 0;
+            }
+            else if (VideoChecker.won)
+                gameIndex++;
+
+            accountingForm.SetGameScript(gameScripts[gameIndex]);
+
+            VideoChecker.won = false;
 			VideoChecker.continued = false;
 
-			print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
+            print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));
 		}
 
@@ -554,17 +567,13 @@ namespace vlc_works
 		{
 			print(accountingForm.isFirstGame);
 
-			if (accountingForm.isFirstGame)
-			{
-				accountingForm.SetAward(20);
-				accountingForm.SetPrice(0);
-				accountingForm.SetLvl(0);
-			}
-			else
-			{
-				// the price will be setted by operator but anyway here need to do 
-				// use Recommendator class for operator recommendations
-			}
+			//if (accountingForm.isFirstGame)
+              //  accountingForm.SetGameScript(firstGame);
+			//else {
+                // the price will be setted by operator but anyway here need to do 
+                // use Recommendator class for operator recommendations
+              //  accountingForm.SetGameScript(gameScripts[gameIndex]);
+			//}
 
 			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
 			DeleteInput();

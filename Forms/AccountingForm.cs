@@ -208,6 +208,14 @@ namespace vlc_works
 			Invoke(new Action(() => levelLabel.Text = SelectedLevel.ToString()));
 		}
 
+        public void SetGameScript(GameScript gameScript)
+        {
+            SetLvl(gameScript.Lvl);
+            SetPrice(gameScript.Price);
+            SetAward(gameScript.Prize);
+            SetGameType(gameScript.GameType);
+        }
+
 		public void IncCoinsInStock(long coins)
 		{
 			Invoke(new Action(() =>
@@ -240,7 +248,6 @@ namespace vlc_works
 			}));
 		}
 		#endregion
-
 
 		#region TABLES
 		private DataGridViewRow GetRowWithTextCell(string cellText)
@@ -622,30 +629,51 @@ namespace vlc_works
 			long playerIdInt;
 			if (long.TryParse(playerNameBox.Text.HebrewTrim().Trim(), out long playerId))
 				playerIdInt = playerId;
-			else
-			{
+			else {
 				MessageBox.Show("НЕВЕРНЫЙ ID ИГРОКА");
 				return;
 			}
 
 			DbPlayer player = Db.FindPlayer(playerIdInt);
 
-			if (player == null)
-			{
+			if (player == null) {
 				Db.InsertPlayer(playerIdInt, 0, 0, 0);
 				cBox.Text = "0";
 				kBox.Text = "0";
 				mBox.Text = "0";
+
+                clientForm.gameIndex = -1;
+                SetIsFirstGame(true);
+                SetGameScript(clientForm.firstGame);
 			}
-			else
-			{
+			else {
 				cBox.Text = player.C.ToString();
 				kBox.Text = player.K.ToString();
 				mBox.Text = player.M.ToString();
-			}
+
+                clientForm.gameIndex = DecideGameIndex(clientForm.gameScripts, player);
+                SetIsFirstGame(false);
+                SetGameScript(clientForm.gameScripts[clientForm.gameIndex]);
+            }
 		}
 
-		private bool LongParseTextBox(TextBox box, out long res, string param)
+        private int DecideGameIndex(GameScript[] gameScripts, DbPlayer player)
+        {
+            int gameIndex = 0;
+
+            for (int i = 0; i < gameScripts.Length; i++)
+                if (
+                    Math.Min(player.C, player.K, player.M)
+                    ) {
+                    gameIndex = i;
+                    break;
+                }
+
+            return gameIndex;
+        }
+
+
+        private bool LongParseTextBox(TextBox box, out long res, string param)
 		{
 			if (long.TryParse(box.Text.HebrewTrim().Trim(), out long result))
 			{
