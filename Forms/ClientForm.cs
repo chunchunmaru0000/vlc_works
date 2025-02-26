@@ -392,7 +392,13 @@ namespace vlc_works
 
 			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
 
-			new Thread(() =>
+            PathUri pathUri =
+                accountingForm.isFirstGame
+                ? gameDirectory.GetRandomGame(firstGame, VideoChecker.language)
+                : gameDirectory.GetRandomGame(gameScripts[gameIndex], VideoChecker.language);
+            VideoChecker.VlcChanged(pathUri);
+
+            new Thread(() =>
 			{
 				RelayChecker.Transmit(2, true); // 5 seconds on to 2 channel
 				Thread.Sleep(5000);
@@ -567,13 +573,13 @@ namespace vlc_works
 		{
 			print(accountingForm.isFirstGame);
 
-			//if (accountingForm.isFirstGame)
-              //  accountingForm.SetGameScript(firstGame);
-			//else {
-                // the price will be setted by operator but anyway here need to do 
-                // use Recommendator class for operator recommendations
-              //  accountingForm.SetGameScript(gameScripts[gameIndex]);
-			//}
+            //if (accountingForm.isFirstGame)
+            //  accountingForm.SetGameScript(firstGame);
+            //else {
+            // the price will be setted by operator but anyway here need to do 
+            // use Recommendator class for operator recommendations
+            //  accountingForm.SetGameScript(gameScripts[gameIndex]);
+            //}
 
 			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
 			DeleteInput();

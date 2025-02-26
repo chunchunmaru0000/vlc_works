@@ -122,5 +122,21 @@ namespace vlc_works
                 ? new string[1] { $"НЕСУЩЕСТВУЮЩАЯ ПАПКА {gameFoldersDirectory} + \\{game}..." }
                 : new string[0];
         }
+
+        public PathUri GetRandomGame(GameScript gameScript, Langs language)
+        {
+            string directory = GetScriptDirectory(gameScript, language);
+
+            // game file starts with 8 nums e.g. 10512345 and ends on .mp4
+            string[] files = 
+                Directory.GetFiles(directory)
+                .Where(f => 
+                    Path.GetExtension(f) == "mp4" && 
+                    f.Substring(0, 8).All(fc => char.IsNumber(fc))
+                    )
+                .ToArray();
+
+            return new PathUri(path);
+        }
     }
 }
