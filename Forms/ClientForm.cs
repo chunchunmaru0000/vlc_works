@@ -305,8 +305,8 @@ namespace vlc_works
                 accountingForm.SetIsFirstGame(false);
                 gameIndex =
                     VideoChecker.won
-                    ? gameIndex = 1
-                    : gameIndex = 0;
+                    ? 1
+                    : 0;
             }
             else if (VideoChecker.won)
                 gameIndex++;

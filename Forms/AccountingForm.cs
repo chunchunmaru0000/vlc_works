@@ -659,17 +659,28 @@ namespace vlc_works
 
         private int DecideGameIndex(GameScript[] gameScripts, DbPlayer player)
         {
-            int gameIndex = 0;
+            for (int i = 0; i < gameScripts.Length; i++) {
+                GameScript gameScript = gameScripts[i];
 
-            for (int i = 0; i < gameScripts.Length; i++)
-                if (
-                    Math.Min(player.C, player.K, player.M)
-                    ) {
-                    gameIndex = i;
-                    break;
+                switch (gameScript.GameType) {
+                    case GameType.Guard:
+                        if (gameScript.Lvl == player.C)
+                            return i;
+                        break;
+                    case GameType.Painting:
+                        if (gameScript.Lvl == player.K)
+                            return i;
+                        break;
+                    case GameType.Mario:
+                        if (gameScript.Lvl == player.M)
+                            return i;
+                        break;
+                    default:
+                        break;
                 }
+            }
 
-            return gameIndex;
+            return 0;
         }
 
 
