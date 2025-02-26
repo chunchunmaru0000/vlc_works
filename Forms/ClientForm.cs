@@ -311,10 +311,15 @@ namespace vlc_works
             else if (VideoChecker.won)
                 gameIndex++;
 
-            accountingForm.SetGameScript(gameScripts[gameIndex]);
-
             VideoChecker.won = false;
 			VideoChecker.continued = false;
+
+            accountingForm.SetGameScript(gameScripts[gameIndex]);
+
+            VideoChecker
+            .VlcChanged(
+                gameDirectory
+                .GetRandomGame(gameScripts[gameIndex], VideoChecker.language));
 
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));
