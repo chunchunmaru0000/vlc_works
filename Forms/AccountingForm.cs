@@ -17,6 +17,7 @@ namespace vlc_works
 		// until here operator form
 		public ClientForm clientForm { get; set; }
 		public FaceForm faceForm { get; set; }
+		public ScriptEditor scriptEditor { get; set; }
 		// selects
 		public long SelectedAward { get; set; }
 		public long SelectedLevel { get; set; }
@@ -87,10 +88,13 @@ namespace vlc_works
 				while (true)
 				{
 					Thread.Sleep(33);
-					if (ActiveControl != null && !excludeControls.Contains(ActiveControl.Name))
+					if (ActiveControl != null &&
+                        !excludeControls.Contains(ActiveControl.Name)// &&
+                        //!excludeControls.Any(ec => ActiveControl.Name.StartsWith(ec))
+                        )
 					{
 						Thread.Sleep(100);
-						Console.WriteLine("CLEARED");
+						Console.WriteLine($"CLEARED {ActiveControl.Name} {ActiveControl.GetType()}");
 						Invoke(new Action(() =>
 						{
 							ActiveControl = null; // clear focus
@@ -253,16 +257,15 @@ namespace vlc_works
         #endregion
 
         #region SCRIPT
-
-        public void InitScript(GameScript[] gameScripts)
+        private void scriptEdititorBut_Click(object sender, EventArgs e)
         {
-            new Thread(() => { Thread.Sleep(2000); Invoke(new Action(() => {
-                foreach(GameScript gameScript in gameScripts) { 
+            if (scriptEditor != null && !scriptEditor.IsDisposed)
+                return;
 
-                }
-            }));}).Start();
+            scriptEditor = new ScriptEditor(this, clientForm);
+            scriptEditor.Show();
+            scriptEditor.Location = new Point(1920 - scriptEditor.Width, 1080 - scriptEditor.Height);
         }
-
         #endregion SCRIPT
 
         #region TABLES

@@ -177,6 +177,12 @@
     <Compile Include="Forms\PhotoForm.Designer.cs">
       <DependentUpon>PhotoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScriptEditor.Designer.cs">
+      <DependentUpon>ScriptEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="StaticClasses\COMPort.cs" />
     <Compile Include="StaticClasses\Db.cs" />
     <Compile Include="Classes\InputKey.cs" />
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PhotoForm.resx">
       <DependentUpon>PhotoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScriptEditor.resx">
+      <DependentUpon>ScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
