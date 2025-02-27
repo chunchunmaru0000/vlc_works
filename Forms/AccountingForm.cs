@@ -81,7 +81,7 @@ namespace vlc_works
 		private void InitClearFocusThread()
 		{
 			string[] excludeControls = new string[] 
-			{ "comBox", "cBox", "kBox", "mBox", "playerNameBox", "relayBox" };
+			{ "comBox", "cBox", "kBox", "mBox", "playerNameBox", "relayBox", "laserBox" };
 
 			new Thread(() => {
 				Thread.Sleep(2000);
@@ -776,5 +776,57 @@ namespace vlc_works
 				.ToArray());
 		}
         #endregion
+
+        #region LASER
+
+        public MODBUS modbus { get; set; }
+        public ushort laserValue { get; set; } = 4095;
+
+        private void laserBox_DropDown(object sender, EventArgs e)
+        {
+            laserBox.Items.Clear();
+            laserBox.Items.AddRange(SerialPort.GetPortNames());
+        }
+
+        private void laserBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string portName = laserBox.Items[laserBox.SelectedIndex].ToString();
+
+            if (modbus != null)
+                modbus.Close();
+
+            modbus = new MODBUS(portName);
+            if (modbus.Open()) {
+                laserOnOffLabel.Text = "ON";
+                InitLaserThread();
+            }
+        }
+
+        private bool IsLaserIntersected() =>
+            laserValue < (4090 / 2);
+
+        private void InitLaserThread()
+        {
+            new Thread(() => { while (true) {
+                Thread.Sleep(200);
+
+                ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
+
+                if (registers != null && registers.Length > 0) {
+                    Invoke(new Action(() => {
+                        laserValue = registers[0];
+                        laserValueLabel.Text = laserValue.ToString();
+
+                        bool isLaserIntersected = IsLaserIntersected();
+                        laserValueLabel.BackColor =
+                            isLaserIntersected
+                            ? Color.LightGreen
+                            : Color.LightCoral;
+                    }));
+                }
+            }}).Start();
+        }
+
+        #endregion LASER
     }
 }

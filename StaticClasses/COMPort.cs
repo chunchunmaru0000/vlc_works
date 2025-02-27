@@ -106,7 +106,7 @@ namespace vlc_works
 				port.Open();
 				print($"PORT IS OPENED: {port.IsOpen}");
 
-				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "Подключен"));
+				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "ON"));
 				Execute("Check income");
 			}
 			catch
