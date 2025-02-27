@@ -65,10 +65,17 @@ namespace vlc_works
             SelectionForeColor = Color.White,
         };
 
+        private DataGridViewCellStyle indexRowStyle(int index) => (
+            clientForm.gameIndex == index
+            ? currentGameStyle
+            : clientForm.gameIndex < index
+                ? futureGameStyle
+                : passedGameStyle
+            ).Clone();
+
         public void InitScript(GameScript[] gameScripts)
         {
             scriptEditorGrid.Rows.Clear(); // for dynamic
-            int currentGameIndex = clientForm.gameIndex;
 
             for (int i = 0; i < gameScripts.Length; i++) {
                 GameScript script = gameScripts[i];
@@ -78,13 +85,7 @@ namespace vlc_works
                     Style = defaultStyle
                 };
 
-                DataGridViewCellStyle cellStyle = (
-                    currentGameIndex == i
-                    ? currentGameStyle
-                    : currentGameIndex < i
-                        ? futureGameStyle
-                        : passedGameStyle)
-                    .Clone();
+                DataGridViewCellStyle cellStyle = indexRowStyle(i);
 
                 row.Cells.AddRange(new DataGridViewCell[] {
                     typeCell,
@@ -101,16 +102,25 @@ namespace vlc_works
         private void saveBut_Click(object sender, EventArgs e)
         {
             foreach(KeyValuePair<DataGridViewRow, GameScript> rowScipt in rowToScript)
-                if (rowScipt.Key
-                    .Cells.Cast<DataGridViewCell>()
-                    .Any(c =>
-                        c.Style.BackColor == changedStyle.BackColor))
+                if (rowScipt.Key.Cells.Cast<DataGridViewCell>()
+                    .Any(c => c.Style.BackColor == changedStyle.BackColor)
+                    &&
+                    !rowScipt.Key.Cells.Cast<DataGridViewCell>()
+                    .Any(c => c.Style.BackColor == errorStyle.BackColor)
+                    )
                     SaveChanges(rowScipt);
         }
 
         private void SaveChanges(KeyValuePair<DataGridViewRow, GameScript> rowScipt)
         {
-            
+            long.TryParse(rowScipt.Key.Cells[2].Value.ToString(), out long prize);
+            long.TryParse(rowScipt.Key.Cells[3].Value.ToString(), out long price);
+
+            rowScipt.Value.Prize = prize;
+            rowScipt.Value.Price = price;
+
+            foreach (DataGridViewCell cell in rowScipt.Key.Cells)
+                cell.Style = indexRowStyle(cell.RowIndex);
         }
 
         private void scriptEditorGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
