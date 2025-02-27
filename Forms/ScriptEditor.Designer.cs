@@ -31,6 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.scriptEditorGrid = new System.Windows.Forms.DataGridView();
+            this.saveBut = new System.Windows.Forms.Button();
             this.type = new System.Windows.Forms.DataGridViewButtonColumn();
             this.level = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.prize = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +45,9 @@
             this.scriptEditorGrid.AllowUserToDeleteRows = false;
             this.scriptEditorGrid.AllowUserToResizeColumns = false;
             this.scriptEditorGrid.AllowUserToResizeRows = false;
+            this.scriptEditorGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.scriptEditorGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.scriptEditorGrid.BackgroundColor = System.Drawing.Color.DarkGreen;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -69,11 +73,25 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.scriptEditorGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.scriptEditorGrid.GridColor = System.Drawing.Color.DarkGreen;
-            this.scriptEditorGrid.Location = new System.Drawing.Point(0, 0);
+            this.scriptEditorGrid.Location = new System.Drawing.Point(0, 32);
             this.scriptEditorGrid.Name = "scriptEditorGrid";
             this.scriptEditorGrid.RowHeadersVisible = false;
-            this.scriptEditorGrid.Size = new System.Drawing.Size(352, 448);
+            this.scriptEditorGrid.Size = new System.Drawing.Size(352, 413);
             this.scriptEditorGrid.TabIndex = 59;
+            this.scriptEditorGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.scriptEditorGrid_CellValueChanged);
+            // 
+            // saveBut
+            // 
+            this.saveBut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.saveBut.Location = new System.Drawing.Point(0, 0);
+            this.saveBut.Name = "saveBut";
+            this.saveBut.Size = new System.Drawing.Size(352, 32);
+            this.saveBut.TabIndex = 60;
+            this.saveBut.Text = "Сохранить";
+            this.saveBut.UseVisualStyleBackColor = true;
+            this.saveBut.Click += new System.EventHandler(this.saveBut_Click);
             // 
             // type
             // 
@@ -86,6 +104,7 @@
             // 
             this.level.HeaderText = "Уров.";
             this.level.Name = "level";
+            this.level.ReadOnly = true;
             // 
             // prize
             // 
@@ -101,7 +120,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 450);
+            this.ClientSize = new System.Drawing.Size(351, 447);
+            this.Controls.Add(this.saveBut);
             this.Controls.Add(this.scriptEditorGrid);
             this.Name = "ScriptEditor";
             this.Text = "ScriptEditor";
@@ -113,6 +133,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView scriptEditorGrid;
+        private System.Windows.Forms.Button saveBut;
         private System.Windows.Forms.DataGridViewButtonColumn type;
         private System.Windows.Forms.DataGridViewTextBoxColumn level;
         private System.Windows.Forms.DataGridViewTextBoxColumn prize;
