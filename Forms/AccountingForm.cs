@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -569,6 +570,7 @@ namespace vlc_works
 		#endregion
 
 		#region FACE_CONTROL
+
 		private void faceControlBut_Click(object sender, EventArgs e)
 		{
             if (faceForm != null && !faceForm.IsDisposed)
@@ -578,9 +580,22 @@ namespace vlc_works
             faceForm.Show();
             faceForm.Location = new Point(1920, 0);
 		}
+
+        public void RefreshDbForm()
+        {
+            EditDbForm editDb = faceForm.editDbForm;
+            if (
+                editDb != null &&
+                !editDb.IsDisposed
+                )
+                editDb.Invoke(new Action(() =>
+                editDb.SelectPlayersFromDb()));
+        }
+
 		#endregion FACE_CONTROL
 
 		#region TEMPORAL_CONTROLS
+
         public void SetUserId(long id)
         {
             Invoke(new Action(() => playerNameBox.Text = id.ToString()));
@@ -674,7 +689,9 @@ namespace vlc_works
                 SetIsFirstGame(false);
                 SetGameScript(clientForm.gameScripts[clientForm.gameIndex]);
             }
-		}
+
+            RefreshDbForm();
+        }
 
         private int DecideGameIndex(GameScript[] gameScripts, DbPlayer player)
         {
@@ -721,11 +738,19 @@ namespace vlc_works
             if (!LongParseTextBox(kBox, out long kLvlInt, "K")) return;
             if (!LongParseTextBox(mBox, out long mLvlInt, "M")) return;
 
-			if (Db.FindPlayer(playerIdInt) == null)
-				Db.InsertPlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
+			if (Db.FindPlayer(playerIdInt) == null) {
+                DbPlayer player = new DbPlayer(-1, playerIdInt, cLvlInt, kLvlInt, mLvlInt);
+                int playerWouldPlayScript = DecideGameIndex(clientForm.gameScripts, player);
+                SetIsFirstGame(playerWouldPlayScript == 0);
+
+                Db.InsertPlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
+            }
 			else
 				Db.UpdatePlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
+
+            RefreshDbForm();
         }
+
 		#endregion TEMPORAL_CONTROLS
 
 		#region RELAY
@@ -752,30 +777,5 @@ namespace vlc_works
 				.ToArray());
 		}
         #endregion
-
-        #region RECOMMEND
-
-        public void RecommendLevelAndAward(long lvl)
-        {
-            if (lvl >= 10) {
-
-            }
-            else
-                ColorLvlBut(lvl);
-        }
-
-        private void ColorLvlBut(long lvl)
-        {
-            /*
-            for (int i = 0; i < 10; i++) {
-                long2LevelBut[i].BackColor =
-                    i == lvl
-                    ? Color.GreenYellow
-                    : Color.Khaki;
-            }
-             */
-        }
-
-        #endregion RECOMMEND
     }
 }
