@@ -372,6 +372,7 @@ namespace vlc_works
 
                 recognizedPersonTextLabel.Text = "Опознан";
                 recognizedPersonTextLabel.BackColor = Color.LightGreen;
+                testWriteButton.BackColor = Color.LightGreen;
 
                 accountingForm.SetUserId(enrollId);
                 accountingForm.Invoke(new Action(() =>
@@ -381,6 +382,7 @@ namespace vlc_works
             {
                 recognizedPersonTextLabel.Text = "Не опознан";
                 recognizedPersonTextLabel.BackColor = Color.LightCoral;
+                testWriteButton.BackColor = Color.LightCoral;
             }
 
             if (e.anVerifyMode > 40)
@@ -581,14 +583,17 @@ namespace vlc_works
 				$"[END SET USER]",
             }) + '\n');
 
-            if (!setEnrollPhotoCSResult)
+            if (!setEnrollPhotoCSResult) {
                 MessageBox.Show("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
+                testWriteButton.BackColor = Color.LightCoral;
+            }
             else
             {
                 accountingForm.SetUserId(enrollId);
                 accountingForm.Invoke(new Action(() => 
                 accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
                 // does RefreshDbForm(); in requestDbUserDataBut_Click
+                testWriteButton.BackColor = Color.LightGreen;
             }
         }
 
