@@ -319,7 +319,7 @@ namespace vlc_works
             else if (VideoChecker.won)
                 SetGameIndex(gameIndex + 1);
 
-            if (gameIndex == 10)
+            if (gameIndex >= gameScripts.Length)
                 SetGameIndex(0);
 
             if (!VideoChecker.continued)
