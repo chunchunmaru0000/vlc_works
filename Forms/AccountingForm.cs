@@ -661,7 +661,6 @@ namespace vlc_works
 				kBox.Text = "0";
 				mBox.Text = "0";
 
-                //clientForm.gameIndex = -1;
                 clientForm.SetGameIndex(-1);
                 SetIsFirstGame(true);
                 SetGameScript(clientForm.firstGame);
@@ -671,7 +670,6 @@ namespace vlc_works
 				kBox.Text = player.K.ToString();
 				mBox.Text = player.M.ToString();
 
-                //clientForm.gameIndex = DecideGameIndex(clientForm.gameScripts, player);
                 clientForm.SetGameIndex(DecideGameIndex(clientForm.gameScripts, player));
                 SetIsFirstGame(false);
                 SetGameScript(clientForm.gameScripts[clientForm.gameIndex]);

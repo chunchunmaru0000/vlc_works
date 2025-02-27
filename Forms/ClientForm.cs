@@ -306,14 +306,9 @@ namespace vlc_works
             if (accountingForm.isFirstGame)
             {
                 accountingForm.SetIsFirstGame(false);
-                //gameIndex =
-                SetGameIndex(
-                    VideoChecker.won
-                    ? 1
-                    : 0);
+                SetGameIndex(VideoChecker.won ? 1 : 0);
             }
             else if (VideoChecker.won)
-                //gameIndex++;
                 SetGameIndex(gameIndex + 1);
 
             if (!VideoChecker.continued)
@@ -331,9 +326,10 @@ namespace vlc_works
 
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));
-		}
+            accountingForm.RefreshDbForm();
+        }
 
-		private void ProceedInput()
+        private void ProceedInput()
 		{
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 

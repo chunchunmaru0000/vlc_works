@@ -126,9 +126,10 @@ namespace vlc_works
                 cell.Style = khakiStyle.Clone();
         }
 
-        private void SelectPlayersFromDb()
+        public void SelectPlayersFromDb()
         {
             isManuallyAdded = false;
+            mainGrid.Rows.Clear();
 
             foreach (DbPlayer player in Db.SelectAllPlayers())
             {

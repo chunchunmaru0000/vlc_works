@@ -78,6 +78,7 @@ namespace vlc_works
         public void InitScript(GameScript[] gameScripts)
         {
             scriptEditorGrid.Rows.Clear(); // for dynamic
+            rowToScript.Clear();
 
             for (int i = 0; i < gameScripts.Length; i++) {
                 GameScript script = gameScripts[i];

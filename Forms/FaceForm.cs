@@ -19,7 +19,7 @@ namespace vlc_works
         #region VAR
 
         private AccountingForm accountingForm;
-        private EditDbForm editDbForm;
+        public EditDbForm editDbForm;
 
 		private AxFPCLOCK_Svr axFPCLOCK_Svr { get; set; }
         private AxFP_CLOCK axFP_CLOCK { get; set; }
@@ -588,6 +588,7 @@ namespace vlc_works
                 accountingForm.SetUserId(enrollId);
                 accountingForm.Invoke(new Action(() => 
                 accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
+                // does RefreshDbForm(); in requestDbUserDataBut_Click
             }
         }
 
