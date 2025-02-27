@@ -230,8 +230,6 @@ namespace vlc_works
 			{
 				accountingForm.StartTables(); // refresh tables
 				COMPort.MoneyOut(DbCurrentRecord.SelectedPrize, accountingForm);
-
-                accountingForm.RecommendLevelAndAward(++level);
 			}));
 
             // relay

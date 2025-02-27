@@ -240,6 +240,14 @@ namespace vlc_works
 				? DbCurrentRecord.SelectedLvl 
 				: -1;
 
+        private long MaxPlus1or10(long value)
+        {
+            value++;
+            return value >= 10 
+                ? 0 
+                : value;
+        }
+
 		private void SetNewBoxesValues(long c, long k, long m)
 		{
 			accountingForm.Invoke(new Action(() => {
@@ -248,13 +256,13 @@ namespace vlc_works
 
 				switch (DbCurrentRecord.SelectedGameType) {
 					case GameType.Guard:
-						accountingForm.cBox.Text = (c + 1).ToString();
+						accountingForm.cBox.Text = MaxPlus1or10(c).ToString();
 						break;
 					case GameType.Painting:
-						accountingForm.kBox.Text = (k + 1).ToString();
+						accountingForm.kBox.Text = MaxPlus1or10(k).ToString();
 						break;
 					case GameType.Mario:
-						accountingForm.mBox.Text = (m + 1).ToString();
+						accountingForm.mBox.Text = MaxPlus1or10(m).ToString();
 						break;
 					default:
 						break;
@@ -310,6 +318,9 @@ namespace vlc_works
             }
             else if (VideoChecker.won)
                 SetGameIndex(gameIndex + 1);
+
+            if (gameIndex == 10)
+                SetGameIndex(0);
 
             if (!VideoChecker.continued)
                 accountingForm.SetLangLabel("#");
