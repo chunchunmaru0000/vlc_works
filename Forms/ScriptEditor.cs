@@ -18,7 +18,9 @@ namespace vlc_works
             InitializeComponent();
 
             this.clientForm = clientForm;
+
             this.accountingForm = accountingForm;
+            Owner = accountingForm;
 
             defaultStyle = scriptEditorGrid.DefaultCellStyle.Clone();
             InitScript(clientForm.gameScripts);

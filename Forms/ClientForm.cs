@@ -32,7 +32,18 @@ namespace vlc_works
 		#endregion CONSTS
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
-        public int gameIndex { get; set; } = -1; // -1 is firstGame else gameScripts[index]
+        public int gameIndex { get; private set; } = -1; // -1 is firstGame else gameScripts[index]
+        public void SetGameIndex(int index)
+        {
+            gameIndex = index;
+            if (
+                accountingForm != null &&
+                accountingForm.scriptEditor != null &&
+                !accountingForm.scriptEditor.IsDisposed
+                )
+                accountingForm.scriptEditor.Invoke(new Action(() =>
+                accountingForm.scriptEditor.InitScript(gameScripts)));
+        }
         #region SOME_VAR
         private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -292,15 +303,18 @@ namespace vlc_works
 				priceInt: DbCurrentRecord.SelectedPrice
 			);
 
-            if (accountingForm.isFirstGame) {
+            if (accountingForm.isFirstGame)
+            {
                 accountingForm.SetIsFirstGame(false);
-                gameIndex =
+                //gameIndex =
+                SetGameIndex(
                     VideoChecker.won
                     ? 1
-                    : 0;
+                    : 0);
             }
             else if (VideoChecker.won)
-                gameIndex++;
+                //gameIndex++;
+                SetGameIndex(gameIndex + 1);
 
             if (!VideoChecker.continued)
                 accountingForm.SetLangLabel("#");
