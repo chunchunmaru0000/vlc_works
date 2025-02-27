@@ -510,27 +510,27 @@ namespace vlc_works
 
 		private void playIdleBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => clientForm.PlayIdle()));
+			clientForm.Invoke(new Action(clientForm.PlayIdle));
 		}
 
 		private void stopBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => clientForm.Stop()));
+			clientForm.Invoke(new Action(clientForm.Stop));
 		}
 
 		private void replayBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => clientForm.Replay()));
+			clientForm.Invoke(new Action(clientForm.Replay));
 		}
 
 		private void startGameBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => clientForm.StartGame()));
+			clientForm.Invoke(new Action(clientForm.StartGame));
 		}
 
 		private void skipStageBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => clientForm.SkipStage()));
+			clientForm.Invoke(new Action(clientForm.SkipStage));
 		}
 
 		private void hideCodeBut_Click(object sender, EventArgs e)
@@ -781,6 +781,7 @@ namespace vlc_works
 
         public MODBUS modbus { get; set; }
         public ushort laserValue { get; set; } = 4095;
+        private bool lastIsLaserIntersected { get; set; } = false;
         private Thread laserThread { get; set; }
 
         private void laserBox_DropDown(object sender, EventArgs e)
@@ -805,15 +806,17 @@ namespace vlc_works
                 laserThread = InitLaserThread();
                 laserThread.Start();
             }
+            else
+                laserOnOffLabel.Text = "OFF";
         }
 
         private bool IsLaserIntersected() =>
-            laserValue < (4090 / 2);
+            laserValue < 2045;// (4090 / 2);
 
         private Thread InitLaserThread() =>
             new Thread(() => { while (true) {
                 Thread.Sleep(200);
-
+                    Console.WriteLine(clientForm.stage);
                 ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
 
                 if (registers != null && registers.Length > 0) { Invoke(new Action(() => {
@@ -825,6 +828,14 @@ namespace vlc_works
                         isLaserIntersected
                         ? Color.LightGreen
                         : Color.LightCoral;
+
+                    if (!lastIsLaserIntersected &&
+                        isLaserIntersected &&
+                        clientForm.stage == Stage.IDLE
+                        )
+                        startGameBut_Click(null, EventArgs.Empty);
+
+                    lastIsLaserIntersected = isLaserIntersected;
                 }));}
             }});
 
