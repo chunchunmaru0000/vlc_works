@@ -10,6 +10,7 @@ namespace vlc_works
     {
         private ClientForm clientForm { get; set; }
         private AccountingForm accountingForm { get; set; }
+        private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
 
         public ScriptEditor(AccountingForm accountingForm, ClientForm clientForm)
@@ -31,37 +32,83 @@ namespace vlc_works
         };
 
         private DataGridViewCellStyle defaultStyle { get; set; }
-        private DataGridViewCellStyle changedStyle { get; } = new DataGridViewCellStyle()
-        {
+        private DataGridViewCellStyle changedStyle { get; } = new DataGridViewCellStyle() {
             BackColor = Color.GreenYellow,
             SelectionBackColor = Color.Olive,
             ForeColor = Color.Black,
-            SelectionForeColor = Color.White
+            SelectionForeColor = Color.White,
+        };
+        private DataGridViewCellStyle passedGameStyle { get; } = new DataGridViewCellStyle() {
+            BackColor = Color.FromArgb(34, 85, 34),
+            ForeColor = Color.Black,
+            SelectionBackColor = Color.FromArgb(44, 115, 44),
+            SelectionForeColor = Color.White,
+        };
+        private DataGridViewCellStyle futureGameStyle { get; } = new DataGridViewCellStyle() {
+            BackColor = Color.FromArgb(76, 175, 80),
+            ForeColor = Color.Black,
+            SelectionBackColor = Color.FromArgb(102, 211, 106),
+            SelectionForeColor = Color.White,
+        };
+        private DataGridViewCellStyle currentGameStyle { get; } = new DataGridViewCellStyle()
+        {
+            BackColor = Color.FromArgb(200, 230, 201),
+            ForeColor = Color.Black,
+            SelectionBackColor = Color.FromArgb(165, 214, 167),
+            SelectionForeColor = Color.White,
+        };
+        private DataGridViewCellStyle errorStyle { get; } = new DataGridViewCellStyle()
+        {
+            BackColor = Color.FromArgb(244, 67, 54), 
+            ForeColor = Color.Black,
+            SelectionBackColor = Color.FromArgb(198, 40, 40),
+            SelectionForeColor = Color.White,
         };
 
         public void InitScript(GameScript[] gameScripts)
         {
-            foreach (GameScript script in gameScripts) {
-                DataGridViewRow row = new DataGridViewRow() { Height = 32 };
+            scriptEditorGrid.Rows.Clear(); // for dynamic
+            int currentGameIndex = clientForm.gameIndex;
 
+            for (int i = 0; i < gameScripts.Length; i++) {
+                GameScript script = gameScripts[i];
+                DataGridViewRow row = new DataGridViewRow() { Height = 32 };
                 DataGridViewButtonCell typeCell = new DataGridViewButtonCell() {
                     Value = GameTypeToLetter[script.GameType],
                     Style = defaultStyle
                 };
-                //typeCell.Items.AddRange(new string[] { "C", "K", "M" });
+
+                DataGridViewCellStyle cellStyle = (
+                    currentGameIndex == i
+                    ? currentGameStyle
+                    : currentGameIndex < i
+                        ? futureGameStyle
+                        : passedGameStyle)
+                    .Clone();
 
                 row.Cells.AddRange(new DataGridViewCell[] {
                     typeCell,
-                    new DataGridViewTextBoxCell() { Value = script.Lvl },
-                    new DataGridViewTextBoxCell() { Value = script.Prize },
-                    new DataGridViewTextBoxCell() { Value = script.Price },
+                    new DataGridViewTextBoxCell() { Value = script.Lvl, Style = cellStyle.Clone() },
+                    new DataGridViewTextBoxCell() { Value = script.Prize, Style = cellStyle.Clone() },
+                    new DataGridViewTextBoxCell() { Value = script.Price, Style = cellStyle.Clone() },
                 });
 
                 scriptEditorGrid.Rows.Add(row);
+                rowToScript[row] = script;
             }
         }
 
         private void saveBut_Click(object sender, EventArgs e)
+        {
+            foreach(KeyValuePair<DataGridViewRow, GameScript> rowScipt in rowToScript)
+                if (rowScipt.Key
+                    .Cells.Cast<DataGridViewCell>()
+                    .Any(c =>
+                        c.Style.BackColor == changedStyle.BackColor))
+                    SaveChanges(rowScipt);
+        }
+
+        private void SaveChanges(KeyValuePair<DataGridViewRow, GameScript> rowScipt)
         {
             
         }
@@ -71,10 +118,13 @@ namespace vlc_works
             if (IsInit)
                 return;
 
-            scriptEditorGrid
-            .Rows[e.RowIndex]
-            .Cells[e.ColumnIndex]
-            .Style = changedStyle.Clone();
+            DataGridViewCell cell = scriptEditorGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+            cell.Style = (
+                long.TryParse(cell.Value.ToString(), out long some)
+                ? changedStyle
+                : errorStyle
+                ).Clone();
         }
     }
 }
