@@ -781,6 +781,7 @@ namespace vlc_works
 
         public MODBUS modbus { get; set; }
         public ushort laserValue { get; set; } = 4095;
+        private Thread laserThread { get; set; }
 
         private void laserBox_DropDown(object sender, EventArgs e)
         {
@@ -797,35 +798,35 @@ namespace vlc_works
 
             modbus = new MODBUS(portName);
             if (modbus.Open()) {
+                if (laserThread != null && laserThread.IsAlive)
+                    laserThread.Abort();
+
                 laserOnOffLabel.Text = "ON";
-                InitLaserThread();
+                laserThread = InitLaserThread();
+                laserThread.Start();
             }
         }
 
         private bool IsLaserIntersected() =>
             laserValue < (4090 / 2);
 
-        private void InitLaserThread()
-        {
+        private Thread InitLaserThread() =>
             new Thread(() => { while (true) {
                 Thread.Sleep(200);
 
                 ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
 
-                if (registers != null && registers.Length > 0) {
-                    Invoke(new Action(() => {
-                        laserValue = registers[0];
-                        laserValueLabel.Text = laserValue.ToString();
+                if (registers != null && registers.Length > 0) { Invoke(new Action(() => {
+                    laserValue = registers[0];
+                    laserValueLabel.Text = laserValue.ToString();
 
-                        bool isLaserIntersected = IsLaserIntersected();
-                        laserValueLabel.BackColor =
-                            isLaserIntersected
-                            ? Color.LightGreen
-                            : Color.LightCoral;
-                    }));
-                }
-            }}).Start();
-        }
+                    bool isLaserIntersected = IsLaserIntersected();
+                    laserValueLabel.BackColor =
+                        isLaserIntersected
+                        ? Color.LightGreen
+                        : Color.LightCoral;
+                }));}
+            }});
 
         #endregion LASER
     }
