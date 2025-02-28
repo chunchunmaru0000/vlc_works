@@ -11,7 +11,6 @@ using AForge.Video.DirectShow;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using System.Net.NetworkInformation;
 
 namespace vlc_works
 {
@@ -49,7 +48,7 @@ namespace vlc_works
             Console.WriteLine(str);
 
             const string testFileName = "test__010__.txt";
-            File.AppendAllText(testFileName, str, encoding: System.Text.Encoding.UTF8);
+            File.AppendAllText(testFileName, str + "\n", encoding: System.Text.Encoding.UTF8);
         }
 
 		#region WEB_CAM
@@ -307,6 +306,8 @@ namespace vlc_works
 			long dwCardNum1 = 0;
 			double aTemperature;
 
+            print($"e.anInOutMode = {e.anInOutMode}");
+            print($"e.anSEnrollNumber = {e.anSEnrollNumber}");
 			/*
 			print(string.Join("\n", new object[] {
 				$"DEVICE PORT      [{e.anDevicePort}]",
@@ -317,8 +318,7 @@ namespace vlc_works
 			}.Select(o => o.ToString())) + '\n');
 			 */
 
-			if (e.anInOutMode != 0)
-			{
+			if (e.anInOutMode != 0) {
                 axFPCLOCK_Svr.SendResultandTime(e.linkindex, e.vnDeviceID, e.anSEnrollNumber, 1);
                 return;
 			}
@@ -378,7 +378,7 @@ namespace vlc_works
                     recognizedPersonTextLabel.BackColor = Color.LightGreen;
                     testWriteButton.BackColor = Color.LightGreen;
 
-                    print("#####\tRECOGNIZED SUCCESSFULLY\t#####");
+                    print("##########\tRECOGNIZED SUCCESSFULLY\t##########");
 
                     accountingForm.SetUserId(enrollId);
                     accountingForm.Invoke(new Action(() =>
@@ -413,7 +413,7 @@ namespace vlc_works
                             if (!successfullWriteOrRead)
                                 Thread.Sleep(250);
                         } while (!successfullWriteOrRead);
-
+                        print("**********\tREGISTERED SUCCESSFULLY\t**********");
                         toRecognize = false;
                     }).Start();
                 }
@@ -688,8 +688,8 @@ namespace vlc_works
                     // wait photo recognization from ai device
                     long c = 0;
                     do {
-                        Thread.Sleep(200);
-                        print($"WAIT RECODNIZATION {c++} {toRecognize}");
+                        Thread.Sleep(750);
+                        print($"WAIT RECOGNIZATION {c++} {toRecognize}");
                     } while (toRecognize);
 
                     // ai device down
