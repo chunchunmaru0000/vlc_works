@@ -47,8 +47,8 @@ namespace vlc_works
 
             Console.WriteLine(str);
 
-            const string testFileName = "test__010__.txt";
-            File.AppendAllText(testFileName, str + "\n", encoding: System.Text.Encoding.UTF8);
+            //const string testFileName = "test__010__.txt";
+            //File.AppendAllText(testFileName, str + "\n", encoding: System.Text.Encoding.UTF8);
         }
 
 		#region WEB_CAM
@@ -632,6 +632,14 @@ namespace vlc_works
                 accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
                 // does RefreshDbForm(); in requestDbUserDataBut_Click
                 testWriteButton.BackColor = Color.LightGreen;
+
+
+                testWriteButton.Text = "ИГРОК ЗАПИСАН";
+
+                new Thread(() => {
+                    Thread.Sleep(10000);
+                    Invoke(new Action(() => testWriteButton.Text = "Записать игрока"));
+                }).Start();
             }
         }
 
