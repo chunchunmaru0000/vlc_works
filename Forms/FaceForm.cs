@@ -11,6 +11,7 @@ using AForge.Video.DirectShow;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using System.Net.NetworkInformation;
 
 namespace vlc_works
 {
@@ -47,8 +48,8 @@ namespace vlc_works
 
             Console.WriteLine(str);
 
-            //const string testFileName = "test.txt";
-            //File.AppendAllText(testFileName, str, encoding: System.Text.Encoding.UTF8);
+            const string testFileName = "test__010__.txt";
+            File.AppendAllText(testFileName, str, encoding: System.Text.Encoding.UTF8);
         }
 
 		#region WEB_CAM
@@ -365,6 +366,7 @@ namespace vlc_works
 			else
 				lvi.SubItems.Add(str);
 
+            print($"AI DEVICE RECOGNIZED: [toRecognize = {toRecognize}]");
             if (toRecognize) {
                 int enrollId = e.anSEnrollNumber;
                 lastCode = enrollId;
@@ -375,6 +377,8 @@ namespace vlc_works
                     recognizedPersonTextLabel.Text = "Опознан";
                     recognizedPersonTextLabel.BackColor = Color.LightGreen;
                     testWriteButton.BackColor = Color.LightGreen;
+
+                    print("#####\tRECOGNIZED SUCCESSFULLY\t#####");
 
                     accountingForm.SetUserId(enrollId);
                     accountingForm.Invoke(new Action(() =>
@@ -391,20 +395,27 @@ namespace vlc_works
                     accountingForm.SetIsFirstGame(true);
                     accountingForm.SetGameScript(accountingForm.clientForm.firstGame);
 
-                    new Thread(() => { Invoke(new Action(() => {
+                    new Thread(() => { 
                         do {
-                            takePhotoBut_Click(null, EventArgs.Empty);
-                            newIdBut_Click(null, EventArgs.Empty);
-                            WriteButton_Click(null, EventArgs.Empty);
-                            // if successfullWrite
-                            // does requestDbUserDataBut_Click in WriteButton_Click
+                            Invoke(new Action(() => {
+                                print($"TRY TO TAKE PHOTO");
+                                takePhotoBut_Click(null, EventArgs.Empty);
+
+                                print($"TRY TO TAKE NEW ID");
+                                newIdBut_Click(null, EventArgs.Empty);
+
+                                print($"TRY TO WRITE PHOTO");
+                                WriteButton_Click(null, EventArgs.Empty);
+                                // if successfullWrite
+                                // does requestDbUserDataBut_Click in WriteButton_Click
+                            }));
+
                             if (!successfullWriteOrRead)
                                 Thread.Sleep(250);
                         } while (!successfullWriteOrRead);
 
                         toRecognize = false;
-                    }));})
-                        .Start();
+                    }).Start();
                 }
             }
 
@@ -563,7 +574,7 @@ namespace vlc_works
             successfullWriteOrRead = false;
             if (takenPhotoPictureBox.Image == null)
 			{
-                //MessageBox.Show("ФОТО НЕ ВЫБРАНО");
+                print("ФОТО НЕ ВЫБРАНО");
 				print("PHOTO IS NOT SELECTED AND TRYED TO WRITE USER");
 				return;
 			}
@@ -572,7 +583,7 @@ namespace vlc_works
             if (int.TryParse(idBox.Text, out int id))
                 enrollId = id;
             else {
-                //MessageBox.Show("НЕВЕРНЫЙ ФОРМАТ ID");
+                print("НЕВЕРНЫЙ ФОРМАТ ID");
                 return;
             }
 			machineNumber = int.Parse(machineIdBox.Text);
@@ -609,11 +620,12 @@ namespace vlc_works
             }) + '\n');
 
             if (!setEnrollPhotoCSResult) {
-                //MessageBox.Show("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
+                print("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
                 testWriteButton.BackColor = Color.LightCoral;
             }
             else
             {
+                print("successfullWriteOrRead = true");
                 successfullWriteOrRead = true;
                 accountingForm.SetUserId(enrollId);
                 accountingForm.Invoke(new Action(() => 
@@ -653,38 +665,41 @@ namespace vlc_works
         public void SetToRecognize(bool value)
         {
             toRecognize = value;
-            if (toRecognize) Invoke(new Action(() => {
-                // clear ol image if it was
-                aiPictureBox.Image.Dispose();
-                aiPictureBox.Image = null;
-                takenPhotoPictureBox.Image.Dispose();
-                takenPhotoPictureBox.Image = null;
-
+            print($"SetToRecognize {value}");
+            if (toRecognize) {
+                Invoke(new Action(() => {
+                    // clear ol image if it was
+                    if (aiPictureBox.Image != null)
+                        aiPictureBox.Image.Dispose();
+                    aiPictureBox.Image = null;
+                    if (takenPhotoPictureBox.Image != null)
+                        takenPhotoPictureBox.Image.Dispose();
+                    takenPhotoPictureBox.Image = null;
+                }));
+                print($"BEGIN THREAD");
                 new Thread(() => {
                     // ai device up
+                    print("Channel.CAMERA_UP, true");
                     RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
                     Thread.Sleep(1000);
+                    print("Channel.CAMERA_UP, false");
                     RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
 
                     // wait photo recognization from ai device
-                    /*
-                     do
-                         do
-                             Thread.Sleep(200);
-                         while (!recognized);
-                     while (!successfullWriteOrRead);
-                     */
-                    do 
-                        Thread.Sleep(200); 
-                    while (toRecognize);
+                    long c = 0;
+                    do {
+                        Thread.Sleep(200);
+                        print($"WAIT RECODNIZATION {c++} {toRecognize}");
+                    } while (toRecognize);
 
                     // ai device down
-                     RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
+                    print("Channel.CAMERA_DOWN, true");
+                    RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
                     Thread.Sleep(1000);
+                    print("Channel.CAMERA_DOWN, false");
                     RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
                 }).Start();
-            }));
-
+            }
         }
 
         private void openEditDbFormBut_Click(object sender, EventArgs e)
