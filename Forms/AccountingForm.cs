@@ -583,8 +583,7 @@ namespace vlc_works
         public void RefreshDbForm()
         {
             EditDbForm editDb = faceForm.editDbForm;
-            if (
-                editDb != null &&
+            if (editDb != null &&
                 !editDb.IsDisposed
                 )
                 editDb.Invoke(new Action(() =>
@@ -832,8 +831,11 @@ namespace vlc_works
                     if (!lastIsLaserIntersected &&
                         isLaserIntersected &&
                         clientForm.stage == Stage.IDLE
-                        )
+                        ) {
+                        if (faceForm != null && !faceForm.IsDisposed)
+                            faceForm.SetToRecognize(true);
                         startGameBut_Click(null, EventArgs.Empty);
+                    }
 
                     lastIsLaserIntersected = isLaserIntersected;
                 }));}

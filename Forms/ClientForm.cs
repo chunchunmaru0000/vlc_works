@@ -582,7 +582,7 @@ namespace vlc_works
 		public void PlayIdle()
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
-			RelayChecker.Transmit(Channel.APPARAT_LIGHT_ON, true); // highligh on
+			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
 		}
 
 		public void Stop()
@@ -608,7 +608,7 @@ namespace vlc_works
 
 			new Thread(() =>
 			{
-				RelayChecker.Transmit(Channel.APPARAT_LIGHT_ON, false); // highligh off
+				RelayChecker.Transmit(Channel.APPARAT_LIGHT, false); // highligh off
 				Thread.Sleep(100);
 				RelayChecker.Transmit(Channel.CAMERA_UP, true); // 5 seconds on to 1 channel
 				Thread.Sleep(5000);

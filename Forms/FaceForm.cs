@@ -23,7 +23,9 @@ namespace vlc_works
 
 		private AxFPCLOCK_Svr axFPCLOCK_Svr { get; set; }
         private AxFP_CLOCK axFP_CLOCK { get; set; }
-		private int machineNumber = 1;
+		private int machineNumber { get; set; } = 1;
+        public bool toRecognize { get; set; } = false;
+        private bool successfullWriteOrRead { get; set; } = false;
 		private long lastCode { get; set; } = -1;
         private const string webCamPhotosDirectory = "web_cam_photos";
         private const string aiCamPhotosDirectory = "ai_cam_photos";
@@ -363,28 +365,50 @@ namespace vlc_works
 			else
 				lvi.SubItems.Add(str);
 
-			if (e.anSEnrollNumber > 0 && e.anSEnrollNumber != 99999999)
-			{
+            if (toRecognize) {
                 int enrollId = e.anSEnrollNumber;
-
                 lastCode = enrollId;
                 lastIdLabel.Text = lastCode.ToString();
+                successfullWriteOrRead = false;
 
-                recognizedPersonTextLabel.Text = "Опознан";
-                recognizedPersonTextLabel.BackColor = Color.LightGreen;
-                testWriteButton.BackColor = Color.LightGreen;
+                if (enrollId > 0 && enrollId != 99999999) {
+                    recognizedPersonTextLabel.Text = "Опознан";
+                    recognizedPersonTextLabel.BackColor = Color.LightGreen;
+                    testWriteButton.BackColor = Color.LightGreen;
 
-                accountingForm.SetUserId(enrollId);
-                accountingForm.Invoke(new Action(() =>
-                accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
-            } 
-            else //if (e.anSEnrollNumber < 0)
-            {
-                recognizedPersonTextLabel.Text = "Не опознан";
-                recognizedPersonTextLabel.BackColor = Color.LightCoral;
-                testWriteButton.BackColor = Color.LightCoral;
+                    accountingForm.SetUserId(enrollId);
+                    accountingForm.Invoke(new Action(() =>
+                    accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
+                    successfullWriteOrRead = true;
+
+                    toRecognize = false;
+                } 
+                else { //if (e.anSEnrollNumber < 0)
+                    recognizedPersonTextLabel.Text = "Не опознан";
+                    recognizedPersonTextLabel.BackColor = Color.LightCoral;
+                    testWriteButton.BackColor = Color.LightCoral;
+                    // set first game before recognization anyway
+                    accountingForm.SetIsFirstGame(true);
+                    accountingForm.SetGameScript(accountingForm.clientForm.firstGame);
+
+                    new Thread(() => { Invoke(new Action(() => {
+                        do {
+                            takePhotoBut_Click(null, EventArgs.Empty);
+                            newIdBut_Click(null, EventArgs.Empty);
+                            WriteButton_Click(null, EventArgs.Empty);
+                            // if successfullWrite
+                            // does requestDbUserDataBut_Click in WriteButton_Click
+                            if (!successfullWriteOrRead)
+                                Thread.Sleep(250);
+                        } while (!successfullWriteOrRead);
+
+                        toRecognize = false;
+                    }));})
+                        .Start();
+                }
             }
 
+            #region SOME
             if (e.anVerifyMode > 40)
             {
                 aTemperature = e.anVerifyMode;
@@ -427,6 +451,7 @@ namespace vlc_works
 			lvi.SubItems.Add(str);
 
 			userDataListView.Items.Add(lvi);
+            #endregion SOME
             #endregion LIST_ADD_DATA
             userDataListView.Update();
 
@@ -535,9 +560,10 @@ namespace vlc_works
 
         private void WriteButton_Click(object sender, EventArgs e)
         {
-			if (takenPhotoPictureBox.Image == null)
+            successfullWriteOrRead = false;
+            if (takenPhotoPictureBox.Image == null)
 			{
-                MessageBox.Show("ФОТО НЕ ВЫБРАНО");
+                //MessageBox.Show("ФОТО НЕ ВЫБРАНО");
 				print("PHOTO IS NOT SELECTED AND TRYED TO WRITE USER");
 				return;
 			}
@@ -545,9 +571,8 @@ namespace vlc_works
             int enrollId;
             if (int.TryParse(idBox.Text, out int id))
                 enrollId = id;
-            else
-            {
-                MessageBox.Show("НЕВЕРНЫЙ ФОРМАТ ID");
+            else {
+                //MessageBox.Show("НЕВЕРНЫЙ ФОРМАТ ID");
                 return;
             }
 			machineNumber = int.Parse(machineIdBox.Text);
@@ -584,11 +609,12 @@ namespace vlc_works
             }) + '\n');
 
             if (!setEnrollPhotoCSResult) {
-                MessageBox.Show("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
+                //MessageBox.Show("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
                 testWriteButton.BackColor = Color.LightCoral;
             }
             else
             {
+                successfullWriteOrRead = true;
                 accountingForm.SetUserId(enrollId);
                 accountingForm.Invoke(new Action(() => 
                 accountingForm.requestDbUserDataBut_Click(null, EventArgs.Empty)));
@@ -607,8 +633,7 @@ namespace vlc_works
         #region REALY
         private void upCamBut_Click(object sender, EventArgs e)
         {
-            new Thread(() =>
-            {
+            new Thread(() => {
                 RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
                 Thread.Sleep(1000);
                 RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
@@ -617,14 +642,50 @@ namespace vlc_works
 
         private void downCamBut_Click(object sender, EventArgs e)
         {
-            new Thread(() =>
-            {
+            new Thread(() => {
                 RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
                 Thread.Sleep(1000);
                 RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
             }).Start();
         }
         #endregion RELAY
+
+        public void SetToRecognize(bool value)
+        {
+            toRecognize = value;
+            if (toRecognize) Invoke(new Action(() => {
+                // clear ol image if it was
+                aiPictureBox.Image.Dispose();
+                aiPictureBox.Image = null;
+                takenPhotoPictureBox.Image.Dispose();
+                takenPhotoPictureBox.Image = null;
+
+                new Thread(() => {
+                    // ai device up
+                    RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
+                    Thread.Sleep(1000);
+                    RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
+
+                    // wait photo recognization from ai device
+                    /*
+                     do
+                         do
+                             Thread.Sleep(200);
+                         while (!recognized);
+                     while (!successfullWriteOrRead);
+                     */
+                    do 
+                        Thread.Sleep(200); 
+                    while (toRecognize);
+
+                    // ai device down
+                     RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
+                    Thread.Sleep(1000);
+                    RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
+                }).Start();
+            }));
+
+        }
 
         private void openEditDbFormBut_Click(object sender, EventArgs e)
         {

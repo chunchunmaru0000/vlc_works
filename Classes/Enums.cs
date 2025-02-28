@@ -42,8 +42,8 @@
     {
         CAMERA_UP = 1,
         CAMERA_DOWN = 2,
-        COINS_LIGHT_ON = 3,
-        APPARAT_LIGHT_ON = 4,
+        COINS_LIGHT = 3,
+        APPARAT_LIGHT = 4,
     }
 
     public enum BackupNum
