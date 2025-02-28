@@ -816,7 +816,7 @@ namespace vlc_works
         private Thread InitLaserThread() =>
             new Thread(() => { while (true) {
                 Thread.Sleep(200);
-                    Console.WriteLine(clientForm.stage);
+
                 ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
 
                 if (registers != null && registers.Length > 0) { Invoke(new Action(() => {

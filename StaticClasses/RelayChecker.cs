@@ -35,15 +35,16 @@ namespace vlc_works
 
 		private static Color BoolToColor(bool b) => b ? Color.LightGreen : Color.LightCoral;
 
-		public static void Transmit(int channel, bool state)
+		public static void Transmit(Channel channel, bool state)
 		{
 			if (!IsOpen) 
 				return;
 
-			SelectedRelay.WriteChannel(channel, state);
+            int ch = (int)channel;
+			SelectedRelay.WriteChannel(ch, state);
 
 			AccountingForm.Invoke(new Action(() => 
-			ChannelLabels[channel].BackColor = BoolToColor(state)));
+			ChannelLabels[ch].BackColor = BoolToColor(state)));
 		}
 	}
 }

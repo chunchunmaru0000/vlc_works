@@ -609,9 +609,9 @@ namespace vlc_works
         {
             new Thread(() =>
             {
-                RelayChecker.Transmit(1, true); // camera UP on
+                RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
                 Thread.Sleep(1000);
-                RelayChecker.Transmit(1, false); // camera UP off
+                RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
             }).Start();
         }
 
@@ -619,9 +619,9 @@ namespace vlc_works
         {
             new Thread(() =>
             {
-                RelayChecker.Transmit(2, true); // camera DOWN on
+                RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
                 Thread.Sleep(1000);
-                RelayChecker.Transmit(2, false); // camera DOWN off
+                RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
             }).Start();
         }
         #endregion RELAY

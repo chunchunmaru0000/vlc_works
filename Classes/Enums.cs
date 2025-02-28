@@ -35,8 +35,16 @@
 		[StringValue("картины")]
 		Painting,
 		[StringValue("марио")]
-		Mario
+		Mario,
 	}
+
+    public enum Channel
+    {
+        CAMERA_UP = 1,
+        CAMERA_DOWN = 2,
+        COINS_LIGHT_ON = 3,
+        APPARAT_LIGHT_ON = 4,
+    }
 
     public enum BackupNum
     {
