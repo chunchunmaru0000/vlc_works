@@ -779,7 +779,7 @@ namespace vlc_works
         #region LASER
 
         public MODBUS modbus { get; set; }
-        public ushort laserValue { get; set; } = 4095;
+        public ushort laserValue { get; set; } = 10;
         private bool lastIsLaserIntersected { get; set; } = false;
         private Thread laserThread { get; set; }
 
@@ -810,7 +810,7 @@ namespace vlc_works
         }
 
         private bool IsLaserIntersected() =>
-            laserValue < 2045;// (4090 / 2);
+            laserValue > 2045;// (4090 / 2);
 
         private Thread InitLaserThread() =>
             new Thread(() => { while (true) {
