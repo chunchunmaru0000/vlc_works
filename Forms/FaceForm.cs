@@ -681,7 +681,7 @@ namespace vlc_works
                     // ai device up
                     print("Channel.CAMERA_UP, true");
                     RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
                     print("Channel.CAMERA_UP, false");
                     RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
 

@@ -583,6 +583,7 @@ namespace vlc_works
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
 			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
+            SetGameIndex(0);
 		}
 
 		public void Stop()
