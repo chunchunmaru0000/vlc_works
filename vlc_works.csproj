@@ -252,6 +252,7 @@
     <Content Include="Related\AxInterop.FPCLOCK_SVRLib.dll" />
     <Content Include="Related\AxInterop.FP_CLOCKLib.dll" />
     <None Include="Related\dlls setup.md" />
+    <Content Include="Related\devicesSettings.txt" />
     <Content Include="Related\FPCLOCK_Svr.ocx" />
     <Content Include="Related\FP_CLOCK.ocx" />
     <Content Include="Related\gameScript.txt" />

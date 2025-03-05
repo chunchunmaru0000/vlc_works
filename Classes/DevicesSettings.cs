@@ -12,8 +12,8 @@ namespace vlc_works
 
         private static string[] AllParametersKeys { get; } = new string[] {
             "MONEY",
-            "LASER",
             "RELAY",
+            "LASER",
 
             "WEB_CAMERA",
 

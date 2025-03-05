@@ -78,7 +78,41 @@ namespace vlc_works
 
         private void InitParsedDevices()
         {
+            Action<ComboBox, string, EventHandler> initBox = (box, param, handlerDropDown) => {
+                handlerDropDown(null, EventArgs.Empty);
+                box.SelectedIndex = IndexOfItemInDevicesSettings(param, box);
+            };
+            initBox(comBox, "MONEY", comBox_DropDown);
+            initBox(relayBox, "RELAY", relayBox_DropDown);
+            initBox(laserBox, "LASER", laserBox_DropDown);
 
+            /*
+            comBox_DropDown(null, EventArgs.Empty);
+            comBox.SelectedIndex = IndexOfItemInDevicesSettings("MONEY", comBox);
+
+            relayBox_DropDown(null, EventArgs.Empty);
+            relayBox.SelectedIndex = IndexOfItemInDevicesSettings("RELAY", relayBox);
+
+            laserBox_DropDown(null, EventArgs.Empty);
+            laserBox.SelectedIndex = IndexOfItemInDevicesSettings("LASER", laserBox);
+             */
+        }
+
+        private int IndexOfItemInDevicesSettings(string param, ComboBox box)
+        {
+            if (!devicesSettings.Parameters.TryGetValue(param, out string setting))
+                return 0;
+
+            object[] objects =
+                box.Items
+                .Cast<object>()
+                .Where(o => o.ToString().Contains(setting))
+                .ToArray();
+
+            return
+                objects.Length > 0
+                ? box.Items.IndexOf(objects[0])
+                : 0;
         }
 
         private void InitTimeLabelThread()
