@@ -15,6 +15,8 @@
             Price = price;
         }
 
+        public GameScript Clone() => new GameScript(GameType, Lvl, Prize, Price);
+
         public override string ToString() =>
             $"{GameType.View()} {Lvl}; {Prize}; {Price}";
     }

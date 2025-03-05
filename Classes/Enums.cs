@@ -46,6 +46,14 @@
         APPARAT_LIGHT = 4,
     }
 
+    public enum GameLabel
+    {
+        [ArrayValue(new string[] { "medium", "средняя", "средний", "среднее" })]
+        MEDIUM,
+        [ArrayValue(new string[] { "hard", "сложная", "сложный", "сложное" })]
+        HARD,
+    }
+
     public enum BackupNum
     {
         Finger0 = 0,

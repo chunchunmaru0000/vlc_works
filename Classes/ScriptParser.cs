@@ -32,19 +32,19 @@ namespace vlc_works
         /// Throws an Exception if any issues with file so there is a need to use try catch
         /// </summary>
         /// <returns></returns>
-        public Tuple<GameScript, List<GameScript>> Parse()
+        public GameInfo Parse()
         {
             string[] scriptLines = ParseFile();
             string firstGameLine = FindFirstGameLine(scriptLines);
             scriptLines = GetScriptLinesWithoutFirstGameLine(scriptLines);
 
             GameScript firstGameScript = ParseGameLine(firstGameLine);
-            List<GameScript> gameScripts = 
+            GameScript[] gameScripts = 
                 scriptLines
                 .Select(ParseGameLine)
-                .ToList();
+                .ToArray();
 
-            return new Tuple<GameScript, List<GameScript>>(firstGameScript, gameScripts);
+            return new GameInfo(firstGameScript, gameScripts, labelScripts);
         }
 
         private string[] ParseFile()
