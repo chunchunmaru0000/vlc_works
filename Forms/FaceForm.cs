@@ -77,6 +77,8 @@ namespace vlc_works
                     videoCaptureDevice = new VideoCaptureDevice(videoDevices[0].MonikerString);
                     videoCaptureDevice.NewFrame += WebCamNewFrame;
                     videoCaptureDevice.Start();
+
+                    accountingForm.devicesSettings.Add("WEB_CAMERA", camName);
                 }
 			}
         }
@@ -189,6 +191,11 @@ namespace vlc_works
                     connectBut.BackColor = Color.LightGreen;
                     disconnectBut.BackColor = Color.LightGreen;
                     axFPCLOCK_Svr.OpenNetwork(port);
+
+                    accountingForm.devicesSettings.Add("MACHINE_IP", ipAdressBox.Text);
+                    accountingForm.devicesSettings.Add("MACHINE_PORT", ipPortBox.Text);
+                    accountingForm.devicesSettings.Add("MACHINE_PASSWORD", passwordBox.Text);
+                    accountingForm.devicesSettings.Add("MACHINE_NUMBER", machineIdBox.Text);
 				}
 				else
                     MessageBox.Show("НЕ ПОДКЛЮЧИЛОСЬ");

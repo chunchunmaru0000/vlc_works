@@ -69,10 +69,11 @@ namespace vlc_works
         private void InitDevices()
         {
             new Thread(() => {
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
                 devicesSettings = new DevicesSettings("devicesSettings.txt");
                 if (devicesSettings.Parse())
                     Invoke(new Action(InitParsedDevices));
+                Console.WriteLine("asdf");
             }).Start();
         }
 
@@ -112,7 +113,7 @@ namespace vlc_works
         private int IndexOfItemInDevicesSettings(string param, ComboBox box)
         {
             if (!devicesSettings.Parameters.TryGetValue(param, out string setting))
-                return 0;
+                return -1;
 
             object[] objects =
                 box.Items
@@ -123,7 +124,7 @@ namespace vlc_works
             return
                 objects.Length > 0
                 ? box.Items.IndexOf(objects[0])
-                : 0;
+                : -1;
         }
 
         private void InitTimeLabelThread()
@@ -607,8 +608,11 @@ namespace vlc_works
 		#region COM
 		private void comBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(() => COMPort.TryConnectPort(comBox.Text, this)));
+            string port = comBox.Text;
+			clientForm.Invoke(new Action(() => COMPort.TryConnectPort(port, this)));
 			ActiveControl = null;
+
+            devicesSettings.Add("MONEY", port);
 		}
 
 		private void comBox_DropDown(object sender, EventArgs e)
@@ -820,6 +824,7 @@ namespace vlc_works
 			RelayChecker.SelectedRelay.Open();
 
 			relayOffOnLabel.Text = "ON";
+            devicesSettings.Add("RELAY", RelayChecker.SelectedRelay.ToString());
 		}
 
 		private void relayBox_DropDown(object sender, EventArgs e)
@@ -860,6 +865,8 @@ namespace vlc_works
                 laserOnOffLabel.Text = "ON";
                 laserThread = InitLaserThread();
                 laserThread.Start();
+
+                devicesSettings.Add("LASER", portName);
             }
             else
                 laserOnOffLabel.Text = "OFF";

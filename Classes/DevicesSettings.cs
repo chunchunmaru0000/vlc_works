@@ -19,10 +19,10 @@ namespace vlc_works
 
             "LOCAL_PORT",
 
-            "MACHINE_NUMBER",
             "MACHINE_IP",
             "MACHINE_PORT",
             "MACHINE_PASSWORD",
+            "MACHINE_NUMBER",
         };
 
         public DevicesSettings(string settingsFilePath)
@@ -61,6 +61,7 @@ namespace vlc_works
         public void Add(string param, string value)
         {
             Parameters[param] = value;
+            Console.WriteLine($"Parameters[{param}] = {value}");
 
             if (AllParametersKeys.All(k => Parameters.ContainsKey(k)))
                 SaveFile();
