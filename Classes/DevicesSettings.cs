@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Security.Cryptography;
 
 namespace vlc_works
 {
@@ -11,7 +10,7 @@ namespace vlc_works
         private string SettingsFilePath { get; set; }
         public Dictionary<string, string> Parameters { get; private set; } = new Dictionary<string, string>();
 
-        private string[] AllParametersKeys { get; } = new string[] {
+        private static string[] AllParametersKeys { get; } = new string[] {
             "MONEY",
             "LASER",
             "RELAY",

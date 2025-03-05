@@ -18,6 +18,7 @@ namespace vlc_works
 		public ClientForm clientForm { get; set; }
 		public FaceForm faceForm { get; set; }
 		public ScriptEditor scriptEditor { get; set; }
+        public DevicesSettings devicesSettings { get; set; }
 		// selects
 		public long SelectedAward { get; set; }
 		public long SelectedLevel { get; set; }
@@ -55,17 +56,32 @@ namespace vlc_works
             InitLvlGrid();
             InitPriceGrid();
             doOnlyDark(cBut);
-
-            InitBalance();
 			StartTables();
 
 			InitClearFocusThread();
 
             faceControlBut_Click(this, EventArgs.Empty);
+            InitDevices();
         }
 
 		#region SOME_INITS
-		private void InitTimeLabelThread()
+
+        private void InitDevices()
+        {
+            new Thread(() => {
+                Thread.Sleep(5000);
+                devicesSettings = new DevicesSettings("devicesSettings.txt");
+                if (devicesSettings.Parse())
+                    Invoke(new Action(InitParsedDevices));
+            }).Start();
+        }
+
+        private void InitParsedDevices()
+        {
+
+        }
+
+        private void InitTimeLabelThread()
 		{
 			new Thread(() =>
 			{
@@ -115,11 +131,6 @@ namespace vlc_works
 				clientForm.inputLabel.ForeColor = settings.ForeColor;
 				clientForm.inputLabel.BackColor = settings.BackColor;
 			});
-		}
-
-		private void InitBalance()
-		{
-			//throw new NotImplementedException();
 		}
 
 		private void InitDictionares()
