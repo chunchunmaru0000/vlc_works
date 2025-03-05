@@ -140,6 +140,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DevicesSettings.cs" />
     <Compile Include="Classes\EnumExtentions.cs" />
     <Compile Include="Classes\GameDirectory.cs" />
     <Compile Include="Classes\GameScript.cs" />
