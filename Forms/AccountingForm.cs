@@ -73,7 +73,8 @@ namespace vlc_works
                 devicesSettings = new DevicesSettings("devicesSettings.txt");
                 if (devicesSettings.Parse())
                     Invoke(new Action(InitParsedDevices));
-                Console.WriteLine("asdf");
+                else
+                    Console.WriteLine("NOT PARSED devicesSettings.txt");
             }).Start();
         }
 
@@ -97,17 +98,6 @@ namespace vlc_works
                 faceForm.machineIdBox.Text = devicesSettings.Parameters["MACHINE_NUMBER"];
                 faceForm.Connect_Click(null, EventArgs.Empty);
             }));
-
-            /*
-            comBox_DropDown(null, EventArgs.Empty);
-            comBox.SelectedIndex = IndexOfItemInDevicesSettings("MONEY", comBox);
-
-            relayBox_DropDown(null, EventArgs.Empty);
-            relayBox.SelectedIndex = IndexOfItemInDevicesSettings("RELAY", relayBox);
-
-            laserBox_DropDown(null, EventArgs.Empty);
-            laserBox.SelectedIndex = IndexOfItemInDevicesSettings("LASER", laserBox);
-             */
         }
 
         private int IndexOfItemInDevicesSettings(string param, ComboBox box)
