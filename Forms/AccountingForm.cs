@@ -86,6 +86,17 @@ namespace vlc_works
             initBox(relayBox, "RELAY", relayBox_DropDown);
             initBox(laserBox, "LASER", laserBox_DropDown);
 
+            faceForm?.Invoke(new Action(() => {
+                initBox(faceForm.camBox, "WEB_CAMERA", faceForm.camBox_DropDown);
+
+                faceForm.textPort.Text =     devicesSettings.Parameters["LOCAL_PORT"];
+                faceForm.ipAdressBox.Text =  devicesSettings.Parameters["MACHINE_IP"];
+                faceForm.ipPortBox.Text =    devicesSettings.Parameters["MACHINE_PORT"];
+                faceForm.passwordBox.Text =  devicesSettings.Parameters["MACHINE_PASSWORD"];
+                faceForm.machineIdBox.Text = devicesSettings.Parameters["MACHINE_NUMBER"];
+                faceForm.Connect_Click(null, EventArgs.Empty);
+            }));
+
             /*
             comBox_DropDown(null, EventArgs.Empty);
             comBox.SelectedIndex = IndexOfItemInDevicesSettings("MONEY", comBox);

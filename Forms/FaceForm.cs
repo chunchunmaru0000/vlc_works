@@ -56,7 +56,7 @@ namespace vlc_works
 		private FilterInfoCollection videoDevices { get; set; }
 		private VideoCaptureDevice videoCaptureDevice { get; set; }
 
-        private void camBox_DropDown(object sender, EventArgs e)
+        public void camBox_DropDown(object sender, EventArgs e)
         {
 			videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 			camBox.Items.Clear();
@@ -178,7 +178,7 @@ namespace vlc_works
 		#endregion
 
 		#region BUTS
-		private void Connect_Click(object sender, EventArgs e)
+		public void Connect_Click(object sender, EventArgs e)
 		{
 			if (int.TryParse(textPort.Text, out int port))
 			{
