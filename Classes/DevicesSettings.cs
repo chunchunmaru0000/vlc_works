@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Security.Policy;
-using System.Xml.Linq;
-using UsbRelayNet.RelayLib;
+using System.Security.Cryptography;
 
 namespace vlc_works
 {
     public class DevicesSettings
     {
         private string SettingsFilePath { get; set; }
-        public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Parameters { get; private set; } = new Dictionary<string, string>();
 
-        private string[] AllParametersKeys = new string[] {
+        private string[] AllParametersKeys { get; } = new string[] {
             "MONEY",
             "LASER",
             "RELAY",
@@ -44,6 +42,7 @@ namespace vlc_works
                 .HebrewTrim()
                 .Trim()
                 .Split('\n')
+                .Where(line => !string.IsNullOrWhiteSpace(line))
                 .Select(line => {
                     string[] parts = line.Split('=');
                     if (parts.Length > 2)
@@ -53,7 +52,28 @@ namespace vlc_works
                 .Where(line => line.Length >= 2)
                 .ToDictionary(p => p[0].Trim(), p => p[1].Trim());
 
-            return AllParametersKeys.All(k => parameters.ContainsKey(k));
+            bool successfullParse = AllParametersKeys.All(k => parameters.ContainsKey(k));
+            if (successfullParse)
+                Parameters = parameters;
+
+            return successfullParse;
         }
+
+        public void Add(string param, string value)
+        {
+            Parameters[param] = value;
+
+            if (AllParametersKeys.All(k => Parameters.ContainsKey(k)))
+                SaveFile();
+            else
+                Console.WriteLine($"THERE ARE NOT ALL PARAMETERS SO DO NOT SAVE FOR NOW {SettingsFilePath}");
+        }
+
+        private void SaveFile() =>
+            File
+            .WriteAllText(
+                SettingsFilePath, 
+                string.Join("\r\n", Parameters.Select(p => $"{p.Key} = {p.Value}")), 
+                System.Text.Encoding.UTF8);
     }
 }
