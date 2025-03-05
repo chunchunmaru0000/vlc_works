@@ -21,6 +21,9 @@ namespace vlc_works
             $"НЕИЗВЕСТНЫЙ СИМВОЛ [{c}] [{c.ToString()}]\n" +
             $"ДАННЫЙ СИМВОЛ НЕ ВХОДИТ В СПИСОК ИСПОЛЬЗУЕМЫХ:\n" +
             $"\t[{string.Join("|", CharToGameType.Select(p => p.Key.ToString()))}]";
+        private Func<GameLabel, string> labelError = (label) => 
+            $"ПРОБЛЕМА С МЕТКОЙ, ВОЗМОЖНА БЫЛА ОШИБКА\n" +
+            $"ОЖИДАЛСЯ ОДИН ИЗ ВАРИАНТОВ:\n\t{string.Join("\n\t", label.Views())}";
         #endregion ERR_MSGS
 
         public ScriptParser(string scriptFilePath)
@@ -41,8 +44,31 @@ namespace vlc_works
             GameScript firstGameScript = ParseGameLine(firstGameLine);
             GameScript[] gameScripts = 
                 scriptLines
+                .Where(line => !line.EndsWith(":")) // not labels
                 .Select(ParseGameLine)
                 .ToArray();
+
+            int mediumLabelCount = GetLabelGameIndex(GameLabel.MEDIUM, scriptLines);
+            int hardLabelCount = 
+                GetLabelGameIndex(
+                    GameLabel.HARD, 
+                    scriptLines.Where((l, i) => i != mediumLabelCount).ToArray() // skip MEDIUM: label line
+                    );
+
+            Dictionary<GameLabel, GameScript[]> labelScripts = new Dictionary<GameLabel, GameScript[]>() {
+                { GameLabel.MEDIUM,
+                    gameScripts
+                    .Skip(mediumLabelCount)
+                    .Take(hardLabelCount - mediumLabelCount)
+                    .Select(s => s.Clone())
+                    .ToArray() },
+                { GameLabel.HARD,
+                    gameScripts
+                    .Skip(hardLabelCount)
+                    .Take(gameScripts.Length - hardLabelCount)
+                    .Select(s => s.Clone())
+                    .ToArray() },
+            };
 
             return new GameInfo(firstGameScript, gameScripts, labelScripts);
         }
@@ -129,6 +155,19 @@ namespace vlc_works
                 return new GameScript(gameType, lvl, prize, price);
             } catch (Exception e) {
                 throw new Exception(errorParseGameLine(e.Message, gameLine));
+            }
+        }
+
+        private int GetLabelGameIndex(GameLabel label, string[] scriptLines)
+        {
+            try {
+                return
+                    scriptLines
+                    .Select((l, i) => new KeyValuePair<int, string>(i, l.TrimEnd(':').ToLower()))
+                    .First(p => label.Views().Contains(p.Value))
+                    .Key;
+            } catch {
+                throw new Exception(labelError(label));
             }
         }
     }

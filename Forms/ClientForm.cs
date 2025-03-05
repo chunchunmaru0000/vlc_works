@@ -87,10 +87,13 @@ namespace vlc_works
         private void InitGameScript()
         {
             try {
-                Tuple<GameScript, List<GameScript>> tuple = 
+                GameInfo gameInfo = 
                     new ScriptParser("gameScript.txt").Parse();
-                firstGame = tuple.Item1;
-                gameScripts = tuple.Item2.ToArray();
+                firstGame = gameInfo.FirstGame;
+                gameScripts = gameInfo.GameScripts;
+
+                Console.WriteLine($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.MEDIUM].Select(s => s.ToString()))}\n[///]");
+                Console.WriteLine($"[HARD]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.HARD].Select(s => s.ToString()))}\n[///]");
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);

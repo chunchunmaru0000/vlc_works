@@ -48,6 +48,7 @@
 
     public enum GameLabel
     {
+        EASY,
         [ArrayValue(new string[] { "medium", "средняя", "средний", "среднее" })]
         MEDIUM,
         [ArrayValue(new string[] { "hard", "сложная", "сложный", "сложное" })]
