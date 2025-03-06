@@ -134,9 +134,10 @@ namespace vlc_works
                 if (GameMode == GameMode.ALL)
                     return;
 
+                GameMode lastMode = GameMode;
                 // HARD -> MEDIUM -> ALL
                 GameMode = (GameMode)((int)GameMode - 1);
-                gameIndex = ModeScripts[GameMode].Length - 1;
+                gameIndex = ModeScripts[GameMode].Length - ModeScripts[lastMode].Length - 1;
             }
             else
                 gameIndex = GameIndex - 1;
