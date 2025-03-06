@@ -60,13 +60,13 @@ namespace vlc_works
                 { GameMode.MEDIUM,
                     gameScripts
                     .Skip(mediumModeCount)
-                    .Take(hardModeCount - mediumModeCount)
+                    //.Take(hardModeCount - mediumModeCount)
                     .Select(s => s.Clone())
                     .ToArray() },
                 { GameMode.HARD,
                     gameScripts
                     .Skip(hardModeCount)
-                    .Take(gameScripts.Length - hardModeCount)
+                    //.Take(gameScripts.Length - hardModeCount)
                     .Select(s => s.Clone())
                     .ToArray() },
             };

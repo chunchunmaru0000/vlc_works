@@ -37,6 +37,7 @@
             this.w = new System.Windows.Forms.Label();
             this.gi = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cs = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,7 +88,7 @@
             this.gis.AutoSize = true;
             this.gis.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gis.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.gis.Location = new System.Drawing.Point(160, 160);
+            this.gis.Location = new System.Drawing.Point(160, 192);
             this.gis.Name = "gis";
             this.gis.Size = new System.Drawing.Size(148, 27);
             this.gis.TabIndex = 4;
@@ -99,7 +100,7 @@
             this.gm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gm.Location = new System.Drawing.Point(224, 64);
             this.gm.Name = "gm";
-            this.gm.Size = new System.Drawing.Size(256, 32);
+            this.gm.Size = new System.Drawing.Size(448, 32);
             this.gm.TabIndex = 5;
             this.gm.Text = "game mode";
             // 
@@ -119,7 +120,7 @@
             this.gi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gi.Location = new System.Drawing.Point(224, 96);
             this.gi.Name = "gi";
-            this.gi.Size = new System.Drawing.Size(256, 32);
+            this.gi.Size = new System.Drawing.Size(448, 32);
             this.gi.TabIndex = 8;
             this.gi.Text = "game index";
             // 
@@ -129,6 +130,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.cs);
             this.panel1.Controls.Add(this.loseBut);
             this.panel1.Controls.Add(this.w);
             this.panel1.Controls.Add(this.gi);
@@ -142,6 +144,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 448);
             this.panel1.TabIndex = 9;
+            // 
+            // cs
+            // 
+            this.cs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cs.Location = new System.Drawing.Point(160, 160);
+            this.cs.Name = "cs";
+            this.cs.Size = new System.Drawing.Size(512, 32);
+            this.cs.TabIndex = 9;
+            this.cs.Text = "current script";
             // 
             // DebugForm
             // 
@@ -168,5 +180,6 @@
         public System.Windows.Forms.Label w;
         public System.Windows.Forms.Label gi;
         private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.Label cs;
     }
 }

@@ -226,13 +226,10 @@ namespace vlc_works
 				? DbCurrentRecord.SelectedLvl 
 				: -1;
 
-        private long MaxPlus1or10(long value)
-        {
-            value++;
-            return value >= 10 
+        private long MaxPlus1or10(long value) =>
+            ++value >= 10 
                 ? 0 
                 : value;
-        }
 
 		private void SetNewBoxesValues(long c, long k, long m)
 		{
@@ -316,10 +313,10 @@ namespace vlc_works
             VideoChecker.won = false;
 			VideoChecker.continued = false;
 
-            if (!DEBUG) {
-                GameScript nextGameScript = gameInfo.CurrentScript;
-                accountingForm.SetGameScript(nextGameScript);
+            GameScript nextGameScript = gameInfo.CurrentScript;
+            accountingForm.SetGameScript(nextGameScript);
 
+            if (!DEBUG) {
                 VideoChecker
                 .VlcChanged(
                     gameDirectory

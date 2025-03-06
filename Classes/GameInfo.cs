@@ -72,6 +72,7 @@ namespace vlc_works
             df.lc.Text = $"LOST COUNTER = {LostCounter}";
             df.gi.Text = $"GAME INDEX = {GameIndex}";
             df.gm.Text = $"GAME MODE = {GameMode.View()}";
+            df.cs.Text = $"CURRENT SCRIPT = {CurrentScript}";
             df.gis.Text = string.Join("\n", GameIndices.Select(p => $"{p.Key.View()} = {p.Value}"));
         }
 
@@ -113,7 +114,7 @@ namespace vlc_works
             else
                 gameIndex = GameIndex + 1;
 
-            if (gameIndex >= ModeScripts[GameMode.ALL].Length)
+            if (gameIndex < ModeScripts[GameMode.ALL].Length)
                 SetGameIndex(gameIndex);
 
             Debug();
@@ -123,6 +124,7 @@ namespace vlc_works
         {
             LostCounter++;
             ClearWonCounter();
+            Debug();
 
             if (LostCounter < 3)
                 return;
@@ -132,8 +134,6 @@ namespace vlc_works
                 if (GameMode == GameMode.ALL)
                     return;
 
-                ClearLostCounter();
-
                 // HARD -> MEDIUM -> ALL
                 GameMode = (GameMode)((int)GameMode - 1);
                 gameIndex = ModeScripts[GameMode].Length - 1;
@@ -142,6 +142,7 @@ namespace vlc_works
                 gameIndex = GameIndex - 1;
 
             SetGameIndex(gameIndex);
+            ClearLostCounter();
 
             Debug();
         }
