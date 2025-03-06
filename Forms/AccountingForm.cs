@@ -74,7 +74,7 @@ namespace vlc_works
                 if (devicesSettings.Parse())
                     Invoke(new Action(InitParsedDevices));
                 else
-                    Console.WriteLine("NOT PARSED devicesSettings.txt");
+                    Utils.print("NOT PARSED devicesSettings.txt");
             }).Start();
         }
 

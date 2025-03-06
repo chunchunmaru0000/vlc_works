@@ -92,8 +92,8 @@ namespace vlc_works
                 firstGame = gameInfo.FirstGame;
                 gameScripts = gameInfo.GameScripts;
 
-                Console.WriteLine($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.MEDIUM].Select(s => s.ToString()))}\n[///]");
-                Console.WriteLine($"[HARD]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.HARD].Select(s => s.ToString()))}\n[///]");
+                Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.MEDIUM].Select(s => s.ToString()))}\n[///]");
+                Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.HARD].Select(s => s.ToString()))}\n[///]");
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);

@@ -61,12 +61,17 @@ namespace vlc_works
         public void Add(string param, string value)
         {
             Parameters[param] = value;
-            Console.WriteLine($"Parameters[{param}] = {value}");
+            Utils.print($"Parameters[{param}] = {value}");
 
-            if (AllParametersKeys.All(k => Parameters.ContainsKey(k)))
+            if (AllParametersKeys.All(k => Parameters.ContainsKey(k))) {
                 SaveFile();
+                Utils.print($"SAVED FILE: [{SettingsFilePath}]");
+            }
             else
-                Console.WriteLine($"THERE ARE NOT ALL PARAMETERS SO DO NOT SAVE FOR NOW {SettingsFilePath}");
+                Utils.print(
+                    $"THERE ARE NOT ALL PARAMETERS SO DO NOT SAVE FOR NOW [{SettingsFilePath}]\n" +
+                    $"ALL PARAMS: \n\t{string.Join("\n\t", Parameters.Select(p => $"[{p.Key} -> {p.Value}]"))}"
+                    );
         }
 
         private void SaveFile() =>

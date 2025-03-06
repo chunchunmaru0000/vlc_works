@@ -104,5 +104,19 @@ namespace vlc_works
 			{ Keys.D3, Langs.RUSSIAN },
 		}; // select lang stage nums to lang
 		#endregion
+
+        public static void print(object obj)
+        {
+            bool DEBUG = true;
+
+            string str = obj == null ? "" : obj.ToString();
+            Console.WriteLine(str);
+
+            if (!DEBUG)
+                return;
+            const string file = "TEST_011.txt";
+            using (StreamWriter s = File.AppendText(file))
+                s.WriteLine(str);
+        }
 	}
 }
