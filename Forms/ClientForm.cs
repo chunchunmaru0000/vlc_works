@@ -91,9 +91,9 @@ namespace vlc_works
                     new ScriptParser("gameScript.txt").Parse();
                 firstGame = gameInfo.FirstGame;
                 gameScripts = gameInfo.GameScripts;
-
-                Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.MEDIUM].Select(s => s.ToString()))}\n[///]");
-                Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameLabel.HARD].Select(s => s.ToString()))}\n[///]");
+                
+                Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameMode.MEDIUM].Select(s => s.ToString()))}\n[///]");
+                Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameMode.HARD].Select(s => s.ToString()))}\n[///]");
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);
@@ -218,9 +218,8 @@ namespace vlc_works
 			if (k == Keys.Enter)
 				ProceedInput();
 
-			try
-			{ // can error if you press keyboard while app is launching
-				print($"\tKEY DOWN: {k}\n\t\tBLOCKED: {VideoChecker.blockInput}\n\t\tGAME ENDED: {VideoChecker.gameEnded}");
+			try { // can error if you press keyboard while app is launching
+				//print($"\tKEY DOWN: {k}\n\t\tBLOCKED: {VideoChecker.blockInput}\n\t\tGAME ENDED: {VideoChecker.gameEnded}");
 			} catch { }
 		}
 

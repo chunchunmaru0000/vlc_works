@@ -6,9 +6,10 @@ namespace vlc_works
     {
         public GameScript FirstGame { get; set; }
         public GameScript[] GameScripts { get; set; }
-        public Dictionary<GameLabel, GameScript[]> LabelScripts { get; set; }
+        public Dictionary<GameMode, GameScript[]> LabelScripts { get; set; }
+        public GameMode GameMode { get; set; } = GameMode.ALL;
 
-        public GameInfo(GameScript firstGame, GameScript[] gameScripts, Dictionary<GameLabel, GameScript[]> labelScripts)
+        public GameInfo(GameScript firstGame, GameScript[] gameScripts, Dictionary<GameMode, GameScript[]> labelScripts)
         {
             FirstGame = firstGame;
             GameScripts = gameScripts;

@@ -46,9 +46,9 @@
         APPARAT_LIGHT = 4,
     }
 
-    public enum GameLabel
+    public enum GameMode
     {
-        EASY,
+        ALL, // its EASY but actually its just all scripts
         [ArrayValue(new string[] { "medium", "средняя", "средний", "среднее" })]
         MEDIUM,
         [ArrayValue(new string[] { "hard", "сложная", "сложный", "сложное" })]

@@ -12,6 +12,7 @@ namespace vlc_works
         private AccountingForm accountingForm { get; set; }
         private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
+ 
 
         public ScriptEditor(AccountingForm accountingForm, ClientForm clientForm)
         {
@@ -33,6 +34,7 @@ namespace vlc_works
             { GameType.Mario, "M" },
         };
 
+        #region CELLS_STYLES
         private DataGridViewCellStyle defaultStyle { get; set; }
         private DataGridViewCellStyle changedStyle { get; } = new DataGridViewCellStyle() {
             BackColor = Color.GreenYellow,
@@ -66,6 +68,7 @@ namespace vlc_works
             SelectionBackColor = Color.FromArgb(198, 40, 40),
             SelectionForeColor = Color.White,
         };
+        #endregion
 
         private DataGridViewCellStyle indexRowStyle(int index) => (
             clientForm.gameIndex == index
@@ -138,6 +141,21 @@ namespace vlc_works
                 ? changedStyle
                 : errorStyle
                 ).Clone();
+        }
+
+        private void easyBut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mediumBut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void hardBut_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

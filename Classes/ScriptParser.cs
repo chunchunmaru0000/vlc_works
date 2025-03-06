@@ -21,7 +21,7 @@ namespace vlc_works
             $"НЕИЗВЕСТНЫЙ СИМВОЛ [{c}] [{c.ToString()}]\n" +
             $"ДАННЫЙ СИМВОЛ НЕ ВХОДИТ В СПИСОК ИСПОЛЬЗУЕМЫХ:\n" +
             $"\t[{string.Join("|", CharToGameType.Select(p => p.Key.ToString()))}]";
-        private Func<GameLabel, string> labelError = (label) => 
+        private Func<GameMode, string> labelError = (label) => 
             $"ПРОБЛЕМА С МЕТКОЙ, ВОЗМОЖНА БЫЛА ОШИБКА\n" +
             $"ОЖИДАЛСЯ ОДИН ИЗ ВАРИАНТОВ:\n\t{string.Join("\n\t", label.Views())}";
         #endregion ERR_MSGS
@@ -48,21 +48,21 @@ namespace vlc_works
                 .Select(ParseGameLine)
                 .ToArray();
 
-            int mediumLabelCount = GetLabelGameIndex(GameLabel.MEDIUM, scriptLines);
+            int mediumLabelCount = GetLabelGameIndex(GameMode.MEDIUM, scriptLines);
             int hardLabelCount = 
                 GetLabelGameIndex(
-                    GameLabel.HARD, 
+                    GameMode.HARD, 
                     scriptLines.Where((l, i) => i != mediumLabelCount).ToArray() // skip MEDIUM: label line
                     );
 
-            Dictionary<GameLabel, GameScript[]> labelScripts = new Dictionary<GameLabel, GameScript[]>() {
-                { GameLabel.MEDIUM,
+            Dictionary<GameMode, GameScript[]> labelScripts = new Dictionary<GameMode, GameScript[]>() {
+                { GameMode.MEDIUM,
                     gameScripts
                     .Skip(mediumLabelCount)
                     .Take(hardLabelCount - mediumLabelCount)
                     .Select(s => s.Clone())
                     .ToArray() },
-                { GameLabel.HARD,
+                { GameMode.HARD,
                     gameScripts
                     .Skip(hardLabelCount)
                     .Take(gameScripts.Length - hardLabelCount)
@@ -158,7 +158,7 @@ namespace vlc_works
             }
         }
 
-        private int GetLabelGameIndex(GameLabel label, string[] scriptLines)
+        private int GetLabelGameIndex(GameMode label, string[] scriptLines)
         {
             try {
                 return
