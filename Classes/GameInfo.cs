@@ -8,14 +8,13 @@ namespace vlc_works
         private AccountingForm AccountingForm { get; set; }
 
         public GameScript FirstGame { get; set; }
-        private GameScript[] GameScripts { get; set; } // the same as ModeScripts[GameMode.ALL]
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
         private Dictionary<GameMode, int> ModeStartPoints { get; set; }
         public GameMode GameMode { get; set; }
         private Dictionary<GameMode, int> GameIndices { get; set; }
 
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
-        private int GameIndex { get => GameIndices[GameMode]; }
+        public int GameIndex { get => GameIndices[GameMode]; }
         public GameScript CurrentScript { get => ModeScripts[GameMode][GameIndex]; }
 
         private int WonCounter { get; set; }
@@ -30,7 +29,6 @@ namespace vlc_works
             AccountingForm = accountingForm;
 
             FirstGame = firstGame;
-            GameScripts = modeScripts[GameMode.ALL];
             ModeScripts = modeScripts;
             ModeStartPoints = modeStartPoints;
 
@@ -44,14 +42,12 @@ namespace vlc_works
 
         private void SetGameIndex(int index)
         {
-            if (index >= ModeScripts[GameMode].Length)
-                index = 0;
-
-            GameIndices[GameMode] = index;
+            if (index < ModeScripts[GameMode].Length)
+                GameIndices[GameMode] = index;
 
             GameMode mode =
-                //GameMode;
-                AccountingForm.scriptEditor.tableMode;
+                GameMode;
+                //AccountingForm.scriptEditor.tableMode;
 
             if (Utils.IsFormAlive(AccountingForm) &&
                 Utils.IsFormAlive(AccountingForm.scriptEditor)) {
@@ -73,10 +69,11 @@ namespace vlc_works
 
         public void ClearGameIndicesAndSetFirst(int index)
         {
-            foreach (GameMode key in GameIndices.Keys)
-                GameIndices[key] = 0;
+            GameIndices[GameMode.MEDIUM] = 0;
+            GameIndices[GameMode.HARD] = 0;
 
-            GameIndices[GameMode.ALL] = index;
+            GameMode = GameMode.ALL;
+            SetGameIndex(index);
         }
 
         public void ClearWonCounter() => WonCounter = 0;
@@ -100,8 +97,8 @@ namespace vlc_works
             else
                 gameIndex = GameIndex + 1;
 
-            if (gameIndex >= GameScripts.Length)
-            SetGameIndex(gameIndex);
+            if (gameIndex >= ModeScripts[GameMode.ALL].Length)
+                SetGameIndex(gameIndex);
         }
 
         public void IncLostCounter()

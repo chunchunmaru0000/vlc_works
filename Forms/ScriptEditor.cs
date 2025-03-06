@@ -142,9 +142,9 @@ namespace vlc_works
 
         private DataGridViewCellStyle indexRowStyle(int index) => (
             tableMode == clientForm.gameInfo.GameMode
-            ? clientForm.gameIndex == index
+            ? clientForm.gameInfo.GameIndex == index
                 ? CurStyle(GS.CURRENT)
-                : clientForm.gameIndex < index
+                : clientForm.gameInfo.GameIndex < index
                     ? CurStyle(GS.FUTURE)
                     : CurStyle(GS.PASSED)
             : CurStyle(GS.FUTURE)

@@ -738,7 +738,7 @@ namespace vlc_works
                         clientForm.gameInfo.ModeScripts[GameMode.ALL], 
                         player));
                 SetIsFirstGame(false);
-                SetGameScript(clientForm.gameInfo.ModeScripts[GameMode.ALL][clientForm.gameIndex]);
+                SetGameScript(clientForm.gameInfo.CurrentScript);
             }
 
             clientForm.gameInfo.ClearCounters();

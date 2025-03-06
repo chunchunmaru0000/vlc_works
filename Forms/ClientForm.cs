@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
@@ -32,7 +31,6 @@ namespace vlc_works
 		#endregion CONSTS
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
-        public int gameIndex { get; private set; } = -1; // -1 is firstGame else gameScripts[index]
         #region SOME_VAR
         private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -574,7 +572,9 @@ namespace vlc_works
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
 			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
+
             gameInfo.ClearGameIndicesAndSetFirst(0);
+            gameInfo.ClearCounters();
 		}
 
 		public void Stop()
