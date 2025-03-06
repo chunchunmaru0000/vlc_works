@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 
 namespace vlc_works
 {
@@ -35,7 +35,7 @@ namespace vlc_works
         /// Throws an Exception if any issues with file so there is a need to use try catch
         /// </summary>
         /// <returns></returns>
-        public GameInfo Parse()
+        public GameInfo Parse(AccountingForm accountingForm)
         {
             string[] scriptLines = ParseFile();
             string firstGameLine = FindFirstGameLine(scriptLines);
@@ -48,30 +48,36 @@ namespace vlc_works
                 .Select(ParseGameLine)
                 .ToArray();
 
-            int mediumLabelCount = GetLabelGameIndex(GameMode.MEDIUM, scriptLines);
-            int hardLabelCount = 
+            int mediumModeCount = GetLabelGameIndex(GameMode.MEDIUM, scriptLines);
+            int hardModeCount = 
                 GetLabelGameIndex(
                     GameMode.HARD, 
-                    scriptLines.Where((l, i) => i != mediumLabelCount).ToArray() // skip MEDIUM: label line
+                    scriptLines.Where((l, i) => i != mediumModeCount).ToArray() // skip MEDIUM: label line
                     );
 
             Dictionary<GameMode, GameScript[]> modeScripts = new Dictionary<GameMode, GameScript[]>() {
                 { GameMode.ALL, gameScripts },
                 { GameMode.MEDIUM,
                     gameScripts
-                    .Skip(mediumLabelCount)
-                    .Take(hardLabelCount - mediumLabelCount)
+                    .Skip(mediumModeCount)
+                    .Take(hardModeCount - mediumModeCount)
                     .Select(s => s.Clone())
                     .ToArray() },
                 { GameMode.HARD,
                     gameScripts
-                    .Skip(hardLabelCount)
-                    .Take(gameScripts.Length - hardLabelCount)
+                    .Skip(hardModeCount)
+                    .Take(gameScripts.Length - hardModeCount)
                     .Select(s => s.Clone())
                     .ToArray() },
             };
 
-            return new GameInfo(firstGameScript, modeScripts);
+            Dictionary<GameMode, int> modeStartPoints = new Dictionary<GameMode, int>() {
+                { GameMode.ALL, 0 },
+                { GameMode.MEDIUM, mediumModeCount },
+                { GameMode.HARD, hardModeCount },
+            };
+
+            return new GameInfo(firstGameScript, modeScripts, modeStartPoints, accountingForm);
         }
 
         private string[] ParseFile()

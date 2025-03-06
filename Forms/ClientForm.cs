@@ -90,7 +90,7 @@ namespace vlc_works
         private void InitGameScript()
         {
             try {
-                gameInfo = new ScriptParser("gameScript.txt").Parse();
+                gameInfo = new ScriptParser("gameScript.txt").Parse(accountingForm);
                 
                 Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.ModeScripts[GameMode.MEDIUM].Select(s => s.ToString()))}\n[///]");
                 Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.ModeScripts[GameMode.HARD].Select(s => s.ToString()))}\n[///]");
