@@ -722,7 +722,8 @@ namespace vlc_works
 				kBox.Text = "0";
 				mBox.Text = "0";
 
-                clientForm.SetGameIndex(-1);
+                //clientForm.SetGameIndex(-1);
+                clientForm.gameInfo.ClearGameIndicesAndSetFirst(-1);
                 SetIsFirstGame(true);
                 SetGameScript(clientForm.gameInfo.FirstGame);
 			}
@@ -731,11 +732,16 @@ namespace vlc_works
 				kBox.Text = player.K.ToString();
 				mBox.Text = player.M.ToString();
 
-                clientForm.SetGameIndex(DecideGameIndex(clientForm.gameInfo.GameScripts, player));
+                //clientForm.SetGameIndex(
+                clientForm.gameInfo.ClearGameIndicesAndSetFirst(
+                    DecideGameIndex(
+                        clientForm.gameInfo.ModeScripts[GameMode.ALL], 
+                        player));
                 SetIsFirstGame(false);
-                SetGameScript(clientForm.gameInfo.GameScripts[clientForm.gameIndex]);
+                SetGameScript(clientForm.gameInfo.ModeScripts[GameMode.ALL][clientForm.gameIndex]);
             }
 
+            clientForm.gameInfo.ClearCounters();
             RefreshDbForm();
         }
 
@@ -786,7 +792,9 @@ namespace vlc_works
 
 			if (Db.FindPlayer(playerIdInt) == null) {
                 DbPlayer player = new DbPlayer(-1, playerIdInt, cLvlInt, kLvlInt, mLvlInt);
-                int playerWouldPlayScript = DecideGameIndex(clientForm.gameInfo.GameScripts, player);
+                int playerWouldPlayScript = DecideGameIndex(
+                    clientForm.gameInfo.ModeScripts[GameMode.ALL], 
+                    player);
                 SetIsFirstGame(playerWouldPlayScript == 0);
 
                 Db.InsertPlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);

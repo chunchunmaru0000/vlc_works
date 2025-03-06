@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
@@ -32,21 +33,6 @@ namespace vlc_works
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
         public int gameIndex { get; private set; } = -1; // -1 is firstGame else gameScripts[index]
-        public void SetGameIndex(int index)
-        {
-            gameIndex = index;
-            if (
-                accountingForm != null &&
-                accountingForm.scriptEditor != null &&
-                !accountingForm.scriptEditor.IsDisposed
-                )
-                accountingForm.scriptEditor.Invoke(new Action(() =>
-                accountingForm.scriptEditor.SetGameModeAndScript(
-                    accountingForm.scriptEditor.tableMode,
-                    //gameInfo.GameMode,
-                    gameInfo.GameModeScripts
-                    )));
-        }
         #region SOME_VAR
         private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
@@ -316,13 +302,15 @@ namespace vlc_works
             if (accountingForm.isFirstGame)
             {
                 accountingForm.SetIsFirstGame(false);
-                SetGameIndex(VideoChecker.won ? 1 : 0);
+
+                if (VideoChecker.won)
+                    gameInfo.ClearGameIndicesAndSetFirst(0);
+                gameInfo.IncGameIndex();
             }
             else if (VideoChecker.won)
-                SetGameIndex(gameIndex + 1);
-
-            if (gameIndex >= gameInfo.GameScripts.Length)
-                SetGameIndex(0);
+                gameInfo.IncGameIndex();
+            else
+                gameInfo.IncLostCounter();
 
             if (!VideoChecker.continued)
                 accountingForm.SetLangLabel("#");
@@ -330,12 +318,13 @@ namespace vlc_works
             VideoChecker.won = false;
 			VideoChecker.continued = false;
 
-            accountingForm.SetGameScript(gameInfo.GameScripts[gameIndex]);
+            GameScript nextGameScript = gameInfo.CurrentScript;
+            accountingForm.SetGameScript(nextGameScript);
 
             VideoChecker
             .VlcChanged(
                 gameDirectory
-                .GetRandomGame(gameInfo.GameScripts[gameIndex], VideoChecker.language));
+                .GetRandomGame(nextGameScript, VideoChecker.language));
 
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));
@@ -417,7 +406,7 @@ namespace vlc_works
             PathUri pathUri =
                 accountingForm.isFirstGame
                 ? gameDirectory.GetRandomGame(gameInfo.FirstGame, VideoChecker.language)
-                : gameDirectory.GetRandomGame(gameInfo.GameScripts[gameIndex], VideoChecker.language);
+                : gameDirectory.GetRandomGame(gameInfo.CurrentScript, VideoChecker.language);
             VideoChecker.VlcChanged(pathUri);
 
             accountingForm.SetLangLabel(VideoChecker.language.View());
@@ -585,7 +574,7 @@ namespace vlc_works
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
 			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
-            SetGameIndex(0);
+            gameInfo.ClearGameIndicesAndSetFirst(0);
 		}
 
 		public void Stop()

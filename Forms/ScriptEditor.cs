@@ -29,7 +29,7 @@ namespace vlc_works
             Owner = accountingForm;
 
             styles[GameMode.ALL][GS.DEFAULT] = scriptEditorGrid.DefaultCellStyle.Clone();
-            InitScript(clientForm.gameInfo.GameScripts);
+            InitScript(clientForm.gameInfo.GameModeScripts);
         }
 
         private Dictionary<GameType, string> GameTypeToLetter { get; } = new Dictionary<GameType, string>() {
@@ -225,57 +225,21 @@ namespace vlc_works
 
         #region GAME_MODE_BUTS
 
-        private GameMode GetUninitTableModeAndSetItTo(GameMode modeSet)
+        private void SetTableModeAndInitScript(GameMode modeSet)
         {
-            GameMode modeGet = tableMode;
             tableMode = modeSet;
             IsInit = true;
-            return modeGet;
+            InitScript(clientForm.gameInfo.ModeScripts[tableMode]);
         }
 
-        private void easyBut_Click(object sender, EventArgs e)
-        {
-            GameMode mode = GetUninitTableModeAndSetItTo(GameMode.ALL);
+        private void easyBut_Click(object sender, EventArgs e) =>
+            SetTableModeAndInitScript(GameMode.ALL);
 
-            switch (mode) {
-                case GameMode.ALL: 
-                    break;
-                case GameMode.MEDIUM: 
-                    InitScript(clientForm.gameInfo.GameScripts); break;
-                case GameMode.HARD: 
-                    InitScript(clientForm.gameInfo.GameScripts); break;
-                default: break;
-            }
-        }
+        private void mediumBut_Click(object sender, EventArgs e) =>
+            SetTableModeAndInitScript(GameMode.MEDIUM);
 
-        private void mediumBut_Click(object sender, EventArgs e)
-        {
-            GameMode mode = GetUninitTableModeAndSetItTo(GameMode.MEDIUM);
-
-            switch (mode) {
-                case GameMode.ALL: 
-                    InitScript(clientForm.gameInfo.ModeScripts[tableMode]); break;
-                case GameMode.MEDIUM: 
-                    break;
-                case GameMode.HARD: 
-                    InitScript(clientForm.gameInfo.ModeScripts[tableMode]); break;
-                default: break;
-            }
-        }
-
-        private void hardBut_Click(object sender, EventArgs e)
-        {
-            GameMode mode = GetUninitTableModeAndSetItTo(GameMode.HARD);
-
-            switch (mode) {
-                case GameMode.ALL:
-                    InitScript(clientForm.gameInfo.ModeScripts[tableMode]); break;
-                case GameMode.MEDIUM:
-                    InitScript(clientForm.gameInfo.ModeScripts[tableMode]); break;
-                case GameMode.HARD: break;
-                default: break;
-            }
-        }
+        private void hardBut_Click(object sender, EventArgs e) =>
+            SetTableModeAndInitScript(GameMode.HARD);
 
         #endregion GAME_MODE_BUTS
     }

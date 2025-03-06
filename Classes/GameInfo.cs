@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace vlc_works
 {
@@ -9,14 +8,15 @@ namespace vlc_works
         private AccountingForm AccountingForm { get; set; }
 
         public GameScript FirstGame { get; set; }
-        public GameScript[] GameScripts { get; set; } // the same as ModeScripts[GameMode.ALL]
+        private GameScript[] GameScripts { get; set; } // the same as ModeScripts[GameMode.ALL]
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
-        public Dictionary<GameMode, int> ModeStartPoints { get; set; }
+        private Dictionary<GameMode, int> ModeStartPoints { get; set; }
         public GameMode GameMode { get; set; }
-        public Dictionary<GameMode, int> GameIndices { get; set; }
+        private Dictionary<GameMode, int> GameIndices { get; set; }
 
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
         private int GameIndex { get => GameIndices[GameMode]; }
+        public GameScript CurrentScript { get => ModeScripts[GameMode][GameIndex]; }
 
         private int WonCounter { get; set; }
         private int LostCounter { get; set; }
@@ -42,17 +42,41 @@ namespace vlc_works
             };
         }
 
-        public void SetGameIndex(int index)
+        private void SetGameIndex(int index)
         {
+            if (index >= ModeScripts[GameMode].Length)
+                index = 0;
+
             GameIndices[GameMode] = index;
+
             GameMode mode =
                 //GameMode;
                 AccountingForm.scriptEditor.tableMode;
 
             if (Utils.IsFormAlive(AccountingForm) &&
-                Utils.IsFormAlive(AccountingForm.scriptEditor))
+                Utils.IsFormAlive(AccountingForm.scriptEditor)) {
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
                     AccountingForm.scriptEditor.SetGameModeAndScript(mode, ModeScripts[mode])));
+
+                if (Utils.DEBUG_FORM) {
+                    const bool a = false;
+                    if (a) Console.Beep();
+                }
+            }
+        }
+
+        public void ClearCounters()
+        {
+            ClearWonCounter();
+            ClearLostCounter();
+        }
+
+        public void ClearGameIndicesAndSetFirst(int index)
+        {
+            foreach (GameMode key in GameIndices.Keys)
+                GameIndices[key] = 0;
+
+            GameIndices[GameMode.ALL] = index;
         }
 
         public void ClearWonCounter() => WonCounter = 0;

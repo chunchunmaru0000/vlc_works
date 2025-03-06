@@ -10,6 +10,8 @@ namespace vlc_works
 	// i want here to be only "pure" functions in means of NOT USING external data
 	public static class Utils
 	{
+        public static bool DEBUG_FORM = true;
+
 		#region READ_FILE
 		private static string ReadFileToEnd(string fileName)
 		{

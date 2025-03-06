@@ -88,7 +88,7 @@ namespace vlc_works
                     clientForm.gameDirectory
                     .AssertScriptDirectoryFolders(
                         clientForm.gameInfo.FirstGame,
-                        clientForm.gameInfo.GameScripts
+                        clientForm.gameInfo.ModeScripts[GameMode.ALL]//GameScripts
                         );
                 if (errors.Length > 0)
                     throw new Exception(string.Join("\n\t", errors));
