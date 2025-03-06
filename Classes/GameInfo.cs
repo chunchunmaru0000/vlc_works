@@ -10,11 +10,11 @@ namespace vlc_works
         public GameMode GameMode { get; set; } = GameMode.ALL;
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
 
-        public GameInfo(GameScript firstGame, GameScript[] gameScripts, Dictionary<GameMode, GameScript[]> labelScripts)
+        public GameInfo(GameScript firstGame, Dictionary<GameMode, GameScript[]> modeScripts)
         {
             FirstGame = firstGame;
-            GameScripts = gameScripts;
-            ModeScripts = labelScripts;
+            GameScripts = modeScripts[GameMode.ALL];
+            ModeScripts = modeScripts;
         }
     }
 }

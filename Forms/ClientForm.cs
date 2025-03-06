@@ -42,6 +42,7 @@ namespace vlc_works
                 )
                 accountingForm.scriptEditor.Invoke(new Action(() =>
                 accountingForm.scriptEditor.SetGameModeAndScript(
+                    //accountingForm.scriptEditor.tableMode,
                     gameInfo.GameMode,
                     gameInfo.GameModeScripts
                     )));

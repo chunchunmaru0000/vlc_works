@@ -55,7 +55,7 @@ namespace vlc_works
                     scriptLines.Where((l, i) => i != mediumLabelCount).ToArray() // skip MEDIUM: label line
                     );
 
-            Dictionary<GameMode, GameScript[]> labelScripts = new Dictionary<GameMode, GameScript[]>() {
+            Dictionary<GameMode, GameScript[]> modeScripts = new Dictionary<GameMode, GameScript[]>() {
                 { GameMode.ALL, gameScripts },
                 { GameMode.MEDIUM,
                     gameScripts
@@ -71,7 +71,7 @@ namespace vlc_works
                     .ToArray() },
             };
 
-            return new GameInfo(firstGameScript, gameScripts, labelScripts);
+            return new GameInfo(firstGameScript, modeScripts);
         }
 
         private string[] ParseFile()

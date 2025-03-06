@@ -12,7 +12,7 @@ namespace vlc_works
         private AccountingForm accountingForm { get; set; }
         private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
-        private GameMode tableMode { get; set; } = GameMode.ALL;
+        public GameMode tableMode { get; set; } = GameMode.ALL;
         public void SetGameModeAndScript(GameMode mode, GameScript[] gameScripts)
         {
             tableMode = mode;
@@ -79,7 +79,8 @@ namespace vlc_works
             {
                 GameMode.MEDIUM, new Dictionary<GS, DataGridViewCellStyle>() {
                     { GS.DEFAULT, new DataGridViewCellStyle() {
-
+                        BackColor = Color.FromArgb(255, 224, 130),
+                        SelectionBackColor = Color.FromArgb(255, 204, 102),
                     } },
                     { GS.CHANGED, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(255, 235, 59),
@@ -90,7 +91,7 @@ namespace vlc_works
                         SelectionBackColor = Color.FromArgb(198, 40, 40),
                     } },
                     { GS.PASSED, new DataGridViewCellStyle() {
-                        BackColor = Color.FromArgb(255, 183, 77),
+                        BackColor = Color.FromArgb(155, 123, 27),
                         SelectionBackColor = Color.FromArgb(255, 160, 0),
                     } },
                     { GS.CURRENT, new DataGridViewCellStyle() {
@@ -106,27 +107,28 @@ namespace vlc_works
             {
                 GameMode.HARD, new Dictionary<GS, DataGridViewCellStyle>() {
                     { GS.DEFAULT, new DataGridViewCellStyle() {
-
+                        BackColor = Color.FromArgb(255, 235, 208, 205),
+                        SelectionBackColor = Color.DarkRed,
                     } },
                     { GS.CHANGED, new DataGridViewCellStyle() {
-                        BackColor = Color.GreenYellow,
-                        SelectionBackColor = Color.Olive,
+                        BackColor = Color.FromArgb(239, 83, 80),
+                        SelectionBackColor = Color.FromArgb(229, 57, 53),
                     } },
                     { GS.ERROR, new DataGridViewCellStyle() {
-                        BackColor = Color.FromArgb(244, 67, 54),
-                        SelectionBackColor = Color.FromArgb(198, 40, 40),
+                        BackColor = Color.Aquamarine,
+                        SelectionBackColor = Color.BlueViolet,
                     } },
                     { GS.PASSED, new DataGridViewCellStyle() {
-                        BackColor = Color.FromArgb(34, 85, 34),
-                        SelectionBackColor = Color.FromArgb(44, 115, 44),
+                        BackColor = Color.FromArgb(143, 10, 49),
+                        SelectionBackColor = Color.FromArgb(96, 7, 26),
                     } },
                     { GS.CURRENT, new DataGridViewCellStyle() {
-                        BackColor = Color.FromArgb(200, 230, 201),
-                        SelectionBackColor = Color.FromArgb(165, 214, 167),
+                        BackColor = Color.FromArgb(255, 235, 208, 205),
+                        SelectionBackColor = Color.DarkRed,
                     } },
                     { GS.FUTURE, new DataGridViewCellStyle() {
-                        BackColor = Color.FromArgb(76, 175, 80),
-                        SelectionBackColor = Color.FromArgb(102, 211, 106),
+                        BackColor = Color.FromArgb(255, 23, 68),
+                        SelectionBackColor = Color.FromArgb(213, 0, 50),
                     } },
                 }
             },
