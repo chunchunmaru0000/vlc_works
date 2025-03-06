@@ -140,6 +140,7 @@
             this.laserBox = new System.Windows.Forms.ComboBox();
             this.laserOnOffLabel = new System.Windows.Forms.Label();
             this.laserValueLabel = new System.Windows.Forms.Label();
+            this.debugBut = new System.Windows.Forms.Button();
             this.selectedPanel.SuspendLayout();
             this.pricePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -1337,11 +1338,24 @@
             this.laserValueLabel.Text = "####";
             this.laserValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // debugBut
+            // 
+            this.debugBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.debugBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.debugBut.Location = new System.Drawing.Point(0, 832);
+            this.debugBut.Name = "debugBut";
+            this.debugBut.Size = new System.Drawing.Size(160, 32);
+            this.debugBut.TabIndex = 63;
+            this.debugBut.Text = "DEBUG";
+            this.debugBut.UseVisualStyleBackColor = true;
+            this.debugBut.Click += new System.EventHandler(this.debugBut_Click);
+            // 
             // AccountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
+            this.Controls.Add(this.debugBut);
             this.Controls.Add(this.laserValueLabel);
             this.Controls.Add(this.laserOnOffLabel);
             this.Controls.Add(this.laserBox);
@@ -1533,5 +1547,6 @@
         private System.Windows.Forms.ComboBox laserBox;
         private System.Windows.Forms.Label laserOnOffLabel;
         private System.Windows.Forms.Label laserValueLabel;
+        private System.Windows.Forms.Button debugBut;
     }
 }

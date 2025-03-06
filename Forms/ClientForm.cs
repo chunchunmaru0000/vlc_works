@@ -256,7 +256,7 @@ namespace vlc_works
 			}));
 		}
 
-		public void DoDataBaseGameRecord()
+		public void DoDataBaseGameRecord(bool DEBUG = false)
 		{
 			print("DOES DATABASE RECORD");
 			long gameCLvl = SelectedGameTypeIs(GameType.Guard);
@@ -316,13 +316,15 @@ namespace vlc_works
             VideoChecker.won = false;
 			VideoChecker.continued = false;
 
-            GameScript nextGameScript = gameInfo.CurrentScript;
-            accountingForm.SetGameScript(nextGameScript);
+            if (!DEBUG) {
+                GameScript nextGameScript = gameInfo.CurrentScript;
+                accountingForm.SetGameScript(nextGameScript);
 
-            VideoChecker
-            .VlcChanged(
-                gameDirectory
-                .GetRandomGame(nextGameScript, VideoChecker.language));
+                VideoChecker
+                .VlcChanged(
+                    gameDirectory
+                    .GetRandomGame(nextGameScript, VideoChecker.language));
+            }
 
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));

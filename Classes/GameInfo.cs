@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace vlc_works
 {
@@ -45,20 +46,33 @@ namespace vlc_works
             if (index < ModeScripts[GameMode].Length)
                 GameIndices[GameMode] = index;
 
-            GameMode mode =
-                GameMode;
-                //AccountingForm.scriptEditor.tableMode;
-
             if (Utils.IsFormAlive(AccountingForm) &&
                 Utils.IsFormAlive(AccountingForm.scriptEditor)) {
+
+                GameMode mode =
+                    //GameMode;
+                    AccountingForm.scriptEditor.tableMode;
+
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
                     AccountingForm.scriptEditor.SetGameModeAndScript(mode, ModeScripts[mode])));
-
-                if (Utils.DEBUG_FORM) {
-                    const bool a = false;
-                    if (a) Console.Beep();
-                }
             }
+        }
+
+        private void Debug()
+        {
+            if (Utils.DEBUG_FORM && Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.debugForm))
+                AccountingForm.debugForm.Invoke(new Action(RefreshDebugForm));
+        }
+
+        private void RefreshDebugForm()
+        {
+            DebugForm df = AccountingForm.debugForm;
+            df.w.Text = $"WON = {VideoChecker.won}";
+            df.wc.Text = $"WON COUNTER = {WonCounter}";
+            df.lc.Text = $"LOST COUNTER = {LostCounter}";
+            df.gi.Text = $"GAME INDEX = {GameIndex}";
+            df.gm.Text = $"GAME MODE = {GameMode.View()}";
+            df.gis.Text = string.Join("\n", GameIndices.Select(p => $"{p.Key.View()} = {p.Value}"));
         }
 
         public void ClearCounters()
@@ -74,6 +88,8 @@ namespace vlc_works
 
             GameMode = GameMode.ALL;
             SetGameIndex(index);
+
+            Debug();
         }
 
         public void ClearWonCounter() => WonCounter = 0;
@@ -99,6 +115,8 @@ namespace vlc_works
 
             if (gameIndex >= ModeScripts[GameMode.ALL].Length)
                 SetGameIndex(gameIndex);
+
+            Debug();
         }
 
         public void IncLostCounter()
@@ -124,6 +142,8 @@ namespace vlc_works
                 gameIndex = GameIndex - 1;
 
             SetGameIndex(gameIndex);
+
+            Debug();
         }
     }
 }

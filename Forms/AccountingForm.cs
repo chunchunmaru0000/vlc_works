@@ -638,9 +638,25 @@ namespace vlc_works
                 editDb.SelectPlayersFromDb()));
         }
 
-		#endregion FACE_CONTROL
+        #endregion FACE_CONTROL
 
-		#region TEMPORAL_CONTROLS
+        #region DEBUG_FORM
+
+        public DebugForm debugForm { get; set; }
+
+        private void debugBut_Click(object sender, EventArgs e)
+        {
+            if (Utils.IsFormAlive(debugForm))
+                return;
+
+            debugForm = new DebugForm(this);
+            debugForm.Show();
+            debugForm.Location = new Point(0, 0);
+        }
+
+        #endregion DEBUG_FORM
+
+        #region TEMPORAL_CONTROLS
 
         public void SetUserId(long id)
         {
