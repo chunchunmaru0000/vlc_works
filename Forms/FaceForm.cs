@@ -400,7 +400,7 @@ namespace vlc_works
                     testWriteButton.BackColor = Color.LightCoral;
                     // set first game before recognization anyway
                     accountingForm.SetIsFirstGame(true);
-                    accountingForm.SetGameScript(accountingForm.clientForm.firstGame);
+                    accountingForm.SetGameScript(accountingForm.clientForm.gameInfo.FirstGame);
 
                     new Thread(() => { 
                         do {

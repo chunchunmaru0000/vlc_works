@@ -17,8 +17,7 @@ namespace vlc_works
 		#region UNCHANGING_VAR
 		private IKeyboardEvents hook { get; set; } // hook for hook keys
 		public AccountingForm accountingForm { get; set; }
-        public GameScript firstGame { get; set; }
-        public GameScript[] gameScripts { get; set; }
+        public GameInfo gameInfo { get; set; }
         public GameDirectory gameDirectory { get; set; }
         #endregion UNCHANGING_VAR
         #region CONSTS
@@ -42,7 +41,7 @@ namespace vlc_works
                 !accountingForm.scriptEditor.IsDisposed
                 )
                 accountingForm.scriptEditor.Invoke(new Action(() =>
-                accountingForm.scriptEditor.InitScript(gameScripts)));
+                accountingForm.scriptEditor.InitScript(gameInfo.GameScripts)));
         }
         #region SOME_VAR
         private bool isFullScreen { get; set; } = false;
@@ -87,10 +86,7 @@ namespace vlc_works
         private void InitGameScript()
         {
             try {
-                GameInfo gameInfo = 
-                    new ScriptParser("gameScript.txt").Parse();
-                firstGame = gameInfo.FirstGame;
-                gameScripts = gameInfo.GameScripts;
+                gameInfo = new ScriptParser("gameScript.txt").Parse();
                 
                 Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameMode.MEDIUM].Select(s => s.ToString()))}\n[///]");
                 Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.LabelScripts[GameMode.HARD].Select(s => s.ToString()))}\n[///]");
@@ -321,7 +317,7 @@ namespace vlc_works
             else if (VideoChecker.won)
                 SetGameIndex(gameIndex + 1);
 
-            if (gameIndex >= gameScripts.Length)
+            if (gameIndex >= gameInfo.GameScripts.Length)
                 SetGameIndex(0);
 
             if (!VideoChecker.continued)
@@ -330,12 +326,12 @@ namespace vlc_works
             VideoChecker.won = false;
 			VideoChecker.continued = false;
 
-            accountingForm.SetGameScript(gameScripts[gameIndex]);
+            accountingForm.SetGameScript(gameInfo.GameScripts[gameIndex]);
 
             VideoChecker
             .VlcChanged(
                 gameDirectory
-                .GetRandomGame(gameScripts[gameIndex], VideoChecker.language));
+                .GetRandomGame(gameInfo.GameScripts[gameIndex], VideoChecker.language));
 
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));
@@ -416,8 +412,8 @@ namespace vlc_works
 
             PathUri pathUri =
                 accountingForm.isFirstGame
-                ? gameDirectory.GetRandomGame(firstGame, VideoChecker.language)
-                : gameDirectory.GetRandomGame(gameScripts[gameIndex], VideoChecker.language);
+                ? gameDirectory.GetRandomGame(gameInfo.FirstGame, VideoChecker.language)
+                : gameDirectory.GetRandomGame(gameInfo.GameScripts[gameIndex], VideoChecker.language);
             VideoChecker.VlcChanged(pathUri);
 
             accountingForm.SetLangLabel(VideoChecker.language.View());

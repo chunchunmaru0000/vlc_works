@@ -726,16 +726,16 @@ namespace vlc_works
 
                 clientForm.SetGameIndex(-1);
                 SetIsFirstGame(true);
-                SetGameScript(clientForm.firstGame);
+                SetGameScript(clientForm.gameInfo.FirstGame);
 			}
 			else {
 				cBox.Text = player.C.ToString();
 				kBox.Text = player.K.ToString();
 				mBox.Text = player.M.ToString();
 
-                clientForm.SetGameIndex(DecideGameIndex(clientForm.gameScripts, player));
+                clientForm.SetGameIndex(DecideGameIndex(clientForm.gameInfo.GameScripts, player));
                 SetIsFirstGame(false);
-                SetGameScript(clientForm.gameScripts[clientForm.gameIndex]);
+                SetGameScript(clientForm.gameInfo.GameScripts[clientForm.gameIndex]);
             }
 
             RefreshDbForm();
@@ -788,7 +788,7 @@ namespace vlc_works
 
 			if (Db.FindPlayer(playerIdInt) == null) {
                 DbPlayer player = new DbPlayer(-1, playerIdInt, cLvlInt, kLvlInt, mLvlInt);
-                int playerWouldPlayScript = DecideGameIndex(clientForm.gameScripts, player);
+                int playerWouldPlayScript = DecideGameIndex(clientForm.gameInfo.GameScripts, player);
                 SetIsFirstGame(playerWouldPlayScript == 0);
 
                 Db.InsertPlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);

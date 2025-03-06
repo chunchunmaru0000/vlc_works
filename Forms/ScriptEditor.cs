@@ -12,7 +12,6 @@ namespace vlc_works
         private AccountingForm accountingForm { get; set; }
         private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
- 
 
         public ScriptEditor(AccountingForm accountingForm, ClientForm clientForm)
         {
@@ -24,7 +23,7 @@ namespace vlc_works
             Owner = accountingForm;
 
             defaultStyle = scriptEditorGrid.DefaultCellStyle.Clone();
-            InitScript(clientForm.gameScripts);
+            InitScript(clientForm.gameInfo.GameScripts);
             IsInit = false;
         }
 
@@ -145,7 +144,17 @@ namespace vlc_works
 
         private void easyBut_Click(object sender, EventArgs e)
         {
-
+            switch (clientForm.gameInfo.GameMode)
+            {
+                case GameMode.ALL:
+                    break;
+                case GameMode.MEDIUM:
+                    break;
+                case GameMode.HARD:
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void mediumBut_Click(object sender, EventArgs e)
