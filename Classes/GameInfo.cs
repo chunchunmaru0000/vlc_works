@@ -45,22 +45,21 @@ namespace vlc_works
         public void SetGameIndex(int index)
         {
             GameIndices[GameMode] = index;
+            GameMode mode =
+                //GameMode;
+                AccountingForm.scriptEditor.tableMode;
+
             if (Utils.IsFormAlive(AccountingForm) &&
                 Utils.IsFormAlive(AccountingForm.scriptEditor))
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
-                AccountingForm.scriptEditor.SetGameModeAndScript(
-                    //GameMode,
-                    //GameModeScripts
-                    AccountingForm.scriptEditor.tableMode,
-                    ModeScripts[AccountingForm.scriptEditor.tableMode]
-                    )));
+                    AccountingForm.scriptEditor.SetGameModeAndScript(mode, ModeScripts[mode])));
         }
 
         public void ResetWonCounter() => WonCounter = 0;
 
         public void ResetLostCounter() => LostCounter = 0;
 
-        public void IncGameIndex(int index)
+        public void IncGameIndex()
         {
             WonCounter++;
             ResetLostCounter();
@@ -81,9 +80,22 @@ namespace vlc_works
             SetGameIndex(gameIndex);
         }
 
-        public void DecGameIndex(int index)
+        public void IncLostCounter()
         {
+            LostCounter++;
+            ResetWonCounter();
 
+            int gameIndex;
+
+            if (LostCounter >= 3 && GameMode != GameMode.ALL) {
+                ResetLostCounter();
+
+                // HARD -> MEDIUM -> ALL
+                GameMode = (GameMode)((int)GameMode - 1);
+                gameIndex = ModeStartPoints[GameMode];
+
+                SetGameIndex(gameIndex);
+            }
         }
     }
 }

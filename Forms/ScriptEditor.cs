@@ -147,9 +147,7 @@ namespace vlc_works
                 : clientForm.gameIndex < index
                     ? CurStyle(GS.FUTURE)
                     : CurStyle(GS.PASSED)
-            : (int)tableMode < (int)clientForm.gameInfo.GameMode
-                ? CurStyle(GS.FUTURE)
-                : CurStyle(GS.PASSED)
+            : CurStyle(GS.FUTURE)
             ).Clone();
 
         private void InitScript(GameScript[] gameScripts)
