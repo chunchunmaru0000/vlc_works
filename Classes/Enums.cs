@@ -48,9 +48,12 @@
 
     public enum GameMode
     {
+        [StringValue("ОБЫЧНЫЙ")]
         ALL, // its EASY but actually its just all scripts
+        [StringValue("СРЕДНИЙ")]
         [ArrayValue(new string[] { "medium", "средняя", "средний", "среднее" })]
         MEDIUM,
+        [StringValue("СЛОЖНЫЙ")]
         [ArrayValue(new string[] { "hard", "сложная", "сложный", "сложное" })]
         HARD,
     }

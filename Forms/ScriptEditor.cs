@@ -141,9 +141,13 @@ namespace vlc_works
         #region INIT
 
         private DataGridViewCellStyle indexRowStyle(int index) => (
-            clientForm.gameIndex == index
-            ? CurStyle(GS.CURRENT)
-            : clientForm.gameIndex < index
+            tableMode == clientForm.gameInfo.GameMode
+            ? clientForm.gameIndex == index
+                ? CurStyle(GS.CURRENT)
+                : clientForm.gameIndex < index
+                    ? CurStyle(GS.FUTURE)
+                    : CurStyle(GS.PASSED)
+            : (int)tableMode < (int)clientForm.gameInfo.GameMode
                 ? CurStyle(GS.FUTURE)
                 : CurStyle(GS.PASSED)
             ).Clone();

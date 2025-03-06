@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace vlc_works
 {
@@ -12,10 +13,13 @@ namespace vlc_works
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
         public Dictionary<GameMode, int> ModeStartPoints { get; set; }
         public GameMode GameMode { get; set; }
-        public int GameIndex { get; set; }
+        public Dictionary<GameMode, int> GameIndices { get; set; }
+
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
+        private int GameIndex { get => GameIndices[GameMode]; }
 
         private int WonCounter { get; set; }
+        private int LostCounter { get; set; }
 
         public GameInfo(
             GameScript firstGame, 
@@ -28,47 +32,53 @@ namespace vlc_works
             FirstGame = firstGame;
             GameScripts = modeScripts[GameMode.ALL];
             ModeScripts = modeScripts;
+            ModeStartPoints = modeStartPoints;
 
             GameMode = GameMode.ALL;
-            GameIndex = -1;
+            GameIndices = new Dictionary<GameMode, int>() {
+                { GameMode.ALL, -1 },
+                { GameMode.MEDIUM, 0 },
+                { GameMode.HARD, 0 },
+            };
         }
 
         public void SetGameIndex(int index)
         {
-            GameIndex = index;
+            GameIndices[GameMode] = index;
             if (Utils.IsFormAlive(AccountingForm) &&
                 Utils.IsFormAlive(AccountingForm.scriptEditor))
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
                 AccountingForm.scriptEditor.SetGameModeAndScript(
+                    //GameMode,
+                    //GameModeScripts
                     AccountingForm.scriptEditor.tableMode,
-                    GameModeScripts
+                    ModeScripts[AccountingForm.scriptEditor.tableMode]
                     )));
         }
 
         public void ResetWonCounter() => WonCounter = 0;
 
+        public void ResetLostCounter() => LostCounter = 0;
+
         public void IncGameIndex(int index)
         {
             WonCounter++;
-            
+            ResetLostCounter();
+
+            int gameIndex;
+
             if (WonCounter >= 3 && GameMode != GameMode.HARD) {
                 ResetWonCounter();
 
-                // ALL -> MEDIUM -> HARD == 0 -> 1 -> 2
+                // ALL -> MEDIUM -> HARD the same as 0 -> 1 -> 2
                 GameMode = (GameMode)((int)GameMode + 1);
-
-                switch (GameMode) {
-                    // case GameMode.ALL: break; // can't be
-                    case GameMode.MEDIUM:
-                        int mediumGameIndex = ;
-                        SetGameIndex(mediumGameIndex); break;
-                    case GameMode.HARD:
-                        int hardGameIndex = ;
-                        SetGameIndex(hardGameIndex); break;
-                }
-            } else {
-
+                gameIndex = 0;
             }
+            else
+                gameIndex = GameIndex + 1;
+
+            if (gameIndex >= GameScripts.Length)
+            SetGameIndex(gameIndex);
         }
 
         public void DecGameIndex(int index)
