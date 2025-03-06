@@ -107,7 +107,7 @@ namespace vlc_works
 
         public static void print(object obj)
         {
-            bool DEBUG = true;
+            bool DEBUG = false;
 
             string str = obj == null ? "" : obj.ToString();
             Console.WriteLine(str);

@@ -40,6 +40,7 @@ namespace vlc_works
 
         #region CELLS_STYLES
         private DataGridViewCellStyle CurStyle(GS gc) => styles[tableMode][gc];
+
         private enum GS // GameStyle
         {
             DEFAULT,
@@ -50,6 +51,7 @@ namespace vlc_works
             CURRENT,
             FUTURE,
         }
+
         private Dictionary<GameMode, Dictionary<GS, DataGridViewCellStyle>> styles { get; set; } = new Dictionary<GameMode, Dictionary<GS, DataGridViewCellStyle>>() {
             {
                 GameMode.ALL, new Dictionary<GS, DataGridViewCellStyle>() {
@@ -133,7 +135,6 @@ namespace vlc_works
                 }
             },
         };
-
 
         #endregion
 

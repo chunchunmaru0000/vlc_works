@@ -192,6 +192,7 @@ namespace vlc_works
                     disconnectBut.BackColor = Color.LightGreen;
                     axFPCLOCK_Svr.OpenNetwork(port);
 
+                    accountingForm.devicesSettings.Add("LOCAL_PORT", textPort.Text);
                     accountingForm.devicesSettings.Add("MACHINE_IP", ipAdressBox.Text);
                     accountingForm.devicesSettings.Add("MACHINE_PORT", ipPortBox.Text);
                     accountingForm.devicesSettings.Add("MACHINE_PASSWORD", passwordBox.Text);
