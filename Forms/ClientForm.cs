@@ -41,7 +41,10 @@ namespace vlc_works
                 !accountingForm.scriptEditor.IsDisposed
                 )
                 accountingForm.scriptEditor.Invoke(new Action(() =>
-                accountingForm.scriptEditor.InitScript(gameInfo.GameScripts)));
+                accountingForm.scriptEditor.SetGameModeAndScript(
+                    gameInfo.GameMode,
+                    gameInfo.GameModeScripts
+                    )));
         }
         #region SOME_VAR
         private bool isFullScreen { get; set; } = false;

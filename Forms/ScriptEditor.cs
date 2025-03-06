@@ -13,6 +13,11 @@ namespace vlc_works
         private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
         private GameMode tableMode { get; set; } = GameMode.ALL;
+        public void SetGameModeAndScript(GameMode mode, GameScript[] gameScripts)
+        {
+            tableMode = mode;
+            InitScript(gameScripts);
+        }
 
         public ScriptEditor(AccountingForm accountingForm, ClientForm clientForm)
         {
@@ -25,7 +30,6 @@ namespace vlc_works
 
             styles[GameMode.ALL][GS.DEFAULT] = scriptEditorGrid.DefaultCellStyle.Clone();
             InitScript(clientForm.gameInfo.GameScripts);
-            IsInit = false;
         }
 
         private Dictionary<GameType, string> GameTypeToLetter { get; } = new Dictionary<GameType, string>() {
@@ -35,7 +39,7 @@ namespace vlc_works
         };
 
         #region CELLS_STYLES
-
+        private DataGridViewCellStyle CurStyle(GS gc) => styles[tableMode][gc];
         private enum GS // GameStyle
         {
             DEFAULT,
@@ -51,52 +55,87 @@ namespace vlc_works
                 GameMode.ALL, new Dictionary<GS, DataGridViewCellStyle>() {
                     { GS.DEFAULT, new DataGridViewCellStyle() },
                     { GS.CHANGED, new DataGridViewCellStyle() {
-                            BackColor = Color.GreenYellow,
-                            SelectionBackColor = Color.Olive,
-                            ForeColor = Color.Black,
-                            SelectionForeColor = Color.White,
+                        BackColor = Color.GreenYellow,
+                        SelectionBackColor = Color.Olive,
                     } },
                     { GS.ERROR, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(244, 67, 54),
-                        ForeColor = Color.Black,
                         SelectionBackColor = Color.FromArgb(198, 40, 40),
-                        SelectionForeColor = Color.White,
                     } },
                     { GS.PASSED, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(34, 85, 34),
-                        ForeColor = Color.Black,
                         SelectionBackColor = Color.FromArgb(44, 115, 44),
-                        SelectionForeColor = Color.White,
                     } },
                     { GS.CURRENT, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(200, 230, 201),
-                        ForeColor = Color.Black,
                         SelectionBackColor = Color.FromArgb(165, 214, 167),
-                        SelectionForeColor = Color.White,
                     } },
                     { GS.FUTURE, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(76, 175, 80),
-                        ForeColor = Color.Black,
                         SelectionBackColor = Color.FromArgb(102, 211, 106),
-                        SelectionForeColor = Color.White,
                     } },
                 }
             },
             {
                 GameMode.MEDIUM, new Dictionary<GS, DataGridViewCellStyle>() {
+                    { GS.DEFAULT, new DataGridViewCellStyle() {
 
+                    } },
+                    { GS.CHANGED, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(255, 235, 59),
+                        SelectionBackColor = Color.FromArgb(253, 216, 53),
+                    } },
+                    { GS.ERROR, new DataGridViewCellStyle() {
+                        BackColor = Color.OrangeRed,
+                        SelectionBackColor = Color.FromArgb(198, 40, 40),
+                    } },
+                    { GS.PASSED, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(255, 183, 77),
+                        SelectionBackColor = Color.FromArgb(255, 160, 0),
+                    } },
+                    { GS.CURRENT, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(255, 224, 130),
+                        SelectionBackColor = Color.FromArgb(255, 204, 102),
+                    } },
+                    { GS.FUTURE, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(255, 193, 7),
+                        SelectionBackColor = Color.FromArgb(255, 179, 0),
+                    } },
                 }
             },
             {
                 GameMode.HARD, new Dictionary<GS, DataGridViewCellStyle>() {
+                    { GS.DEFAULT, new DataGridViewCellStyle() {
 
+                    } },
+                    { GS.CHANGED, new DataGridViewCellStyle() {
+                        BackColor = Color.GreenYellow,
+                        SelectionBackColor = Color.Olive,
+                    } },
+                    { GS.ERROR, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(244, 67, 54),
+                        SelectionBackColor = Color.FromArgb(198, 40, 40),
+                    } },
+                    { GS.PASSED, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(34, 85, 34),
+                        SelectionBackColor = Color.FromArgb(44, 115, 44),
+                    } },
+                    { GS.CURRENT, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(200, 230, 201),
+                        SelectionBackColor = Color.FromArgb(165, 214, 167),
+                    } },
+                    { GS.FUTURE, new DataGridViewCellStyle() {
+                        BackColor = Color.FromArgb(76, 175, 80),
+                        SelectionBackColor = Color.FromArgb(102, 211, 106),
+                    } },
                 }
             },
         };
 
-        private DataGridViewCellStyle CurStyle(GS gc) => styles[tableMode][gc];
 
         #endregion
+
+        #region INIT
 
         private DataGridViewCellStyle indexRowStyle(int index) => (
             clientForm.gameIndex == index
@@ -106,7 +145,7 @@ namespace vlc_works
                 : CurStyle(GS.PASSED)
             ).Clone();
 
-        public void InitScript(GameScript[] gameScripts)
+        private void InitScript(GameScript[] gameScripts)
         {
             scriptEditorGrid.Rows.Clear(); // for dynamic
             rowToScript.Clear();
@@ -131,7 +170,11 @@ namespace vlc_works
                 scriptEditorGrid.Rows.Add(row);
                 rowToScript[row] = script;
             }
+
+            IsInit = false;
         }
+
+        #endregion INIT
 
         #region LOGIC
 
