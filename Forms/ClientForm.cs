@@ -226,32 +226,56 @@ namespace vlc_works
 				? DbCurrentRecord.SelectedLvl 
 				: -1;
 
-        private long MaxPlus1or10(long value) =>
-            ++value >= 10 
-                ? 0 
-                : value;
+        public void SetBox(GameType gameType, long lvl) {
+            accountingForm.Invoke(new Action(() => {
+                switch (gameType) {
+                    case GameType.Guard:
+                        accountingForm.cBox.Text = lvl.ToString(); break;
+                    case GameType.Painting:
+                        accountingForm.kBox.Text = lvl.ToString(); break;
+                    case GameType.Mario:
+                        accountingForm.mBox.Text = lvl.ToString(); break;
+                }
+            }));
+        }
 
-		private void SetNewBoxesValues(long c, long k, long m)
-		{
-			accountingForm.Invoke(new Action(() => {
-				if (!VideoChecker.won) // if not won does not update antng because lvl remains the same
-					return;
+        public void SetBoxesUntilScript(GameScript script)
+        {
+            int scriptIndex =
+                gameInfo.ModeScripts[GameMode.ALL].Length -
+                gameInfo.GameModeScripts.Length + gameInfo.GameIndex
+                + (gameInfo.GameIndex >= gameInfo.ModeScripts[GameMode.ALL].Length ? 0 : 1);
+            List<GameType> added = new List<GameType>();
 
-				switch (DbCurrentRecord.SelectedGameType) {
-					case GameType.Guard:
-						accountingForm.cBox.Text = MaxPlus1or10(c).ToString();
-						break;
-					case GameType.Painting:
-						accountingForm.kBox.Text = MaxPlus1or10(k).ToString();
-						break;
-					case GameType.Mario:
-						accountingForm.mBox.Text = MaxPlus1or10(m).ToString();
-						break;
-					default:
-						break;
-				}
-			}));
-		}
+            for (int i = scriptIndex; i >= 0; i--) {
+                GameScript iScript = gameInfo.ModeScripts[GameMode.ALL][i];
+                GameType scriptType = iScript.GameType;
+
+                if (!added.Contains(scriptType)) {
+                    added.Add(scriptType);
+                    SetBox(scriptType, iScript.Lvl);
+                }
+            }
+        }
+
+        private void GameIndexOperations()
+        {
+            if (accountingForm.isFirstGame)
+            {
+                accountingForm.SetIsFirstGame(false);
+
+                if (VideoChecker.won)
+                    gameInfo.ClearGameIndicesAndSetFirst(0);
+                gameInfo.IncGameIndex();
+            }
+            else if (VideoChecker.won)
+                gameInfo.IncGameIndex();
+            else
+                gameInfo.IncLostCounter();
+
+            if (!VideoChecker.continued)
+                accountingForm.SetLangLabel("#");
+        }
 
 		public void DoDataBaseGameRecord(bool DEBUG = false)
 		{
@@ -264,9 +288,11 @@ namespace vlc_works
 			long playerKLvl = long.Parse(accountingForm.kBox.Text);
 			long playerMLvl = long.Parse(accountingForm.mBox.Text);
 
-			SetNewBoxesValues(gameCLvl, gameKLvl, gameMLvl);
+            GameIndexOperations();
+            Console.WriteLine(gameInfo.CurrentScript);
+            Console.WriteLine($"{accountingForm.cBox.Text}|{accountingForm.kBox.Text}|{accountingForm.mBox.Text}");
 
-			long playerUpdCLvl = long.Parse(accountingForm.cBox.Text);
+            long playerUpdCLvl = long.Parse(accountingForm.cBox.Text);
 			long playerUpdKLvl = long.Parse(accountingForm.kBox.Text);
 			long playerUpdMLvl = long.Parse(accountingForm.mBox.Text);
 
@@ -293,22 +319,6 @@ namespace vlc_works
 				prizeInt: DbCurrentRecord.SelectedPrize,
 				priceInt: DbCurrentRecord.SelectedPrice
 			);
-
-            if (accountingForm.isFirstGame)
-            {
-                accountingForm.SetIsFirstGame(false);
-
-                if (VideoChecker.won)
-                    gameInfo.ClearGameIndicesAndSetFirst(0);
-                gameInfo.IncGameIndex();
-            }
-            else if (VideoChecker.won)
-                gameInfo.IncGameIndex();
-            else
-                gameInfo.IncLostCounter();
-
-            if (!VideoChecker.continued)
-                accountingForm.SetLangLabel("#");
 
             VideoChecker.won = false;
 			VideoChecker.continued = false;

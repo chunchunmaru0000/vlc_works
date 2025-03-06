@@ -43,8 +43,11 @@ namespace vlc_works
 
         private void SetGameIndex(int index)
         {
-            if (index < ModeScripts[GameMode].Length)
+            if (index < ModeScripts[GameMode].Length) {
                 GameIndices[GameMode] = index;
+
+                AccountingForm.clientForm.SetBoxesUntilScript(CurrentScript);
+            }
 
             if (Utils.IsFormAlive(AccountingForm) &&
                 Utils.IsFormAlive(AccountingForm.scriptEditor)) {
