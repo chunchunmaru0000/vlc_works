@@ -56,6 +56,7 @@ namespace vlc_works
                     );
 
             Dictionary<GameMode, GameScript[]> labelScripts = new Dictionary<GameMode, GameScript[]>() {
+                { GameMode.ALL, gameScripts },
                 { GameMode.MEDIUM,
                     gameScripts
                     .Skip(mediumLabelCount)
