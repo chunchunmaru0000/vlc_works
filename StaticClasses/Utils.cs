@@ -118,5 +118,9 @@ namespace vlc_works
             using (StreamWriter s = File.AppendText(file))
                 s.WriteLine(str);
         }
+
+        public static bool IsFormAlive(Form form) =>
+            form != null &&
+            !form.IsDisposed;
 	}
 }

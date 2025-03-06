@@ -222,11 +222,18 @@ namespace vlc_works
         #endregion LOGIC
 
         #region GAME_MODE_BUTS
+
+        private GameMode GetUninitTableModeAndSetItTo(GameMode modeSet)
+        {
+            GameMode modeGet = tableMode;
+            tableMode = modeSet;
+            IsInit = true;
+            return modeGet;
+        }
+
         private void easyBut_Click(object sender, EventArgs e)
         {
-            GameMode mode = tableMode;
-            tableMode = GameMode.ALL;
-            IsInit = true;
+            GameMode mode = GetUninitTableModeAndSetItTo(GameMode.ALL);
 
             switch (mode) {
                 case GameMode.ALL: 
@@ -241,9 +248,7 @@ namespace vlc_works
 
         private void mediumBut_Click(object sender, EventArgs e)
         {
-            GameMode mode = tableMode;
-            tableMode = GameMode.MEDIUM;
-            IsInit = true;
+            GameMode mode = GetUninitTableModeAndSetItTo(GameMode.MEDIUM);
 
             switch (mode) {
                 case GameMode.ALL: 
@@ -258,9 +263,7 @@ namespace vlc_works
 
         private void hardBut_Click(object sender, EventArgs e)
         {
-            GameMode mode = tableMode;
-            tableMode = GameMode.HARD;
-            IsInit = true;
+            GameMode mode = GetUninitTableModeAndSetItTo(GameMode.HARD);
 
             switch (mode) {
                 case GameMode.ALL:
@@ -271,6 +274,7 @@ namespace vlc_works
                 default: break;
             }
         }
+
         #endregion GAME_MODE_BUTS
     }
 }

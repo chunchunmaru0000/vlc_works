@@ -406,7 +406,7 @@ namespace vlc_works
         private void ShowPhoto(int rowIndex)
         {
             //print(string.Join("|", rowIndexToSelectedImage.Keys.Select(k => k.ToString())) + " KEYS");
-            if (photoForm != null && !photoForm.IsDisposed)
+            if (Utils.IsFormAlive(photoForm))
                 return;
 
             byte[] photoBytes = new byte[0];

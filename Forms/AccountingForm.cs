@@ -306,7 +306,7 @@ namespace vlc_works
         #region SCRIPT
         private void scriptEdititorBut_Click(object sender, EventArgs e)
         {
-            if (scriptEditor != null && !scriptEditor.IsDisposed)
+            if (Utils.IsFormAlive(scriptEditor))
                 return;
 
             scriptEditor = new ScriptEditor(this, clientForm);
@@ -622,7 +622,7 @@ namespace vlc_works
 
 		private void faceControlBut_Click(object sender, EventArgs e)
 		{
-            if (faceForm != null && !faceForm.IsDisposed)
+            if (Utils.IsFormAlive(faceForm))
                 return;
 
 			faceForm = new FaceForm(this);
@@ -633,9 +633,7 @@ namespace vlc_works
         public void RefreshDbForm()
         {
             EditDbForm editDb = faceForm.editDbForm;
-            if (editDb != null &&
-                !editDb.IsDisposed
-                )
+            if (Utils.IsFormAlive(editDb))
                 editDb.Invoke(new Action(() =>
                 editDb.SelectPlayersFromDb()));
         }
@@ -885,7 +883,7 @@ namespace vlc_works
                         isLaserIntersected &&
                         clientForm.stage == Stage.IDLE
                         ) {
-                        if (faceForm != null && !faceForm.IsDisposed)
+                        if (Utils.IsFormAlive(faceForm))
                             faceForm.SetToRecognize(true);
                         startGameBut_Click(null, EventArgs.Empty);
                     }

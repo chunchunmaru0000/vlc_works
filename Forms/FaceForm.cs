@@ -720,7 +720,7 @@ namespace vlc_works
 
         private void openEditDbFormBut_Click(object sender, EventArgs e)
         {
-            if (editDbForm != null && !editDbForm.IsDisposed)
+            if (Utils.IsFormAlive(editDbForm))
                 return;
 
             editDbForm = new EditDbForm(this, axFP_CLOCK, machineNumber);
