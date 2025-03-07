@@ -362,9 +362,40 @@ SELECT price_int from {TempPricesTableName}
             }
         }
 
-        public static int GetWonCounter(DbPlayer player)
+        /// <summary>
+        /// <paramref name="player"/> existing is ensured by user of not being null
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static int[] GetCounters(DbPlayer player)
         {
+            string query =
+                $@"
+SELECT won_bool_int FROM {GameRecordsTableName} 
+WHERE player_id_int = @playerId
+ORDER BY id DESC
+LIMIT 3";
+            using(SQLiteCommand cmd = new SQLiteCommand(query, SqLiteConnection)) {
+                cmd.Parameters.AddWithValue("@playerId", player.PlayerIdInt);
 
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                DataTable table = new DataTable();
+                table.Load(reader);
+                reader.Close();
+
+                int[] last3 =
+                    table.Rows
+                    .Cast<DataRow>()
+                    .Select(row => Convert.ToInt32(row.ItemArray[0]))
+                    .ToArray();
+
+                return
+                    last3.Length == 0
+                    ? new int[2] { 0, 0 }
+                    : last3[0] == 1
+                        ? new int[2] { last3.TakeWhile(w => w == 1).Count(), 0 }
+                        : new int[2] { 0, last3.TakeWhile(w => w == 0).Count() };
+            }
         }
     }
 }

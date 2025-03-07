@@ -749,7 +749,10 @@ namespace vlc_works
 				mBox.Text = player.M.ToString();
                 Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");
 
-                clientForm.gameInfo.SetWonCounter(Db.GetWonCounter(player));
+                int[] counters = Db.GetCounters(player);
+                clientForm.gameInfo.SetWonCounter(counters[0]);
+                clientForm.gameInfo.SetLostCounter(counters[1]);
+
                 clientForm.gameInfo.ClearGameIndicesAndSetFirst(
                     DecideGameIndex(
                         clientForm.gameInfo.ModeScripts[GameMode.ALL], 

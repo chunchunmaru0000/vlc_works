@@ -143,6 +143,8 @@ namespace vlc_works
 
         public void SetWonCounter(int count) => WonCounter = count;
 
+        public void SetLostCounter(int count) => LostCounter = count;
+
         public void ClearLostCounter() => LostCounter = 0;
 
         public void IncGameIndex()
