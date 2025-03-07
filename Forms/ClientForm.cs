@@ -239,40 +239,6 @@ namespace vlc_works
             }));
         }
 
-        public void SetBoxesUntilScript(GameScript script)
-        {
-            Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
-
-            int tmpIndex =
-                gameInfo.ModeScripts[GameMode.ALL].Length -
-                gameInfo.GameModeScripts.Length + gameInfo.GameIndex;
-            int scriptIndex = tmpIndex + 1;
-
-            if (scriptIndex >= gameInfo.GameModeScripts.Length 
-                ||
-                gameInfo.GameModeScripts[tmpIndex].GameType == gameInfo.GameModeScripts[scriptIndex].GameType
-                )
-                scriptIndex = tmpIndex;
-            Console.WriteLine($"{scriptIndex} -> {gameInfo.ModeScripts[GameMode.ALL][scriptIndex]}");
-
-            List<GameType> added = new List<GameType>();
-
-            for (int i = scriptIndex; i >= 0; i--) {
-                GameScript iScript = gameInfo.ModeScripts[GameMode.ALL][i];
-
-                GameType scriptType = iScript.GameType;
-
-                Console.Write($"\t{i} -> {iScript}, BEFORE [{string.Join(", ", added.Select(t => t.View()))}]");
-                if (!added.Contains(scriptType)) {
-                    added.Add(scriptType);
-                    SetBox(scriptType, iScript.Lvl);
-                }
-                Console.WriteLine($" --->>> _AFTER [{string.Join(", ", added.Select(t => t.View()))}]");
-            }
-
-            Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
-        }
-
         private void GameIndexOperations()
         {
             if (accountingForm.isFirstGame)

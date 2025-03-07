@@ -17,7 +17,10 @@ namespace vlc_works
 
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
         public int GameIndex { get => GameIndices[GameMode]; }
-        public GameScript CurrentScript { get => GameModeScripts[GameIndex]; }
+        public GameScript CurrentScript { get => 
+                GameIndex == -1 
+                ? FirstGame
+                : GameModeScripts[GameIndex]; }
 
         private int WonCounter { get; set; }
         private int LostCounter { get; set; }
@@ -47,7 +50,8 @@ namespace vlc_works
             if (index < ModeScripts[GameMode].Length) {
                 GameIndices[GameMode] = index;
 
-                AccountingForm.clientForm.SetBoxesUntilScript(CurrentScript);
+                if (index >= 0)
+                    SetBoxesUntilScript(CurrentScript);
             }
 
             if (Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.scriptEditor)) {
@@ -59,6 +63,41 @@ namespace vlc_works
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
                     AccountingForm.scriptEditor.SetGameModeAndScript(mode, ModeScripts[mode])));
             }
+        }
+
+        public void SetBoxesUntilScript(GameScript script)
+        {
+            Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
+
+            int tmpIndex =
+                ModeScripts[GameMode.ALL].Length -
+                GameModeScripts.Length + GameIndex;
+            int scriptIndex = tmpIndex + 1;
+
+            if (scriptIndex >= GameModeScripts.Length
+                ||
+                GameModeScripts[tmpIndex].GameType == GameModeScripts[scriptIndex].GameType
+                )
+                scriptIndex = tmpIndex;
+            Console.WriteLine($"{scriptIndex} -> {ModeScripts[GameMode.ALL][scriptIndex]}");
+
+            List<GameType> added = new List<GameType>();
+
+            for (int i = scriptIndex; i >= 0; i--)
+            {
+                GameScript iScript = ModeScripts[GameMode.ALL][i];
+
+                GameType scriptType = iScript.GameType;
+
+                Console.Write($"\t{i} -> {iScript}, BEFORE [{string.Join(", ", added.Select(t => t.View()))}]");
+                if (!added.Contains(scriptType)) {
+                    added.Add(scriptType);
+                    AccountingForm.clientForm.SetBox(scriptType, iScript.Lvl);
+                }
+                Console.WriteLine($" --->>> _AFTER [{string.Join(", ", added.Select(t => t.View()))}]");
+            }
+
+            Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
         }
 
         private void Debug()
