@@ -746,6 +746,7 @@ namespace vlc_works
 				cBox.Text = player.C.ToString();
 				kBox.Text = player.K.ToString();
 				mBox.Text = player.M.ToString();
+                Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");
 
                 clientForm.gameInfo.ClearGameIndicesAndSetFirst(
                     DecideGameIndex(
@@ -754,11 +755,20 @@ namespace vlc_works
                 SetIsFirstGame(false);
 
                 // p 4 7 0  --X-> s<4>4 0
-                // p 4 7 0  ----> s 4<7>0
+                // p 4 7 0  ----> s 4<7>0 maybe do reverse loop in DecideGameIndex
                 GameScript script = clientForm.gameInfo.CurrentScript;
+
+                Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");
+                Console.WriteLine(player);
                 Console.WriteLine(script);
+                Console.WriteLine("\t" + string.Join("\n\t", 
+                    clientForm.gameInfo.ModeScripts[GameMode.ALL]
+                    .Where(s => s.Lvl - 1 <= script.Lvl)
+                    .Select(Convert.ToString)));
 
                 SetGameScript(clientForm.gameInfo.CurrentScript);
+
+                Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");
             }
 
             clientForm.gameInfo.ClearCounters();

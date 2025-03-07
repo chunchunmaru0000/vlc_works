@@ -16,7 +16,7 @@ namespace vlc_works
 
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
         public int GameIndex { get => GameIndices[GameMode]; }
-        public GameScript CurrentScript { get => ModeScripts[GameMode][GameIndex]; }
+        public GameScript CurrentScript { get => GameModeScripts[GameIndex]; }
 
         private int WonCounter { get; set; }
         private int LostCounter { get; set; }
@@ -49,8 +49,7 @@ namespace vlc_works
                 AccountingForm.clientForm.SetBoxesUntilScript(CurrentScript);
             }
 
-            if (Utils.IsFormAlive(AccountingForm) &&
-                Utils.IsFormAlive(AccountingForm.scriptEditor)) {
+            if (Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.scriptEditor)) {
 
                 GameMode mode =
                     //GameMode;
