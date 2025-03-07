@@ -362,5 +362,9 @@ SELECT price_int from {TempPricesTableName}
             }
         }
 
+        public static int GetWonCounter(DbPlayer player)
+        {
+
+        }
     }
 }

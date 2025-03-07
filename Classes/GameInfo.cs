@@ -100,6 +100,8 @@ namespace vlc_works
             Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
         }
 
+        #region DEBUG
+
         private void Debug()
         {
             if (Utils.DEBUG_FORM && Utils.IsFormAlive(AccountingForm.debugForm))
@@ -117,6 +119,8 @@ namespace vlc_works
             df.cs.Text = $"CURRENT SCRIPT = {CurrentScript}";
             df.gis.Text = string.Join("\n", GameIndices.Select(p => $"{p.Key.View()} = {p.Value}"));
         }
+
+        #endregion DEBUG
 
         public void ClearCounters()
         {
@@ -136,6 +140,8 @@ namespace vlc_works
         }
 
         public void ClearWonCounter() => WonCounter = 0;
+
+        public void SetWonCounter(int count) => WonCounter = count;
 
         public void ClearLostCounter() => LostCounter = 0;
 

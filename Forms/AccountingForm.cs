@@ -738,6 +738,7 @@ namespace vlc_works
 				kBox.Text = "0";
 				mBox.Text = "0";
 
+                clientForm.gameInfo.ClearCounters();
                 clientForm.gameInfo.ClearGameIndicesAndSetFirst(-1);
                 SetIsFirstGame(true);
                 SetGameScript(clientForm.gameInfo.FirstGame);
@@ -748,6 +749,7 @@ namespace vlc_works
 				mBox.Text = player.M.ToString();
                 Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");
 
+                clientForm.gameInfo.SetWonCounter(Db.GetWonCounter(player));
                 clientForm.gameInfo.ClearGameIndicesAndSetFirst(
                     DecideGameIndex(
                         clientForm.gameInfo.ModeScripts[GameMode.ALL], 
@@ -771,7 +773,6 @@ namespace vlc_works
                 Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");
             }
 
-            clientForm.gameInfo.ClearCounters();
             RefreshDbForm();
         }
 
