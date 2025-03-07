@@ -236,7 +236,7 @@ namespace vlc_works
 			new Thread(() =>
 			{
 				RelayChecker.Transmit(Channel.COINS_LIGHT, true); // 15 seconds on to 3 channel
-				Thread.Sleep(15000);
+				Thread.Sleep(TimeSpan.FromSeconds(30));
 				RelayChecker.Transmit(Channel.COINS_LIGHT, false); // off
 			}).Start();
 		}

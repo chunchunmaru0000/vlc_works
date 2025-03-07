@@ -755,7 +755,7 @@ namespace vlc_works
                 SetIsFirstGame(false);
 
                 // p 4 7 0  --X-> s<4>4 0
-                // p 4 7 0  ----> s 4<7>0 maybe do reverse loop in DecideGameIndex
+                // p 4 7 0  ----> s 4<7>0
                 GameScript script = clientForm.gameInfo.CurrentScript;
 
                 Console.WriteLine($"C{cBox.Text};K{kBox.Text};M{mBox.Text}");

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 
 namespace vlc_works
@@ -52,8 +53,8 @@ namespace vlc_works
             if (Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.scriptEditor)) {
 
                 GameMode mode =
-                    //GameMode;
-                    AccountingForm.scriptEditor.tableMode;
+                    GameMode;
+                    //AccountingForm.scriptEditor.tableMode;
 
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
                     AccountingForm.scriptEditor.SetGameModeAndScript(mode, ModeScripts[mode])));
@@ -62,7 +63,7 @@ namespace vlc_works
 
         private void Debug()
         {
-            if (Utils.DEBUG_FORM && Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.debugForm))
+            if (Utils.DEBUG_FORM && Utils.IsFormAlive(AccountingForm.debugForm))
                 AccountingForm.debugForm.Invoke(new Action(RefreshDebugForm));
         }
 
@@ -109,9 +110,23 @@ namespace vlc_works
             if (WonCounter >= 3 && GameMode != GameMode.HARD) {
                 ClearWonCounter();
 
+                int lastIndex = GameIndex;
+                GameMode lastMode = GameMode;
+
                 // ALL -> MEDIUM -> HARD the same as 0 -> 1 -> 2
                 GameMode = (GameMode)((int)GameMode + 1);
+
+                // A5 -> M6 | M6 -> H7 | A9 -> M9 -> H9
                 gameIndex = 0;
+                /*
+                    ModeScripts[lastMode].Length - GameModeScripts.Length 
+                    - 
+                    ;
+                if (gameIndex + )
+                    gameIndex = 0;
+                else if (gameIndex >= GameModeScripts.Length) // if 10 should become 9 as it's max lvl
+                    gameIndex = GameModeScripts.Length - 1;
+                 */
             }
             else
                 gameIndex = GameIndex + 1;
