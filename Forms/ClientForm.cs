@@ -571,19 +571,12 @@ namespace vlc_works
 		{
 			PlayIdle();
 			VideoChecker.SafeStop();
-		}
+            RelayChecker.CameraDownTrue();
+        }
 
 		public void StartGame()
 		{
 			print(accountingForm.isFirstGame);
-
-            //if (accountingForm.isFirstGame)
-            //  accountingForm.SetGameScript(firstGame);
-            //else {
-            // the price will be setted by operator but anyway here need to do 
-            // use Recommendator class for operator recommendations
-            //  accountingForm.SetGameScript(gameScripts[gameIndex]);
-            //}
 
 			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
 			DeleteInput();

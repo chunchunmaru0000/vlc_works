@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using UsbRelayNet.RelayLib;
 // https://github.com/riuson/usb-relay-hid
@@ -46,5 +47,14 @@ namespace vlc_works
 			AccountingForm.Invoke(new Action(() => 
 			ChannelLabels[ch].BackColor = BoolToColor(state)));
 		}
+
+        public static void CameraDownTrue()
+        {
+            new Thread(() => {
+                Transmit(Channel.CAMERA_DOWN, true);
+                Thread.Sleep(3000);
+                Transmit(Channel.CAMERA_DOWN, false);
+            }).Start();
+        }
 	}
 }

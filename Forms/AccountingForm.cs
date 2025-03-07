@@ -389,7 +389,8 @@ namespace vlc_works
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Db.EndSQL();
-			RelayChecker.Close();
+            RelayChecker.CameraDownTrue();
+            RelayChecker.Close();
 			Environment.Exit(0);
 		}
 		#endregion
