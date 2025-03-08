@@ -7,18 +7,19 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
+using System.Collections.ObjectModel;
 
 namespace vlc_works
 {
     public partial class EditDbForm : Form
     {
-        private bool IS_DEBUG { get; } = false;
+        private bool IS_DEBUG { get; } = true;
         private int COLUMN_HEADER_HEIGHT { get; } = 32;
         private bool LOAD_IMAGES { get; } = true;
         #region VAR
-        private FaceForm faceForm;
+        private FaceForm faceForm { get; set; }
         private AxFP_CLOCK axFP_CLOCK { get; set; }
-        private int machineNumber = 1;
+        private int machineNumber { get; set; }
 
         private long playerTableAutoincerentCounter { get; set; }
         #endregion VAR
@@ -60,7 +61,6 @@ namespace vlc_works
 
             return string.Join(" | ", cells);
         }
-
 
         #endregion COMMON
 
@@ -156,18 +156,20 @@ namespace vlc_works
                 playerIdToRowIndex[Convert.ToInt32(player.PlayerIdInt)] = row.Index;
             }
 
-            isManuallyAdded = true;
-
             if (LOAD_IMAGES && requestImages)
                 InitRequestImagesTherad(playerIdToRowIndex);
-            InitImagesCells();
+            else
+                InitImagesCells();
+
+            isManuallyAdded = true;
         }
 
         private void InitImagesCells()
         {
-            foreach(int rowIndex in rowIndexToSelectedImage.Keys)
-                mainGrid.Rows[rowIndex].Cells["face"].Value =
-                    Utils.BytesToBitmap(rowIndexToSelectedImage[rowIndex]);
+            foreach(int rowIndex in rowIndexToSelectedImage.Keys) {
+                Image face = Utils.BytesToBitmap(rowIndexToSelectedImage[rowIndex]);
+                mainGrid.Rows[rowIndex].Cells["face"].Value = face;
+            }
         }
 
         private void InitRequestImagesTherad(Dictionary<int, int> playerIdToRowIndex)
@@ -180,6 +182,11 @@ namespace vlc_works
 
                     rowIndexToSelectedImage[idRow.Value] = image;
                 }
+
+                bool wasIsManuallyAdded = isManuallyAdded;
+                isManuallyAdded = false;
+                Invoke(new Action(InitImagesCells));
+                isManuallyAdded = wasIsManuallyAdded;
             }).Start();
         }
 
@@ -255,9 +262,10 @@ namespace vlc_works
                 .Select(cell => cell.Value)
                 .ToArray();
 
-            print(MainGridRowToString(playerRow.Cells[0].RowIndex));
+            int idCellIndex = mainGrid.Columns["id"].Index;
+            print(MainGridRowToString(playerRow.Cells[idCellIndex].RowIndex));
 
-            if (cells[0] is string) { // id cell is "_{autoincrement}"
+            if (cells[idCellIndex] is string) { // id cell is "_{autoincrement}"
                 print($"deleted {playerRow.Index} row");
 
                 if (rowIndexToSelectedImage.ContainsKey(playerRow.Index))
@@ -270,9 +278,30 @@ namespace vlc_works
             }
 
             else {
-                long id = Convert.ToInt64(cells[0]);
+                long id = Convert.ToInt64(cells[idCellIndex]);
 
                 if (DeleteEnrollmentFromAiDevice(id) || IS_DEBUG) {
+                    if (rowIndexToSelectedImage.ContainsKey(playerRow.Index)) {
+                        rowIndexToSelectedImage.Remove(playerRow.Index);
+
+                        int[] keys = 
+                            rowIndexToSelectedImage.Keys
+                            .OrderBy(k => k)
+                            .ToArray();
+                        Console.WriteLine(string.Join("|\\т|", keys));
+
+                        for (int i = 0; i < keys.Length; i++) {
+                            int key = keys[i];
+
+                            if (key > playerRow.Index && key > 0) {
+                                Console.WriteLine($"{key} -> {key - 1}");
+
+                                rowIndexToSelectedImage[key - 1] = rowIndexToSelectedImage[key];
+                                rowIndexToSelectedImage.Remove(key);
+                            }
+                        }
+                    }
+
                     Db.DeletePlayerWhomIdEquals(id);
                     mainGrid.Rows.Remove(playerRow);
                 }
@@ -480,8 +509,10 @@ namespace vlc_works
         private void ShowPhoto(int rowIndex)
         {
             //print(string.Join("|", rowIndexToSelectedImage.Keys.Select(k => k.ToString())) + " KEYS");
-            if (Utils.IsFormAlive(photoForm))
-                return;
+            if (Utils.IsFormAlive(photoForm)) {
+                photoForm.Close();
+                photoForm.Dispose();
+            }
 
             byte[] photoBytes = new byte[0];
 
