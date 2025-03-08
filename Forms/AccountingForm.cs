@@ -636,7 +636,7 @@ namespace vlc_works
             EditDbForm editDb = faceForm.editDbForm;
             if (Utils.IsFormAlive(editDb))
                 editDb.Invoke(new Action(() =>
-                editDb.SelectPlayersFromDb()));
+                editDb.SelectPlayersFromDb(false)));
         }
 
         #endregion FACE_CONTROL

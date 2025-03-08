@@ -7,15 +7,14 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace vlc_works
 {
-    public partial class EditDbForm: Form
+    public partial class EditDbForm : Form
     {
-        private const bool IS_DEBUG = false;
-        private const int COLUMN_HEADER_HEIGHT = 32;
+        private bool IS_DEBUG { get; } = false;
+        private int COLUMN_HEADER_HEIGHT { get; } = 32;
+        private bool LOAD_IMAGES { get; } = true;
         #region VAR
         private FaceForm faceForm;
         private AxFP_CLOCK axFP_CLOCK { get; set; }
@@ -33,7 +32,7 @@ namespace vlc_works
             this.machineNumber = machineNumber;
             playerTableAutoincerentCounter = Db.AutoincrementCounter(Db.PlayersTableName);
 
-            SelectPlayersFromDb();
+            SelectPlayersFromDb(true);
         }
 
         #region COMMON
@@ -54,7 +53,8 @@ namespace vlc_works
                 mainGrid.Rows[i]
                 .Cells
                 .Cast<DataGridViewCell>()
-                .Select(cell => cell.Value.ToString())
+                .Skip(1)
+                .Select(cell => cell == null ? "" : cell.Value.ToString())
                 .Take(5)
                 .ToArray();
 
@@ -127,7 +127,7 @@ namespace vlc_works
                 cell.Style = khakiStyle.Clone();
         }
 
-        public void SelectPlayersFromDb()
+        public void SelectPlayersFromDb(bool requestImages)
         {
             isManuallyAdded = false;
             mainGrid.Rows.Clear();
@@ -135,15 +135,13 @@ namespace vlc_works
             DbPlayer[] players = Db.SelectAllPlayers();
             Dictionary<int, int> playerIdToRowIndex = new Dictionary<int, int>();
 
-            foreach (DbPlayer player in players)
-            {
+            foreach (DbPlayer player in players) {
                 print(player);
                 DataGridViewRow row = new DataGridViewRow()
                 { Height = COLUMN_HEADER_HEIGHT };
 
-                row.Cells.AddRange(new DataGridViewCell[]
-                {
-                    new DataGridViewImageCell() { Value = null },
+                row.Cells.AddRange(new DataGridViewCell[] {
+                    new DataGridViewImageCell() { Value = null, ImageLayout = DataGridViewImageCellLayout.Zoom },
                     new DataGridViewButtonCell(){ Value = player.Id, FlatStyle = FlatStyle.Flat },
                     new DataGridViewTextBoxCell(){ Value = player.PlayerIdInt },
                     new DataGridViewTextBoxCell(){ Value = player.C },
@@ -160,7 +158,16 @@ namespace vlc_works
 
             isManuallyAdded = true;
 
-            InitRequestImagesTherad(playerIdToRowIndex);
+            if (LOAD_IMAGES && requestImages)
+                InitRequestImagesTherad(playerIdToRowIndex);
+            InitImagesCells();
+        }
+
+        private void InitImagesCells()
+        {
+            foreach(int rowIndex in rowIndexToSelectedImage.Keys)
+                mainGrid.Rows[rowIndex].Cells["face"].Value =
+                    Utils.BytesToBitmap(rowIndexToSelectedImage[rowIndex]);
         }
 
         private void InitRequestImagesTherad(Dictionary<int, int> playerIdToRowIndex)
@@ -171,7 +178,7 @@ namespace vlc_works
                     if (image.Length == 0)
                         continue;
 
-                    SetRowIndexToSelectedImage(idRow.Value, image);
+                    rowIndexToSelectedImage[idRow.Value] = image;
                 }
             }).Start();
         }
@@ -209,6 +216,7 @@ namespace vlc_works
             try {
                 print($"PRESSED BITTON ROW INDEX: {e.RowIndex}");
                 switch (mainGrid.Columns[e.ColumnIndex].Name) {
+                    case "face":   ShowPhoto    (e.RowIndex); break;
                     case "id":     ShowPhoto    (e.RowIndex); break;
                     case "photo":  SelectPhoto  (e.RowIndex); break;
                     case "save":   SetPlayer    (e.RowIndex); break;
@@ -405,11 +413,12 @@ namespace vlc_works
         #region SelectPhoto_AND_ShowPhoto
 
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
-        private void SetRowIndexToSelectedImage(int key, byte[] value)
+        private void SetRowIndexToSelectedImageAndChangeImageCell(int key, byte[] value)
         {
-            isManuallyAdded = true;
+            bool wasIsManuallyAdded = isManuallyAdded;
+            isManuallyAdded = false;
 
-            System.Drawing.Image face = Utils.BytesToBitmap(value);
+            Image face = Utils.BytesToBitmap(value);
             rowIndexToSelectedImage[key] = value;
 
             try {
@@ -422,7 +431,8 @@ namespace vlc_works
                     $"ID ИГРОКА: [{key}]\n" +
                     $"ТЕКСТ ОШИБКИ:\n{e.Message}");
             }
-            isManuallyAdded = false;
+
+            isManuallyAdded = wasIsManuallyAdded;
         }
 
         private byte[] SelectPhotoBytes()
@@ -460,7 +470,7 @@ namespace vlc_works
                 return false;
 
             mainGrid.Rows[rowIndex].Cells["photo"].Style = khakiStyle.Clone();
-            rowIndexToSelectedImage[rowIndex] = photoBytes;
+            SetRowIndexToSelectedImageAndChangeImageCell(rowIndex, photoBytes);
 
             return true;
         }
@@ -480,8 +490,7 @@ namespace vlc_works
             else if (mainGrid.Rows[rowIndex].Cells[0].Value is string) {
                 MessageBox.Show("ФОТО ЕЩЕ НЕ БЫЛО ВЫБРАНО ДЛЯ ДАННОГО ИГРОКА");
                 return;
-            }
-            else {
+            } else {
                 int dwEnrollNumber = Convert.ToInt32(mainGrid.Rows[rowIndex].Cells[0].Value);
                 int dwPhotoSize = 0;
                 IntPtr ptrIndexFacePhoto = Marshal.AllocHGlobal(400800);
@@ -500,7 +509,7 @@ namespace vlc_works
                     photoBytes = new byte[dwPhotoSize];
                     Marshal.Copy(ptrIndexFacePhoto, photoBytes, 0, dwPhotoSize);
 
-                    rowIndexToSelectedImage[rowIndex] = photoBytes;
+                    SetRowIndexToSelectedImageAndChangeImageCell(rowIndex, photoBytes);
                 } else {
                     MessageBox.Show("ФОТО НЕ БЫЛО УСПЕШНО ПРОЧИТАНО ИЗ УСТРОЙСТВА");
                     return;
