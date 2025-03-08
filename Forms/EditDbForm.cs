@@ -165,14 +165,18 @@ namespace vlc_works
         {
             new Thread(() => {
                 foreach (KeyValuePair<int, int> idRow in playerIdToRowIndex) {
-                    Image image = RequestImage(idRow.Key);
-                    if (image == null)
+                    byte[] image = RequestImage(idRow.Key);
+                    if (image.Length == 0)
                         continue;
 
                     isManuallyAdded = true;
+                    Image face = Utils.BytesToBitmap(image);
+                    rowIndexToSelectedImage[idRow.Value] = image;
+
                     try {
-                        Invoke(new Action(() =>
-                            mainGrid.Rows[idRow.Value].Cells["face"].Value = image));
+                        Invoke(new Action(() => {
+                            mainGrid.Rows[idRow.Value].Cells["face"].Value = face;
+                        }));       
                     } catch (Exception e) {
                         MessageBox.Show(
                             $"ПРОИЗОШЛА ОШИБКА ПРИ ЧТЕНИИ ИЗОБРАЖЕНИЙ\n" +
@@ -183,6 +187,30 @@ namespace vlc_works
                     isManuallyAdded = false;
                 }
             }).Start();
+        }
+
+        private byte[] RequestImage(int enrollId)
+        {
+            byte[] photoBytes;
+            int dwPhotoSize = 0;
+            IntPtr ptrIndexFacePhoto = Marshal.AllocHGlobal(400800);
+
+            bool gotImage = 
+                faceForm.PerformOperation(() => axFP_CLOCK.GetEnrollPhotoCS(
+                    machineNumber,
+                    enrollId,
+                    ref dwPhotoSize,
+                    ptrIndexFacePhoto
+                ));
+
+            if (gotImage) {
+                photoBytes = new byte[dwPhotoSize];
+                Marshal.Copy(ptrIndexFacePhoto, photoBytes, 0, dwPhotoSize);
+            }
+            else
+                photoBytes = new byte[0];
+
+            return photoBytes;
         }
 
         #endregion GRID_ADD

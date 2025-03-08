@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -105,7 +106,10 @@ namespace vlc_works
 			{ Keys.D2, Langs.ENGLISH },
 			{ Keys.D3, Langs.RUSSIAN },
 		}; // select lang stage nums to lang
-		#endregion
+
+        public static Bitmap BytesToBitmap(byte[] bytes) => 
+            new Bitmap(new MemoryStream(bytes)).Clone() as Bitmap;
+        #endregion
 
         public static void print(object obj)
         {

@@ -10,7 +10,7 @@ namespace vlc_works
         {
             InitializeComponent();
 
-            pictureBox.Image = new Bitmap(new MemoryStream(photoBytes)).Clone() as Bitmap;
+            pictureBox.Image = Utils.BytesToBitmap(photoBytes);
         }
     }
 }
