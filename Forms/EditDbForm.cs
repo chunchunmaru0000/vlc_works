@@ -12,6 +12,7 @@ namespace vlc_works
     public partial class EditDbForm: Form
     {
         private const bool IS_DEBUG = false;
+        private const int COLUMN_HEADER_HEIGHT = 32;
         #region VAR
         private FaceForm faceForm;
         private AxFP_CLOCK axFP_CLOCK { get; set; }
@@ -57,10 +58,6 @@ namespace vlc_works
             return string.Join(" | ", cells);
         }
 
-        private void EditDbForm_SizeChanged(object sender, EventArgs e)
-        {
-            mainGrid.Size = new Size(Size.Width - 16, Size.Height - 39 - 32);
-        }
 
         #endregion COMMON
 
@@ -82,11 +79,12 @@ namespace vlc_works
         private void newPlayerBut_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = new DataGridViewRow()
-            { Height = 32 };
+            { Height = COLUMN_HEADER_HEIGHT };
 
             playerTableAutoincerentCounter++;
 
             row.Cells.AddRange(new DataGridViewCell[] {
+                new DataGridViewImageCell() { Value = null },
                 new DataGridViewButtonCell(){ 
                     Value = playerTableAutoincerentCounter.ToString(),
                     FlatStyle = FlatStyle.Flat },
@@ -96,7 +94,7 @@ namespace vlc_works
                 new DataGridViewTextBoxCell(){ Value = 0 },
                 new DataGridViewTextBoxCell(){ Value = 0 },
                 new DataGridViewButtonCell() { 
-                    Value = "Выбрать фото", 
+                    Value = "Выбор фото", 
                     FlatStyle = FlatStyle.Flat },
                 new DataGridViewButtonCell() { 
                     Value = "Сохранить", 
@@ -135,16 +133,17 @@ namespace vlc_works
             {
                 print(player);
                 DataGridViewRow row = new DataGridViewRow()
-                { Height = 32 };
+                { Height = COLUMN_HEADER_HEIGHT };
 
                 row.Cells.AddRange(new DataGridViewCell[]
                 {
+                    new DataGridViewImageCell() { Value = null },
                     new DataGridViewButtonCell(){ Value = player.Id, FlatStyle = FlatStyle.Flat },
                     new DataGridViewTextBoxCell(){ Value = player.PlayerIdInt },
                     new DataGridViewTextBoxCell(){ Value = player.C },
                     new DataGridViewTextBoxCell(){ Value = player.K },
                     new DataGridViewTextBoxCell(){ Value = player.M },
-                    new DataGridViewButtonCell() { Value = "Выбрать фото", FlatStyle = FlatStyle.Flat },
+                    new DataGridViewButtonCell() { Value = "Выбор фото", FlatStyle = FlatStyle.Flat },
                     new DataGridViewButtonCell() { Value = "Сохранить", FlatStyle = FlatStyle.Flat },
                     new DataGridViewButtonCell() { Value = "УДАЛИТЬ", FlatStyle = FlatStyle.Flat },
                 });
@@ -395,7 +394,7 @@ namespace vlc_works
             if (photoBytes == null)
                 return false;
 
-            mainGrid.Rows[rowIndex].Cells[5].Style = khakiStyle.Clone();
+            mainGrid.Rows[rowIndex].Cells["photo"].Style = khakiStyle.Clone();
             rowIndexToSelectedImage[rowIndex] = photoBytes;
 
             return true;
@@ -443,9 +442,14 @@ namespace vlc_works
                 }
             }
 
-            photoForm = new PhotoForm(photoBytes);
+            photoForm = new PhotoForm(photoBytes) {
+                Owner = this,
+            };
             photoForm.Show();
-            photoForm.Location = new Point(2000, 100);
+            photoForm.Location = new Point(
+                Location.X + Size.Width - photoForm.Size.Width, 
+                1080 - photoForm.Size.Height
+            );
         }
 
         #endregion SelectPhoto_AND_ShowPhoto
