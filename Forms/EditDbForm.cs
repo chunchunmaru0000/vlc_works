@@ -7,6 +7,8 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace vlc_works
 {
@@ -169,22 +171,7 @@ namespace vlc_works
                     if (image.Length == 0)
                         continue;
 
-                    isManuallyAdded = true;
-                    Image face = Utils.BytesToBitmap(image);
-                    rowIndexToSelectedImage[idRow.Value] = image;
-
-                    try {
-                        Invoke(new Action(() => {
-                            mainGrid.Rows[idRow.Value].Cells["face"].Value = face;
-                        }));       
-                    } catch (Exception e) {
-                        MessageBox.Show(
-                            $"ПРОИЗОШЛА ОШИБКА ПРИ ЧТЕНИИ ИЗОБРАЖЕНИЙ\n" +
-                            $"ID ИГРОКА: [{idRow.Key}]; РЯД: [{idRow.Value}]\n" +
-                            $"ТЕКСТ ОШИБКИ:\n{e.Message}");
-                        break;
-                    }
-                    isManuallyAdded = false;
+                    SetRowIndexToSelectedImage(idRow.Value, image);
                 }
             }).Start();
         }
@@ -418,6 +405,25 @@ namespace vlc_works
         #region SelectPhoto_AND_ShowPhoto
 
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
+        private void SetRowIndexToSelectedImage(int key, byte[] value)
+        {
+            isManuallyAdded = true;
+
+            System.Drawing.Image face = Utils.BytesToBitmap(value);
+            rowIndexToSelectedImage[key] = value;
+
+            try {
+                Invoke(new Action(() => {
+                    mainGrid.Rows[key].Cells["face"].Value = face;
+                }));
+            } catch (Exception e) {
+                MessageBox.Show(
+                    $"ПРОИЗОШЛА ОШИБКА ПРИ ЧТЕНИИ ИЗОБРАЖЕНИЙ\n" +
+                    $"ID ИГРОКА: [{key}]\n" +
+                    $"ТЕКСТ ОШИБКИ:\n{e.Message}");
+            }
+            isManuallyAdded = false;
+        }
 
         private byte[] SelectPhotoBytes()
         {
