@@ -563,7 +563,7 @@ namespace vlc_works
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
 			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
 
-            gameInfo.ClearGameIndicesAndSetFirst(0);
+            //gameInfo.ClearGameIndicesAndSetFirst(0);
             gameInfo.ClearCounters();
 		}
 

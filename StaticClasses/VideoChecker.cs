@@ -14,7 +14,7 @@ namespace vlc_works
 		private const int strFrom = 3;
 
 		private const int strTo = 5;
-		private const int maxVideoRepeatTimes = 5;
+		private const int maxVideoRepeatTimes = 2 - 1;
 
 		// forms
 		private static ClientForm clientForm { get; set; }
@@ -295,11 +295,12 @@ namespace vlc_works
 				$"HANDLE INFINITE REPLAY, REPLAY COUNT: {currentVideoPlayCount}\n" +
 				$"CEASES TO INFINITE PLAY {endedVideoMrl}");
 			currentVideoPlayCount = 0;
-			clientForm.PlayIdle();
 
 			// continued = false; commented because it will be false already here
 			if (endedVideoMrl == currentLanguage.PlayAgain.Uri.AbsoluteUri)
 				clientForm.DoDataBaseGameRecord();
+
+			clientForm.PlayIdle();
 		}
 
 		private static void EndParamsShowVideo()

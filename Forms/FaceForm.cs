@@ -682,7 +682,7 @@ namespace vlc_works
         {
             toRecognize = value;
             print($"SetToRecognize {value}");
-            if (toRecognize) {
+            if (value) {
                 Invoke(new Action(() => {
                     // clear ol image if it was
                     if (aiPictureBox.Image != null)
