@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
@@ -129,7 +130,10 @@ namespace vlc_works
             isManuallyAdded = false;
             mainGrid.Rows.Clear();
 
-            foreach (DbPlayer player in Db.SelectAllPlayers())
+            DbPlayer[] players = Db.SelectAllPlayers();
+            Dictionary<int, int> playerIdToRowIndex = new Dictionary<int, int>();
+
+            foreach (DbPlayer player in players)
             {
                 print(player);
                 DataGridViewRow row = new DataGridViewRow()
@@ -149,9 +153,36 @@ namespace vlc_works
                 });
 
                 mainGrid.Rows.Add(row);
+                playerIdToRowIndex[Convert.ToInt32(player.PlayerIdInt)] = row.Index;
             }
 
             isManuallyAdded = true;
+
+            InitRequestImagesTherad(playerIdToRowIndex);
+        }
+
+        private void InitRequestImagesTherad(Dictionary<int, int> playerIdToRowIndex)
+        {
+            new Thread(() => {
+                foreach (KeyValuePair<int, int> idRow in playerIdToRowIndex) {
+                    Image image = RequestImage(idRow.Key);
+                    if (image == null)
+                        continue;
+
+                    isManuallyAdded = true;
+                    try {
+                        Invoke(new Action(() =>
+                            mainGrid.Rows[idRow.Value].Cells["face"].Value = image));
+                    } catch (Exception e) {
+                        MessageBox.Show(
+                            $"ПРОИЗОШЛА ОШИБКА ПРИ ЧТЕНИИ ИЗОБРАЖЕНИЙ\n" +
+                            $"ID ИГРОКА: [{idRow.Key}]; РЯД: [{idRow.Value}]\n" +
+                            $"ТЕКСТ ОШИБКИ:\n{e.Message}");
+                        break;
+                    }
+                    isManuallyAdded = false;
+                }
+            }).Start();
         }
 
         #endregion GRID_ADD
