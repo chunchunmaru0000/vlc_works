@@ -723,9 +723,19 @@ namespace vlc_works
             if (Utils.IsFormAlive(editDbForm))
                 return;
 
-            editDbForm = new EditDbForm(this, axFP_CLOCK, machineNumber);
+            Console.WriteLine($"{Size.Width}; {Location.X}");
+
+            editDbForm = new EditDbForm(this, axFP_CLOCK, machineNumber) { 
+                Size = new Size(1920 - Size.Width, 800),
+                Owner = this
+            };
             editDbForm.Show();
-            editDbForm.Location = new System.Drawing.Point(2000, 100);
+            editDbForm.Location = new System.Drawing.Point(
+                1920 + Size.Width, 
+                0
+            );
+
+            Console.WriteLine($"{editDbForm.Size.Width}; {editDbForm.Location.X}");
         }
     }
 }
