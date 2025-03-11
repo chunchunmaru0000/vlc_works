@@ -630,9 +630,7 @@ namespace vlc_works
             if (!setEnrollPhotoCSResult) {
                 print("ФОТО НЕ БЫЛО ДОБАВЛЕНО");
                 testWriteButton.BackColor = Color.LightCoral;
-            }
-            else
-            {
+            } else {
                 print("successfullWriteOrRead = true");
                 successfullWriteOrRead = true;
                 accountingForm.SetUserId(enrollId);
@@ -641,11 +639,13 @@ namespace vlc_works
                 // does RefreshDbForm(); in requestDbUserDataBut_Click
                 testWriteButton.BackColor = Color.LightGreen;
 
+                if (toRecognize && Utils.IsFormAlive(editDbForm)) {
+                    // todo: GET LAST ROW INDEX AND SET IMAGE FOR IT
+                }
 
                 testWriteButton.Text = "ИГРОК ЗАПИСАН";
-
                 new Thread(() => {
-                    Thread.Sleep(10000);
+                    Thread.Sleep(TimeSpan.FromSeconds(10));
                     Invoke(new Action(() => testWriteButton.Text = "Записать игрока"));
                 }).Start();
             }

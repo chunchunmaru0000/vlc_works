@@ -7,13 +7,12 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
-using System.Collections.ObjectModel;
 
 namespace vlc_works
 {
     public partial class EditDbForm : Form
     {
-        private bool IS_DEBUG { get; } = true;
+        private bool IS_DEBUG { get; } = false;
         private int COLUMN_HEADER_HEIGHT { get; } = 32;
         private bool LOAD_IMAGES { get; } = true;
         #region VAR
@@ -442,7 +441,7 @@ namespace vlc_works
         #region SelectPhoto_AND_ShowPhoto
 
         private Dictionary<int, byte[]> rowIndexToSelectedImage { get; set; } = new Dictionary<int, byte[]>();
-        private void SetRowIndexToSelectedImageAndChangeImageCell(int key, byte[] value)
+        public void SetRowIndexToSelectedImageAndChangeImageCell(int key, byte[] value)
         {
             bool wasIsManuallyAdded = isManuallyAdded;
             isManuallyAdded = false;
