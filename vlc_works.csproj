@@ -104,6 +104,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>Related\Interop.FP_CLOCKLib.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -148,7 +151,9 @@
     <Compile Include="Classes\MODBUS.cs" />
     <Compile Include="Classes\PathUri.cs" />
     <Compile Include="Classes\ScriptParser.cs" />
+    <Compile Include="Classes\Sheets.cs" />
     <Compile Include="Classes\StringExtensions.cs" />
+    <Compile Include="Classes\Structs.cs" />
     <Compile Include="Forms\AccountingForm.cs">
       <SubType>Form</SubType>
     </Compile>
