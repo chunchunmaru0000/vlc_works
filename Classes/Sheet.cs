@@ -53,7 +53,7 @@ namespace vlc_works
                 .ToArray();
         }
 
-        public void Put(ListAndRange listAndRange, string[][] values)
+        public void Append(ListAndRange listAndRange, string[][] values)
         {
             string range = Range(listAndRange);
 
@@ -66,13 +66,13 @@ namespace vlc_works
                 SheetsService
                 .Spreadsheets
                 .Values
-                .Update(body, SheetId, range);
+                .Append(body, SheetId, range);
             request.ValueInputOption =
                 SpreadsheetsResource
                 .ValuesResource
-                .UpdateRequest
+                .AppendRequest
                 .ValueInputOptionEnum
-                .RAW;
+                .USERENTERED;
 
             request.Execute();
         }

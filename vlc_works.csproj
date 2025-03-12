@@ -163,7 +163,7 @@
     <Compile Include="Classes\MODBUS.cs" />
     <Compile Include="Classes\PathUri.cs" />
     <Compile Include="Classes\ScriptParser.cs" />
-    <Compile Include="Classes\Sheets.cs" />
+    <Compile Include="Classes\Sheet.cs" />
     <Compile Include="Classes\StringExtensions.cs" />
     <Compile Include="Classes\Structs.cs" />
     <Compile Include="Forms\AccountingForm.cs">

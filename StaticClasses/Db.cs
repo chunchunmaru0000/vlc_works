@@ -287,15 +287,11 @@ SELECT price_int from {TempPricesTableName}
             )
         {
             new Thread(() => {
-                string[][] oldValues = GameSheet.Get(ListAndRange.New("A2", "N"));
-                int oldValuesCount = oldValues.Length; //  min 1 which is headers(1)
-                int rowId = oldValuesCount + 2; // A1 is empty(1) + A2 is headers(1) = 2 + new row(1)
-
                 string[][] values = new string[][]{
                     new string[] {
                         player_id_int.ToString(), // ID игрока
                         DateTimeOffset.FromUnixTimeSeconds(unix_time_int)
-                        .DateTime.ToString("dd.MM.yyyy HH.mm.ss"), // Дата
+                        .DateTime.ToString("dd/MM/yy HH:mm:ss"), // Дата
                         (player_c_lvl + player_k_lvl + player_m_lvl).ToString(), // Уровень игрока на момент начала игры
                         player_c_lvl.ToString(), // Уровень игрока на момент начала игры С
                         player_k_lvl.ToString(), // Уровень игрока на момент начала игры К
@@ -310,8 +306,8 @@ SELECT price_int from {TempPricesTableName}
                         "-", // Накопительный баланс
                     }
                 };
-                GameSheet.Put(ListAndRange.New($"A{rowId}"), values);
-            });
+                GameSheet.Append(ListAndRange.New("A", "N"), values);
+            }).Start();
         }
 
 		public static long[] SelectIntColumnArray(string commandStr)
