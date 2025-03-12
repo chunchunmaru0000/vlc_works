@@ -92,6 +92,11 @@ namespace vlc_works
                         );
                 if (errors.Length > 0)
                     throw new Exception(string.Join("\n\t", errors));
+
+                string gamesSheetId = lines[afterLangsLinesOffset++];
+                string fitstListName = lines[afterLangsLinesOffset++];
+                Sheet gamesSheet = new Sheet(gamesSheetId, fitstListName);
+
             }
 			catch (Exception e) {
 				MessageBox.Show(

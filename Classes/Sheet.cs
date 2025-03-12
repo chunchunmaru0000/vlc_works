@@ -7,13 +7,14 @@ using Google.Apis.Sheets.v4.Data;
 
 namespace vlc_works
 {
-    public class Sheets
+    public class Sheet
     {
         private SheetsService SheetsService { get; set; }
 
         private string SheetId { get; set; }
+        private string ListName { get; set; } = null;
 
-        public Sheets(string apiKey, string sheetId)
+        public Sheet(string sheetId, string listName)
         {
             GoogleCredential credential;
             using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read)) {
@@ -23,19 +24,25 @@ namespace vlc_works
 
             SheetsService = new SheetsService(new BaseClientService.Initializer() {
                 HttpClientInitializer = credential,
-                ApplicationName = "safe",
+                ApplicationName = "GoldInSafe",
             });
 
             SheetId = sheetId;
+            ListName = listName;
         }
 
-        public string[][] Get(SheetAndRange sheetAndRange)
+        private string Range(ListAndRange listAndRange) =>
+            listAndRange.List == null
+            ? listAndRange.FromList(ListName)
+            : listAndRange.ToString();
+
+        public string[][] Get(ListAndRange listAndRange)
         {
             SpreadsheetsResource.ValuesResource.GetRequest request =
                 SheetsService
                 .Spreadsheets
                 .Values
-                .Get(SheetId, sheetAndRange.ToString());
+                .Get(SheetId, Range(listAndRange));
 
             var response = request.Execute();
 
@@ -46,10 +53,12 @@ namespace vlc_works
                 .ToArray();
         }
 
-        public void Put(SheetAndRange sheetAndRange, string[][] values)
+        public void Put(ListAndRange listAndRange, string[][] values)
         {
+            string range = Range(listAndRange);
+
             ValueRange body = new ValueRange {
-                Range = sheetAndRange.ToString(),
+                Range = range,
                 Values = values
             };
 
@@ -57,7 +66,7 @@ namespace vlc_works
                 SheetsService
                 .Spreadsheets
                 .Values
-                .Update(body, SheetId, sheetAndRange.ToString());
+                .Update(body, SheetId, range);
             request.ValueInputOption =
                 SpreadsheetsResource
                 .ValuesResource

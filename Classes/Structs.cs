@@ -1,20 +1,31 @@
 ﻿namespace vlc_works
 {
-    public struct SheetAndRange
+    public struct ListAndRange
     {
-        public string Sheet { get; set; }
+        public string List { get; set; }
         public string StartCell { get; set; }
         public string FinalCell { get; set; }
 
-        public static SheetAndRange New(string sheet, string startCell, string finalCell = null) =>
-            new SheetAndRange()
+        public static ListAndRange New(string startCell, string finalCell = null, string list = null) =>
+            new ListAndRange()
             {
-                Sheet = sheet,
+                List = list,
                 StartCell = startCell,
                 FinalCell = finalCell
             };
 
+        public string FromList(string list)
+        {
+            List = list;
+            return ToString();
+        }
+
         public override string ToString() =>
-            $"{Sheet}!{(FinalCell == null ? StartCell : $"{StartCell}:{FinalCell}")}";
+            List == null
+            ? throw new System.Exception(
+                $"НЕ БЫЛ УКАЗАН list В SheetAndRange\n" +
+                $"ИЗВЕСТНЫЕ ЗНАЧЕНИЯ:\n\tStartCell[{StartCell}]\n\tFinalCell[{FinalCell}]")
+
+            : $"{List}!{(FinalCell == null ? StartCell : $"{StartCell}:{FinalCell}")}";
     }
 }
