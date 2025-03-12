@@ -266,6 +266,7 @@ namespace vlc_works
 			long playerKLvl = long.Parse(accountingForm.kBox.Text);
 			long playerMLvl = long.Parse(accountingForm.mBox.Text);
 
+            int[] counters = gameInfo.GetCounters();
             bool isFirstGame = accountingForm.isFirstGame;
 
             GameIndexOperations();
@@ -299,7 +300,8 @@ namespace vlc_works
 				prizeInt: DbCurrentRecord.SelectedPrize,
 				priceInt: DbCurrentRecord.SelectedPrice,
 
-                isFirstGame: isFirstGame
+                isFirstGame: isFirstGame,
+                counters: counters
             );
 
             if (!VideoChecker.continued)

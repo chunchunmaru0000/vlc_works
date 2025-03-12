@@ -249,7 +249,7 @@ SELECT price_int from {TempPricesTableName}
 			bool wonBoolInt, bool continuedBoolInt,
 			long prizeInt, long priceInt,
 			long playerUpdCLvl, long playerUpdKLvl, long playerUpdMLvl,
-            bool isFirstGame
+            bool isFirstGame, int[] counters
             )
 		{ 
 			if (IsNotConnected)
@@ -265,7 +265,7 @@ SELECT price_int from {TempPricesTableName}
                 playerCLvl, playerKLvl, playerMLvl,
                 gameCLvl, gameKLvl, gameMLvl,
                 wonBoolInt, continuedBoolInt, prizeInt, priceInt,
-                isFirstGame
+                isFirstGame, counters
                 );
 
 			if (PlayerExists(playerIdInt))
@@ -283,7 +283,7 @@ SELECT price_int from {TempPricesTableName}
             long player_c_lvl, long player_k_lvl, long player_m_lvl,
             long game_c_lvl, long game_k_lvl, long game_m_lvl,
             bool won_bool_int, bool continued_bool_int, long price_int, long prize_int,
-            bool isFirstGame
+            bool isFirstGame, int[] counters
             )
         {
             new Thread(() => {
@@ -291,25 +291,23 @@ SELECT price_int from {TempPricesTableName}
                 int oldValuesCount = oldValues.Length; //  min 1 which is headers(1)
                 int rowId = oldValuesCount + 2; // A1 is empty(1) + A2 is headers(1) = 2 + new row(1)
 
-                string cStr, kStr, mStr;
-
                 string[][] values = new string[][]{
                     new string[] {
                         player_id_int.ToString(), // ID игрока
                         DateTimeOffset.FromUnixTimeSeconds(unix_time_int)
                         .DateTime.ToString("dd.MM.yyyy HH.mm.ss"), // Дата
                         (player_c_lvl + player_k_lvl + player_m_lvl).ToString(), // Уровень игрока на момент начала игры
-                        cStr, // Уровень игрока на момент начала игры С
-                        kStr, // Уровень игрока на момент начала игры К
-                        mStr, // Уровень игрока на момент начала игры М
+                        player_c_lvl.ToString(), // Уровень игрока на момент начала игры С
+                        player_k_lvl.ToString(), // Уровень игрока на момент начала игры К
+                        player_m_lvl.ToString(), // Уровень игрока на момент начала игры М
                         $"{DbCurrentRecord.SelectedGameType.View()[0]}{DbCurrentRecord.SelectedLvl}", // Уровень игры
-                        , // Номер попытки прохождения этого уровня
-                        , // кол-во проигрышей до этой игры
+                        "-", // Номер попытки прохождения этого уровня
+                        counters[1].ToString(), // кол-во проигрышей до этой игры
                         won_bool_int ? "1" : "0", // Результат
                         continued_bool_int ? "1" : "0", // Продолжил сразу
                         price_int.ToString(), // Стоимость игры
                         prize_int.ToString(), // Сумма возможного выигрыша
-                        , // Накопительный баланс
+                        "-", // Накопительный баланс
                     }
                 };
                 GameSheet.Put(ListAndRange.New($"A{rowId}"), values);

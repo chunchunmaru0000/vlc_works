@@ -128,6 +128,8 @@ namespace vlc_works
             ClearLostCounter();
         }
 
+        public int[] GetCounters() => new int[2] { WonCounter, LostCounter };
+
         public void ClearGameIndicesAndSetFirst(int index)
         {
             GameIndices[GameMode.MEDIUM] = 0;
