@@ -266,6 +266,8 @@ namespace vlc_works
 			long playerKLvl = long.Parse(accountingForm.kBox.Text);
 			long playerMLvl = long.Parse(accountingForm.mBox.Text);
 
+            bool isFirstGame = accountingForm.isFirstGame;
+
             GameIndexOperations();
             Console.WriteLine(gameInfo.CurrentScript);
             Console.WriteLine($"{accountingForm.cBox.Text}|{accountingForm.kBox.Text}|{accountingForm.mBox.Text}");
@@ -295,8 +297,10 @@ namespace vlc_works
 				continuedBoolInt: VideoChecker.continued,
 
 				prizeInt: DbCurrentRecord.SelectedPrize,
-				priceInt: DbCurrentRecord.SelectedPrice
-			);
+				priceInt: DbCurrentRecord.SelectedPrice,
+
+                isFirstGame: isFirstGame
+            );
 
             if (!VideoChecker.continued)
                 accountingForm.SetLangLabel("#");
