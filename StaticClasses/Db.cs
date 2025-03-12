@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Threading;
 
 namespace vlc_works
@@ -291,36 +290,44 @@ SELECT price_int from {TempPricesTableName}
             )
         {
             new Thread(() => {
-                string[][] values = new string[][]{ new string[] {
-                    player_id_int.ToString(), // ID игрока
-                    DateOfUnix(unix_time_int), // Дата
-                    (player_c_lvl + player_k_lvl + player_m_lvl).ToString(), // Уровень игрока на момент начала игры
-                    player_c_lvl.ToString(), // Уровень игрока на момент начала игры С
-                    player_k_lvl.ToString(), // Уровень игрока на момент начала игры К
-                    player_m_lvl.ToString(), // Уровень игрока на момент начала игры М
-                    $"{DbCurrentRecord.SelectedGameType.View()[0]}{DbCurrentRecord.SelectedLvl}", // Уровень игры
-                    "-", // Номер попытки прохождения этого уровня
-                    counters[1].ToString(), // кол-во проигрышей до этой игры
-                    won_bool_int ? "1" : "0", // Результат
-                    continued_bool_int ? "1" : "0", // Продолжил сразу
-                    price_int.ToString(), // Стоимость игры
-                    prize_int.ToString(), // Сумма возможного выигрыша
-                    "-", // Накопительный баланс
-                } };
-                GameSheet.Append(ListAndRange.New("A", "N"), values);
+                try { 
+                    string[][] values = new string[][]{ new string[] {
+                        player_id_int.ToString(), // ID игрока
+                        DateOfUnix(unix_time_int), // Дата
+                        (player_c_lvl + player_k_lvl + player_m_lvl).ToString(), // Уровень игрока на момент начала игры
+                        player_c_lvl.ToString(), // Уровень игрока на момент начала игры С
+                        player_k_lvl.ToString(), // Уровень игрока на момент начала игры К
+                        player_m_lvl.ToString(), // Уровень игрока на момент начала игры М
+                        $"{DbCurrentRecord.SelectedGameType.View()[0]}{DbCurrentRecord.SelectedLvl}", // Уровень игры
+                        "-", // Номер попытки прохождения этого уровня
+                        counters[1].ToString(), // кол-во проигрышей до этой игры
+                        won_bool_int ? "1" : "0", // Результат
+                        continued_bool_int ? "1" : "0", // Продолжил сразу
+                        price_int.ToString(), // Стоимость игры
+                        prize_int.ToString(), // Сумма возможного выигрыша
+                        "-", // Накопительный баланс
+                    } };
+                    GameSheet.Append(ListAndRange.New("A", "N"), values);
+                } catch (Exception e) {
+                    File.AppendAllText("GOOGLE_SHEETS_ERRORS.txt", e.Message, encoding: System.Text.Encoding.UTF8);
+                }
             }).Start();
         }
 
         public static void AppendBalanceSheet(long time, bool won, long price, long prize, long balance)
         {
             new Thread(() => {
-                string[][] values = new string[][] { new string[] {
-                    DateOfUnix(time),
-                    won ? prize.ToString() : "-",
-                    price.ToString(),
-                    balance.ToString()
-                } };
-                BalanceSheet.Append(ListAndRange.New("A", "D"), values);
+                try {
+                    string[][] values = new string[][] { new string[] {
+                        DateOfUnix(time),
+                        won ? prize.ToString() : "-",
+                        price.ToString(),
+                        balance.ToString()
+                    } };
+                    BalanceSheet.Append(ListAndRange.New("A", "D"), values);
+                } catch (Exception e) {
+                    File.AppendAllText("GOOGLE_SHEETS_ERRORS.txt", e.Message, encoding: System.Text.Encoding.UTF8);
+                }
             }).Start();
         }
 

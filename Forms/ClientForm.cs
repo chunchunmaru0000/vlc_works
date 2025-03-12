@@ -257,14 +257,14 @@ namespace vlc_works
 
 		public void DoDataBaseGameRecord(bool DEBUG = false)
 		{
-			print("DOES DATABASE RECORD");
-			long gameCLvl = SelectedGameTypeIs(GameType.Guard);
-			long gameKLvl = SelectedGameTypeIs(GameType.Painting);
-			long gameMLvl = SelectedGameTypeIs(GameType.Mario);
+            print("DOES DATABASE RECORD");
+            long gameCLvl = SelectedGameTypeIs(GameType.Guard);
+            long gameKLvl = SelectedGameTypeIs(GameType.Painting);
+            long gameMLvl = SelectedGameTypeIs(GameType.Mario);
 
-			long playerCLvl = long.Parse(accountingForm.cBox.Text);
-			long playerKLvl = long.Parse(accountingForm.kBox.Text);
-			long playerMLvl = long.Parse(accountingForm.mBox.Text);
+            long playerCLvl = long.Parse(accountingForm.cBox.Text);
+            long playerKLvl = long.Parse(accountingForm.kBox.Text);
+            long playerMLvl = long.Parse(accountingForm.mBox.Text);
 
             int[] counters = gameInfo.GetCounters();
             bool isFirstGame = accountingForm.isFirstGame;
@@ -278,31 +278,31 @@ namespace vlc_works
             Console.WriteLine($"{accountingForm.cBox.Text}|{accountingForm.kBox.Text}|{accountingForm.mBox.Text}");
 
             long playerUpdCLvl = long.Parse(accountingForm.cBox.Text);
-			long playerUpdKLvl = long.Parse(accountingForm.kBox.Text);
-			long playerUpdMLvl = long.Parse(accountingForm.mBox.Text);
+            long playerUpdKLvl = long.Parse(accountingForm.kBox.Text);
+            long playerUpdMLvl = long.Parse(accountingForm.mBox.Text);
 
-			long playerIdInt = long.Parse(accountingForm.playerNameBox.Text);
+            long playerIdInt = long.Parse(accountingForm.playerNameBox.Text);
 
-			Db.InsertInAllTables(
-				playerIdInt: playerIdInt,
-				unixTimeInt: unixTimeInt,
-				playerCLvl: playerCLvl,
-				playerKLvl: playerKLvl,
-				playerMLvl: playerMLvl,
+            Db.InsertInAllTables(
+                playerIdInt: playerIdInt,
+                unixTimeInt: unixTimeInt,
+                playerCLvl: playerCLvl,
+                playerKLvl: playerKLvl,
+                playerMLvl: playerMLvl,
 
-				playerUpdCLvl: playerUpdCLvl,
-				playerUpdKLvl: playerUpdKLvl,
-				playerUpdMLvl: playerUpdMLvl,
+                playerUpdCLvl: playerUpdCLvl,
+                playerUpdKLvl: playerUpdKLvl,
+                playerUpdMLvl: playerUpdMLvl,
 
-				gameCLvl: gameCLvl,
-				gameKLvl: gameKLvl,
-				gameMLvl: gameMLvl,
+                gameCLvl: gameCLvl,
+                gameKLvl: gameKLvl,
+                gameMLvl: gameMLvl,
 
-				wonBoolInt: won,
-				continuedBoolInt: VideoChecker.continued,
+                wonBoolInt: won,
+                continuedBoolInt: VideoChecker.continued,
 
-				prizeInt: prizeInt,
-				priceInt: priceInt,
+                prizeInt: prizeInt,
+                priceInt: priceInt,
 
                 isFirstGame: isFirstGame,
                 counters: counters
@@ -312,7 +312,7 @@ namespace vlc_works
                 accountingForm.SetLangLabel("#");
 
             VideoChecker.won = false;
-			VideoChecker.continued = false;
+            VideoChecker.continued = false;
 
             GameScript nextGameScript = gameInfo.CurrentScript;
             accountingForm.SetGameScript(nextGameScript);
@@ -325,7 +325,7 @@ namespace vlc_works
             }
 
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
-			accountingForm.Invoke(new Action(accountingForm.StartTables));
+            accountingForm.Invoke(new Action(accountingForm.StartTables));
             accountingForm.RefreshDbForm();
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);

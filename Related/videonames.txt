@@ -27,3 +27,8 @@
 ВЫБОР ЯЗЫКА =C:\Users\user\Desktop\vlcvideos\yazik.mp4
 
 ПУТЬ К ПАПКЕ ВИДЕО ИГРЫ =C:\
+
+ТАБЛИЦА ОСНОВНАЯ =asdfasdfasdfsadfasdfasdfasdfasdfasdfasdfasdfasdf
+НАЗВАНИЕ ЛИСТА ОСНОВНОЙ ТАБЛИЦЫ =l1
+ТАБЛИЦА БАЛАНСА ИГРЫ =adfasdfasdfsadfasdfasdfsadfasdfasdfadfaf
+НАЗВАНИЕ ЛИСТА ТАБЛИЦЫ БАЛАНСА ИГРЫ =Лист1
