@@ -6,7 +6,7 @@
         public string StartCell { get; set; }
         public string FinalCell { get; set; }
 
-        public static SheetAndRange New(string sheet, string startCell, string finalCell) =>
+        public static SheetAndRange New(string sheet, string startCell, string finalCell = null) =>
             new SheetAndRange()
             {
                 Sheet = sheet,

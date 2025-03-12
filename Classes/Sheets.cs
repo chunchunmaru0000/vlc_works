@@ -1,48 +1,71 @@
-﻿using System.Net.Http;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
+﻿using System.IO;
+using System.Linq;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
+using Google.Apis.Sheets.v4.Data;
 
 namespace vlc_works
 {
     public class Sheets
     {
-        private string ApiKey { get; set; }
+        private SheetsService SheetsService { get; set; }
+
         private string SheetId { get; set; }
-        private HttpClient Client = new HttpClient();
 
         public Sheets(string apiKey, string sheetId)
         {
-            ApiKey = apiKey;
+            GoogleCredential credential;
+            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read)) {
+                credential = GoogleCredential.FromStream(stream)
+                   .CreateScoped(SheetsService.Scope.Spreadsheets);
+            }
+
+            SheetsService = new SheetsService(new BaseClientService.Initializer() {
+                HttpClientInitializer = credential,
+                ApplicationName = "safe",
+            });
+
             SheetId = sheetId;
         }
 
-        private string SheetsUrl(SheetAndRange sheetAndRange) =>
-            $"https://sheets.googleapis.com/v4/spreadsheets/{SheetId}/values/{sheetAndRange}?key={ApiKey}";
-
-        private class GoogleSheetsGetResponse
+        public string[][] Get(SheetAndRange sheetAndRange)
         {
-            [JsonProperty("range")]
-            public string Range { get; set; }
-            [JsonProperty("values")]
-            public string[][] Values { get; set; }
+            SpreadsheetsResource.ValuesResource.GetRequest request =
+                SheetsService
+                .Spreadsheets
+                .Values
+                .Get(SheetId, sheetAndRange.ToString());
+
+            var response = request.Execute();
+
+            return
+                response
+                ?.Values
+                .Select(row => row.Select(cell => cell.ToString()).ToArray())
+                .ToArray();
         }
 
-        public async Task<string[][]> Get(SheetAndRange sheetAndRange)
+        public void Put(SheetAndRange sheetAndRange, string[][] values)
         {
-            string url = SheetsUrl(sheetAndRange);
-            HttpResponseMessage response = await Client.GetAsync(url);
-            if (!response.IsSuccessStatusCode)
-                return null;
+            ValueRange body = new ValueRange {
+                Range = sheetAndRange.ToString(),
+                Values = values
+            };
 
-            try {
-                Task<string> jsonTask = response.Content.ReadAsStringAsync();
-                return
-                    JsonConvert
-                    .DeserializeObject<GoogleSheetsGetResponse>(jsonTask.Result)
-                    .Values;
-            } catch {
-                return null;
-            }
+            var request =
+                SheetsService
+                .Spreadsheets
+                .Values
+                .Update(body, SheetId, sheetAndRange.ToString());
+            request.ValueInputOption =
+                SpreadsheetsResource
+                .ValuesResource
+                .UpdateRequest
+                .ValueInputOptionEnum
+                .RAW;
+
+            request.Execute();
         }
     }
 }
