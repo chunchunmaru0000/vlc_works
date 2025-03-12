@@ -260,7 +260,7 @@ SELECT price_int from {TempPricesTableName}
 				playerCLvl, playerKLvl, playerMLvl, 
 				gameCLvl, gameKLvl, gameMLvl, 
 				wonBoolInt, continuedBoolInt, prizeInt, priceInt);
-            UpdateGameSheet(
+            AppendGameSheet(
                 playerIdInt, unixTimeInt,
                 playerCLvl, playerKLvl, playerMLvl,
                 gameCLvl, gameKLvl, gameMLvl,
@@ -278,7 +278,11 @@ SELECT price_int from {TempPricesTableName}
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
 		}
 
-        private static void UpdateGameSheet(
+        private static string DateOfUnix(long seconds) => 
+            DateTimeOffset.FromUnixTimeSeconds(seconds)
+            .DateTime.ToString("dd/MM/yy HH:mm:ss");
+
+        private static void AppendGameSheet(
             long player_id_int, long unix_time_int,
             long player_c_lvl, long player_k_lvl, long player_m_lvl,
             long game_c_lvl, long game_k_lvl, long game_m_lvl,
@@ -287,30 +291,40 @@ SELECT price_int from {TempPricesTableName}
             )
         {
             new Thread(() => {
-                string[][] values = new string[][]{
-                    new string[] {
-                        player_id_int.ToString(), // ID игрока
-                        DateTimeOffset.FromUnixTimeSeconds(unix_time_int)
-                        .DateTime.ToString("dd/MM/yy HH:mm:ss"), // Дата
-                        (player_c_lvl + player_k_lvl + player_m_lvl).ToString(), // Уровень игрока на момент начала игры
-                        player_c_lvl.ToString(), // Уровень игрока на момент начала игры С
-                        player_k_lvl.ToString(), // Уровень игрока на момент начала игры К
-                        player_m_lvl.ToString(), // Уровень игрока на момент начала игры М
-                        $"{DbCurrentRecord.SelectedGameType.View()[0]}{DbCurrentRecord.SelectedLvl}", // Уровень игры
-                        "-", // Номер попытки прохождения этого уровня
-                        counters[1].ToString(), // кол-во проигрышей до этой игры
-                        won_bool_int ? "1" : "0", // Результат
-                        continued_bool_int ? "1" : "0", // Продолжил сразу
-                        price_int.ToString(), // Стоимость игры
-                        prize_int.ToString(), // Сумма возможного выигрыша
-                        "-", // Накопительный баланс
-                    }
-                };
+                string[][] values = new string[][]{ new string[] {
+                    player_id_int.ToString(), // ID игрока
+                    DateOfUnix(unix_time_int), // Дата
+                    (player_c_lvl + player_k_lvl + player_m_lvl).ToString(), // Уровень игрока на момент начала игры
+                    player_c_lvl.ToString(), // Уровень игрока на момент начала игры С
+                    player_k_lvl.ToString(), // Уровень игрока на момент начала игры К
+                    player_m_lvl.ToString(), // Уровень игрока на момент начала игры М
+                    $"{DbCurrentRecord.SelectedGameType.View()[0]}{DbCurrentRecord.SelectedLvl}", // Уровень игры
+                    "-", // Номер попытки прохождения этого уровня
+                    counters[1].ToString(), // кол-во проигрышей до этой игры
+                    won_bool_int ? "1" : "0", // Результат
+                    continued_bool_int ? "1" : "0", // Продолжил сразу
+                    price_int.ToString(), // Стоимость игры
+                    prize_int.ToString(), // Сумма возможного выигрыша
+                    "-", // Накопительный баланс
+                } };
                 GameSheet.Append(ListAndRange.New("A", "N"), values);
             }).Start();
         }
 
-		public static long[] SelectIntColumnArray(string commandStr)
+        public static void AppendBalanceSheet(long time, bool won, long price, long prize, long balance)
+        {
+            new Thread(() => {
+                string[][] values = new string[][] { new string[] {
+                    DateOfUnix(time),
+                    won ? prize.ToString() : "-",
+                    price.ToString(),
+                    balance.ToString()
+                } };
+                BalanceSheet.Append(ListAndRange.New("A", "D"), values);
+            }).Start();
+        }
+
+        public static long[] SelectIntColumnArray(string commandStr)
 		{
 			long[] selectItems;
 

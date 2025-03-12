@@ -268,6 +268,10 @@ namespace vlc_works
 
             int[] counters = gameInfo.GetCounters();
             bool isFirstGame = accountingForm.isFirstGame;
+            bool won = VideoChecker.won;
+            long unixTimeInt = Db.Now;
+            long prizeInt = DbCurrentRecord.SelectedPrize;
+            long priceInt = DbCurrentRecord.SelectedPrice;
 
             GameIndexOperations();
             Console.WriteLine(gameInfo.CurrentScript);
@@ -281,7 +285,7 @@ namespace vlc_works
 
 			Db.InsertInAllTables(
 				playerIdInt: playerIdInt,
-				unixTimeInt: Db.Now,
+				unixTimeInt: unixTimeInt,
 				playerCLvl: playerCLvl,
 				playerKLvl: playerKLvl,
 				playerMLvl: playerMLvl,
@@ -294,11 +298,11 @@ namespace vlc_works
 				gameKLvl: gameKLvl,
 				gameMLvl: gameMLvl,
 
-				wonBoolInt: VideoChecker.won,
+				wonBoolInt: won,
 				continuedBoolInt: VideoChecker.continued,
 
-				prizeInt: DbCurrentRecord.SelectedPrize,
-				priceInt: DbCurrentRecord.SelectedPrice,
+				prizeInt: prizeInt,
+				priceInt: priceInt,
 
                 isFirstGame: isFirstGame,
                 counters: counters
@@ -323,6 +327,8 @@ namespace vlc_works
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
 			accountingForm.Invoke(new Action(accountingForm.StartTables));
             accountingForm.RefreshDbForm();
+
+            Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);
         }
 
         private void ProceedInput()

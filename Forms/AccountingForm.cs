@@ -29,7 +29,7 @@ namespace vlc_works
 				DateTimeOffset.Now
 				.ToString("HH:mm     d MMMM yyyy", new System.Globalization.CultureInfo("ru")); }
 		// some long values
-		private long GameBalance { get; set; } // all balance that is PaysSum - WinsSum + Balance
+		public long GameBalance { get; private set; } // all balance that is PaysSum - WinsSum + Balance
 		private long PayedBalance { get; set; } // balance of shekels payed
 		private long WinsSum { get; set; }
 		private long PaysSum { get; set; }
