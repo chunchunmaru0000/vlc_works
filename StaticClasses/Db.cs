@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace vlc_works
 {
@@ -132,7 +133,7 @@ CREATE TABLE IF NOT EXISTS {TempPrizesTableName} (
 	prize_int INTEGER NOT NULL
 )
 ";
-		private static Func<long, string> InsertTempPrizesCommand =
+		private readonly static Func<long, string> InsertTempPrizesCommand =
 			(prizeInt) => $@"
 INSERT INTO temp_prizes (prize_int) VALUES ({prizeInt})
 ";
@@ -146,7 +147,7 @@ CREATE TABLE IF NOT EXISTS {TempPricesTableName} (
 	price_int INTEGER NOT NULL
 )
 ";
-		private static Func<long, string> InsertTempPricesCommand =
+		private readonly static Func<long, string> InsertTempPricesCommand =
 			(priceInt) => $@"
 INSERT INTO temp_prices (price_int) VALUES ({priceInt})
 ";
@@ -257,6 +258,7 @@ SELECT price_int from {TempPricesTableName}
 				playerCLvl, playerKLvl, playerMLvl, 
 				gameCLvl, gameKLvl, gameMLvl, 
 				wonBoolInt, continuedBoolInt, prizeInt, priceInt);
+            UpdateGameSheet();
 
 			if (PlayerExists(playerIdInt))
 				UpdatePlayer(playerIdInt, playerUpdCLvl, playerUpdKLvl, playerUpdMLvl);
@@ -267,6 +269,20 @@ SELECT price_int from {TempPricesTableName}
 				ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
 			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
 		}
+
+        private static void UpdateGameSheet()
+        {
+            new Thread(() => {
+                string[][] oldValues = GameSheet.Get(ListAndRange.New("A2", "N"));
+                int oldValuesCount = oldValues.Length;
+                int rowId = oldValuesCount + 2; // A1 is empty(1) + A2 is headers(1) = 2 + new row(1)
+
+                string[][] values = new string[][]{
+                    new string[] { }
+                };
+                GameSheet.Put(ListAndRange.New($"A{rowId}"), values);
+            });
+        }
 
 		public static long[] SelectIntColumnArray(string commandStr)
 		{

@@ -96,8 +96,7 @@ namespace vlc_works
                 Sheet gamesSheet = new Sheet(lines[afterLangsLinesOffset++], lines[afterLangsLinesOffset++]);
                 Sheet balanceSheet = new Sheet(lines[afterLangsLinesOffset++], lines[afterLangsLinesOffset++]);
                 Db.InitSheets(gamesSheet, balanceSheet);
-            }
-			catch (Exception e) {
+            } catch (Exception e) {
 				MessageBox.Show(
 					$"ФАЙЛ {VLCChecker.videonamestxt} НЕ БЫЛ УСПЕШНО ПРОЧИТАН\n" +
 					$"ОШИБКА: \n{e.Message}");
