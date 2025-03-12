@@ -93,10 +93,9 @@ namespace vlc_works
                 if (errors.Length > 0)
                     throw new Exception(string.Join("\n\t", errors));
 
-                string gamesSheetId = lines[afterLangsLinesOffset++];
-                string fitstListName = lines[afterLangsLinesOffset++];
-                Sheet gamesSheet = new Sheet(gamesSheetId, fitstListName);
-
+                Sheet gamesSheet = new Sheet(lines[afterLangsLinesOffset++], lines[afterLangsLinesOffset++]);
+                Sheet balanceSheet = new Sheet(lines[afterLangsLinesOffset++], lines[afterLangsLinesOffset++]);
+                Db.InitSheets(gamesSheet, balanceSheet);
             }
 			catch (Exception e) {
 				MessageBox.Show(

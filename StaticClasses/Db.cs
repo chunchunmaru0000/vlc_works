@@ -163,12 +163,20 @@ SELECT price_int from {TempPricesTableName}
 			using (SQLiteCommand command = new SQLiteCommand(commandStr, SqLiteConnection))
 				command.ExecuteNonQuery();
 		}
+        private static Sheet GameSheet { get; set; }
+        private static Sheet BalanceSheet { get; set; }
 		#region PUBLIC VALUES
 		public static long Now { get { return DateTimeOffset.Now.ToUnixTimeSeconds(); } }
 		public static DateTimeOffset SecToTime(long unixSeconds) => DateTimeOffset.FromUnixTimeSeconds(unixSeconds);
-		#endregion PUBLIC VALUES 
+        #endregion PUBLIC VALUES 
 
-		public static void BeginSQL()
+        public static void InitSheets(Sheet gameSheet, Sheet balanceSheet)
+        {
+            GameSheet = gameSheet;
+            BalanceSheet = balanceSheet;
+        }
+
+        public static void BeginSQL()
 		{
 			if (!IsNotConnected)
 				return;
