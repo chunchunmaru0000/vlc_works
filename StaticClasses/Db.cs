@@ -167,7 +167,7 @@ SELECT price_int from {TempPricesTableName}
         private static Sheet GameSheet { get; set; }
         private static Sheet BalanceSheet { get; set; }
 		#region PUBLIC VALUES
-		public static long Now { get { return DateTimeOffset.Now.ToUnixTimeSeconds(); } }
+		public static long Now { get => DateTimeOffset.Now.ToUnixTimeSeconds(); }
 		public static DateTimeOffset SecToTime(long unixSeconds) => DateTimeOffset.FromUnixTimeSeconds(unixSeconds);
         #endregion PUBLIC VALUES 
 
@@ -279,13 +279,13 @@ SELECT price_int from {TempPricesTableName}
 
         private static string DateOfUnix(long seconds) => 
             DateTimeOffset.FromUnixTimeSeconds(seconds)
-            .DateTime.ToString("dd/MM/yy HH:mm:ss");
+            .LocalDateTime.ToString("dd/MM/yy HH:mm:ss");
 
         private static void AppendGameSheet(
             long player_id_int, long unix_time_int,
             long player_c_lvl, long player_k_lvl, long player_m_lvl,
             long game_c_lvl, long game_k_lvl, long game_m_lvl,
-            bool won_bool_int, bool continued_bool_int, long price_int, long prize_int,
+            bool won_bool_int, bool continued_bool_int, long prize_int, long price_int,
             bool isFirstGame, int[] counters
             )
         {

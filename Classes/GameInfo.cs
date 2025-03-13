@@ -44,13 +44,16 @@ namespace vlc_works
             };
         }
 
-        private void SetGameIndex(int index)
+        private void SetGameIndex(int index, bool SAME_LEVEL = false)
         {
             if (index < ModeScripts[GameMode].Length) {
                 GameIndices[GameMode] = index;
 
+                for (int i = 0; i < 10; i++)
+                Console.WriteLine($"SET BOXES TO {index} INDEX");
+
                 if (index >= 0)
-                    SetBoxesUntilScript(CurrentScript);
+                    SetBoxesToPlayScript(CurrentScript, SAME_LEVEL);
             }
 
             if (Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.scriptEditor)) {
@@ -64,7 +67,7 @@ namespace vlc_works
             }
         }
 
-        public void SetBoxesUntilScript(GameScript script)
+        public void SetBoxesToPlayScript(GameScript script, bool SAME_LEVEL)
         {
             Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
 
@@ -78,23 +81,50 @@ namespace vlc_works
                 GameModeScripts[tmpIndex].GameType == GameModeScripts[scriptIndex].GameType
                 )
                 scriptIndex = tmpIndex;
+
             Console.WriteLine($"{scriptIndex} -> {ModeScripts[GameMode.ALL][scriptIndex]}");
+            /*
+            ALSO BUG IN DEC GAME INDEX
+            if (SAME_LEVEL) {
+                long scriptLvl = script.Lvl;
 
-            List<GameType> added = new List<GameType>();
+                foreach(GameType gameType in Enum.GetValues(typeof(GameType))) {
+                    if (GameModeScripts.Any(s => s.Lvl == script.Lvl && s.GameType == gameType)) {
+                        AccountingForm.clientForm.SetBox(gameType, scriptLvl);
+                    } else {
+                        GameScript[] thisTypeScripts =
+                            ModeScripts[GameMode.ALL]
+                            .Where(s => s.GameType == gameType)
+                            .ToArray();
 
-            for (int i = scriptIndex; i >= 0; i--)
-            {
-                GameScript iScript = ModeScripts[GameMode.ALL][i];
-
-                GameType scriptType = iScript.GameType;
-
-                Console.Write($"\t{i} -> {iScript}, BEFORE [{string.Join(", ", added.Select(t => t.View()))}]");
-                if (!added.Contains(scriptType)) {
-                    added.Add(scriptType);
-                    AccountingForm.clientForm.SetBox(scriptType, iScript.Lvl);
+                        AccountingForm.clientForm.SetBox(gameType,
+                            thisTypeScripts.Length == 0
+                            ? 0
+                            : thisTypeScripts.Where(s => s.Lvl <= scriptLvl).Count() == 0
+                                ? 0
+                                : thisTypeScripts.Where(s => s.Lvl <= scriptLvl).Max(s => s.Lvl)
+                        );
+                    }
                 }
-                Console.WriteLine($" --->>> _AFTER [{string.Join(", ", added.Select(t => t.View()))}]");
+            } else
+                   */ {
+                List<GameType> added = new List<GameType>();
+
+                for (int i = scriptIndex; i >= 0; i--) {
+                    GameScript iScript = ModeScripts[GameMode.ALL][i];
+                    GameType scriptType = iScript.GameType;
+
+                    Console.Write($"\t{i} -> {iScript}, BEFORE [{string.Join(", ", added.Select(t => t.View()))}]");
+
+                    if (!added.Contains(scriptType)) {
+                        added.Add(scriptType);
+                        AccountingForm.clientForm.SetBox(scriptType, iScript.Lvl);
+                    }
+
+                    Console.WriteLine($" --->>> _AFTER [{string.Join(", ", added.Select(t => t.View()))}]");
+                }
             }
+
 
             Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
         }
@@ -154,9 +184,11 @@ namespace vlc_works
             ClearLostCounter();
 
             int gameIndex;
+            bool SAME_LEVEL = false;
 
             if (WonCounter >= 3 && GameMode != GameMode.HARD) {
                 ClearWonCounter();
+                SAME_LEVEL = true;
 
                 int lastIndex = GameIndex;
                 GameMode lastMode = GameMode;
@@ -179,8 +211,7 @@ namespace vlc_works
             else
                 gameIndex = GameIndex + 1;
 
-            if (gameIndex < ModeScripts[GameMode.ALL].Length)
-                SetGameIndex(gameIndex);
+            SetGameIndex(gameIndex, SAME_LEVEL);
 
             Debug();
         }
