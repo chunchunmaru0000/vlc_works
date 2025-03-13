@@ -347,6 +347,7 @@ namespace vlc_works
 		{
 			Db.BeginSQL();
 
+            resetCounterBut_Click(null, EventArgs.Empty);
 			WinsSum = RefreshGridReturnSum(ref winsDataGridView, Db.SelectAllTempPrizes);
 			PaysSum = RefreshGridReturnSum(ref priceDataGridView, Db.SelectAllTempPrices);
 

@@ -241,8 +241,7 @@ namespace vlc_works
 
         private void GameIndexOperations()
         {
-            if (accountingForm.isFirstGame)
-            {
+            if (accountingForm.isFirstGame) {
                 accountingForm.SetIsFirstGame(false);
 
                 if (VideoChecker.won)

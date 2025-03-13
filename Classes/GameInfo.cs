@@ -186,7 +186,6 @@ namespace vlc_works
                 }
             }
 
-
             Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
         }
 

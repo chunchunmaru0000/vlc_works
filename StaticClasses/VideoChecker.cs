@@ -14,7 +14,7 @@ namespace vlc_works
 		private const int strFrom = 3;
 
 		private const int strTo = 5;
-		private const int maxVideoRepeatTimes = 2 - 1;
+		private const int maxVideoRepeatTimes = 4 - 1;
 
 		// forms
 		private static ClientForm clientForm { get; set; }
@@ -308,7 +308,8 @@ namespace vlc_works
 
 		private static void EndParamsShowVideo()
 		{
-			clientForm.PlayHowToPay();
+            currentVideoPlayCount = 0;
+            clientForm.PlayHowToPay();
 		}
 
 		private static void EndDefeatVideo()
