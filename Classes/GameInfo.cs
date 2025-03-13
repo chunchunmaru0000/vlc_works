@@ -10,6 +10,7 @@ namespace vlc_works
 
         public GameScript FirstGame { get; set; }
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
+        private Dictionary<GameMode, Dictionary<int, GameState>> GameStates { get; set; }
         private Dictionary<GameMode, int> ModeStartPoints { get; set; }
         public GameMode GameMode { get; set; }
         private Dictionary<GameMode, int> GameIndices { get; set; }
@@ -42,6 +43,66 @@ namespace vlc_works
                 { GameMode.MEDIUM, 0 },
                 { GameMode.HARD, 0 },
             };
+
+            /*
+            GameStates = new Dictionary<GameMode, Dictionary<int, GameState>>();
+            List<GameState> gsl = new List<GameState>();
+            Dictionary<GameType, Dictionary<GameType, int>> gtk = new Dictionary<GameType, Dictionary<GameType, int>>() {
+                { GameType.Guard, new Dictionary<GameType, int>() {
+                    { GameType.Guard, 0 },
+                    { GameType.Painting, 1 },
+                    { GameType.Mario, 2 },
+                } },
+                { GameType.Painting }
+            };
+
+            foreach(GameMode gm in Enum.GetValues(typeof(GameMode))) {
+                GameStates[gm] = new Dictionary<int, GameState>();
+                GameScript[] gss = ModeScripts[gm];
+                for(int i = 0; i < gss.Length; i++) {
+                    GameScript s = gss[i];
+
+                    GameScript cS = gss[i + (int)GameType.Guard - (int)s.GameType];
+                    GameScript kS = gss[i + (int)GameType.Painting - (int)s.GameType];
+                    GameScript mS = gss[i + (int)GameType.Mario - (int)s.GameType];
+
+                    GameStates[gm][i] = new GameState(
+                        gss[i], 
+                        Enum.GetValues(typeof(GameType))
+                        .Cast<GameType>()
+                        .Select(egt =>
+                            Enum.GetValues(typeof(GameType))
+                            .Cast<GameType>()
+                            .Select(eegt => new KeyValuePair<GameType, int>(egt, eegt - egt))
+
+                        )
+                        .ToDictionary(
+                            p => p.Value,
+                            p => p.Key
+                        )
+
+                        new Dictionary<GameType, GameScript>() {
+                            { GameType.Guard,
+                                gss[i + ]
+                            },{ GameType.Painting, 
+
+                            },{ GameType.Mario, 
+
+                            },
+                        },
+                        null,
+                        null
+                        );
+                    gsl.Add(GameStates[gm][i]);
+                }
+            }
+            for(int i = 1; i < gsl.Count - 1; i++) {
+                gsl[i].Won = gsl[i + 1];
+                gsl[i].Lost =gsl[i - 1];
+            }
+            gsl[0].Won = gsl[1];
+            gsl[gsl.Count - 1].Lost = gsl[gsl.Count - 2];
+             */
         }
 
         private void SetGameIndex(int index, bool SAME_LEVEL = false)
@@ -196,17 +257,7 @@ namespace vlc_works
                 // ALL -> MEDIUM -> HARD the same as 0 -> 1 -> 2
                 GameMode = (GameMode)((int)GameMode + 1);
 
-                // A5 -> M6 | M6 -> H7 | A9 -> M9 -> H9
-                gameIndex = 0;
-                /*
-                    ModeScripts[lastMode].Length - GameModeScripts.Length 
-                    - 
-                    ;
-                if (gameIndex + )
-                    gameIndex = 0;
-                else if (gameIndex >= GameModeScripts.Length) // if 10 should become 9 as it's max lvl
-                    gameIndex = GameModeScripts.Length - 1;
-                 */
+                gameIndex = Math.Max(lastIndex - ModeStartPoints[GameMode] - 1, 0);
             }
             else
                 gameIndex = GameIndex + 1;
