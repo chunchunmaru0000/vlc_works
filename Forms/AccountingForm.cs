@@ -347,8 +347,7 @@ namespace vlc_works
 		{
 			Db.BeginSQL();
 
-            resetCounterBut_Click(null, EventArgs.Empty);
-			WinsSum = RefreshGridReturnSum(ref winsDataGridView, Db.SelectAllTempPrizes);
+            WinsSum = RefreshGridReturnSum(ref winsDataGridView, Db.SelectAllTempPrizes);
 			PaysSum = RefreshGridReturnSum(ref priceDataGridView, Db.SelectAllTempPrices);
 
 			winSumLabel.Text = WinsSum.ToString();
@@ -551,7 +550,7 @@ namespace vlc_works
 					$"СТОИМОСТЬ: {priceLabel.Text}");
 		}
 
-		private void draawPayed_Click(object sender, EventArgs e)
+        public void draawPayed_Click(object sender, EventArgs e)
 		{
 			DecBalance(PayedBalance);
 			StartTables();
@@ -613,7 +612,7 @@ namespace vlc_works
 			comBox.Items.AddRange(SerialPort.GetPortNames());
 		}
 
-		private void resetCounterBut_Click(object sender, EventArgs e)
+		public void resetCounterBut_Click(object sender, EventArgs e)
 		{
 			COMPort.Execute("Reset counter");
 			IncCoinsInStock(-CoinsInStock);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace vlc_works
@@ -46,5 +47,5 @@ namespace vlc_works
                     as ArrayValueAttribute[];
             return attribs.Length > 0 ? attribs[0].Value : new string[0];
         }
-	}
+    }
 }

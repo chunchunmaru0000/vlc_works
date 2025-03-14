@@ -10,7 +10,6 @@ namespace vlc_works
 
         public GameScript FirstGame { get; set; }
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
-        private Dictionary<GameMode, Dictionary<int, GameState>> GameStates { get; set; }
         private Dictionary<GameMode, int> ModeStartPoints { get; set; }
         public GameMode GameMode { get; set; }
         private Dictionary<GameMode, int> GameIndices { get; set; }
@@ -43,69 +42,9 @@ namespace vlc_works
                 { GameMode.MEDIUM, 0 },
                 { GameMode.HARD, 0 },
             };
-
-            /*
-            GameStates = new Dictionary<GameMode, Dictionary<int, GameState>>();
-            List<GameState> gsl = new List<GameState>();
-            Dictionary<GameType, Dictionary<GameType, int>> gtk = new Dictionary<GameType, Dictionary<GameType, int>>() {
-                { GameType.Guard, new Dictionary<GameType, int>() {
-                    { GameType.Guard, 0 },
-                    { GameType.Painting, 1 },
-                    { GameType.Mario, 2 },
-                } },
-                { GameType.Painting }
-            };
-
-            foreach(GameMode gm in Enum.GetValues(typeof(GameMode))) {
-                GameStates[gm] = new Dictionary<int, GameState>();
-                GameScript[] gss = ModeScripts[gm];
-                for(int i = 0; i < gss.Length; i++) {
-                    GameScript s = gss[i];
-
-                    GameScript cS = gss[i + (int)GameType.Guard - (int)s.GameType];
-                    GameScript kS = gss[i + (int)GameType.Painting - (int)s.GameType];
-                    GameScript mS = gss[i + (int)GameType.Mario - (int)s.GameType];
-
-                    GameStates[gm][i] = new GameState(
-                        gss[i], 
-                        Enum.GetValues(typeof(GameType))
-                        .Cast<GameType>()
-                        .Select(egt =>
-                            Enum.GetValues(typeof(GameType))
-                            .Cast<GameType>()
-                            .Select(eegt => new KeyValuePair<GameType, int>(egt, eegt - egt))
-
-                        )
-                        .ToDictionary(
-                            p => p.Value,
-                            p => p.Key
-                        )
-
-                        new Dictionary<GameType, GameScript>() {
-                            { GameType.Guard,
-                                gss[i + ]
-                            },{ GameType.Painting, 
-
-                            },{ GameType.Mario, 
-
-                            },
-                        },
-                        null,
-                        null
-                        );
-                    gsl.Add(GameStates[gm][i]);
-                }
-            }
-            for(int i = 1; i < gsl.Count - 1; i++) {
-                gsl[i].Won = gsl[i + 1];
-                gsl[i].Lost =gsl[i - 1];
-            }
-            gsl[0].Won = gsl[1];
-            gsl[gsl.Count - 1].Lost = gsl[gsl.Count - 2];
-             */
         }
 
-        private void SetGameIndex(int index, bool SAME_LEVEL = false)
+        private void SetGameIndex(int index)
         {
             if (index < ModeScripts[GameMode].Length) {
                 GameIndices[GameMode] = index;
@@ -114,7 +53,7 @@ namespace vlc_works
                 Console.WriteLine($"SET BOXES TO {index} INDEX");
 
                 if (index >= 0)
-                    SetBoxesToPlayScript(CurrentScript, SAME_LEVEL);
+                    SetBoxesToPlayScript(index, CurrentScript);
             }
 
             if (Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.scriptEditor)) {
@@ -128,65 +67,42 @@ namespace vlc_works
             }
         }
 
-        public void SetBoxesToPlayScript(GameScript script, bool SAME_LEVEL)
+        public void SetBoxesToPlayScript(int scriptIndex, GameScript script)
         {
             Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
 
-            int tmpIndex =
-                ModeScripts[GameMode.ALL].Length -
-                GameModeScripts.Length + GameIndex;
-            int scriptIndex = tmpIndex + 1;
+            GameType[] allTypes = Utils.EnumValues<GameType>();
+            GameMode[] allModes = Utils.EnumValues<GameMode>();
 
-            if (scriptIndex >= GameModeScripts.Length
-                ||
-                GameModeScripts[tmpIndex].GameType == GameModeScripts[scriptIndex].GameType
-                )
-                scriptIndex = tmpIndex;
+            int scriptType = (int)script.GameType;
+            Dictionary<GameType, long> typeLvls =
+                allTypes
+                .ToDictionary(k => k, v => 
+                    ((scriptType - (int)v) > 0 ? 1 : 0) + 
+                    script.Lvl
+                );
 
-            Console.WriteLine($"{scriptIndex} -> {ModeScripts[GameMode.ALL][scriptIndex]}");
-            /*
-            ALSO BUG IN DEC GAME INDEX
-            if (SAME_LEVEL) {
-                long scriptLvl = script.Lvl;
-
-                foreach(GameType gameType in Enum.GetValues(typeof(GameType))) {
-                    if (GameModeScripts.Any(s => s.Lvl == script.Lvl && s.GameType == gameType)) {
-                        AccountingForm.clientForm.SetBox(gameType, scriptLvl);
-                    } else {
-                        GameScript[] thisTypeScripts =
-                            ModeScripts[GameMode.ALL]
-                            .Where(s => s.GameType == gameType)
-                            .ToArray();
-
-                        AccountingForm.clientForm.SetBox(gameType,
-                            thisTypeScripts.Length == 0
-                            ? 0
-                            : thisTypeScripts.Where(s => s.Lvl <= scriptLvl).Count() == 0
-                                ? 0
-                                : thisTypeScripts.Where(s => s.Lvl <= scriptLvl).Max(s => s.Lvl)
-                        );
-                    }
-                }
-            } else
-                   */ {
-                List<GameType> added = new List<GameType>();
-
-                for (int i = scriptIndex; i >= 0; i--) {
-                    GameScript iScript = ModeScripts[GameMode.ALL][i];
-                    GameType scriptType = iScript.GameType;
-
-                    Console.Write($"\t{i} -> {iScript}, BEFORE [{string.Join(", ", added.Select(t => t.View()))}]");
-
-                    if (!added.Contains(scriptType)) {
-                        added.Add(scriptType);
-                        AccountingForm.clientForm.SetBox(scriptType, iScript.Lvl);
-                    }
-
-                    Console.WriteLine($" --->>> _AFTER [{string.Join(", ", added.Select(t => t.View()))}]");
-                }
+            foreach(GameType type in allTypes) {
+                long lvl = FindLvlOfType(GameMode, type, typeLvls[type]);
+                AccountingForm.clientForm.SetBox(type, lvl);
             }
 
             Console.WriteLine($"[[[ SetBoxesUntilScript {script} ]]]");
+        }
+
+        private long FindLvlOfType(GameMode startMode, GameType findType, long maxLvl)
+        {
+            GameScript[] findScriptsOfMode =
+                ModeScripts[startMode]
+                .Where(s => s.GameType == findType && s.Lvl <= maxLvl)
+                .ToArray();
+
+            return
+                findScriptsOfMode.Length > 0
+                ? findScriptsOfMode.Last().Lvl
+                : (int)startMode > 0
+                    ? FindLvlOfType((GameMode)((int)startMode - 1), findType, maxLvl)
+                    : 0;
         }
 
         #region DEBUG
@@ -244,11 +160,9 @@ namespace vlc_works
             ClearLostCounter();
 
             int gameIndex;
-            bool SAME_LEVEL = false;
 
             if (WonCounter >= 3 && GameMode != GameMode.HARD) {
                 ClearWonCounter();
-                SAME_LEVEL = true;
 
                 int lastIndex = GameIndex;
                 GameMode lastMode = GameMode;
@@ -261,7 +175,7 @@ namespace vlc_works
             else
                 gameIndex = GameIndex + 1;
 
-            SetGameIndex(gameIndex, SAME_LEVEL);
+            SetGameIndex(gameIndex);
 
             Debug();
         }

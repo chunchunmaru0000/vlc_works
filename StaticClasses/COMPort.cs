@@ -47,8 +47,12 @@ namespace vlc_works
 		#region PUBLIC_METHODS
 		public static void Execute(string command) {
 			print($"TRY TO EXECUTE COMMAND: [{command}]");
-			if (cmd.ContainsKey(command))
-			{
+            if (port == null || !port.IsOpen) {
+                print("[PORT IS NULL OR IS NOT OPENED]");
+                return;
+            }
+
+			if (cmd.ContainsKey(command)) {
 				byte[] cmdBytes = cmd[command];
 				port.Write(cmdBytes, 0, cmdBytes.Length);
 				print($"EXECUTED COMMAND: [{command}]");
