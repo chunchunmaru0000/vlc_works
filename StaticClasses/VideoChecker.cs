@@ -14,7 +14,7 @@ namespace vlc_works
 		private const int strFrom = 3;
 
 		private const int strTo = 5;
-		private const int maxVideoRepeatTimes = 4 - 1;
+		private const int maxVideoRepeatTimes = 6 - 1;
 
 		// forms
 		private static ClientForm clientForm { get; set; }

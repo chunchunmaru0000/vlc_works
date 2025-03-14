@@ -373,15 +373,6 @@ namespace vlc_works
 		public void PlayGamePayed()
 		{
 			Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
-            /*
-            accountingForm.Invoke(new Action(() => {
-                accountingForm.draawPayed_Click(null, EventArgs.Empty);
-                accountingForm.resetCounterBut_Click(null, EventArgs.Empty);
-            }));
-            accountingForm.Invoke(new Action(() => {
-                accountingForm.draawPayed_Click(null, EventArgs.Empty);
-            }));
-             */
         }
 
 		private void DrawNum(Keys key)

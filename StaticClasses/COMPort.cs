@@ -96,13 +96,11 @@ namespace vlc_works
 		public static void TryConnectPort(string com, AccountingForm accountingForm)
 		{
 			portName = com;
-			if (port != null && port.IsOpen)
-			{
+			if (port != null && port.IsOpen) {
 				port.Close();
 				port.Dispose();
 			}
-			try
-			{
+			try {
 				COMPort.accountingForm = accountingForm;
 
 				port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
@@ -111,10 +109,8 @@ namespace vlc_works
 				print($"PORT IS OPENED: {port.IsOpen}");
 
 				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "ON"));
-				Execute("Check income");
-			}
-			catch
-			{
+				//Execute("Check income");
+			} catch {
 				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "Не подключилось"));
 			}
 		}

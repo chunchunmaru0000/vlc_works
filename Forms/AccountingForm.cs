@@ -353,7 +353,7 @@ namespace vlc_works
 			winSumLabel.Text = WinsSum.ToString();
 			priceSumLabel.Text = PaysSum.ToString();
 
-			GameBalance = PaysSum - WinsSum + CoinsInStock * oneCoinShekels;
+            GameBalance = PaysSum - WinsSum;// + CoinsInStock * oneCoinShekels;
 			StartPayedBalance();
 		}
 
@@ -553,7 +553,6 @@ namespace vlc_works
         public void draawPayed_Click(object sender, EventArgs e)
 		{
 			DecBalance(PayedBalance);
-			StartTables();
 		}
 
 		private void playIdleBut_Click(object sender, EventArgs e)
@@ -616,7 +615,7 @@ namespace vlc_works
 		{
 			COMPort.Execute("Reset counter");
 			IncCoinsInStock(-CoinsInStock);
-		}
+        }
 		#endregion
 
 		#region FACE_CONTROL
