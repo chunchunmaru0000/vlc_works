@@ -755,7 +755,7 @@ namespace vlc_works
 
                 clientForm.gameInfo.ClearGameIndicesAndSetFirst(
                     DecideGameIndex(
-                        clientForm.gameInfo.ModeScripts[GameMode.ALL], 
+                        clientForm.gameInfo.ModeScripts[GameMode.ALL].ToList(), 
                         player));
                 SetIsFirstGame(false);
 
@@ -779,9 +779,19 @@ namespace vlc_works
             RefreshDbForm();
         }
 
-        private int DecideGameIndex(GameScript[] gameScripts, DbPlayer player)
+        private int DecideGameIndex(List<GameScript> gameScripts, DbPlayer player)
         {
-            for (int i = 0; i < gameScripts.Length; i++) {
+            /*
+            return 
+                gameScripts
+                .IndexOf(gameScripts
+                .FindLast(s => 
+                    s.Lvl == player.C ||
+                    s.Lvl == player.K ||
+                    s.Lvl == player.M));
+                */
+
+            for (int i = 0; i < gameScripts.Count; i++) {
                 GameScript gameScript = gameScripts[i];
 
                 switch (gameScript.GameType) {
@@ -827,7 +837,7 @@ namespace vlc_works
 			if (Db.FindPlayer(playerIdInt) == null) {
                 DbPlayer player = new DbPlayer(-1, playerIdInt, cLvlInt, kLvlInt, mLvlInt);
                 int playerWouldPlayScript = DecideGameIndex(
-                    clientForm.gameInfo.ModeScripts[GameMode.ALL], 
+                    clientForm.gameInfo.ModeScripts[GameMode.ALL].ToList(), 
                     player);
                 SetIsFirstGame(playerWouldPlayScript == 0);
 

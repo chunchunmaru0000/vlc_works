@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
@@ -440,12 +441,14 @@ SELECT price_int from {TempPricesTableName}
         /// <returns></returns>
         public static int[] GetCounters(DbPlayer player)
         {
+            const int maxCounter = 2;
+
             string query =
                 $@"
-SELECT won_bool_int FROM {GameRecordsTableName} 
+SELECT won_bool_int, player_c_lvl, player_k_lvl, player_m_lvl FROM {GameRecordsTableName} 
 WHERE player_id_int = @playerId
 ORDER BY id DESC
-LIMIT 3";
+LIMIT {maxCounter + 1}";
             using(SQLiteCommand cmd = new SQLiteCommand(query, SqLiteConnection)) {
                 cmd.Parameters.AddWithValue("@playerId", player.PlayerIdInt);
 
@@ -454,18 +457,33 @@ LIMIT 3";
                 table.Load(reader);
                 reader.Close();
 
-                int[] last3 =
+                int[][] last =
                     table.Rows
                     .Cast<DataRow>()
-                    .Select(row => Convert.ToInt32(row.ItemArray[0]))
+                    .Select(row => 
+                        row.ItemArray
+                        .Select(Convert.ToInt32)
+                        .ToArray())
                     .ToArray();
 
-                return
-                    last3.Length == 0
-                    ? new int[2] { 0, 0 }
-                    : last3[0] == 1
-                        ? new int[2] { last3.TakeWhile(w => w == 1).Count(), 0 }
-                        : new int[2] { 0, last3.TakeWhile(w => w == 0).Count() };
+                if (last.Length == 0)
+                    return new int[2] { 0, 0 };
+                if (last[0][0] == 1)
+                    return new int[2] { last.TakeWhile(l => l[0] == 1).Count(), 0 };
+
+                List<int[]> levels = new List<int[]> {
+                    new long[3] { player.C, player.K, player.M }.Select(Convert.ToInt32).ToArray(),
+                };
+                levels.AddRange(last.Select(l => l.Skip(1).ToArray()));
+                int lost = 0;
+
+                for (int i = 1; i < levels.Count; i++)
+                    if (levels[i - 1].SequenceEqual(levels[i]))
+                        lost++;
+                    else 
+                        break;
+
+                return new int[2] { 0,lost - 1 < 0 ? 0 : lost };
             }
         }
     }
