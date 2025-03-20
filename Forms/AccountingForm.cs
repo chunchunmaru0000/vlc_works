@@ -839,7 +839,7 @@ namespace vlc_works
                 int playerWouldPlayScript = DecideGameIndex(
                     clientForm.gameInfo.ModeScripts[GameMode.ALL].ToList(), 
                     player);
-                SetIsFirstGame(playerWouldPlayScript == 0);
+                SetIsFirstGame(playerWouldPlayScript < 1);
 
                 Db.InsertPlayer(playerIdInt, cLvlInt, kLvlInt, mLvlInt);
             }

@@ -35,6 +35,7 @@ namespace vlc_works
             FirstGame = firstGame;
             ModeScripts = modeScripts;
             ModeStartPoints = modeStartPoints;
+            Console.WriteLine($"ModeStartPoints: \n\t{string.Join("\n\t", ModeStartPoints.Select(m => $"{m.Key}:{m.Value}"))}");
 
             GameMode = GameMode.ALL;
             GameIndices = new Dictionary<GameMode, int>() {
@@ -170,7 +171,9 @@ namespace vlc_works
                 // ALL -> MEDIUM -> HARD the same as 0 -> 1 -> 2
                 GameMode = (GameMode)((int)GameMode + 1);
 
-                gameIndex = Math.Max(lastIndex - ModeStartPoints[GameMode] - 1, 0);
+                gameIndex = Math.Max(lastIndex + ModeStartPoints[lastMode] - ModeStartPoints[GameMode] + 1, 0);
+                if (gameIndex >= GameModeScripts.Length)
+                    gameIndex = GameModeScripts.Length - 1;
             }
             else
                 gameIndex = GameIndex + 1;
