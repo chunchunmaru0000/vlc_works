@@ -147,37 +147,37 @@ namespace vlc_works
             Debug();
         }
 
-        public void ClearWonCounter() => WonCounter = 0;
-
         public void SetWonCounter(int count) => WonCounter = count;
+
+        public void ClearWonCounter() => WonCounter = 0;
 
         public void SetLostCounter(int count) => LostCounter = count;
 
         public void ClearLostCounter() => LostCounter = 0;
 
-        private int GetNextIncGameIndex()
+        private static GameType LESS_TYPE { get; } = Utils.EnumValues<GameType>().First(); // supposedly C - Guard = 0
+        private static int MAX_LVL { get; } = 9;
+        private static int MIN_LVL { get; } = 0;
+
+        private int GetNextGameIndex(int maxOffset, int defValue, bool dec, Func<int, bool> exitCondition)
         {
-            const int maxLvl = 9;
-            const int maxOffset = 2;
-
-            GameType lessType = Utils.EnumValues<GameType>().First(); // supposedly C - Guard = 0
-
             int currentLessTypeLvl =
                 (int)
                 GameModeScripts
                 .Take(GameIndex + 1)
-                .Last(s => s.GameType == lessType).Lvl
-                + Convert.ToInt32(CurrentScript.GameType != lessType);
+                .Last(s => s.GameType == LESS_TYPE).Lvl
+                + Convert.ToInt32(CurrentScript.GameType != LESS_TYPE);
 
-            int nextLvl = Math.Min(maxLvl, currentLessTypeLvl + maxOffset);
+            int nextLvl = 
+                dec
+                ? Math.Max(MIN_LVL, currentLessTypeLvl + maxOffset)
+                : Math.Min(MAX_LVL, currentLessTypeLvl + maxOffset);
 
-            if (nextLvl >= maxLvl)
-                return GameIndex + 1;
+            if (exitCondition(nextLvl))
+                return defValue;
 
-            int index =
-                GameModeScripts.ToList()
-                .FindIndex(s => s.GameType == lessType && s.Lvl == nextLvl);
-            return index == -1 ? GameIndex + 1 : index;
+            int index = Array.FindIndex(GameModeScripts, s => s.GameType == LESS_TYPE && s.Lvl == nextLvl);
+            return index == -1 ? defValue : index;
         }
 
         public void IncGameIndex()
@@ -189,7 +189,7 @@ namespace vlc_works
 
             if (WonCounter >= 3) {
                 ClearWonCounter();
-                gameIndex = GetNextIncGameIndex();
+                gameIndex = GetNextGameIndex(2, GameIndex + 1, false, (nl) => nl >= MAX_LVL);
                 if (gameIndex >= GameModeScripts.Length)
                     gameIndex = GameModeScripts.Length - 1;
             }
@@ -209,19 +209,8 @@ namespace vlc_works
 
             if (LostCounter < 3)
                 return;
-            int gameIndex;
-            
-            if(GameIndex == 0) {
-                if (GameMode == GameMode.ALL)
-                    return;
 
-                GameMode lastMode = GameMode;
-                // HARD -> MEDIUM -> ALL
-                GameMode = (GameMode)((int)GameMode - 1);
-                gameIndex = ModeScripts[GameMode].Length - ModeScripts[lastMode].Length - 1;
-            }
-            else
-                gameIndex = GameIndex - 1;
+            int gameIndex = Math.Max(0, GetNextGameIndex(-1, GameIndex - 1, true, (nl) => nl < MIN_LVL));
 
             SetGameIndex(gameIndex);
             ClearLostCounter();
