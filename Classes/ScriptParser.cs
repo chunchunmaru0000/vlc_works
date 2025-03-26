@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace vlc_works
 {
@@ -21,6 +22,8 @@ namespace vlc_works
             $"НЕИЗВЕСТНЫЙ СИМВОЛ [{c}] [{c.ToString()}]\n" +
             $"ДАННЫЙ СИМВОЛ НЕ ВХОДИТ В СПИСОК ИСПОЛЬЗУЕМЫХ:\n" +
             $"\t[{string.Join("|", CharToGameType.Select(p => p.Key.ToString()))}]";
+        private Func<string, string> errorPartParseLvl { get; } = (lvl) => 
+            $"ОШИБКА ПРИ ЧТЕНИИ ЧИСЕЛ СКРИПТА\n\tlvl = {lvl}";
         #endregion ERR_MSGS
 
         public ScriptParser(string scriptFilePath)
@@ -123,28 +126,48 @@ namespace vlc_works
             try {
                 string[] parts =
                     gameLine
-                    .Split(';')
+                    .Split('|')
                     .Select(part => part.Trim())
                     .ToArray();
 
-                char typeChar = parts[0][0];
+                string[] firstPart = parts[0].Split(';');
+                parts[0] = string.Join(";", firstPart.Skip(1));
+                
+                char typeChar = firstPart[0][0];
                 if (!CharToGameType.ContainsKey(typeChar))
                     throw new Exception(unknownTypeChar(typeChar));
-
                 GameType gameType = CharToGameType[typeChar];
 
-                long lvl = 0, prize = 0, price = 0;
-                bool parseResult =
-                    long.TryParse(parts[0].Substring(1), out lvl) &&
-                    long.TryParse(parts[1], out prize) &&
-                    long.TryParse(parts[2], out price);
-                if (!parseResult)
-                    throw new Exception(errorPartParse);
+                if (!long.TryParse(firstPart[0].Substring(1), out long lvl))
+                    throw new Exception(errorPartParseLvl(firstPart[0].Substring(1)));
 
-                return new GameScript(gameType, lvl, prize, price);
+                return new Dictionary<GameMode, GameScript>() {
+                    { GameMode.LOW, ParseGameParams(gameType, lvl, parts[0]) },
+                    { GameMode.MID, ParseGameParams(gameType, lvl, parts[1]) },
+                    { GameMode.HIGH, ParseGameParams(gameType, lvl, parts[2]) },
+                };
             } catch (Exception e) {
                 throw new Exception(errorParseGameLine(e.Message, gameLine));
             }
+        }
+
+        private GameScript ParseFirstGameLine(string line)
+        {
+            string[] parts =
+                line
+                .Split(';')
+                .Select(part => part.Trim())
+                .ToArray();
+
+            char typeChar = parts[0][0];
+            if (!CharToGameType.ContainsKey(typeChar))
+                throw new Exception(unknownTypeChar(typeChar));
+            GameType gameType = CharToGameType[typeChar];
+
+            if (!long.TryParse(parts[0].Substring(1), out long lvl))
+                throw new Exception(errorPartParseLvl(parts[0].Substring(1)));
+
+            return ParseGameParams(gameType, lvl, string.Join(";", parts.Skip(1)));
         }
     }
 }
