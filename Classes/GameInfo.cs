@@ -11,10 +11,9 @@ namespace vlc_works
         public GameScript FirstGame { get; set; }
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
         public GameMode GameMode { get; set; }
-        private Dictionary<GameMode, int> GameIndices { get; set; }
 
         public GameScript[] GameModeScripts { get => ModeScripts[GameMode]; }
-        public int GameIndex { get => GameIndices[GameMode]; }
+        public int GameIndex { get; set; } = -1;
         public GameScript CurrentScript { get => 
                 GameIndex == -1 
                 ? FirstGame
@@ -33,18 +32,13 @@ namespace vlc_works
             FirstGame = firstGame;
             ModeScripts = modeScripts;
 
-            GameMode = GameMode.LOW;
-            GameIndices = new Dictionary<GameMode, int>() {
-                { GameMode.LOW, -1 },
-                { GameMode.MID, 0 },
-                { GameMode.HIGH, 0 },
-            };
+            GameMode = GameMode.HIGH;
         }
 
         private void SetGameIndex(int index)
         {
             if (index < ModeScripts[GameMode].Length) {
-                GameIndices[GameMode] = index;
+                GameIndex = index;
 
                 for (int i = 0; i < 10; i++)
                 Console.WriteLine($"SET BOXES TO {index} INDEX");
@@ -119,7 +113,6 @@ namespace vlc_works
             df.gi.Text = $"GAME INDEX = {GameIndex}";
             df.gm.Text = $"GAME MODE = {GameMode.View()}";
             df.cs.Text = $"CURRENT SCRIPT = {CurrentScript}";
-            df.gis.Text = string.Join("\n", GameIndices.Select(p => $"{p.Key.View()} = {p.Value}"));
         }
 
         #endregion DEBUG
@@ -134,9 +127,6 @@ namespace vlc_works
 
         public void ClearGameIndicesAndSetFirst(int index)
         {
-            GameIndices[GameMode.MID] = 0;
-            GameIndices[GameMode.HIGH] = 0;
-
             GameMode = GameMode.LOW;
             SetGameIndex(index);
 
