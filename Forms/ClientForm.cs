@@ -316,16 +316,20 @@ namespace vlc_works
             GameScript nextGameScript = gameInfo.CurrentScript;
             accountingForm.SetGameScript(nextGameScript);
 
+            print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
+            accountingForm.Invoke(new Action(accountingForm.StartTables));
+            accountingForm.RefreshDbForm();
+
+            // after accountingForm.StartTables because refreshes GameBalance
+            gameInfo.GameBalance = accountingForm.GameBalance;
+            gameInfo.IncGameBalanceCounter();
+
             if (!DEBUG) {
                 VideoChecker
                 .VlcChanged(
                     gameDirectory
                     .GetRandomGame(nextGameScript, VideoChecker.language));
             }
-
-            print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
-            accountingForm.Invoke(new Action(accountingForm.StartTables));
-            accountingForm.RefreshDbForm();
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);
         }

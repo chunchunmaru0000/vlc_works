@@ -245,7 +245,7 @@
         private System.Windows.Forms.Button mediumBut;
         private System.Windows.Forms.Button easyBut;
         private System.Windows.Forms.Button resetGamesCounterBut;
-        private System.Windows.Forms.Label gamesCounterLabel;
+        public System.Windows.Forms.Label gamesCounterLabel;
         private System.Windows.Forms.TextBox lowBorder;
         private System.Windows.Forms.TextBox mediumBorder;
         private System.Windows.Forms.TextBox gamesCounterBox;

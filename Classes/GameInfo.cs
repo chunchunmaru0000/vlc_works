@@ -49,11 +49,8 @@ namespace vlc_works
                     SetBoxesToPlayScript(index, CurrentScript);
             }
 
-            if (Utils.IsFormAlive(AccountingForm) && Utils.IsFormAlive(AccountingForm.scriptEditor)) {
-
-                GameMode mode =
-                    GameMode;
-                    //AccountingForm.scriptEditor.tableMode;
+            if (Utils.IsFormAlive(AccountingForm.scriptEditor)) {
+                GameMode mode = GameMode;
 
                 AccountingForm.scriptEditor.Invoke(new Action(() =>
                     AccountingForm.scriptEditor.SetGameModeAndScript(mode, ModeScripts[mode])));
@@ -223,11 +220,36 @@ namespace vlc_works
         public int GameBalanceCounter { get; private set; }
         public int GameBalanceCheckCounter { private get; set; }
         public Dictionary<GameMode, int> ModeBalanceBorders { get; set; } = new Dictionary<GameMode, int>();
+        private ScriptEditor ScriptEditor { get; set; }
 
         public void IncGameBalanceCounter()
         {
             GameBalanceCounter++;
 
+            ScriptEditor ScriptEditor = AccountingForm.scriptEditor;
+            bool isAliveAScriptEditor = Utils.IsFormAlive(ScriptEditor);
+
+            if (GameBalanceCounter >= GameBalanceCheckCounter) {
+                GameBalanceCounter = 0;
+                DecideGameMode(isAliveAScriptEditor);
+            }    
+
+            if (isAliveAScriptEditor)
+                ScriptEditor.Invoke(new Action(() =>
+                ScriptEditor.gamesCounterLabel.Text = GameBalanceCounter.ToString()));
+        }
+
+        private void DecideGameMode(bool isAliveAScriptEditor)
+        {
+            GameMode mode = GameMode;
+            foreach (GameMode gm in ModeBalanceBorders.Keys)
+                if (GameBalance < ModeBalanceBorders[gm])
+                    mode = gm;
+            GameMode = mode;
+
+            if (isAliveAScriptEditor)
+                ScriptEditor.Invoke(new Action(() =>
+                ScriptEditor.SetGameModeAndScript(GameMode, ModeScripts[GameMode])));
         }
 
         #endregion GAME_BALANCE
