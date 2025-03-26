@@ -35,6 +35,8 @@ namespace vlc_works
             GameMode = GameMode.HIGH;
         }
 
+        #region SET_GAME_INDEX
+
         private void SetGameIndex(int index)
         {
             if (index < ModeScripts[GameMode].Length) {
@@ -96,6 +98,8 @@ namespace vlc_works
                     : 0;
         }
 
+        #endregion SET_GAME_INDEX
+
         #region DEBUG
 
         private void Debug()
@@ -117,6 +121,16 @@ namespace vlc_works
 
         #endregion DEBUG
 
+        public void ClearGameIndicesAndSetFirst(int index)
+        {
+            GameMode = GameMode.HIGH;
+            SetGameIndex(index);
+
+            Debug();
+        }
+
+        #region WIN_LOST_COUNTERS
+
         public void ClearCounters()
         {
             ClearWonCounter();
@@ -125,14 +139,6 @@ namespace vlc_works
 
         public int[] GetCounters() => new int[2] { WonCounter, LostCounter };
 
-        public void ClearGameIndicesAndSetFirst(int index)
-        {
-            GameMode = GameMode.LOW;
-            SetGameIndex(index);
-
-            Debug();
-        }
-
         public void SetWonCounter(int count) => WonCounter = count;
 
         public void ClearWonCounter() => WonCounter = 0;
@@ -140,6 +146,10 @@ namespace vlc_works
         public void SetLostCounter(int count) => LostCounter = count;
 
         public void ClearLostCounter() => LostCounter = 0;
+
+        #endregion WIN_LOST_COUNTERS
+
+        #region INC_DEC_INDEX
 
         private static GameType LESS_TYPE { get; } = Utils.EnumValues<GameType>().First(); // supposedly C - Guard = 0
         private static int MAX_LVL { get; } = 9;
@@ -204,5 +214,22 @@ namespace vlc_works
 
             Debug();
         }
+
+        #endregion INC_DEC_INDEX
+
+        #region GAME_BALANCE
+
+        public long GameBalance { get; set; }
+        public int GameBalanceCounter { get; private set; }
+        public int GameBalanceCheckCounter { private get; set; }
+        public Dictionary<GameMode, int> ModeBalanceBorders { get; set; } = new Dictionary<GameMode, int>();
+
+        public void IncGameBalanceCounter()
+        {
+            GameBalanceCounter++;
+
+        }
+
+        #endregion GAME_BALANCE
     }
 }
