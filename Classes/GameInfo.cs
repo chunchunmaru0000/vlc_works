@@ -10,7 +10,6 @@ namespace vlc_works
 
         public GameScript FirstGame { get; set; }
         public Dictionary<GameMode, GameScript[]> ModeScripts { get; set; }
-        private Dictionary<GameMode, int> ModeStartPoints { get; set; }
         public GameMode GameMode { get; set; }
         private Dictionary<GameMode, int> GameIndices { get; set; }
 
@@ -27,15 +26,12 @@ namespace vlc_works
         public GameInfo(
             GameScript firstGame, 
             Dictionary<GameMode, GameScript[]> modeScripts, 
-            Dictionary<GameMode, int> modeStartPoints, 
             AccountingForm accountingForm)
         {
             AccountingForm = accountingForm;
 
             FirstGame = firstGame;
             ModeScripts = modeScripts;
-            ModeStartPoints = modeStartPoints;
-            Console.WriteLine($"ModeStartPoints: \n\t{string.Join("\n\t", ModeStartPoints.Select(m => $"{m.Key}:{m.Value}"))}");
 
             GameMode = GameMode.LOW;
             GameIndices = new Dictionary<GameMode, int>() {

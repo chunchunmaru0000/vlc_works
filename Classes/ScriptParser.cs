@@ -11,13 +11,13 @@ namespace vlc_works
         private string ScriptFilePath { get; set; }
         private Encoding Encoding { get; } = Encoding.UTF8;
         #region ERR_MSGS
-        private const string firstGameWasnFound = "В СКРИПТЕ ИГРЫ НЕ БЫЛА НАЙДЕНА ПЕРВАЯ ИГРА";
-        private const string errorPartParse = "ОШИБКА ПРИ ЧТЕНИИ ЧИСЕЛ СКРИПТА";
+        private string firstGameWasnFound { get; } = "В СКРИПТЕ ИГРЫ НЕ БЫЛА НАЙДЕНА ПЕРВАЯ ИГРА";
+        private string errorPartParse { get; } = "ОШИБКА ПРИ ЧТЕНИИ ЧИСЕЛ СКРИПТА";
 
-        private Func<string, string> errorParseFile = (msg) => $"ОШИБКА ПРИ ПАРСИНГЕ ФАЙЛА:\n{msg}";
-        private Func<string, string, string> errorParseGameLine = 
+        private Func<string, string> errorParseFile { get; } = (msg) => $"ОШИБКА ПРИ ПАРСИНГЕ ФАЙЛА:\n{msg}";
+        private Func<string, string, string> errorParseGameLine { get; } = 
             (msg, l) => $"ОШИБКА ПРИ ПАРСИНГЕ СКРИПТА [{l}]:\n{msg}";
-        private Func<char, string> unknownTypeChar = (c) => 
+        private Func<char, string> unknownTypeChar { get; } = (c) => 
             $"НЕИЗВЕСТНЫЙ СИМВОЛ [{c}] [{c.ToString()}]\n" +
             $"ДАННЫЙ СИМВОЛ НЕ ВХОДИТ В СПИСОК ИСПОЛЬЗУЕМЫХ:\n" +
             $"\t[{string.Join("|", CharToGameType.Select(p => p.Key.ToString()))}]";
@@ -35,46 +35,21 @@ namespace vlc_works
         public GameInfo Parse(AccountingForm accountingForm)
         {
             string[] scriptLines = ParseFile();
+
             string firstGameLine = FindFirstGameLine(scriptLines);
-            scriptLines = GetScriptLinesWithoutFirstGameLine(scriptLines);
+            GameScript firstGameScript = ParseFirstGameLine(firstGameLine);
 
-            GameScript firstGameScript = ParseGameLine(firstGameLine);
-            GameScript[] gameScripts = 
-                scriptLines
-                .Where(line => !line.EndsWith(":")) // not labels
-                .Select(ParseGameLine)
-                .ToArray();
+            Dictionary<GameMode, GameScript[]> modeScripts =
+                Utils.EnumValues<GameMode>()
+                .Select(gm => new KeyValuePair<GameMode, GameScript[]>( 
+                    key: gm,
+                    value:
+                        GetScriptLinesWithoutFirstGameLine(scriptLines)
+                        .Select(l => ParseGameLine(l)[gm])
+                        .ToArray()))
+                .ToDictionary(p => p.Key, p => p.Value);
 
-            int mediumModeCount = GetLabelGameIndex(GameMode.MID, scriptLines);
-            int hardModeCount = 
-                GetLabelGameIndex(
-                    GameMode.HIGH, 
-                    scriptLines.Where((l, i) => i != mediumModeCount).ToArray() // skip MEDIUM: label line
-                    );
-
-            Dictionary<GameMode, GameScript[]> modeScripts = new Dictionary<GameMode, GameScript[]>() {
-                { GameMode.LOW, gameScripts },
-                { GameMode.MID,
-                    gameScripts
-                    .Skip(mediumModeCount)
-                    //.Take(hardModeCount - mediumModeCount)
-                    .Select(s => s.Clone())
-                    .ToArray() },
-                { GameMode.HIGH,
-                    gameScripts
-                    .Skip(hardModeCount)
-                    //.Take(gameScripts.Length - hardModeCount)
-                    .Select(s => s.Clone())
-                    .ToArray() },
-            };
-
-            Dictionary<GameMode, int> modeStartPoints = new Dictionary<GameMode, int>() {
-                { GameMode.LOW, 0 },
-                { GameMode.MID, mediumModeCount },
-                { GameMode.HIGH, hardModeCount },
-            };
-
-            return new GameInfo(firstGameScript, modeScripts, modeStartPoints, accountingForm);
+            return new GameInfo(firstGameScript, modeScripts, accountingForm);
         }
 
         private string[] ParseFile()
@@ -123,7 +98,7 @@ namespace vlc_works
                     !line.Contains("первая"))
                 .ToArray();
 
-        private static readonly Dictionary<char, GameType> CharToGameType = 
+        private static Dictionary<char, GameType> CharToGameType { get; } = 
             new Dictionary<char, GameType>() {
                 { 'c', GameType.Guard },
                 { 'с', GameType.Guard },
@@ -133,7 +108,17 @@ namespace vlc_works
                 { 'м', GameType.Mario },
             };
 
-        private GameScript ParseGameLine(string gameLine)
+        private GameScript ParseGameParams(GameType gameType, long lvl, string pars)
+        {
+            long[] prs = 
+                pars
+                .Split(';')
+                .Select(p => Convert.ToInt64(p))
+                .ToArray();
+            return new GameScript(gameType, lvl, prs[0], prs[1]);
+        }
+
+        private Dictionary<GameMode, GameScript> ParseGameLine(string gameLine)
         {
             try {
                 string[] parts =
@@ -159,19 +144,6 @@ namespace vlc_works
                 return new GameScript(gameType, lvl, prize, price);
             } catch (Exception e) {
                 throw new Exception(errorParseGameLine(e.Message, gameLine));
-            }
-        }
-
-        private int GetLabelGameIndex(GameMode label, string[] scriptLines)
-        {
-            try {
-                return
-                    scriptLines
-                    .Select((l, i) => new KeyValuePair<int, string>(i, l.TrimEnd(':').ToLower()))
-                    .First(p => label.Views().Contains(p.Value))
-                    .Key;
-            } catch {
-                throw new Exception(labelError(label));
             }
         }
     }
