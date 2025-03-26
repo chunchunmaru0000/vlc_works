@@ -49,12 +49,10 @@
     public enum GameMode
     {
         [StringValue("НИЗКИЙ")]
-        LOW, // its EASY but actually its just all scripts
+        LOW,
         [StringValue("СРЕДНИЙ")]
-        [ArrayValue(new string[] { "medium", "средняя", "средний", "среднее" })]
         MID,
         [StringValue("ВЫСОКИЙ")]
-        [ArrayValue(new string[] { "hard", "сложная", "сложный", "сложное" })]
         HIGH,
     }
 

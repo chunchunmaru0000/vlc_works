@@ -21,9 +21,6 @@ namespace vlc_works
             $"НЕИЗВЕСТНЫЙ СИМВОЛ [{c}] [{c.ToString()}]\n" +
             $"ДАННЫЙ СИМВОЛ НЕ ВХОДИТ В СПИСОК ИСПОЛЬЗУЕМЫХ:\n" +
             $"\t[{string.Join("|", CharToGameType.Select(p => p.Key.ToString()))}]";
-        private Func<GameMode, string> labelError = (label) => 
-            $"ПРОБЛЕМА С МЕТКОЙ, ВОЗМОЖНА БЫЛА ОШИБКА\n" +
-            $"ОЖИДАЛСЯ ОДИН ИЗ ВАРИАНТОВ:\n\t{string.Join("\n\t", label.Views())}";
         #endregion ERR_MSGS
 
         public ScriptParser(string scriptFilePath)
