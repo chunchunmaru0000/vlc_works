@@ -24,10 +24,10 @@ namespace vlc_works
             InitializeComponent();
 
             this.clientForm = clientForm;
-
             this.accountingForm = accountingForm;
             Owner = accountingForm;
 
+            gamesCounterLabel.Text = clientForm.gameInfo.GamesCounter.ToString();
             gamesCounterBox.Text = clientForm.gameInfo.GamesCounterCheck.ToString();
             midBorder.Text = clientForm.gameInfo.ModeBalanceBorders[GameMode.MID].ToString();
             lowBorder.Text = clientForm.gameInfo.ModeBalanceBorders[GameMode.LOW].ToString();
