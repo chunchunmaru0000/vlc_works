@@ -48,22 +48,22 @@ namespace vlc_works
                 .Select(ParseGameLine)
                 .ToArray();
 
-            int mediumModeCount = GetLabelGameIndex(GameMode.MEDIUM, scriptLines);
+            int mediumModeCount = GetLabelGameIndex(GameMode.MID, scriptLines);
             int hardModeCount = 
                 GetLabelGameIndex(
-                    GameMode.HARD, 
+                    GameMode.HIGH, 
                     scriptLines.Where((l, i) => i != mediumModeCount).ToArray() // skip MEDIUM: label line
                     );
 
             Dictionary<GameMode, GameScript[]> modeScripts = new Dictionary<GameMode, GameScript[]>() {
-                { GameMode.ALL, gameScripts },
-                { GameMode.MEDIUM,
+                { GameMode.LOW, gameScripts },
+                { GameMode.MID,
                     gameScripts
                     .Skip(mediumModeCount)
                     //.Take(hardModeCount - mediumModeCount)
                     .Select(s => s.Clone())
                     .ToArray() },
-                { GameMode.HARD,
+                { GameMode.HIGH,
                     gameScripts
                     .Skip(hardModeCount)
                     //.Take(gameScripts.Length - hardModeCount)
@@ -72,9 +72,9 @@ namespace vlc_works
             };
 
             Dictionary<GameMode, int> modeStartPoints = new Dictionary<GameMode, int>() {
-                { GameMode.ALL, 0 },
-                { GameMode.MEDIUM, mediumModeCount },
-                { GameMode.HARD, hardModeCount },
+                { GameMode.LOW, 0 },
+                { GameMode.MID, mediumModeCount },
+                { GameMode.HIGH, hardModeCount },
             };
 
             return new GameInfo(firstGameScript, modeScripts, modeStartPoints, accountingForm);

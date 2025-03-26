@@ -37,11 +37,11 @@ namespace vlc_works
             ModeStartPoints = modeStartPoints;
             Console.WriteLine($"ModeStartPoints: \n\t{string.Join("\n\t", ModeStartPoints.Select(m => $"{m.Key}:{m.Value}"))}");
 
-            GameMode = GameMode.ALL;
+            GameMode = GameMode.LOW;
             GameIndices = new Dictionary<GameMode, int>() {
-                { GameMode.ALL, -1 },
-                { GameMode.MEDIUM, 0 },
-                { GameMode.HARD, 0 },
+                { GameMode.LOW, -1 },
+                { GameMode.MID, 0 },
+                { GameMode.HIGH, 0 },
             };
         }
 
@@ -138,10 +138,10 @@ namespace vlc_works
 
         public void ClearGameIndicesAndSetFirst(int index)
         {
-            GameIndices[GameMode.MEDIUM] = 0;
-            GameIndices[GameMode.HARD] = 0;
+            GameIndices[GameMode.MID] = 0;
+            GameIndices[GameMode.HIGH] = 0;
 
-            GameMode = GameMode.ALL;
+            GameMode = GameMode.LOW;
             SetGameIndex(index);
 
             Debug();

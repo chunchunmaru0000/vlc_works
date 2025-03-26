@@ -48,14 +48,14 @@
 
     public enum GameMode
     {
-        [StringValue("ОБЫЧНЫЙ")]
-        ALL, // its EASY but actually its just all scripts
+        [StringValue("НИЗКИЙ")]
+        LOW, // its EASY but actually its just all scripts
         [StringValue("СРЕДНИЙ")]
         [ArrayValue(new string[] { "medium", "средняя", "средний", "среднее" })]
-        MEDIUM,
-        [StringValue("СЛОЖНЫЙ")]
+        MID,
+        [StringValue("ВЫСОКИЙ")]
         [ArrayValue(new string[] { "hard", "сложная", "сложный", "сложное" })]
-        HARD,
+        HIGH,
     }
 
     public enum BackupNum

@@ -12,7 +12,7 @@ namespace vlc_works
         private AccountingForm accountingForm { get; set; }
         private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
-        public GameMode tableMode { get; set; } = GameMode.ALL;
+        public GameMode tableMode { get; set; } = GameMode.LOW;
         public void SetGameModeAndScript(GameMode mode, GameScript[] gameScripts)
         {
             tableMode = mode;
@@ -28,7 +28,7 @@ namespace vlc_works
             this.accountingForm = accountingForm;
             Owner = accountingForm;
 
-            styles[GameMode.ALL][GS.DEFAULT] = scriptEditorGrid.DefaultCellStyle.Clone();
+            styles[GameMode.LOW][GS.DEFAULT] = scriptEditorGrid.DefaultCellStyle.Clone();
             InitScript(clientForm.gameInfo.GameModeScripts);
         }
 
@@ -54,7 +54,7 @@ namespace vlc_works
 
         private Dictionary<GameMode, Dictionary<GS, DataGridViewCellStyle>> styles { get; set; } = new Dictionary<GameMode, Dictionary<GS, DataGridViewCellStyle>>() {
             {
-                GameMode.ALL, new Dictionary<GS, DataGridViewCellStyle>() {
+                GameMode.LOW, new Dictionary<GS, DataGridViewCellStyle>() {
                     { GS.DEFAULT, new DataGridViewCellStyle() },
                     { GS.CHANGED, new DataGridViewCellStyle() {
                         BackColor = Color.GreenYellow,
@@ -79,7 +79,7 @@ namespace vlc_works
                 }
             },
             {
-                GameMode.MEDIUM, new Dictionary<GS, DataGridViewCellStyle>() {
+                GameMode.MID, new Dictionary<GS, DataGridViewCellStyle>() {
                     { GS.DEFAULT, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(255, 224, 130),
                         SelectionBackColor = Color.FromArgb(255, 204, 102),
@@ -107,7 +107,7 @@ namespace vlc_works
                 }
             },
             {
-                GameMode.HARD, new Dictionary<GS, DataGridViewCellStyle>() {
+                GameMode.HIGH, new Dictionary<GS, DataGridViewCellStyle>() {
                     { GS.DEFAULT, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(255, 235, 208, 205),
                         SelectionBackColor = Color.DarkRed,
@@ -233,13 +233,13 @@ namespace vlc_works
         }
 
         private void easyBut_Click(object sender, EventArgs e) =>
-            SetTableModeAndInitScript(GameMode.ALL);
+            SetTableModeAndInitScript(GameMode.LOW);
 
         private void mediumBut_Click(object sender, EventArgs e) =>
-            SetTableModeAndInitScript(GameMode.MEDIUM);
+            SetTableModeAndInitScript(GameMode.MID);
 
         private void hardBut_Click(object sender, EventArgs e) =>
-            SetTableModeAndInitScript(GameMode.HARD);
+            SetTableModeAndInitScript(GameMode.HIGH);
 
         #endregion GAME_MODE_BUTS
     }

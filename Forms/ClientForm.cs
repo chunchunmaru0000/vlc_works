@@ -76,8 +76,8 @@ namespace vlc_works
             try {
                 gameInfo = new ScriptParser("gameScript.txt").Parse(accountingForm);
                 
-                Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.ModeScripts[GameMode.MEDIUM].Select(s => s.ToString()))}\n[///]");
-                Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.ModeScripts[GameMode.HARD].Select(s => s.ToString()))}\n[///]");
+                Utils.print($"[MEDIUM]\n\t{string.Join("\n\t", gameInfo.ModeScripts[GameMode.MID].Select(s => s.ToString()))}\n[///]");
+                Utils.print($"[HARD]\n\t{string.Join("\n\t", gameInfo.ModeScripts[GameMode.HIGH].Select(s => s.ToString()))}\n[///]");
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 Environment.Exit(1);
