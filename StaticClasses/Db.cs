@@ -468,22 +468,28 @@ LIMIT {maxCounter + 1}";
 
                 if (last.Length == 0)
                     return new int[2] { 0, 0 };
-                if (last[0][0] == 1)
-                    return new int[2] { last.TakeWhile(l => l[0] == 1).Count(), 0 };
 
                 List<int[]> levels = new List<int[]> {
                     new long[3] { player.C, player.K, player.M }.Select(Convert.ToInt32).ToArray(),
                 };
                 levels.AddRange(last.Select(l => l.Skip(1).ToArray()));
-                int lost = 0;
+                int counter = 0;
 
-                for (int i = 1; i < levels.Count; i++)
-                    if (levels[i - 1].SequenceEqual(levels[i]))
-                        lost++;
-                    else 
-                        break;
-
-                return new int[2] { 0,lost - 1 < 0 ? 0 : lost };
+                if (last[0][0] == 1) {
+                    for (int i = 1; i < levels.Count; i++) 
+                        if (levels[i - 1].Sum() - levels[i].Sum() == 1) 
+                            counter++;
+                        else
+                            break;
+                    return new int[2] { counter, 0 };
+                } else {
+                    for (int i = 1; i < levels.Count; i++)
+                        if (levels[i - 1].SequenceEqual(levels[i]))
+                            counter++;
+                        else 
+                            break;
+                    return new int[2] { 0, counter - 1 < 0 ? 0 : counter };
+                }
             }
         }
     }
