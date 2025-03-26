@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace vlc_works
 {
@@ -33,6 +34,8 @@ namespace vlc_works
             ModeScripts = modeScripts;
 
             GameMode = GameMode.HIGH;
+
+            ParseBalanceValues();
         }
 
         #region SET_GAME_INDEX
@@ -217,26 +220,68 @@ namespace vlc_works
         #region GAME_BALANCE
 
         public long GameBalance { get; set; }
-        public int GameBalanceCounter { get; private set; }
-        public int GameBalanceCheckCounter { private get; set; }
-        public Dictionary<GameMode, int> ModeBalanceBorders { get; set; } = new Dictionary<GameMode, int>();
+        public int GamesCounter { get; private set; }
+        public int GamesCounterCheck { get; private set; }
+        public Dictionary<GameMode, int> ModeBalanceBorders { get; private set; } = new Dictionary<GameMode, int>();
         private ScriptEditor ScriptEditor { get; set; }
+
+        private const string balanceValuesPath = "balanceValues.txt";
+
+        private void ParseBalanceValues()
+        {
+            if (File.Exists(balanceValuesPath)) {
+                int[] values = 
+                    TryParseValues(
+                        File.ReadAllText(balanceValuesPath, System.Text.Encoding.UTF8)
+                        .Replace("\r", "")
+                        .HebrewTrim()
+                        .Split('\n'));
+
+                if (values.Length == 0)
+                    throw new Exception($"ОШИБКА ПРИ ПАРСИНГЕ ФАЙЛА:\n\t{balanceValuesPath}");
+
+                GamesCounterCheck = values[0];
+                ModeBalanceBorders[GameMode.MID] = values[1];
+                ModeBalanceBorders[GameMode.LOW] = values[2];
+            }
+            else
+                SetAndSaveBalanceValues(20, 300, -300);
+        }
+
+        public int[] TryParseValues(string[] lines) =>
+            int.TryParse(lines[0], out int gcc) &&
+            int.TryParse(lines[1], out int mid) &&
+            int.TryParse(lines[2], out int low)
+            ? new int[] { gcc, mid, low }
+            : new int[0];
+
+        public void SetAndSaveBalanceValues(int[] values) =>
+            SetAndSaveBalanceValues(values[0], values[1], values[2]);
+
+        private void SetAndSaveBalanceValues(int gcc, int mid, int low)
+        {
+            GamesCounterCheck = gcc;
+            ModeBalanceBorders[GameMode.MID] = mid;
+            ModeBalanceBorders[GameMode.LOW] = low;
+
+            File.WriteAllText(balanceValuesPath, string.Join("\r\n", new int[] { gcc, mid, low }));
+        }
 
         public void IncGameBalanceCounter()
         {
-            GameBalanceCounter++;
+            GamesCounter++;
 
-            ScriptEditor ScriptEditor = AccountingForm.scriptEditor;
+            ScriptEditor = AccountingForm.scriptEditor;
             bool isAliveAScriptEditor = Utils.IsFormAlive(ScriptEditor);
 
-            if (GameBalanceCounter >= GameBalanceCheckCounter) {
-                GameBalanceCounter = 0;
+            if (GamesCounter >= GamesCounterCheck) {
+                GamesCounter = 0;
                 DecideGameMode(isAliveAScriptEditor);
             }    
 
             if (isAliveAScriptEditor)
                 ScriptEditor.Invoke(new Action(() =>
-                ScriptEditor.gamesCounterLabel.Text = GameBalanceCounter.ToString()));
+                ScriptEditor.gamesCounterLabel.Text = GamesCounter.ToString()));
         }
 
         private void DecideGameMode(bool isAliveAScriptEditor)
@@ -249,7 +294,7 @@ namespace vlc_works
 
             if (isAliveAScriptEditor)
                 ScriptEditor.Invoke(new Action(() =>
-                ScriptEditor.SetGameModeAndScript(GameMode, ModeScripts[GameMode])));
+                ScriptEditor.SetGameModeAndScript(GameMode, GameModeScripts)));
         }
 
         #endregion GAME_BALANCE

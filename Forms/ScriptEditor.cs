@@ -28,6 +28,10 @@ namespace vlc_works
             this.accountingForm = accountingForm;
             Owner = accountingForm;
 
+            gamesCounterBox.Text = clientForm.gameInfo.GamesCounterCheck.ToString();
+            midBorder.Text = clientForm.gameInfo.ModeBalanceBorders[GameMode.MID].ToString();
+            lowBorder.Text = clientForm.gameInfo.ModeBalanceBorders[GameMode.LOW].ToString();
+
             styles[GameMode.LOW][GS.DEFAULT] = scriptEditorGrid.DefaultCellStyle.Clone();
             InitScript(clientForm.gameInfo.GameModeScripts);
         }
@@ -193,6 +197,12 @@ namespace vlc_works
                     .Any(c => c.Style.BackColor == CurStyle(GS.ERROR).BackColor)
                     )
                     SaveChanges(rowScipt);
+
+            int[] values = clientForm.gameInfo.TryParseValues(new string[] {
+                gamesCounterBox.Text, midBorder.Text, lowBorder.Text
+            });
+            if (values.Length != 0)
+                clientForm.gameInfo.SetAndSaveBalanceValues(values);
         }
 
         private void SaveChanges(KeyValuePair<DataGridViewRow, GameScript> rowScipt)

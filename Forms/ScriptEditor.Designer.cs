@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.scriptEditorGrid = new System.Windows.Forms.DataGridView();
             this.type = new System.Windows.Forms.DataGridViewButtonColumn();
             this.level = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,7 +42,7 @@
             this.resetGamesCounterBut = new System.Windows.Forms.Button();
             this.gamesCounterLabel = new System.Windows.Forms.Label();
             this.lowBorder = new System.Windows.Forms.TextBox();
-            this.mediumBorder = new System.Windows.Forms.TextBox();
+            this.midBorder = new System.Windows.Forms.TextBox();
             this.gamesCounterBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.scriptEditorGrid)).BeginInit();
             this.SuspendLayout();
@@ -58,28 +58,28 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.scriptEditorGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.scriptEditorGrid.BackgroundColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.YellowGreen;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.scriptEditorGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.YellowGreen;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkOliveGreen;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.scriptEditorGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.scriptEditorGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.scriptEditorGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.type,
             this.level,
             this.prize,
             this.price});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.PaleGreen;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Green;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.scriptEditorGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.PaleGreen;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Green;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.scriptEditorGrid.DefaultCellStyle = dataGridViewCellStyle4;
             this.scriptEditorGrid.GridColor = System.Drawing.Color.Black;
             this.scriptEditorGrid.Location = new System.Drawing.Point(0, 64);
             this.scriptEditorGrid.Name = "scriptEditorGrid";
@@ -184,7 +184,7 @@
             this.gamesCounterLabel.Name = "gamesCounterLabel";
             this.gamesCounterLabel.Size = new System.Drawing.Size(64, 32);
             this.gamesCounterLabel.TabIndex = 65;
-            this.gamesCounterLabel.Text = "####";
+            this.gamesCounterLabel.Text = "0";
             // 
             // lowBorder
             // 
@@ -194,13 +194,13 @@
             this.lowBorder.Size = new System.Drawing.Size(64, 31);
             this.lowBorder.TabIndex = 66;
             // 
-            // mediumBorder
+            // midBorder
             // 
-            this.mediumBorder.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.mediumBorder.Location = new System.Drawing.Point(224, 0);
-            this.mediumBorder.Name = "mediumBorder";
-            this.mediumBorder.Size = new System.Drawing.Size(64, 31);
-            this.mediumBorder.TabIndex = 67;
+            this.midBorder.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.midBorder.Location = new System.Drawing.Point(224, 0);
+            this.midBorder.Name = "midBorder";
+            this.midBorder.Size = new System.Drawing.Size(64, 31);
+            this.midBorder.TabIndex = 67;
             // 
             // gamesCounterBox
             // 
@@ -216,7 +216,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(351, 526);
             this.Controls.Add(this.gamesCounterBox);
-            this.Controls.Add(this.mediumBorder);
+            this.Controls.Add(this.midBorder);
             this.Controls.Add(this.lowBorder);
             this.Controls.Add(this.gamesCounterLabel);
             this.Controls.Add(this.resetGamesCounterBut);
@@ -247,7 +247,7 @@
         private System.Windows.Forms.Button resetGamesCounterBut;
         public System.Windows.Forms.Label gamesCounterLabel;
         private System.Windows.Forms.TextBox lowBorder;
-        private System.Windows.Forms.TextBox mediumBorder;
+        private System.Windows.Forms.TextBox midBorder;
         private System.Windows.Forms.TextBox gamesCounterBox;
     }
 }
