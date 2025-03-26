@@ -210,7 +210,8 @@ namespace vlc_works
             if (LostCounter < 3)
                 return;
 
-            int gameIndex = Math.Max(0, GetNextGameIndex(-1, GameIndex - 1, true, (nl) => nl < MIN_LVL));
+            //int gameIndex = Math.Max(0, GetNextGameIndex(-1, GameIndex - 1, true, (nl) => nl < MIN_LVL));
+            int gameIndex = GameIndex;
 
             SetGameIndex(gameIndex);
             ClearLostCounter();
