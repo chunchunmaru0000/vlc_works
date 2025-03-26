@@ -252,5 +252,10 @@ namespace vlc_works
             SetTableModeAndInitScript(GameMode.HIGH);
 
         #endregion GAME_MODE_BUTS
+
+        private void resetGamesCounterBut_Click(object sender, EventArgs e)
+        {
+            clientForm.gameInfo.ResetGamesCounter();
+        }
     }
 }

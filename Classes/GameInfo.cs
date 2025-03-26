@@ -224,8 +224,7 @@ namespace vlc_works
         public int GamesCounterCheck { get; private set; }
         public Dictionary<GameMode, int> ModeBalanceBorders { get; private set; } = new Dictionary<GameMode, int>();
         private ScriptEditor ScriptEditor { get; set; }
-
-        private const string balanceValuesPath = "balanceValues.txt";
+        private string balanceValuesPath { get; } = "balanceValues.txt";
 
         private void ParseBalanceValues()
         {
@@ -295,6 +294,16 @@ namespace vlc_works
             if (isAliveAScriptEditor)
                 ScriptEditor.Invoke(new Action(() =>
                 ScriptEditor.SetGameModeAndScript(GameMode, GameModeScripts)));
+        }
+
+        public void ResetGamesCounter()
+        {
+            GamesCounter = 0;
+
+            ScriptEditor = AccountingForm.scriptEditor;
+            if (Utils.IsFormAlive(ScriptEditor))
+                ScriptEditor.Invoke(new Action(() =>
+                ScriptEditor.gamesCounterLabel.Text = GamesCounter.ToString()));
         }
 
         #endregion GAME_BALANCE
