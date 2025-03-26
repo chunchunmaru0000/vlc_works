@@ -159,6 +159,7 @@ namespace vlc_works
             scriptEditorGrid.Rows.Clear(); // for dynamic
             rowToScript.Clear();
 
+            int currentScriptRow = -1;
             for (int i = 0; i < gameScripts.Length; i++) {
                 GameScript script = gameScripts[i];
                 DataGridViewRow row = new DataGridViewRow() { Height = 32 };
@@ -168,6 +169,8 @@ namespace vlc_works
                 };
 
                 DataGridViewCellStyle cellStyle = indexRowStyle(i);
+                if (clientForm.gameInfo.GameIndex == i)
+                    currentScriptRow = i;
 
                 row.Cells.AddRange(new DataGridViewCell[] {
                     typeCell,
@@ -179,6 +182,9 @@ namespace vlc_works
                 scriptEditorGrid.Rows.Add(row);
                 rowToScript[row] = script;
             }
+
+            if (currentScriptRow != -1)
+                scriptEditorGrid.FirstDisplayedScrollingRowIndex = currentScriptRow;
 
             IsInit = false;
         }
