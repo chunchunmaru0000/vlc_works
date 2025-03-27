@@ -204,6 +204,12 @@ namespace vlc_works
                     )
                     SaveChanges(rowScipt);
 
+            clientForm.scriptParser.SaveGameInfo(clientForm.gameInfo);
+            /*
+             * todo: 
+             *      change color of not saved textboxes
+             *      color textboxes in red if values.Length == 0
+             */
             int[] values = clientForm.gameInfo.TryParseValues(new string[] {
                 gamesCounterBox.Text, midBorder.Text, lowBorder.Text
             });

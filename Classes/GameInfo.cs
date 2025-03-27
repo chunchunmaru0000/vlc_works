@@ -244,7 +244,7 @@ namespace vlc_works
                 ModeBalanceBorders[GameMode.LOW] = values[2];
             }
             else
-                SetAndSaveBalanceValues(20, 300, -300);
+                SetAndSaveBalanceValues(2, -300, -600);
         }
 
         public int[] TryParseValues(string[] lines) =>

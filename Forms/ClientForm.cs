@@ -18,6 +18,7 @@ namespace vlc_works
 		private IKeyboardEvents hook { get; set; } // hook for hook keys
 		public AccountingForm accountingForm { get; set; }
         public GameInfo gameInfo { get; set; }
+        public ScriptParser scriptParser { get; set; }
         public GameDirectory gameDirectory { get; set; }
         #endregion UNCHANGING_VAR
         #region CONSTS
@@ -74,7 +75,8 @@ namespace vlc_works
         private void InitGameScript()
         {
             try {
-                gameInfo = new ScriptParser("gameScript.txt").Parse(accountingForm);
+                scriptParser = new ScriptParser("gameScript.txt");
+                gameInfo = scriptParser.Parse(accountingForm);
 
                 Utils.print(string.Join("\n", gameInfo.ModeScripts.ToArray().Select(p => 
                 $"[{p.Key}]\n\t{string.Join("\n\t", p.Value.Select(s => s.ToString()))}\n[///]")));
