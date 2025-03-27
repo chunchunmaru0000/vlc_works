@@ -315,9 +315,6 @@ namespace vlc_works
             VideoChecker.won = false;
             VideoChecker.continued = false;
 
-            GameScript nextGameScript = gameInfo.CurrentScript;
-            accountingForm.SetGameScript(nextGameScript);
-
             print($"REFRESH TABLES AFTER DOING DATABASE RECORD");
             accountingForm.Invoke(new Action(accountingForm.StartTables));
             accountingForm.RefreshDbForm();
@@ -325,6 +322,9 @@ namespace vlc_works
             // after accountingForm.StartTables because refreshes GameBalance
             gameInfo.GameBalance = accountingForm.GameBalance;
             gameInfo.IncGameBalanceCounter();
+
+            GameScript nextGameScript = gameInfo.CurrentScript;
+            accountingForm.SetGameScript(nextGameScript);
 
             if (!DEBUG) {
                 VideoChecker
