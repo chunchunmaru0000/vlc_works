@@ -209,9 +209,35 @@ namespace vlc_works
 
         #region WRITE
 
+        private string ModeScriptsToFileString(Dictionary<GameMode, GameScript> ms)
+        {
+            string tl = $"{ms[GameMode.MID].GameType.View()[0]}{ms[GameMode.MID].Lvl}";
+            string ap = string.Join("|", 
+                ms.OrderByDescending(p => p.Key).Select(p => $"{p.Value.Prize,4};{p.Value.Price,4}"));
+            return $"{tl}|{ap}";
+        }
+
         public void SaveGameInfo(GameInfo gameInfo)
         {
+            int sLen = gameInfo.GameModeScripts.Count();
 
+            GameScript fs = gameInfo.FirstGame;
+            List<Dictionary<GameMode, GameScript>> gameIndexToModeScripts = 
+                new List<Dictionary<GameMode, GameScript>>();
+
+            for(int i = 0; i < sLen; i++) {
+
+            }
+
+            string text = $@"{HEADER}
+ПЕРВАЯ = {fs.GameType.View()[0]}{fs.Lvl}|{fs.Prize, 4};{fs.Price, 4}
+
+{string.Join("\r\n", Enumerable.Range(0, sLen).Select(i => ModeScriptsToFileString(gameIndexToModeScripts[i])))}
+";
+
+
+
+            File.WriteAllText(ScriptFilePath, text, Encoding);
         }
 
         #endregion WRITE
