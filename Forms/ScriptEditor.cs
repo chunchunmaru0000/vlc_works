@@ -12,7 +12,7 @@ namespace vlc_works
         private AccountingForm accountingForm { get; set; }
         private Dictionary<DataGridViewRow, GameScript> rowToScript { get; set; } = new Dictionary<DataGridViewRow, GameScript>();
         private bool IsInit { get; set; } = true;
-        public GameMode tableMode { get; set; } = GameMode.LOW;
+        public GameMode tableMode { get; set; } = GameMode.HIGH;
         public void SetGameModeAndScript(GameMode mode, GameScript[] gameScripts)
         {
             tableMode = mode;
