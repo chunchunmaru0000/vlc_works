@@ -10,8 +10,7 @@ namespace vlc_works
     {
         private string ScriptFilePath { get; set; }
         private Encoding Encoding { get; } = Encoding.UTF8;
-        private string HEADER { get; } = @"
-// Любая строка, которая начинается с //, считается комментарием и не влияет на скрипт.
+        private string HEADER { get; } = @"// Любая строка, которая начинается с //, считается комментарием и не влияет на скрипт.
 // Символы // не могут быть где-то в строке так как это уже не будет комментарием.
 
 // Схема записи игры:
@@ -213,30 +212,30 @@ namespace vlc_works
         {
             string tl = $"{ms[GameMode.MID].GameType.View()[0]}{ms[GameMode.MID].Lvl}";
             string ap = string.Join("|", 
-                ms.OrderByDescending(p => p.Key).Select(p => $"{p.Value.Prize,4};{p.Value.Price,4}"));
+                ms.OrderBy(p => p.Key).Select(p => $"{p.Value.Prize,4};{p.Value.Price,4}"));
             return $"{tl}|{ap}";
         }
 
         public void SaveGameInfo(GameInfo gameInfo)
         {
             int sLen = gameInfo.GameModeScripts.Count();
+            GameMode[] modes = Utils.EnumValues<GameMode>();
 
             GameScript fs = gameInfo.FirstGame;
-            List<Dictionary<GameMode, GameScript>> gameIndexToModeScripts = 
-                new List<Dictionary<GameMode, GameScript>>();
-
-            for(int i = 0; i < sLen; i++) {
-
-            }
+            string[] ss =
+                Enumerable.Range(0, sLen)
+                .Select(i =>
+                    ModeScriptsToFileString(modes.ToDictionary(
+                        key => key, 
+                        key => gameInfo.ModeScripts[key][i]))
+                )
+                .ToArray();
 
             string text = $@"{HEADER}
 ПЕРВАЯ = {fs.GameType.View()[0]}{fs.Lvl}|{fs.Prize, 4};{fs.Price, 4}
 
-{string.Join("\r\n", Enumerable.Range(0, sLen).Select(i => ModeScriptsToFileString(gameIndexToModeScripts[i])))}
+{string.Join("\r\n", ss)}
 ";
-
-
-
             File.WriteAllText(ScriptFilePath, text, Encoding);
         }
 
