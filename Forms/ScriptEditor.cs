@@ -28,9 +28,13 @@ namespace vlc_works
             Owner = accountingForm;
 
             gamesCounterLabel.Text = clientForm.gameInfo.GamesCounter.ToString();
+
             gamesCounterBox.Text = clientForm.gameInfo.GamesCounterCheck.ToString();
+            gamesCounterBox.BackColor = Color.White;
             midBorder.Text = clientForm.gameInfo.ModeBalanceBorders[GameMode.MID].ToString();
+            midBorder.BackColor = Color.White;
             lowBorder.Text = clientForm.gameInfo.ModeBalanceBorders[GameMode.LOW].ToString();
+            lowBorder.BackColor = Color.White;
 
             styles[GameMode.LOW][GS.DEFAULT] = scriptEditorGrid.DefaultCellStyle.Clone();
             InitScript(clientForm.gameInfo.GameModeScripts);
@@ -56,6 +60,11 @@ namespace vlc_works
             FUTURE,
         }
 
+        private static DataGridViewCellStyle ErrorStyle = new DataGridViewCellStyle() {
+            BackColor = Color.FromArgb(255, 15, 55),
+            SelectionBackColor = Color.FromArgb(198, 40, 40),
+        };
+
         private Dictionary<GameMode, Dictionary<GS, DataGridViewCellStyle>> styles { get; set; } = new Dictionary<GameMode, Dictionary<GS, DataGridViewCellStyle>>() {
             {
                 GameMode.LOW, new Dictionary<GS, DataGridViewCellStyle>() {
@@ -64,10 +73,7 @@ namespace vlc_works
                         BackColor = Color.GreenYellow,
                         SelectionBackColor = Color.Olive,
                     } },
-                    { GS.ERROR, new DataGridViewCellStyle() {
-                        BackColor = Color.FromArgb(244, 67, 54),
-                        SelectionBackColor = Color.FromArgb(198, 40, 40),
-                    } },
+                    { GS.ERROR, ErrorStyle.Clone() },
                     { GS.PASSED, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(34, 85, 34),
                         SelectionBackColor = Color.FromArgb(44, 115, 44),
@@ -92,10 +98,7 @@ namespace vlc_works
                         BackColor = Color.FromArgb(255, 235, 59),
                         SelectionBackColor = Color.FromArgb(253, 216, 53),
                     } },
-                    { GS.ERROR, new DataGridViewCellStyle() {
-                        BackColor = Color.OrangeRed,
-                        SelectionBackColor = Color.FromArgb(198, 40, 40),
-                    } },
+                    { GS.ERROR, ErrorStyle.Clone() },
                     { GS.PASSED, new DataGridViewCellStyle() {
                         BackColor = Color.FromArgb(155, 123, 27),
                         SelectionBackColor = Color.FromArgb(255, 160, 0),
@@ -205,16 +208,16 @@ namespace vlc_works
                     SaveChanges(rowScipt);
 
             clientForm.scriptParser.SaveGameInfo(clientForm.gameInfo);
-            /*
-             * todo: 
-             *      change color of not saved textboxes
-             *      color textboxes in red if values.Length == 0
-             */
+
             int[] values = clientForm.gameInfo.TryParseValues(new string[] {
                 gamesCounterBox.Text, midBorder.Text, lowBorder.Text
             });
-            if (values.Length != 0)
+            if (values.Length != 0) {
                 clientForm.gameInfo.SetAndSaveBalanceValues(values);
+                gamesCounterBox.BackColor = Color.White;
+                midBorder.BackColor = Color.White;
+                lowBorder.BackColor = Color.White;
+            }
         }
 
         private void SaveChanges(KeyValuePair<DataGridViewRow, GameScript> rowScipt)
@@ -265,9 +268,30 @@ namespace vlc_works
 
         #endregion GAME_MODE_BUTS
 
+        #region GAME_INFO_EDITOR
+
         private void resetGamesCounterBut_Click(object sender, EventArgs e)
         {
             clientForm.gameInfo.ResetGamesCounter();
         }
+
+        private Color ChangedTextBoxColor = Color.FromArgb(157, 157, 157);
+
+        private void DecideBoxColor(TextBox box) =>
+            box.BackColor =
+                int.TryParse(box.Text, out int _)
+                ? ChangedTextBoxColor
+                : ErrorStyle.BackColor;
+
+        private void gamesCounterBox_TextChanged(object sender, EventArgs e) =>
+            DecideBoxColor(gamesCounterBox);
+
+        private void lowBorder_TextChanged(object sender, EventArgs e) =>
+            DecideBoxColor(lowBorder);
+
+        private void midBorder_TextChanged(object sender, EventArgs e) =>
+            DecideBoxColor(midBorder);
+
+        #endregion GAME_INFO_EDITOR
     }
 }

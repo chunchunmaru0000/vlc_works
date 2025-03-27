@@ -234,8 +234,7 @@ namespace vlc_works
             string text = $@"{HEADER}
 ПЕРВАЯ = {fs.GameType.View()[0]}{fs.Lvl}|{fs.Prize, 4};{fs.Price, 4}
 
-{string.Join("\r\n", ss)}
-";
+{string.Join("\r\n", ss)}";
             File.WriteAllText(ScriptFilePath, text, Encoding);
         }
 
