@@ -137,9 +137,10 @@ namespace vlc_works
             }));
         }
 
-		public static void VlcChanged(GameVideo gamePathUri)
+		public static void VlcChanged(GameScript script)
 		{
-			SetCode(gamePathUri.Game.Path);
+            GameVideo gamePathUri = clientForm.gameDirectory.GetRandomGame(script);
+            SetCode(gamePathUri.Game.Path);
 
 			gameVideosQueue.Clear();
 			gameVideosQueue.Add(gamePathUri);
@@ -147,6 +148,8 @@ namespace vlc_works
 			if (awaitGameVideo)
 				StartVideoInQueue();
 			awaitGameVideo = false;
+
+            UDPChecker.Send($"{script.Lvl};{script.GameType.View()[0]}");
 		}
 
 		public static void StartVideoInQueue()
@@ -181,7 +184,7 @@ namespace vlc_works
         }
 
         private static AudioFileReader audioFile { get; set; } = null;
-        private static WaveOutEvent outputSound = new WaveOutEvent();
+        public static WaveOutEvent outputSound = new WaveOutEvent();
         public static void PlayGameStopVideo()
         {
             audioFile?.Dispose();

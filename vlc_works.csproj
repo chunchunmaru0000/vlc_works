@@ -250,6 +250,7 @@
     <Compile Include="StaticClasses\DbClasses\DbCurrentRecord.cs" />
     <Compile Include="StaticClasses\DbClasses\DbPlayer.cs" />
     <Compile Include="StaticClasses\RelayChecker.cs" />
+    <Compile Include="StaticClasses\UDPChecker.cs" />
     <Compile Include="StaticClasses\Utils.cs" />
     <Compile Include="StaticClasses\VideoChecker.cs" />
     <Compile Include="StaticClasses\VLCChecker.cs" />

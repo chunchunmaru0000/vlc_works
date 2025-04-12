@@ -55,6 +55,7 @@ namespace vlc_works
             accountingForm = new AccountingForm(this);
 			accountingForm.Show();
 			RelayChecker.Constructor(accountingForm);
+            UDPChecker.Constructor(10000, 10001);
 			// set vlcControl
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;
@@ -322,9 +323,7 @@ namespace vlc_works
 
             if (!DEBUG) {
                 VideoChecker
-                .VlcChanged(
-                    gameDirectory
-                    .GetRandomGame(nextGameScript));
+                .VlcChanged(nextGameScript);
             }
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);
@@ -417,11 +416,10 @@ namespace vlc_works
 
 			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
 
-            GameVideo pathUri =
+            VideoChecker.VlcChanged(
                 accountingForm.isFirstGame
-                ? gameDirectory.GetRandomGame(gameInfo.FirstGame)
-                : gameDirectory.GetRandomGame(gameInfo.CurrentScript);
-            VideoChecker.VlcChanged(pathUri);
+                ? gameInfo.FirstGame
+                : gameInfo.CurrentScript);
 
             accountingForm.SetLangLabel(VideoChecker.language.View());
 
@@ -572,8 +570,7 @@ namespace vlc_works
 		#region UPPER_PART_BUTTONS
 		public void Replay()
 		{
-			BeginInvoke(new Action(() =>
-			{
+			BeginInvoke(new Action(() => {
 				ThreadPool.QueueUserWorkItem(_ => {
 					if (vlcControl.GetCurrentMedia() != null)
 					{
@@ -649,6 +646,7 @@ namespace vlc_works
                         break;
                     case Stage.GAME_STOP:
                         PlayGameEnd();
+                        VideoChecker.outputSound.Stop();
                         break;
                     case Stage.GAME_END:
                         PlayPlayAgain();
