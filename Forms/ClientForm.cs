@@ -28,7 +28,6 @@ namespace vlc_works
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
 		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10); // key fade time
-		readonly TimeSpan NSeconds = TimeSpan.FromSeconds(67); // N secongs - 1 because for sure
 		#endregion CONSTS
 		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
 		public Stage stage { get; set; } // current stage
@@ -138,8 +137,7 @@ namespace vlc_works
 		#region INPUT
 		public void Play(Uri uri, Stage s)
 		{
-			Invoke(new Action(() =>
-			{
+			Invoke(new Action(() => {
 				stage = s;
 				print($"NOW IS [{stage}]");
 
@@ -165,8 +163,7 @@ namespace vlc_works
 		{
 			Keys k = e.KeyCode;
 
-			if (k == Keys.F11)
-			{
+			if (k == Keys.F11) {
 				FullScreen();
 				return;
 			}
@@ -180,20 +177,16 @@ namespace vlc_works
 				return;
 			}
 
-			if (k == Keys.Enter)
-			{
-				if (stage == Stage.RULES)
-				{
+			if (k == Keys.Enter) {
+				if (stage == Stage.RULES) {
 					SkipRules();
 					return;
 				}
-				if (stage == Stage.GAME && vlcControl.Time < NSeconds.TotalMilliseconds)
-				{
-					ProceedVideoBeginSkip();
+				if (stage == Stage.GAME_RULES) {
+					ProceedGameRulesSkip();
 					return;
 				}
-				if (stage == Stage.PLAY_AGAIN)
-				{
+				if (stage == Stage.PLAY_AGAIN) {
 					PlayAgainSkip();
 					return; 
 				}
@@ -354,9 +347,9 @@ namespace vlc_works
 			VideoChecker.ProceedKeys(keysStream.Select(k => k.Key).ToArray());
 		}
 
-		private void ProceedVideoBeginSkip() 
+		private void ProceedGameRulesSkip() 
 		{
-			vlcControl.Time = Convert.ToInt64(NSeconds.TotalMilliseconds) + 1000;
+            VideoChecker.StartPlayGameMainVideo();
 		}
 
 		public void PlayPlayAgain()
@@ -380,6 +373,11 @@ namespace vlc_works
 		public void PlayGamePayed()
 		{
 			Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
+        }
+
+        public void PlayGameRules()
+        {
+            Play(VideoChecker.currentLanguage.GameRules.Uri, Stage.GAME_RULES);
         }
 
 		private void DrawNum(Keys key)
@@ -436,7 +434,7 @@ namespace vlc_works
 						accountingForm.SelectedAward,
 						accountingForm.SelectedLevel,
 						accountingForm.SelectedGameType);
-				VideoChecker.StartVideoInQueue(); // sets Stage.GAME itself
+				VideoChecker.StartVideoInQueue();
 			}
 			else
 				EmulateShowParamsButton(); // after EndGamePayed does StartVideoInQueue
@@ -630,12 +628,22 @@ namespace vlc_works
 						break;
 					case Stage.ERROR:
 						break;
-					case Stage.GAME_CANT_INPUT:
-						break;
 					case Stage.VICTORY:
 						PlayPlayAgain();
 						break;
-					case Stage.PLAY_AGAIN:
+                    case Stage.GAME_RULES:
+						PlayPlayAgain();
+						break;
+                    case Stage.LEFT_SECONDS:
+                        PlayPlayAgain();
+                        break;
+                    case Stage.GAME_NOT_WON:
+                        PlayPlayAgain();
+                        break;
+                    case Stage.GAME_END:
+                        PlayPlayAgain();
+                        break;
+                    case Stage.PLAY_AGAIN:
 						//VideoChecker.PlayAgain(); // either idle or operator shows
 						break;
 					case Stage.HOW_PO_PAY:

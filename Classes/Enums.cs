@@ -7,11 +7,15 @@
 		SELECT_LANG,
 		RULES,
 		COST_AND_PRIZE,
-		GAME,
 
-		ERROR,
-		GAME_CANT_INPUT,
-		VICTORY,
+            GAME_RULES,
+		    GAME,
+            LEFT_SECONDS,
+		    ERROR,
+
+                GAME_NOT_WON,
+                GAME_END,
+		        VICTORY,
 
 		PLAY_AGAIN,
 		HOW_PO_PAY,

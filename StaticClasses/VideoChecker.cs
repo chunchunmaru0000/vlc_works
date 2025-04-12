@@ -31,6 +31,7 @@ namespace vlc_works
 		public static PathUri errorVideo { get; set; }
 		public static PathUri idle { get; set; }
 		public static PathUri selectLang { get; set; }
+        public static PathUri gameEnd { get; set; }
 
 		public static Dictionary<Langs, Language> langs { get; set; } = new Dictionary<Langs, Language>();
 		public static Language currentLanguage { get => langs[language]; }
@@ -96,6 +97,9 @@ namespace vlc_works
                 Sheet gamesSheet = new Sheet(lines[afterLangsLinesOffset++], lines[afterLangsLinesOffset++]);
                 Sheet balanceSheet = new Sheet(lines[afterLangsLinesOffset++], lines[afterLangsLinesOffset++]);
                 Db.InitSheets(gamesSheet, balanceSheet);
+
+                gameEnd = new PathUri(lines[afterLangsLinesOffset++]);
+
             } catch (Exception e) {
 				MessageBox.Show(
 					$"ФАЙЛ {VLCChecker.videonamestxt} НЕ БЫЛ УСПЕШНО ПРОЧИТАН\n" +
@@ -146,32 +150,34 @@ namespace vlc_works
 
 		public static void StartVideoInQueue()
 		{
-			if (gameVideosQueue.Count == 0)
-			{
+			if (gameVideosQueue.Count == 0) {
 				awaitGameVideo = true;
 				return;
 			}
 
-			PathUri gameVideo = gameVideosQueue[0];
-            //code = Utils.GetCodeFromName(Utils.GetSafeFileName(gameVideo.Path), strFrom, strTo).TrimEnd(' ') + "E";
-            //accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo(gamePathUri.Path, code)));
-
-            videoGameTimeWas = 0;
-			errorsCount = 0;
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				clientForm.prizeLabel.Hide();
-				clientForm.costLabel.Hide();
-				clientForm.Play(gameVideo.Uri, Stage.GAME);
-			}));
-
-			new Thread(() =>
+            clientForm.BeginInvoke(new Action(() => {
+                clientForm.prizeLabel.Hide();
+                clientForm.costLabel.Hide();
+                clientForm.PlayGameRules();
+            }));
+            new Thread(() =>
 			{
 				Thread.Sleep(1000);
 				gameEnded = false;
 				blockInput = false;
 			}).Start();
 		}
+
+        public static void StartPlayGameMainVideo()
+        {
+            PathUri gameVideo = gameVideosQueue[0];
+
+            videoGameTimeWas = 0;
+            errorsCount = 0;
+            clientForm.BeginInvoke(new Action(() => {
+                clientForm.Play(gameVideo.Uri, Stage.GAME);
+            }));
+        }
 
 		#endregion INIT
 
@@ -259,26 +265,28 @@ namespace vlc_works
 
 			else if (endedVideoMrl == errorVideo.Uri.AbsoluteUri)
 				EndDefeatVideo();
-			else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
-				EndVictoryVideo();
-			else if (gameVideosQueue.Any(v => v.Uri.AbsoluteUri == endedVideoMrl))
-				EndGameVideo();
-			else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
-				Replay();
-			else if (langs.Values.Any(l => l.Params.Uri.AbsoluteUri == endedVideoMrl))
-				EndParamsShowVideo();
-			else if (endedVideoMrl == selectLang.Uri.AbsoluteUri)
-				Replay();
-			else if (endedVideoMrl == idle.Uri.AbsoluteUri)
-				Replay();
-			else if (langs.Values.Any(l => l.PlayAgain.Uri.AbsoluteUri == endedVideoMrl))
-				Replay();
-			else if (langs.Values.Any(l => l.HowToPay.Uri.AbsoluteUri == endedVideoMrl))
-				Replay();
-			else if (langs.Values.Any(l => l.GamePayed.Uri.AbsoluteUri == endedVideoMrl))
-				EndGamePayed();
-			else
-				SafeStop();
+            else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
+                EndVictoryVideo();
+            else if (gameVideosQueue.Any(v => v.Uri.AbsoluteUri == endedVideoMrl))
+                EndGameVideo();
+            else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
+                Replay();
+            else if (langs.Values.Any(l => l.Params.Uri.AbsoluteUri == endedVideoMrl))
+                EndParamsShowVideo();
+            else if (endedVideoMrl == selectLang.Uri.AbsoluteUri)
+                Replay();
+            else if (endedVideoMrl == idle.Uri.AbsoluteUri)
+                Replay();
+            else if (langs.Values.Any(l => l.PlayAgain.Uri.AbsoluteUri == endedVideoMrl))
+                Replay();
+            else if (langs.Values.Any(l => l.HowToPay.Uri.AbsoluteUri == endedVideoMrl))
+                Replay();
+            else if (langs.Values.Any(l => l.GamePayed.Uri.AbsoluteUri == endedVideoMrl))
+                StartVideoInQueue();
+            else if (langs.Values.Any(l => l.GameRules.Uri.AbsoluteUri == endedVideoMrl))
+                StartPlayGameMainVideo();
+            else
+                SafeStop();
 		}
 
 		private static void Replay()
@@ -346,10 +354,8 @@ namespace vlc_works
 		private static void EndGameVideo()
 		{
 			print($"BLOCK INPUT AT THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
-			if (blockInput || !gameEnded) // then game goes on because input blocked before defeat video
-			{
-				if (!blockInput)
-				{
+			if (blockInput || !gameEnded) {// then game goes on because input blocked before defeat video
+				if (!blockInput) {
 					blockInput = true;
 					print("BLOCKED INPUT");
 					print($"BAD ENDING");
@@ -360,13 +366,11 @@ namespace vlc_works
 				print($"PROCEEDS GAME BUT ERROR");
 				DeleteInput();
 			}
-			else if (!blockInput && gameEnded)
-			{
+			else if (!blockInput && gameEnded) {
 				// good ending and gameEnded already true
 				print($"GOOD ENDING");
 			}
-			else
-			{
+			else {
 				print("THIS IS DEPRICATED AND WHY IS THAT EVEN PRINTED");
 				DeleteInput();
 				gameEnded = true; // bad ending
@@ -374,11 +378,6 @@ namespace vlc_works
 				// also here idle video if will be
 			}
 			print($"BLOCK INPUT AT THE END OF THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
-		}
-
-		private static void EndGamePayed()
-		{
-			StartVideoInQueue();
 		}
 
 		public static void SafeStop()
