@@ -13,7 +13,7 @@
             LEFT_SECONDS,
 		    ERROR,
 
-                GAME_NOT_WON,
+                GAME_STOP,
                 GAME_END,
 		        VICTORY,
 

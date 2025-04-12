@@ -34,12 +34,16 @@
 НАЗВАНИЕ ЛИСТА ТАБЛИЦЫ БАЛАНСА ИГРЫ =Лист1
 
 
-КОНЕЦ_ИГРА =C:\Users\user\Desktop\vlcvideos\rules.mp4
+КОНЕЦ_ИГРА =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_end.mp4
 
-ПРАВИЛА_ИГРА РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
-ПРАВИЛА_ИГРА АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
-ПРАВИЛА_ИГРА ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ПРАВИЛА_ИГРА РУС =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_rules.mp4
+ПРАВИЛА_ИГРА АНГЛ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_rules.mp4
+ПРАВИЛА_ИГРА ИВРИТ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_rules.mp4
 
-ВАМ_НЕ_УДАЛОСЬ_ИГРА РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
-ВАМ_НЕ_УДАЛОСЬ_ИГРА АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
-ВАМ_НЕ_УДАЛОСЬ_ИГРА ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ОСТАЛОСЬ_СЕКУНД_ИГРА РУС =C:\Users\cho22\OneDrive\Desktop\vlcvideos\left_seconds.mp4
+ОСТАЛОСЬ_СЕКУНД_ИГРА АНГЛ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\left_seconds.mp4
+ОСТАЛОСЬ_СЕКУНД_ИГРА ИВРИТ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\left_seconds.mp4
+
+ВАМ_НЕ_УДАЛОСЬ_ИГРА РУС =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_stop.mp3
+ВАМ_НЕ_УДАЛОСЬ_ИГРА АНГЛ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_stop.mp3
+ВАМ_НЕ_УДАЛОСЬ_ИГРА ИВРИТ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_stop.mp3

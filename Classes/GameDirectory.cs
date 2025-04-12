@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using vlc_works.Classes;
 
 namespace vlc_works
 {
@@ -125,7 +126,7 @@ namespace vlc_works
                 : new string[0];
         }
 
-        public PathUri GetRandomGame(GameScript gameScript, Langs language)
+        public GameVideo GetRandomGame(GameScript gameScript, Langs language)
         {
             string directory = GetScriptDirectory(gameScript, language);
 

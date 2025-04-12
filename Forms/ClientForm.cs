@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Vlc.DotNet;
 using Vlc.DotNet.Core;
+using vlc_works.Classes;
 
 namespace vlc_works
 {
@@ -358,7 +359,7 @@ namespace vlc_works
 			{
 				VideoChecker.gameVideosQueue.RemoveAt(0);
 				if (VideoChecker.gameVideosQueue.Count > 0)
-					VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Path);
+					VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Game.Path);
 				else
 					accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo("", "")));
 			}
@@ -380,7 +381,12 @@ namespace vlc_works
             Play(VideoChecker.currentLanguage.GameRules.Uri, Stage.GAME_RULES);
         }
 
-		private void DrawNum(Keys key)
+        public void PlayLeftSeconds()
+        {
+            Play(VideoChecker.currentLanguage.GameLeftSeconds.Uri, Stage.LEFT_SECONDS);
+        }
+
+        private void DrawNum(Keys key)
 		{
 			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
 			inputLabel.Text += Utils.ktos[key];
@@ -407,7 +413,7 @@ namespace vlc_works
 
 			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
 
-            PathUri pathUri =
+            GameVideo pathUri =
                 accountingForm.isFirstGame
                 ? gameDirectory.GetRandomGame(gameInfo.FirstGame, VideoChecker.language)
                 : gameDirectory.GetRandomGame(gameInfo.CurrentScript, VideoChecker.language);
@@ -637,7 +643,7 @@ namespace vlc_works
                     case Stage.LEFT_SECONDS:
                         PlayPlayAgain();
                         break;
-                    case Stage.GAME_NOT_WON:
+                    case Stage.GAME_STOP:
                         PlayPlayAgain();
                         break;
                     case Stage.GAME_END:

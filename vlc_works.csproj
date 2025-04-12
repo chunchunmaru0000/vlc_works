@@ -160,6 +160,7 @@
     <Compile Include="Classes\GameDirectory.cs" />
     <Compile Include="Classes\GameInfo.cs" />
     <Compile Include="Classes\GameScript.cs" />
+    <Compile Include="Classes\GameVideo.cs" />
     <Compile Include="Classes\MODBUS.cs" />
     <Compile Include="Classes\PathUri.cs" />
     <Compile Include="Classes\ScriptParser.cs" />

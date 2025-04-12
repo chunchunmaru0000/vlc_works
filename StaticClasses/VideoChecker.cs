@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using vlc_works.Classes;
 
 namespace vlc_works
 {
@@ -26,7 +27,7 @@ namespace vlc_works
 
 		// video paths
 		public static bool awaitGameVideo { get; set; } = false;
-		public static List<PathUri> gameVideosQueue { get; set; } = new List<PathUri>();
+		public static List<GameVideo> gameVideosQueue { get; set; } = new List<GameVideo>();
 
 		public static PathUri errorVideo { get; set; }
 		public static PathUri idle { get; set; }
@@ -136,9 +137,9 @@ namespace vlc_works
             }));
         }
 
-		public static void VlcChanged(PathUri gamePathUri)
+		public static void VlcChanged(GameVideo gamePathUri)
 		{
-			SetCode(gamePathUri.Path);
+			SetCode(gamePathUri.Game.Path);
 
 			gameVideosQueue.Clear();
 			gameVideosQueue.Add(gamePathUri);
@@ -170,7 +171,7 @@ namespace vlc_works
 
         public static void StartPlayGameMainVideo()
         {
-            PathUri gameVideo = gameVideosQueue[0];
+            PathUri gameVideo = gameVideosQueue[0].Game;
 
             videoGameTimeWas = 0;
             errorsCount = 0;
@@ -179,11 +180,17 @@ namespace vlc_works
             }));
         }
 
-		#endregion INIT
+        private static void PlayGameStopVideo()
+        {
+            clientForm.Play(gameVideosQueue[0].Stop.Uri, Stage.GAME_STOP);
+            // sounds?
+        }
 
-		#region PLAY_VIDEOS
+        #endregion INIT
 
-		public static void PlaySomeVideo(string videoUrl)
+        #region PLAY_VIDEOS
+
+        public static void PlaySomeVideo(string videoUrl)
 		{
 			print($"PLAY: {videoUrl}");
 			clientForm.BeginInvoke(new Action(() =>
@@ -235,40 +242,42 @@ namespace vlc_works
 			clientForm.Play(currentLanguage.Victory.Uri, Stage.VICTORY);
 
 			// insert win in db and get coins out
-			accountingForm.Invoke(new Action(() =>
-			{
+			accountingForm.Invoke(new Action(() => {
 				accountingForm.StartTables(); // refresh tables
 				COMPort.MoneyOut(DbCurrentRecord.SelectedPrize, accountingForm);
 			}));
 
             // relay
-			new Thread(() =>
-			{
+			new Thread(() => {
 				RelayChecker.Transmit(Channel.COINS_LIGHT, true); // 15 seconds on to 3 channel
 				Thread.Sleep(TimeSpan.FromSeconds(30));
 				RelayChecker.Transmit(Channel.COINS_LIGHT, false); // off
 			}).Start();
 		}
 
-		#endregion PLAY_VIDEOS
+        #endregion PLAY_VIDEOS
 
-		#region END_VIDEOS
+        #region END_VIDEOS
 
-		public static void MediaIndeedEnded(string endedVideoMrl)
+        public static void MediaIndeedEnded(string endedVideoMrl)
 		{
 			print($"ENDED PLAY: {endedVideoMrl}");
-			//print($"VIEOS IN QUEUE: {gameVideosQueue.Count}");
-			//print($"QUEUE:\n\t{string.Join("\t\n", gameVideosQueue.Select(p => p.Uri.AbsoluteUri))}");
+            //print($"VIEOS IN QUEUE: {gameVideosQueue.Count}");
+            //print($"QUEUE:\n\t{string.Join("\t\n", gameVideosQueue.Select(p => p.Uri.AbsoluteUri))}");
 
-			if (currentVideoPlayCount >= maxVideoRepeatTimes)
-				HandleInfinitePlay(endedVideoMrl);
+            if (currentVideoPlayCount >= maxVideoRepeatTimes)
+                HandleInfinitePlay(endedVideoMrl);
 
-			else if (endedVideoMrl == errorVideo.Uri.AbsoluteUri)
-				EndDefeatVideo();
+            else if (endedVideoMrl == errorVideo.Uri.AbsoluteUri)
+                EndDefeatVideo();
             else if (endedVideoMrl == langs[language].Victory.Uri.AbsoluteUri)
                 EndVictoryVideo();
-            else if (gameVideosQueue.Any(v => v.Uri.AbsoluteUri == endedVideoMrl))
+            else if (gameVideosQueue.Any(v => v.Game.Uri.AbsoluteUri == endedVideoMrl))
                 EndGameVideo();
+            else if (langs.Values.Any(l => l.GameLeftSeconds.Uri.AbsoluteUri == endedVideoMrl))
+                EndLeftSeconds();
+            else if (gameVideosQueue.Any(v => v.Stop.Uri.AbsoluteUri == endedVideoMrl))
+                EndStopVideo();
             else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
                 Replay();
             else if (langs.Values.Any(l => l.Params.Uri.AbsoluteUri == endedVideoMrl))
@@ -326,7 +335,7 @@ namespace vlc_works
 
 			clientForm.BeginInvoke(new Action(() =>
 			{
-				clientForm.vlcControl.Play(gameVideosQueue[0].Uri);
+				clientForm.vlcControl.Play(gameVideosQueue[0].Game.Uri);
 				clientForm.vlcControl.Time = videoGameTimeWas;
 				clientForm.stage = Stage.GAME;
 			}));
@@ -356,12 +365,7 @@ namespace vlc_works
 			print($"BLOCK INPUT AT THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 			if (blockInput || !gameEnded) {// then game goes on because input blocked before defeat video
 				if (!blockInput) {
-					blockInput = true;
-					print("BLOCKED INPUT");
-					print($"BAD ENDING");
-					gameEnded = true; // bad ending
-					//SafeStop();
-					clientForm.PlayPlayAgain();
+                    clientForm.PlayLeftSeconds();
 				}
 				print($"PROCEEDS GAME BUT ERROR");
 				DeleteInput();
@@ -386,6 +390,19 @@ namespace vlc_works
 				() => ThreadPool.QueueUserWorkItem(_ => clientForm.vlcControl.Stop())));
 		}
 
-		#endregion END_VIDEOS
-	}
+        private static void EndLeftSeconds()
+        {
+            blockInput = true;
+            print("BLOCKED INPUT");
+            print($"BAD ENDING");
+            gameEnded = true; // bad ending
+            //SafeStop();
+            //clientForm.PlayPlayAgain();
+            print($"BLOCK INPUT AT THE END OF THE END OF LeftSeconds: {blockInput} AND GAME ENDED: {gameEnded}");
+
+            PlayGameStopVideo();
+        }
+
+        #endregion END_VIDEOS
+    }
 }
