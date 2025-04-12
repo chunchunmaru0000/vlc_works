@@ -14,9 +14,13 @@ namespace vlc_works
 		public PathUri PlayAgain { get; set; }
 		public PathUri HowToPay { get; set; }
 		public PathUri GamePayed { get; set; }
+		public PathUri GameRules { get; set; }
+		public PathUri GameNotWon { get; set; }
 		#endregion
 
-		public Language(Langs lang, string victoryPath, string rulesPath, string paramsPath, string playAgainPath, string howToPayPath, string gamePayedPath)
+		public Language(Langs lang, 
+            string victoryPath, string rulesPath, string paramsPath, string playAgainPath, 
+            string howToPayPath, string gamePayedPath, string gameRulesPath, string gameNotWonPath)
 		{
 			Lang = lang;
 
@@ -26,12 +30,14 @@ namespace vlc_works
 			PlayAgain = new PathUri(playAgainPath);
 			HowToPay = new PathUri(howToPayPath);
 			GamePayed = new PathUri(gamePayedPath);
+            GameRules = new PathUri(gameRulesPath);
+            GameNotWon = new PathUri(gameNotWonPath);
 		}
 
-		public static Language Get(Langs lang, string[] lines, int offset) =>
-			new Language(lang, 
-				lines[0 + offset], lines[3 + offset], lines[6 + offset], 
-				lines[9 + offset], lines[12 + offset], lines[15 + offset]
-				);
+		public static Language Get(Langs lang, string[] lines, int offset) => new Language(lang, 
+			lines[0 + offset], lines[3 + offset], lines[6 + offset], 
+			lines[9 + offset], lines[12 + offset], lines[15 + offset],
+            lines[27 + offset], lines[30 + offset]
+		);
 	}
 }

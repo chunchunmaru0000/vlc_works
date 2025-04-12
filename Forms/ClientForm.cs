@@ -323,6 +323,7 @@ namespace vlc_works
             gameInfo.GameBalance = accountingForm.GameBalance;
             gameInfo.IncGameBalanceCounter();
 
+            // after IncGameBalanceCounter becasue it changes GameMode so CurrentScript too
             GameScript nextGameScript = gameInfo.CurrentScript;
             accountingForm.SetGameScript(nextGameScript);
 

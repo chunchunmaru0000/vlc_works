@@ -26,9 +26,20 @@
 ЗАСТАВКА =C:\Users\user\Desktop\vlcvideos\zastavka.mp4
 ВЫБОР ЯЗЫКА =C:\Users\user\Desktop\vlcvideos\yazik.mp4
 
-ПУТЬ К ПАПКЕ ВИДЕО ИГРЫ =C:\
+ПУТЬ К ПАПКЕ ВИДЕО ИГРЫ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game
 
 ТАБЛИЦА ОСНОВНАЯ =asdfasdfasdfsadfasdfasdfasdfasdfasdfasdfasdfasdf
 НАЗВАНИЕ ЛИСТА ОСНОВНОЙ ТАБЛИЦЫ =l1
 ТАБЛИЦА БАЛАНСА ИГРЫ =adfasdfasdfsadfasdfasdfsadfasdfasdfadfaf
 НАЗВАНИЕ ЛИСТА ТАБЛИЦЫ БАЛАНСА ИГРЫ =Лист1
+
+
+КОНЕЦ_ИГРА =C:\Users\user\Desktop\vlcvideos\rules.mp4
+
+ПРАВИЛА_ИГРА РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ПРАВИЛА_ИГРА АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ПРАВИЛА_ИГРА ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+
+ВАМ_НЕ_УДАЛОСЬ_ИГРА РУС =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ВАМ_НЕ_УДАЛОСЬ_ИГРА АНГЛ =C:\Users\user\Desktop\vlcvideos\rules.mp4
+ВАМ_НЕ_УДАЛОСЬ_ИГРА ИВРИТ =C:\Users\user\Desktop\vlcvideos\rules.mp4
