@@ -334,12 +334,12 @@ namespace vlc_works
 		{
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 
-			if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 2) // til 3 errors
+			if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 3) // til 3 errors
 			{
 				print(
 					$"VLCChecker.blockInput {VideoChecker.blockInput} || " +
 					$"VLCChecker.gameEnded {VideoChecker.gameEnded} || " +
-					$"VLCChecker.errorsCount > 2 {VideoChecker.errorsCount > 2}"
+					$"VLCChecker.errorsCount > 3 {VideoChecker.errorsCount > 3}"
 					);
 				return;
 			}

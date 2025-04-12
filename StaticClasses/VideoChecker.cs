@@ -42,6 +42,7 @@ namespace vlc_works
 		private static string code { get; set; } // inputed code like 01234E
         private static long level { get; set; } // 00 01 02 03 04 05 06 07 08 09
         private static GameType gameType { get; set; }
+        private static Stage prevStage { get; set; } = Stage.IDLE;
 
 		public static Langs language { get; set; } // currently selected language
 		public static bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
@@ -218,16 +219,24 @@ namespace vlc_works
 		private static void ProceedDefeat()
 		{
 			blockInput = true;
+            prevStage = clientForm.stage;
 			clientForm.stage = Stage.ERROR;
 
 			print($"BLOCKED INPUT, ERRORS: {++errorsCount}");
 			DeleteInput();
 
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				if (clientForm.vlcControl.GetCurrentMedia().Mrl != errorVideo.Uri.AbsoluteUri)
-					videoGameTimeWas = clientForm.vlcControl.Time;
-				clientForm.vlcControl.Play(errorVideo.Uri);
+			clientForm.BeginInvoke(new Action(() => {
+                if (errorsCount >= 3) {
+                    if (prevStage == Stage.GAME || prevStage == Stage.LEFT_SECONDS) {
+                        gameEnded = true;
+                        PlayGameStopVideo();
+                    }
+                }
+                else {
+                    if (clientForm.vlcControl.GetCurrentMedia().Mrl != errorVideo.Uri.AbsoluteUri)
+                        videoGameTimeWas = clientForm.vlcControl.Time;
+				    clientForm.vlcControl.Play(errorVideo.Uri);
+                }
 			}));
 			print($"TIME BEFORE DEFEAT WAS: {videoGameTimeWas}");
 		}
@@ -333,12 +342,20 @@ namespace vlc_works
 		private static void EndDefeatVideo()
 		{
 			print($"WAS GAME BEFORE START DEFEAT: {videoGameTimeWas}");
+			print($"PREV STAGE: {prevStage}");
+            currentVideoPlayCount = 0;
 
-			clientForm.BeginInvoke(new Action(() =>
-			{
-				clientForm.vlcControl.Play(gameVideosQueue[0].Game.Uri);
-				clientForm.vlcControl.Time = videoGameTimeWas;
-				clientForm.stage = Stage.GAME;
+            clientForm.BeginInvoke(new Action(() => {
+                if (prevStage == Stage.GAME) {
+                    clientForm.vlcControl.Play(gameVideosQueue[0].Game.Uri);
+                    clientForm.stage = Stage.GAME;
+                }
+                else {
+                    clientForm.vlcControl.Play(currentLanguage.GameLeftSeconds.Uri);
+                    clientForm.stage = Stage.LEFT_SECONDS;
+                }
+                //clientForm.Play(gameVideosQueue[0].Game.Uri, Stage.GAME);
+                clientForm.vlcControl.Time = videoGameTimeWas;
 			}));
 
 			Console.WriteLine($"TIME NOW: {clientForm.vlcControl.Time}");

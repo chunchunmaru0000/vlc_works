@@ -128,10 +128,10 @@ namespace vlc_works
                         .All(fc => char.IsNumber(fc))
                     )
                 .ToArray();
+            /*
             if (files.Length < 1)
                 throw new InvalidOperationException($"НЕТ ФАЙЛОВ ВИДЕО В ПАПКЕ: \n{directory}");
 
-            /*
             string gameFile = files[rnd.Next(files.Length)];
             return new GameVideo(
                 new PathUri(gameFile), 
