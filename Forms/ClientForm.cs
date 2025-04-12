@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Vlc.DotNet;
 using Vlc.DotNet.Core;
-using vlc_works.Classes;
 
 namespace vlc_works
 {
@@ -386,6 +385,11 @@ namespace vlc_works
             Play(VideoChecker.currentLanguage.GameLeftSeconds.Uri, Stage.LEFT_SECONDS);
         }
 
+        public void PlayGameEnd()
+        {
+            Play(VideoChecker.gameEnd.Uri, Stage.GAME_END);
+        }
+
         private void DrawNum(Keys key)
 		{
 			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
@@ -638,13 +642,13 @@ namespace vlc_works
 						PlayPlayAgain();
 						break;
                     case Stage.GAME_RULES:
-						PlayPlayAgain();
+						VideoChecker.StartPlayGameMainVideo();
 						break;
                     case Stage.LEFT_SECONDS:
-                        PlayPlayAgain();
+                        VideoChecker.PlayGameStopVideo();
                         break;
                     case Stage.GAME_STOP:
-                        PlayPlayAgain();
+                        PlayGameEnd();
                         break;
                     case Stage.GAME_END:
                         PlayPlayAgain();

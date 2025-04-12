@@ -1,4 +1,4 @@
-﻿namespace vlc_works.Classes
+﻿namespace vlc_works
 {
     public class GameVideo
     {

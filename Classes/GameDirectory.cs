@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using vlc_works.Classes;
 
 namespace vlc_works
 {
