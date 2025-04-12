@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -179,11 +180,16 @@ namespace vlc_works
             }));
         }
 
+        private static AudioFileReader audioFile { get; set; } = null;
+        private static WaveOutEvent outputSound = new WaveOutEvent();
         public static void PlayGameStopVideo()
         {
+            audioFile?.Dispose();
+            audioFile = new AudioFileReader(currentLanguage.GameStopSound.Path);
+            outputSound.Init(audioFile);
+            outputSound.Play();
+
             clientForm.Play(gameVideosQueue[0].Stop.Uri, Stage.GAME_STOP);
-            // sounds?
-            //currentLanguage.GameStopSound.Path;
         }
 
         #endregion INIT
