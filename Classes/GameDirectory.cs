@@ -15,11 +15,10 @@ namespace vlc_works
             GameDirectoryPath = gameDirectoryPath;
         }
 
-        public string GetScriptDirectory(GameScript gameScript, Langs language)
+        public string GetScriptDirectory(GameScript gameScript)
         {
             string gameFoldersDirectory = Path.Combine(new string[] {
                 GameDirectoryPath,
-                language.View(),
                 $"уровень {gameScript.Lvl}",
             });
 
@@ -40,7 +39,6 @@ namespace vlc_works
         /// </summary>
         public string[] AssertAllGameDirectoryFolders()
         {
-            Langs[] langs = new Langs[] { Langs.RUSSIAN, Langs.ENGLISH, Langs.HEBREW };
             int[] levels = Enumerable.Range(0, 10).ToArray();
             string[] games = new string[] {
                 GameType.Guard.View(),
@@ -50,31 +48,29 @@ namespace vlc_works
 
             List<string> errs = new List<string>();
 
-            foreach (Langs lang in langs)
-                foreach (int level in levels) {
-                    string path = Path.Combine(new string[] {
-                        GameDirectoryPath,
-                        lang.View(),
-                        $"уровень {level}",
-                    });
-                    if (!Directory.Exists(path)) {
-                        errs.Add($"НЕСУЩЕСТВУЮЩАЯ ПАПКА {path}");
-                        continue;
-                    }
-
-                    foreach (string game in games) {
-                        string[] gameFolders = 
-                            Directory
-                            .GetDirectories(path)
-                            .Where(f => 
-                                Path
-                                .GetFileName(f)
-                                .StartsWith(game))
-                            .ToArray();
-                        if (gameFolders.Length == 0)
-                            errs.Add($"НЕСУЩЕСТВУЮЩАЯ ПАПКА {path} + \\{game}...");
-                    }
+            foreach (int level in levels) {
+                string path = Path.Combine(new string[] {
+                    GameDirectoryPath,
+                    $"уровень {level}",
+                });
+                if (!Directory.Exists(path)) {
+                    errs.Add($"НЕСУЩЕСТВУЮЩАЯ ПАПКА {path}");
+                    continue;
                 }
+
+                foreach (string game in games) {
+                    string[] gameFolders = 
+                        Directory
+                        .GetDirectories(path)
+                        .Where(f => 
+                            Path
+                            .GetFileName(f)
+                            .StartsWith(game))
+                        .ToArray();
+                    if (gameFolders.Length == 0)
+                        errs.Add($"НЕСУЩЕСТВУЮЩАЯ ПАПКА {path} + \\{game}...");
+                }
+            }
             return errs.ToArray();
         }
 
@@ -83,31 +79,23 @@ namespace vlc_works
         /// </summary>
         public string[] AssertScriptDirectoryFolders(GameScript firstScript, GameScript[] gameScripts) =>
             new List<string[]> {
-                AssertGameScriptForAllLangs(firstScript),
+                AssertGameScript(firstScript),
 
-                gameScripts.Select(AssertGameScriptForAllLangs)
+                gameScripts.Select(AssertGameScript)
                 .SelectMany(s => s)
                 .ToArray()
             }
             .SelectMany(a => a)
             .ToArray();
 
-        public string[] AssertGameScriptForAllLangs(GameScript gameScript) =>
-            new List<string[]> {
-                TryGameScriptForLang(gameScript, Langs.RUSSIAN),
-                TryGameScriptForLang(gameScript, Langs.ENGLISH),
-                TryGameScriptForLang(gameScript, Langs.HEBREW),
-            }
-            .SelectMany(a => a)
-            .ToArray();
-
-        private string[] TryGameScriptForLang(GameScript gameScript, Langs language)
+        private string[] AssertGameScript(GameScript gameScript)
         {
             string gameFoldersDirectory = Path.Combine(new string[] {
                 GameDirectoryPath,
-                language.View(),
                 $"уровень {gameScript.Lvl}",
             });
+            if (!Directory.Exists(gameFoldersDirectory))
+                return new string[1] { $"НЕСУЩЕСТВУЮЩАЯ ПАПКА {gameFoldersDirectory}" };
 
             string game = gameScript.GameType.View();
 
@@ -125,9 +113,9 @@ namespace vlc_works
                 : new string[0];
         }
 
-        public GameVideo GetRandomGame(GameScript gameScript, Langs language)
+        public GameVideo GetRandomGame(GameScript gameScript)
         {
-            string directory = GetScriptDirectory(gameScript, language);
+            string directory = GetScriptDirectory(gameScript);
 
             // game file starts with 8 nums e.g. 10512345 and ends on .mp4
             string[] files = 
@@ -143,7 +131,16 @@ namespace vlc_works
             if (files.Length < 1)
                 throw new InvalidOperationException($"НЕТ ФАЙЛОВ ВИДЕО В ПАПКЕ: \n{directory}");
 
-            return new PathUri(files[rnd.Next(files.Length)]);
+            /*
+            string gameFile = files[rnd.Next(files.Length)];
+            return new GameVideo(
+                new PathUri(gameFile), 
+                new PathUri(Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(gameFile)}_stop.mp3")));
+             */
+
+            return new GameVideo(
+                new PathUri("C:\\Users\\cho22\\OneDrive\\Desktop\\vlcvideos\\example\\51055555.mp4"),
+                new PathUri("C:\\Users\\cho22\\OneDrive\\Desktop\\vlcvideos\\example\\51055555_stop.mp4"));
         }
     }
 }

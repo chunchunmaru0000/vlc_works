@@ -89,8 +89,7 @@ namespace vlc_works
                     clientForm.gameDirectory
                     .AssertScriptDirectoryFolders(
                         clientForm.gameInfo.FirstGame,
-                        clientForm.gameInfo.ModeScripts[GameMode.LOW]//GameScripts
-                        );
+                        clientForm.gameInfo.ModeScripts[GameMode.LOW]);
                 if (errors.Length > 0)
                     throw new Exception(string.Join("\n\t", errors));
 
@@ -179,10 +178,11 @@ namespace vlc_works
             }));
         }
 
-        private static void PlayGameStopVideo()
+        public static void PlayGameStopVideo()
         {
             clientForm.Play(gameVideosQueue[0].Stop.Uri, Stage.GAME_STOP);
             // sounds?
+            //currentLanguage.GameStopSound.Path;
         }
 
         #endregion INIT
@@ -277,6 +277,8 @@ namespace vlc_works
                 EndLeftSeconds();
             else if (gameVideosQueue.Any(v => v.Stop.Uri.AbsoluteUri == endedVideoMrl))
                 EndStopVideo();
+            else if (endedVideoMrl == gameEnd.Uri.AbsoluteUri)
+                clientForm.PlayPlayAgain();
             else if (langs.Values.Any(l => l.Rules.Uri.AbsoluteUri == endedVideoMrl))
                 Replay();
             else if (langs.Values.Any(l => l.Params.Uri.AbsoluteUri == endedVideoMrl))
@@ -400,6 +402,11 @@ namespace vlc_works
             print($"BLOCK INPUT AT THE END OF THE END OF LeftSeconds: {blockInput} AND GAME ENDED: {gameEnded}");
 
             PlayGameStopVideo();
+        }
+
+        private static void EndStopVideo()
+        {
+            clientForm.Play(gameEnd.Uri, Stage.GAME_END);
         }
 
         #endregion END_VIDEOS

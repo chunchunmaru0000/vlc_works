@@ -324,7 +324,7 @@ namespace vlc_works
                 VideoChecker
                 .VlcChanged(
                     gameDirectory
-                    .GetRandomGame(nextGameScript, VideoChecker.language));
+                    .GetRandomGame(nextGameScript));
             }
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);
@@ -419,8 +419,8 @@ namespace vlc_works
 
             GameVideo pathUri =
                 accountingForm.isFirstGame
-                ? gameDirectory.GetRandomGame(gameInfo.FirstGame, VideoChecker.language)
-                : gameDirectory.GetRandomGame(gameInfo.CurrentScript, VideoChecker.language);
+                ? gameDirectory.GetRandomGame(gameInfo.FirstGame)
+                : gameDirectory.GetRandomGame(gameInfo.CurrentScript);
             VideoChecker.VlcChanged(pathUri);
 
             accountingForm.SetLangLabel(VideoChecker.language.View());
