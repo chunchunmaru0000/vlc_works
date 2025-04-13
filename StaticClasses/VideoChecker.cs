@@ -160,6 +160,8 @@ namespace vlc_works
 				return;
 			}
 
+            videoGameTimeWas = 0;
+            errorsCount = 0;
             ToBlockInput();
             clientForm.BeginInvoke(new Action(() => {
                 clientForm.prizeLabel.Hide();

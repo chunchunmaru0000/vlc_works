@@ -650,7 +650,7 @@ namespace vlc_works
 						VideoChecker.StartPlayGameMainVideo();
 						break;
                     case Stage.LEFT_SECONDS:
-                        VideoChecker.PlayGameStopVideo();
+                        //VideoChecker.PlayGameStopVideo();
                         break;
                     case Stage.GAME_STOP:
                         PlayGameEnd();

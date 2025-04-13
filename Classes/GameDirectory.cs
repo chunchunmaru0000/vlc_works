@@ -123,6 +123,7 @@ namespace vlc_works
                 .Where(f => 
                     Path.GetFileName(f).Length > 8 &&
                     Path.GetExtension(f) == ".mp4" && 
+                    !Path.GetFileNameWithoutExtension(f).EndsWith("_stop") &&
                     Path.GetFileName(f)
                         .Substring(0, 8)
                         .All(fc => char.IsNumber(fc))
