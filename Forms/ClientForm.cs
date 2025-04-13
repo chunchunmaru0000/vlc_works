@@ -359,6 +359,7 @@ namespace vlc_works
 
 		public void PlayPlayAgain()
 		{
+            VideoChecker.ToBlockInput();
 			if (VideoChecker.gameVideosQueue.Count != 0) // its impossible but for sure
 			{
 				VideoChecker.gameVideosQueue.RemoveAt(0);
