@@ -142,6 +142,9 @@ namespace vlc_works
 				stage = s;
 				print($"NOW IS [{stage}]");
 
+                if (stage != Stage.GAME_STOP)
+                    VideoChecker.outputSound.Stop();
+
 				VideoChecker.currentVideoPlayCount = 0;
 				ThreadPool.QueueUserWorkItem(_ => vlcControl.Play(uri));
 				print($"PLAY [{uri}]");
@@ -163,6 +166,9 @@ namespace vlc_works
         private void OnWinKeyDown(object sender, KeyEventArgs e)
 		{
 			Keys k = e.KeyCode;
+
+            if (VideoChecker.blockInput)
+                return;
 
 			if (k == Keys.F11) {
 				FullScreen();
@@ -349,7 +355,7 @@ namespace vlc_works
 		private void ProceedGameRulesSkip() 
 		{
             VideoChecker.StartPlayGameMainVideo();
-		}
+        }
 
 		public void PlayPlayAgain()
 		{
@@ -413,6 +419,7 @@ namespace vlc_works
 				VideoChecker.language = Utils.ktol[key];
 			else
 				return;
+            VideoChecker.ToBlockInput();
 
 			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
 
@@ -434,9 +441,8 @@ namespace vlc_works
 		private void SkipRules()
 		{
 			DeleteInput();
-
-			if (accountingForm.isFirstGame)
-			{
+            VideoChecker.ToBlockInput();
+			if (accountingForm.isFirstGame) {
 				DbCurrentRecord.SetPricePrizeLvl(
 						accountingForm.SelectedPrice,
 						accountingForm.SelectedAward,
@@ -600,7 +606,8 @@ namespace vlc_works
 		public void StartGame()
 		{
 			print(accountingForm.isFirstGame);
-
+            VideoChecker.blockInput = false;
+            VideoChecker.gameEnded = true;
 			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
 			DeleteInput();
 

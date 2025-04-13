@@ -132,11 +132,13 @@ namespace vlc_works
             if (files.Length < 1)
                 throw new InvalidOperationException($"НЕТ ФАЙЛОВ ВИДЕО В ПАПКЕ: \n{directory}");
 
+            /*
             string gameFile = files[rnd.Next(files.Length)];
             return new GameVideo(
                 new PathUri(gameFile), 
-                new PathUri(Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(gameFile)}_stop.mp3")));
+                new PathUri(Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(gameFile)}_stop.mp4")));
              
+             */
 
             return new GameVideo(
                 new PathUri("C:\\Users\\cho22\\OneDrive\\Desktop\\vlcvideos\\example\\51055555.mp4"),

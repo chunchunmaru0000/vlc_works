@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace vlc_works
@@ -53,6 +54,13 @@ namespace vlc_works
                 clientForm.DoDataBaseGameRecord(DEBUG: true);
             }));
             print($"[[[ _END_ DEBUG LOSE ]]]");
+        }
+
+        private void vlcSkip_Click(object sender, EventArgs e)
+        {
+            clientForm.BeginInvoke(new Action(
+                () => ThreadPool.QueueUserWorkItem(_ => 
+                clientForm.vlcControl.Time = (3 * 60 + 55) * 1000)));
         }
     }
 }

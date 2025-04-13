@@ -47,6 +47,7 @@ namespace vlc_works
 
 		public static Langs language { get; set; } // currently selected language
 		public static bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
+        public static TimeSpan blockSpan { get; } = TimeSpan.FromSeconds(1.25);
 		public static bool gameEnded { get; set; } = true; // also bad thing and better to do via stage
 		public static int errorsCount { get; set; } // how much errors inputed this game
 
@@ -159,16 +160,15 @@ namespace vlc_works
 				return;
 			}
 
+            ToBlockInput();
             clientForm.BeginInvoke(new Action(() => {
                 clientForm.prizeLabel.Hide();
                 clientForm.costLabel.Hide();
                 clientForm.PlayGameRules();
             }));
-            new Thread(() =>
-			{
-				Thread.Sleep(1000);
+            new Thread(() => {
+				Thread.Sleep(blockSpan);
 				gameEnded = false;
-				blockInput = false;
 			}).Start();
 		}
 
@@ -176,11 +176,23 @@ namespace vlc_works
         {
             PathUri gameVideo = gameVideosQueue[0].Game;
 
+            ToBlockInput();
             videoGameTimeWas = 0;
             errorsCount = 0;
             clientForm.BeginInvoke(new Action(() => {
                 clientForm.Play(gameVideo.Uri, Stage.GAME);
             }));
+        }
+
+        public static void ToBlockInput()
+        {
+            print($"BLOCK INPUT, WAS {blockInput}");
+            blockInput = true;
+            new Thread(() => {
+                Thread.Sleep(blockSpan);
+                blockInput = false;
+                print($"UNBLOCKED INPUT, WAS {blockInput}");
+            }).Start();
         }
 
         private static AudioFileReader audioFile { get; set; } = null;
@@ -370,13 +382,7 @@ namespace vlc_works
 			Console.WriteLine($"TIME NOW: {clientForm.vlcControl.Time}");
 			Console.WriteLine($"PROCEEDS: GAME VIDEO");
 
-			new Thread(() =>
-			{
-				print("STARTED PLAY GAME");
-				Thread.Sleep(500); // а вот
-				blockInput = false;
-				print("UNBLOCKED INPUT");
-			}).Start();
+            ToBlockInput();
 			print($"BLOCK INPUT AT THE END OF DEFEAT: {blockInput} AND GAME ENDED: {gameEnded}");
 		}
 
@@ -391,9 +397,10 @@ namespace vlc_works
 		{
 			print($"BLOCK INPUT AT THE END OF VIDEO GAME: {blockInput} AND GAME ENDED: {gameEnded}");
 			if (blockInput || !gameEnded) {// then game goes on because input blocked before defeat video
-				if (!blockInput) {
+				//if (!blockInput) {
+                    ToBlockInput();
                     clientForm.PlayLeftSeconds();
-				}
+				//}
 				print($"PROCEEDS GAME BUT ERROR");
 				DeleteInput();
 			}
