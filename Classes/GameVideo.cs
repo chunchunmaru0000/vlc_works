@@ -10,5 +10,7 @@
             Game = game;
             Stop = stop;
         }
+
+        public GameVideo Clone() => new GameVideo(Game, Stop);
     }
 }
