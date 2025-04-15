@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -13,14 +14,16 @@ namespace vlc_works
         private static int SendPort { get; set; }
         private static UdpClient Receiver { get; set; } = null;
         private static IPEndPoint IP = null;
+        private static GameDirectory GameDirectory { get; set; }
 
         public static bool IsActive { get => Receiver != null && IP != null; }
 
-        public static void Constructor(int sendPort, int receivePort)
+        public static void Constructor(int sendPort, int receivePort, GameDirectory gameDirectory)
         {
             Receiver = new UdpClient(receivePort);
             IP = new IPEndPoint(IPAddress.Any, receivePort);
             SendPort = sendPort;
+            GameDirectory = gameDirectory;
 
             ReceiverThread().Start();
         }
@@ -52,7 +55,6 @@ namespace vlc_works
             byte[] data = Encoding.UTF8.GetBytes(message);
             Sender.Send(data, data.Length, "localhost", SendPort);
             Console.WriteLine($"seneded on {SendPort}: {Encoding.UTF8.GetString(data)}");
-            Queue.RemoveAt(0);
 
             SetReceived(false);
         }
@@ -81,6 +83,7 @@ namespace vlc_works
                         SetReceived(true);
                         PathCounter = 0;
                         DoThingsWithCodeAndPaths();
+                        Queue.RemoveAt(0);
                         TrySend();
                     }
                 }
@@ -90,7 +93,11 @@ namespace vlc_works
         private static void DoThingsWithCodeAndPaths()
         {
             Console.WriteLine($"\t- {Code}\n\t- {GameVideo.Game.Path}\n\t- {GameVideo.Stop.Path}");
-            
+
+            string dir = GameDirectory.GetScriptDirectory(Queue[0]);
+
+            File.Move(GameVideo.Game.Path, Path.Combine(dir, $"000{Code}.mp4"));
+            File.Move(GameVideo.Stop.Path, Path.Combine(dir, $"000{Code}_stop.mp4"));
         }
     }
 }

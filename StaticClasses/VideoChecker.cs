@@ -100,10 +100,18 @@ namespace vlc_works
 
                 gameEnd = new PathUri(lines[afterLangsLinesOffset++]);
 
+                afterLangsLinesOffset = 36;
+
+                if (!int.TryParse(lines[afterLangsLinesOffset++], out int portSend))
+                    throw new Exception($"НЕ ПОЛУЧИЛОСЬ СКОНВЕРТИРОВАТЬ PORT1 [{lines[afterLangsLinesOffset-1]}]");
+                if (!int.TryParse(lines[afterLangsLinesOffset++], out int portRecv))
+                    throw new Exception($"НЕ ПОЛУЧИЛОСЬ СКОНВЕРТИРОВАТЬ PORT2 [{lines[afterLangsLinesOffset-1]}]");
+                UDPChecker.Constructor(portSend, portRecv, clientForm.gameDirectory);
+
             } catch (Exception e) {
 				MessageBox.Show(
 					$"ФАЙЛ {VLCChecker.videonamestxt} НЕ БЫЛ УСПЕШНО ПРОЧИТАН\n" +
-					$"ОШИБКА: \n{e.Message}");
+					$"ОШИБКА: \n\t{e.Message}");
 				Environment.Exit(0);
 			}
 		}

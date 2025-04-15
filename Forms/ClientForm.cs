@@ -55,7 +55,6 @@ namespace vlc_works
             accountingForm = new AccountingForm(this);
 			accountingForm.Show();
 			RelayChecker.Constructor(accountingForm);
-            UDPChecker.Constructor(10000, 10001);
 			// set vlcControl
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;

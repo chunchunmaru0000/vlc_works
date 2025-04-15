@@ -47,3 +47,6 @@
 ВАМ_НЕ_УДАЛОСЬ_ИГРА РУС =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_stop.mp3
 ВАМ_НЕ_УДАЛОСЬ_ИГРА АНГЛ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_stop.mp3
 ВАМ_НЕ_УДАЛОСЬ_ИГРА ИВРИТ =C:\Users\cho22\OneDrive\Desktop\vlcvideos\game_stop.mp3
+
+PORT1 =7000
+PORT2 =7001
