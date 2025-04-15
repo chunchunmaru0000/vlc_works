@@ -95,9 +95,18 @@ namespace vlc_works
             Console.WriteLine($"\t- {Code}\n\t- {GameVideo.Game.Path}\n\t- {GameVideo.Stop.Path}");
 
             string dir = GameDirectory.GetScriptDirectory(Queue[0]);
+            try {
+                Console.WriteLine($"{GameVideo.Game.Path} {File.Exists(GameVideo.Game.Path)} {Path.Combine(dir, $"000{Code}.mp4")}");
+                Console.WriteLine($"{GameVideo.Stop.Path} {File.Exists(GameVideo.Stop.Path)} {Path.Combine(dir, $"000{Code}_stop.mp4")}");
 
-            File.Move(GameVideo.Game.Path, Path.Combine(dir, $"000{Code}.mp4"));
-            File.Move(GameVideo.Stop.Path, Path.Combine(dir, $"000{Code}_stop.mp4"));
+                File.Move(GameVideo.Game.Path, Path.Combine(dir, $"000{Code}.mp4"));
+                File.Move(GameVideo.Stop.Path, Path.Combine(dir, $"000{Code}_stop.mp4"));
+            } catch (FileNotFoundException e) {
+                File.AppendAllText(
+                    "FILE ERRORS.txt", 
+                    $"вот ошибка может изза тире в пути в папке гдето в {GameVideo.Game.Path} или " +
+                    $"{GameVideo.Stop.Path}\n{e.Message}\n");
+            }
         }
     }
 }

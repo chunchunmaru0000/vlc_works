@@ -62,5 +62,11 @@ namespace vlc_works
                 () => ThreadPool.QueueUserWorkItem(_ => 
                 clientForm.vlcControl.Time = (3 * 60 + 55) * 1000)));
         }
+
+        private void sendUdpBut_Click(object sender, EventArgs e)
+        {
+            GameScript script = clientForm.gameInfo.GameModeScripts[Convert.ToInt32(udpScriptIndexBox.Text)];
+            UDPChecker.Send(script);
+        }
     }
 }
