@@ -68,5 +68,10 @@ namespace vlc_works
             GameScript script = clientForm.gameInfo.GameModeScripts[Convert.ToInt32(udpScriptIndexBox.Text)];
             UDPChecker.Send(script);
         }
+
+        private void deleteVideoFilesBut_Click(object sender, EventArgs e)
+        {
+            clientForm.DeleteVideoFiles();
+        }
     }
 }

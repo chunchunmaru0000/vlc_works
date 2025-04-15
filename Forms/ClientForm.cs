@@ -260,32 +260,38 @@ namespace vlc_works
 
         private static Random Rnd { get; } = new Random();
 
-        private void DeleteVideoFiles()
+        public void DeleteVideoFiles()
         {
             string dir = gameDirectory.GetScriptDirectory(gameInfo.CurrentScript);
-            string[] gamesInFolder = 
+            Console.WriteLine($"DIR FOR DELETE: {dir}");
+
+            List<string> gamesInFolder = 
                 Directory.GetFiles(dir)
                 .Where(f =>
                     Path.GetFileNameWithoutExtension(f).Length >= 8 &&
-                    Path.GetExtension(f) == "mp4" &&
+                    Path.GetExtension(f) == ".mp4" &&
                     Path.GetFileName(f)
                         .Substring(0, 8)
                         .All(fc => char.IsNumber(fc))
                 )
                 .Select(Path.GetFileNameWithoutExtension)
                 .Where(f => !f.EndsWith("_stop"))
-                .ToArray();
+                .ToList();
 
-            if (gamesInFolder.Length < MAX_GAMES_IN_FOLDER)
-                return;
+            Console.WriteLine("\t_" + string.Join("\n\t_", gamesInFolder));
+            int iters = 100;
+
+            
+            while (gamesInFolder.Count > MAX_GAMES_IN_FOLDER && iters-- > 0)
             try {
                 if (LastGameVideo != null && File.Exists(LastGameVideo.Game.Path)) {
                     File.Delete(LastGameVideo.Game.Path);
                     File.Delete(LastGameVideo.Stop.Path);
                 } else {
-                    string file = gamesInFolder[Rnd.Next(gamesInFolder.Length)];
+                    string file = gamesInFolder[Rnd.Next(gamesInFolder.Count)];
                     File.Delete(Path.Combine(dir, $"{file}.mp4"));
                     File.Delete(Path.Combine(dir, $"{file}_stop.mp4"));
+                    gamesInFolder.Remove(file);
                 }
             } catch (FileNotFoundException e) {
                 File.AppendAllText("FILE ERRORS.txt", $"ошибка в DeleteVideoFiles\n{e.Message}\n");
@@ -405,9 +411,9 @@ namespace vlc_works
                 LastGameVideo = VideoChecker.gameVideosQueue[0];
                 VideoChecker.gameVideosQueue.RemoveAt(0);
                 if (VideoChecker.gameVideosQueue.Count > 0)
-                    ;// dont want it here not that its possible but VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Game.Path);
-				else
-					accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo("", "")));
+                    { }// dont want it here not that its possible but VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Game.Path);
+                else
+                    accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo("", "")));
 			}
 			Play(VideoChecker.currentLanguage.PlayAgain.Uri, Stage.PLAY_AGAIN);
 		}

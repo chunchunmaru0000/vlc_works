@@ -37,10 +37,11 @@
             this.w = new System.Windows.Forms.Label();
             this.gi = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.udpScriptIndexBox = new System.Windows.Forms.TextBox();
+            this.sendUdpBut = new System.Windows.Forms.Button();
             this.vlcSkip = new System.Windows.Forms.Button();
             this.cs = new System.Windows.Forms.Label();
-            this.sendUdpBut = new System.Windows.Forms.Button();
-            this.udpScriptIndexBox = new System.Windows.Forms.TextBox();
+            this.deleteVideoFilesBut = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,6 +134,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.deleteVideoFilesBut);
             this.panel1.Controls.Add(this.udpScriptIndexBox);
             this.panel1.Controls.Add(this.sendUdpBut);
             this.panel1.Controls.Add(this.vlcSkip);
@@ -150,6 +152,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 448);
             this.panel1.TabIndex = 9;
+            // 
+            // udpScriptIndexBox
+            // 
+            this.udpScriptIndexBox.Location = new System.Drawing.Point(128, 160);
+            this.udpScriptIndexBox.Name = "udpScriptIndexBox";
+            this.udpScriptIndexBox.Size = new System.Drawing.Size(32, 31);
+            this.udpScriptIndexBox.TabIndex = 12;
+            this.udpScriptIndexBox.Text = "3";
+            // 
+            // sendUdpBut
+            // 
+            this.sendUdpBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sendUdpBut.Location = new System.Drawing.Point(0, 160);
+            this.sendUdpBut.Name = "sendUdpBut";
+            this.sendUdpBut.Size = new System.Drawing.Size(128, 32);
+            this.sendUdpBut.TabIndex = 11;
+            this.sendUdpBut.Text = "send udp";
+            this.sendUdpBut.UseVisualStyleBackColor = true;
+            this.sendUdpBut.Click += new System.EventHandler(this.sendUdpBut_Click);
             // 
             // vlcSkip
             // 
@@ -173,24 +194,16 @@
             this.cs.TabIndex = 9;
             this.cs.Text = "current script";
             // 
-            // sendUdpBut
+            // deleteVideoFilesBut
             // 
-            this.sendUdpBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sendUdpBut.Location = new System.Drawing.Point(0, 160);
-            this.sendUdpBut.Name = "sendUdpBut";
-            this.sendUdpBut.Size = new System.Drawing.Size(128, 32);
-            this.sendUdpBut.TabIndex = 11;
-            this.sendUdpBut.Text = "send udp";
-            this.sendUdpBut.UseVisualStyleBackColor = true;
-            this.sendUdpBut.Click += new System.EventHandler(this.sendUdpBut_Click);
-            // 
-            // udpScriptIndexBox
-            // 
-            this.udpScriptIndexBox.Location = new System.Drawing.Point(128, 160);
-            this.udpScriptIndexBox.Name = "udpScriptIndexBox";
-            this.udpScriptIndexBox.Size = new System.Drawing.Size(32, 31);
-            this.udpScriptIndexBox.TabIndex = 12;
-            this.udpScriptIndexBox.Text = "3";
+            this.deleteVideoFilesBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deleteVideoFilesBut.Location = new System.Drawing.Point(0, 192);
+            this.deleteVideoFilesBut.Name = "deleteVideoFilesBut";
+            this.deleteVideoFilesBut.Size = new System.Drawing.Size(160, 32);
+            this.deleteVideoFilesBut.TabIndex = 13;
+            this.deleteVideoFilesBut.Text = "delete video";
+            this.deleteVideoFilesBut.UseVisualStyleBackColor = true;
+            this.deleteVideoFilesBut.Click += new System.EventHandler(this.deleteVideoFilesBut_Click);
             // 
             // DebugForm
             // 
@@ -221,5 +234,6 @@
         private System.Windows.Forms.Button vlcSkip;
         private System.Windows.Forms.TextBox udpScriptIndexBox;
         private System.Windows.Forms.Button sendUdpBut;
+        private System.Windows.Forms.Button deleteVideoFilesBut;
     }
 }
