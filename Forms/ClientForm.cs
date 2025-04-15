@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -255,8 +256,46 @@ namespace vlc_works
                 gameInfo.IncLostCounter();
         }
 
-		public void DoDataBaseGameRecord(bool DEBUG = false)
+        private static int MAX_GAMES_IN_FOLDER { get; } = 5;
+
+        private static Random Rnd { get; } = new Random();
+
+        private void DeleteVideoFiles()
+        {
+            string dir = gameDirectory.GetScriptDirectory(gameInfo.CurrentScript);
+            string[] gamesInFolder = 
+                Directory.GetFiles(dir)
+                .Where(f =>
+                    Path.GetFileNameWithoutExtension(f).Length >= 8 &&
+                    Path.GetExtension(f) == "mp4" &&
+                    Path.GetFileName(f)
+                        .Substring(0, 8)
+                        .All(fc => char.IsNumber(fc))
+                )
+                .Select(Path.GetFileNameWithoutExtension)
+                .Where(f => !f.EndsWith("_stop"))
+                .ToArray();
+
+            if (gamesInFolder.Length < MAX_GAMES_IN_FOLDER)
+                return;
+            try {
+                if (LastGameVideo != null && File.Exists(LastGameVideo.Game.Path)) {
+                    File.Delete(LastGameVideo.Game.Path);
+                    File.Delete(LastGameVideo.Stop.Path);
+                } else {
+                    string file = gamesInFolder[Rnd.Next(gamesInFolder.Length)];
+                    File.Delete(Path.Combine(dir, $"{file}.mp4"));
+                    File.Delete(Path.Combine(dir, $"{file}_stop.mp4"));
+                }
+            } catch (FileNotFoundException e) {
+                File.AppendAllText("FILE ERRORS.txt", $"ошибка в DeleteVideoFiles\n{e.Message}\n");
+            }
+        }
+
+        public void DoDataBaseGameRecord(bool DEBUG = false)
 		{
+            print("DO DeleteVideoFiles IN DoDataBaseGameRecord BECAUSE ITS CONVENIENT TO DO HERE");
+            DeleteVideoFiles();
             print("DOES DATABASE RECORD");
             long gameCLvl = SelectedGameTypeIs(GameType.Guard);
             long gameKLvl = SelectedGameTypeIs(GameType.Painting);
@@ -356,14 +395,17 @@ namespace vlc_works
             VideoChecker.StartPlayGameMainVideo();
         }
 
+        private GameVideo LastGameVideo { get; set; }
+
 		public void PlayPlayAgain()
 		{
             VideoChecker.ToBlockInput();
 			if (VideoChecker.gameVideosQueue.Count != 0) // its impossible but for sure
 			{
-				VideoChecker.gameVideosQueue.RemoveAt(0);
-				if (VideoChecker.gameVideosQueue.Count > 0)
-					VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Game.Path);
+                LastGameVideo = VideoChecker.gameVideosQueue[0];
+                VideoChecker.gameVideosQueue.RemoveAt(0);
+                if (VideoChecker.gameVideosQueue.Count > 0)
+                    ;// dont want it here not that its possible but VideoChecker.SetCode(VideoChecker.gameVideosQueue[0].Game.Path);
 				else
 					accountingForm.Invoke(new Action(() => accountingForm.GotGameVideo("", "")));
 			}

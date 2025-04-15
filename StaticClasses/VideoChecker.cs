@@ -131,7 +131,7 @@ namespace vlc_works
             }));
         }
 
-		public static void VlcChanged(GameScript script)
+        public static void VlcChanged(GameScript script)
 		{
             GameVideo gamePathUri = clientForm.gameDirectory.GetRandomGame(script);
             SetCode(gamePathUri.Game.Path);
