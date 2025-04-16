@@ -372,8 +372,7 @@ namespace vlc_works
             accountingForm.SetGameScript(nextGameScript);
 
             if (!DEBUG) {
-                VideoChecker
-                .VlcChanged(nextGameScript);
+                VideoChecker.VlcChanged(nextGameScript);
             }
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);
