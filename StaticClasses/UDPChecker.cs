@@ -104,7 +104,7 @@ namespace vlc_works
                         string stop = GameVideo.Stop.Path;
 
                         new Thread(() => {
-                            Thread.Sleep(TimeSpan.FromSeconds(5));
+                            Thread.Sleep(TimeSpan.FromSeconds(8));
                             DoThingsWithCodeAndPaths(script, code, game, stop);
                         }).Start();
 
