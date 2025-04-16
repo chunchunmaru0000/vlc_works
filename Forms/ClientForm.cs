@@ -545,7 +545,7 @@ namespace vlc_works
             inputLabel.Location = new Point(220, Size.Height / 2 - 170);
 
             accountingForm.Invoke((MethodInvoker)delegate {
-				accountingForm.GotInput(inputLabel.Text);
+				accountingForm.GotInput(inputLabel.Text.Replace(" ", ""));
 			});
 		}
 
