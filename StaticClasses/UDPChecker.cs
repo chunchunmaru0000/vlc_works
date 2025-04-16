@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -26,6 +27,15 @@ namespace vlc_works
             GameDirectory = gameDirectory;
 
             ReceiverThread().Start();
+        }
+
+        private static void Print(object obj)
+        {
+            string str = $"{obj}\n";
+            Console.WriteLine(str);
+
+            //const string file = "UDP_REPORT.txt";
+            //File.AppendAllText(file, str, encoding: Encoding.UTF8);
         }
 
         private static List<GameScript> Queue { get; set; } = new List<GameScript>();
@@ -54,7 +64,7 @@ namespace vlc_works
             string message = $"{Queue[0].Lvl}";
             byte[] data = Encoding.UTF8.GetBytes(message);
             Sender.Send(data, data.Length, "localhost", SendPort);
-            Console.WriteLine($"seneded on {SendPort}: {Encoding.UTF8.GetString(data)}");
+            Print($"seneded on {SendPort}: {Encoding.UTF8.GetString(data)}");
 
             SetReceived(false);
         }
@@ -64,25 +74,40 @@ namespace vlc_works
             while (true) {
                 Thread.Sleep(250);
                 byte[] reveivedData = Receiver.Receive(ref IP);
-                string message = Encoding.UTF8.GetString(reveivedData);
+                string message = 
+                    Encoding.UTF8.GetString(reveivedData)
+                    .Replace("\r", "")
+                    .Replace("\n", "")
+                    .Replace("\0", "")
+                    .HebrewTrim();
 
-                Console.WriteLine($"received: {message}, skip = {message == null || message.Length == 0}");
+                Print($"received: {message}, skip = {message == null || message.Length == 0}");
                 if (message == null || message.Length == 0)
                     continue;
 
                 if (message.StartsWith("code")) {
                     Code = Convert.ToInt32(message.Split(':')[1]);
-                    Console.WriteLine($"# Code was: {Code}");
+                    Print($"# Code was: {Code}");
                 }
                 else {
-                    Console.WriteLine($"# PathCounter: {++PathCounter}");
+                    Print($"# PathCounter: {++PathCounter}");
                     if (PathCounter == 1)
                         GameVideo.Game = new PathUri(message);
                     else {
                         GameVideo.Stop = new PathUri(message);
                         SetReceived(true);
                         PathCounter = 0;
-                        DoThingsWithCodeAndPaths();
+
+                        GameScript script = Queue[0];
+                        int code = Code;
+                        string game = GameVideo.Game.Path;
+                        string stop = GameVideo.Stop.Path;
+
+                        new Thread(() => {
+                            Thread.Sleep(TimeSpan.FromSeconds(5));
+                            DoThingsWithCodeAndPaths(script, code, game, stop);
+                        }).Start();
+
                         Queue.RemoveAt(0);
                         TrySend();
                     }
@@ -90,23 +115,37 @@ namespace vlc_works
             }
         });
 
-        private static void DoThingsWithCodeAndPaths()
+        private static void DoThingsWithCodeAndPaths(GameScript script, int code, string game, string stop)
         {
-            Console.WriteLine($"\t- {Code}\n\t- {GameVideo.Game.Path}\n\t- {GameVideo.Stop.Path}");
+            Print($"\t- {code}\n\t- {game}\n\t- {stop}");
 
-            string dir = GameDirectory.GetScriptDirectory(Queue[0]);
+            string dir = GameDirectory.GetScriptDirectory(script);
             try {
-                Console.WriteLine($"{GameVideo.Game.Path} {File.Exists(GameVideo.Game.Path)} {Path.Combine(dir, $"000{Code}.mp4")}");
-                Console.WriteLine($"{GameVideo.Stop.Path} {File.Exists(GameVideo.Stop.Path)} {Path.Combine(dir, $"000{Code}_stop.mp4")}");
+                Print($"INVALID CHARS: {string.Join("|", Path.GetInvalidFileNameChars().Select(c => (int)c))}");
+                Print($"{game}" +
+                    $"\n\t{File.Exists(game)}" +
+                    $"\n\t{string.Join("|", game.Select(c => (int)c))}" +  
+                    $"\n\t{Path.Combine(dir, $"000{code}.mp4")}" +
+                    $"\n\t{string.Join("|", Path.Combine(dir, $"000{code}.mp4").Select(c => (int)c))}"
+                );
+                Print($"{stop}" +
+                    $"\n\t{File.Exists(stop)}" +
+                    $"\n\t{string.Join("|", stop.Select(c => (int)c))}" +
+                    $"\n\t{Path.Combine(dir, $"000{code}_stop.mp4")}" +
+                    $"\n\t{string.Join("|", Path.Combine(dir, $"000{code}_stop.mp4").Select(c => (int)c))}"
+                );
 
-                File.Move(GameVideo.Game.Path, Path.Combine(dir, $"000{Code}.mp4"));
-                File.Move(GameVideo.Stop.Path, Path.Combine(dir, $"000{Code}_stop.mp4"));
+                File.Move(game, Path.Combine(dir, $"000{code}.mp4"));
+                File.Move(stop, Path.Combine(dir, $"000{code}_stop.mp4"));
 
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 File.AppendAllText(
-                    "FILE ERRORS.txt", 
-                    $"вот ошибка может изза тире в пути в папке гдето в {GameVideo.Game.Path} или " +
-                    $"{GameVideo.Stop.Path}\n{e.Message}\n");
+                    "FILE ERRORS.txt",
+                    $"{e.GetType().Name}" +
+                    $"\n\t{game}" +
+                    $"\n\t{stop}" +
+                    $"\n\t{e.Message}",
+                    encoding: Encoding.UTF8);
             }
         }
     }
