@@ -8,8 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{33201A29-0FD2-49AD-BCF2-0312B3DA00F1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>vlc_works</RootNamespace>
-    <AssemblyName>vlc_works</AssemblyName>
+    <RootNamespace>vlc_works015</RootNamespace>
+    <AssemblyName>vlc_works015</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -251,6 +251,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="FodyWeavers.xsd">
       <SubType>Designer</SubType>

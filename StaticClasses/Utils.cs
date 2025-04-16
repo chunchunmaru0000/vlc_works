@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace vlc_works
+namespace vlc_works015
 {
     // i want here to be only "pure" functions in means of NOT USING external data
     public static class Utils

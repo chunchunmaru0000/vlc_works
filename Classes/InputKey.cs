@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public class InputKey: IDisposable
 	{

@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using UsbRelayNet.RelayLib;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public partial class AccountingForm : Form
 	{

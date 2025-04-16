@@ -2,7 +2,7 @@
 using System.IO.Ports;
 using System.Threading;
 
-namespace vlc_works
+namespace vlc_works015
 {
     /*
      * Decompiled from https://thyb.oss-cn-beijing.aliyuncs.com/DCFG.exe

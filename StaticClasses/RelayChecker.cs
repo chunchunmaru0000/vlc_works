@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using UsbRelayNet.RelayLib;
 // https://github.com/riuson/usb-relay-hid
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public static class RelayChecker
 	{

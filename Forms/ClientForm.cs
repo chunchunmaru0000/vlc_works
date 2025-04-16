@@ -9,7 +9,7 @@ using Gma.System.MouseKeyHook;
 using Vlc.DotNet;
 using Vlc.DotNet.Core;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public partial class ClientForm : Form
 	{

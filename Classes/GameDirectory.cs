@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace vlc_works
+namespace vlc_works015
 {
     public class GameDirectory
     {

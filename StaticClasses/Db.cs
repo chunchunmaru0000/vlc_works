@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public static class Db
 	{

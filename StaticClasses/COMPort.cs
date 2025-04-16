@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.IO;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public static class COMPort
 	{

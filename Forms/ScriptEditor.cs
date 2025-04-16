@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace vlc_works
+namespace vlc_works015
 {
     public partial class ScriptEditor: Form
     {

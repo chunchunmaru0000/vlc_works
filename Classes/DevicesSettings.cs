@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-namespace vlc_works
+namespace vlc_works015
 {
     public class DevicesSettings
     {

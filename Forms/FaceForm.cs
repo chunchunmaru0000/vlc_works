@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public partial class FaceForm : Form
 	{

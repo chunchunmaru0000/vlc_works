@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public static class VideoChecker
 	{

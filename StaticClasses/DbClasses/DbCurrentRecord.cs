@@ -1,4 +1,4 @@
-﻿namespace vlc_works
+﻿namespace vlc_works015
 {
 	public static class DbCurrentRecord
 	{

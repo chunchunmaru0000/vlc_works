@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AxFP_CLOCKLib;
 
-namespace vlc_works
+namespace vlc_works015
 {
     public partial class EditDbForm : Form
     {

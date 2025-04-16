@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	partial class ClientForm
 	{

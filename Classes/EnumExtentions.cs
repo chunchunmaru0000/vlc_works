@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace vlc_works
+namespace vlc_works015
 {
 	public class StringValueAttribute : Attribute
 	{
