@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace vlc_works015
@@ -24,13 +25,11 @@ namespace vlc_works015
 			if (InputLabel.Text != "")
 			{
 				ClientForm cf = InputLabel.FindForm() as ClientForm;
-				cf.Invoke(new Action(() =>
-				{
-					InputLabel.Text = InputLabel.Text.Substring(1, InputLabel.Text.Length - 1);
-					cf.keysStream.RemoveAt(0);
-
-					cf.print($"DELETED: {Utils.ktos[Key]}\n\tNOW STREAM: {cf.keysStreamtos()}");
-				}));
+                cf.Invoke(new Action(() => {
+                    cf.keysStream.RemoveAt(0);
+                    InputLabel.Text = string.Join(" ", cf.keysStream.Select(k => Utils.ktos[k.Key]));
+                    cf.print($"DELETED: {Utils.ktos[Key]}\n\tNOW STREAM: {cf.keysStreamtos()}");
+                }));
 			}
 			Dispose();
 		}

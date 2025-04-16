@@ -65,10 +65,10 @@ namespace vlc_works015
             VLCChecker.Constructor(this, accountingForm);
 			// set form
 			Form1_SizeChanged(inputLabel, EventArgs.Empty); // includes align inputLabel
-			inputLabel.SizeChanged += AlignInputLabel;
 			DeleteInput();
 			SetFormFullScreen();
-		}
+            SetUpInputLabel();
+        }
 
         #region SCRIPT
 
@@ -199,7 +199,7 @@ namespace vlc_works015
 				}
 			}
 
-			if (NumKeys.Contains(k) || k == Keys.Enter)
+			if (NumKeys.Contains(k))
 				DrawNum(k);
 			if (k == Keys.Enter)
 				ProceedInput();
@@ -383,9 +383,11 @@ namespace vlc_works015
 
 		private void DrawNum(Keys key)
 		{
-			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
-			inputLabel.Text += Utils.ktos[key];
-		}
+            if (keysStream.Count > 4)
+                return;
+            keysStream.Add(new InputKey(key, fadeTime, inputLabel));
+            inputLabel.Text = string.Join(" ", keysStream.Select(k => Utils.ktos[k.Key]));
+        }
 
 		public void DeleteInput()
 		{
@@ -477,19 +479,25 @@ namespace vlc_works015
 			global :
 			global / 2 - local / 2;// Half Minus Half = hmh 
 
-		private void AlignInputLabel(object sender, EventArgs e)
-		{
-			inputLabel.Location = new Point(
-				hmh(Size.Width, inputLabel.Width),
-				hmh(Size.Height, inputLabel.Height));
+        private void AlignInputLabel(object sender, EventArgs e)
+        {
+            inputLabel.Location = new Point(220, Size.Height / 2 - 170);
 
-			accountingForm.Invoke((MethodInvoker)delegate {
-				accountingForm.GotInput(inputLabel.Text);
-			});
-		}
-		#endregion
-		#region FORM_CLOSED
-		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+            accountingForm.Invoke((MethodInvoker)delegate {
+                accountingForm.GotInput(inputLabel.Text.Replace(" ", ""));
+            });
+        }
+
+        private void SetUpInputLabel()
+        {
+            inputLabel.SizeChanged += AlignInputLabel;
+            inputLabel.TextAlign = ContentAlignment.MiddleLeft;
+            inputLabel.Font = new Font("Cascadia Code", 156F);
+            inputLabel.Location = new Point(220, Size.Height / 2 - 170);
+        }
+        #endregion
+        #region FORM_CLOSED
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Environment.Exit(0);
 		}

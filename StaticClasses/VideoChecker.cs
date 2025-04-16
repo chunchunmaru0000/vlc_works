@@ -193,9 +193,9 @@ namespace vlc_works015
 			print($"INPUT BLOCKED: {blockInput}\nGAME ENDED: {gameEnded}");
 
 			string inputCode = string.Join("", keysStream.Select(k => Utils.ktos[k]));
-			bool guess = inputCode == code;
+            bool guess = inputCode.Trim('E') == code.Trim('E');
 
-			print($"_INPUTED: {inputCode}\n\tCODE: {code}\n\tGUESS: {guess}");
+            print($"_INPUTED: {inputCode}\n\tCODE: {code}\n\tGUESS: {guess}");
 
 			if (guess)
 				ProceedWin();
