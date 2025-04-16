@@ -65,9 +65,9 @@ namespace vlc_works
             VLCChecker.Constructor(this, accountingForm);
 			// set form
 			Form1_SizeChanged(inputLabel, EventArgs.Empty); // includes align inputLabel
-			inputLabel.SizeChanged += AlignInputLabel;
 			DeleteInput();
 			SetFormFullScreen();
+            SetUpInputLabel();
 		}
 
         #region SCRIPT
@@ -199,7 +199,7 @@ namespace vlc_works
 				}
 			}
 
-			if (NumKeys.Contains(k) || k == Keys.Enter)
+			if (NumKeys.Contains(k))
 				DrawNum(k);
 			if (k == Keys.Enter)
 				ProceedInput();
@@ -445,8 +445,11 @@ namespace vlc_works
 
         private void DrawNum(Keys key)
 		{
+            if (keysStream.Count > 4)
+                return;
 			keysStream.Add(new InputKey(key, fadeTime, inputLabel));
-			inputLabel.Text += Utils.ktos[key];
+            inputLabel.Text = string.Join(" ", keysStream.Select(k => Utils.ktos[k.Key]));
+                //+= Utils.ktos[key];
 		}
 
 		public void DeleteInput()
@@ -540,14 +543,20 @@ namespace vlc_works
 
 		private void AlignInputLabel(object sender, EventArgs e)
 		{
-			inputLabel.Location = new Point(
-				hmh(Size.Width, inputLabel.Width),
-				hmh(Size.Height, inputLabel.Height));
+            inputLabel.Location = new Point(220, Size.Height / 2 - 170);
 
-			accountingForm.Invoke((MethodInvoker)delegate {
+            accountingForm.Invoke((MethodInvoker)delegate {
 				accountingForm.GotInput(inputLabel.Text);
 			});
 		}
+
+        private void SetUpInputLabel()
+        {
+            inputLabel.SizeChanged += AlignInputLabel;
+            inputLabel.TextAlign = ContentAlignment.MiddleLeft;
+            inputLabel.Font = new Font("Cascadia Code", 156F);
+            inputLabel.Location = new Point(220, Size.Height / 2 - 170);
+        }
 		#endregion
 		#region FORM_CLOSED
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
