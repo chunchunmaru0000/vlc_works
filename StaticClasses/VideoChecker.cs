@@ -39,8 +39,6 @@ namespace vlc_works015
 		public static bool won { get; set; }
 		public static bool continued { get; set; }
 		private static string code { get; set; } // inputed code like 01234E
-        private static long level { get; set; } // 00 01 02 03 04 05 06 07 08 09
-        private static GameType gameType { get; set; }
 
 		public static Langs language { get; set; } // currently selected language
 		public static bool blockInput { get; set; } = false; // block input althought can be done the same via stage variable
@@ -110,30 +108,18 @@ namespace vlc_works015
 
         public static void SetCode(string path)
         {
-            Dictionary<char, GameType> charToGameType = new Dictionary<char, GameType>() {
-                { '1', GameType.Guard },
-                { '2', GameType.Guard },
-                { '3', GameType.Guard },
-                { '4', GameType.Guard },
-                { '5', GameType.Painting },
-                // { '?', GameType.Mario }, // there is no number for this for now
-            };
-
             string fileName = Utils.GetSafeFileName(path);
             // 1|01|12345
-            gameType = charToGameType[fileName[0]];
-            level = Convert.ToInt64(fileName.Substring(1, 2));
             code = Utils.GetCodeFromName(fileName, strFrom, strTo).TrimEnd(' ') + "E";
 
             accountingForm.Invoke(new Action(() => {
                 accountingForm.GotGameVideo(path, code);
-                accountingForm.SetGameType(gameType);
-                // something more?
             }));
         }
 
-		public static void VlcChanged(PathUri gamePathUri)
+		public static void VlcChanged(GameScript script)
 		{
+            PathUri gamePathUri = clientForm.gameDirectory.GetRandomGame(script, currentLanguage.Lang);
 			SetCode(gamePathUri.Path);
 
 			gameVideosQueue.Clear();
@@ -142,7 +128,7 @@ namespace vlc_works015
 			if (awaitGameVideo)
 				StartVideoInQueue();
 			awaitGameVideo = false;
-		}
+        }
 
 		public static void StartVideoInQueue()
 		{

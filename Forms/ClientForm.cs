@@ -180,20 +180,16 @@ namespace vlc_works015
 				return;
 			}
 
-			if (k == Keys.Enter)
-			{
-				if (stage == Stage.RULES)
-				{
+			if (k == Keys.Enter) {
+				if (stage == Stage.RULES) {
 					SkipRules();
 					return;
 				}
-				if (stage == Stage.GAME && vlcControl.Time < NSeconds.TotalMilliseconds)
-				{
+				if (stage == Stage.GAME && vlcControl.Time < NSeconds.TotalMilliseconds) {
 					ProceedVideoBeginSkip();
 					return;
 				}
-				if (stage == Stage.PLAY_AGAIN)
-				{
+				if (stage == Stage.PLAY_AGAIN) {
 					PlayAgainSkip();
 					return; 
 				}
@@ -327,10 +323,7 @@ namespace vlc_works015
             accountingForm.SetGameScript(nextGameScript);
 
             if (!DEBUG) {
-                VideoChecker
-                .VlcChanged(
-                    gameDirectory
-                    .GetRandomGame(nextGameScript, VideoChecker.language));
+                VideoChecker.VlcChanged(nextGameScript);
             }
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);
@@ -402,6 +395,7 @@ namespace vlc_works015
 
 		private void ProceedSelectLang(Keys key)
 		{
+
 			DeleteInput();
 			if (Utils.ktol.ContainsKey(key))
 				VideoChecker.language = Utils.ktol[key];
@@ -410,28 +404,34 @@ namespace vlc_works015
 
 			Play(VideoChecker.currentLanguage.Rules.Uri, Stage.RULES);
 
-            PathUri pathUri =
-                accountingForm.isFirstGame
-                ? gameDirectory.GetRandomGame(gameInfo.FirstGame, VideoChecker.language)
-                : gameDirectory.GetRandomGame(gameInfo.CurrentScript, VideoChecker.language);
-            VideoChecker.VlcChanged(pathUri);
+            try {
+                VideoChecker.VlcChanged(
+                    accountingForm.isFirstGame
+                    ? gameInfo.FirstGame
+                    : gameInfo.CurrentScript);
 
-            accountingForm.SetLangLabel(VideoChecker.language.View());
+                accountingForm.SetLangLabel(VideoChecker.language.View());
 
-            new Thread(() =>
-			{
-				RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // 5 seconds on to 2 channel
-				Thread.Sleep(5000);
-				RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // off
-			}).Start();
-		}
+                new Thread(() =>
+			    {
+				    RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // 5 seconds on to 2 channel
+				    Thread.Sleep(5000);
+				    RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // off
+			    }).Start();
+            } catch (Exception e) {
+                System.IO.File.AppendAllText(
+                    "VIDEO_ERRORS.txt", 
+                    $"{e.Message}\n\t{e.InnerException.Message}\n\t{e.StackTrace}\n\t{e.Source}",
+                    encoding: System.Text.Encoding.UTF8
+                );
+            }
+        }
 
 		private void SkipRules()
 		{
 			DeleteInput();
 
-			if (accountingForm.isFirstGame)
-			{
+			if (accountingForm.isFirstGame) {
 				DbCurrentRecord.SetPricePrizeLvl(
 						accountingForm.SelectedPrice,
 						accountingForm.SelectedAward,

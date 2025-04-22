@@ -106,7 +106,7 @@ namespace vlc_works015
 		{
 			print($"LAST: {lastCommandLine}\n\tCURRENT: {gamePathUri.Path}");
 			KillVLC();
-			VideoChecker.VlcChanged(gamePathUri);
+			//VideoChecker.VlcChanged(gamePathUri);
 		}
 		#endregion
 	}
