@@ -27,12 +27,17 @@ namespace vlc_works015
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
-		readonly TimeSpan fadeTime = TimeSpan.FromSeconds(10); // key fade time
-		readonly TimeSpan NSeconds = TimeSpan.FromSeconds(67); // N secongs - 1 because for sure
-		#endregion CONSTS
-		public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
-		public Stage stage { get; set; } // current stage
+        private TimeSpan FadeTime { get; } = TimeSpan.FromSeconds(10); // key fade time
+        private Dictionary<GameType, TimeSpan> NSeconds { get; } = new Dictionary<GameType, TimeSpan>() {
+            { GameType.Guard, TimeSpan.FromSeconds(67) }, // N secongs - 1 because for sure
+            { GameType.Painting, TimeSpan.FromSeconds(67) },
+            { GameType.Mario, TimeSpan.FromSeconds(25) },
+        };
+        private TimeSpan CurrentNSeconds { get => NSeconds[gameInfo.CurrentScript.GameType]; }
+        #endregion CONSTS
         #region SOME_VAR
+        public List<InputKey> keysStream { get; set; } = new List<InputKey>(); // stream of keys not stream but it gets keysd in runtime so be it
+		public Stage stage { get; set; } // current stage
         private bool isFullScreen { get; set; } = false;
 		public void print(object str = null)
 		{
@@ -185,7 +190,7 @@ namespace vlc_works015
 					SkipRules();
 					return;
 				}
-				if (stage == Stage.GAME && vlcControl.Time < NSeconds.TotalMilliseconds) {
+				if (stage == Stage.GAME && vlcControl.Time < CurrentNSeconds.TotalMilliseconds) {
 					ProceedVideoBeginSkip();
 					return;
 				}
@@ -348,7 +353,7 @@ namespace vlc_works015
 
 		private void ProceedVideoBeginSkip() 
 		{
-			vlcControl.Time = Convert.ToInt64(NSeconds.TotalMilliseconds) + 1000;
+			vlcControl.Time = Convert.ToInt64(CurrentNSeconds.TotalMilliseconds) + 1000;
 		}
 
 		public void PlayPlayAgain()
@@ -378,7 +383,7 @@ namespace vlc_works015
 		{
             if (keysStream.Count > 4)
                 return;
-            keysStream.Add(new InputKey(key, fadeTime, inputLabel));
+            keysStream.Add(new InputKey(key, FadeTime, inputLabel));
             inputLabel.Text = string.Join(" ", keysStream.Select(k => Utils.ktos[k.Key]));
         }
 
