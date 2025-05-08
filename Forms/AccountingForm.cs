@@ -894,8 +894,9 @@ namespace vlc_works015
         {
             string portName = laserBox.Items[laserBox.SelectedIndex].ToString();
 
-            if (modbus != null)
-                modbus.Close();
+            modbus?.Close();
+            laser1 = new Laser(laserValueLabel);
+            laser2 = new Laser(laserValueLabelSnd);
 
             modbus = new MODBUS(portName);
             if (modbus.Open()) {
@@ -919,24 +920,28 @@ namespace vlc_works015
                 ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
 
                 if (registers != null && registers.Length > 1) { Invoke(new Action(() => {
-                    laser1.SetValue(registers[0]);
+                    bool isIntersected1 = laser1.SetValueAndColor(registers[0]);
+                    bool isIntersected2 = laser2.SetValueAndColor(registers[1]);
 
-                    bool isLaserIntersected = laser1.IsIntersected();
-                    laserValueLabel.BackColor =
-                        isLaserIntersected
-                        ? Color.LightGreen
-                        : Color.LightCoral;
-
-                    if (!lastIsLaser1Intersected &&
-                        isLaserIntersected &&
+                    if (isIntersected1 &&
+                        !laser1.LastIsIntersected &&
+                        !isIntersected2 &&
+                        !laser2.LastIsIntersected && // alas its unlikely
                         clientForm.stage == Stage.IDLE
                         ) {
                         if (Utils.IsFormAlive(faceForm))
                             faceForm.SetToRecognize(true);
                         startGameBut_Click(null, EventArgs.Empty);
+                    } else if (!isIntersected1 &&
+                        !laser1.LastIsIntersected &&
+                        !isIntersected2 &&
+                        !laser2.LastIsIntersected &&
+                        clientForm.stage != Stage.IDLE) {
+                        clientForm.PlayIdle();
                     }
 
-                    lastIsLaser1Intersected = isLaserIntersected;
+                        laser1.LastIsIntersected = isIntersected1;
+                    laser2.LastIsIntersected = isIntersected2;
                 }));}
             }});
 

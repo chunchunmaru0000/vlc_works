@@ -31,5 +31,11 @@ namespace vlc_works015
                 : Color.LightCoral;
             return isIntersected;
         }
+
+        public bool SetValueAndColor(ushort value)
+        {
+            SetValue(value);
+            return SetColor();
+        }
     }
 }
