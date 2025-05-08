@@ -56,7 +56,7 @@ namespace vlc_works015
         {
             new Thread(() => {
                 Transmit(Channel.CAMERA_DOWN, true);
-                Thread.Sleep(3000);
+                Thread.Sleep(TimeSpan.FromSeconds(3));
                 Transmit(Channel.CAMERA_DOWN, false);
             }).Start();
         }

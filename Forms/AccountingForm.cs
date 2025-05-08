@@ -880,9 +880,9 @@ namespace vlc_works015
         #region LASER
 
         public MODBUS modbus { get; set; }
-        public ushort laserValue { get; set; } = 10;
-        private bool lastIsLaserIntersected { get; set; } = false;
-        private Thread laserThread { get; set; }
+        private Thread lasersThread { get; set; }
+        private Laser laser1 { get; set; }
+        private Laser laser2 { get; set; }
 
         private void laserBox_DropDown(object sender, EventArgs e)
         {
@@ -899,12 +899,12 @@ namespace vlc_works015
 
             modbus = new MODBUS(portName);
             if (modbus.Open()) {
-                if (laserThread != null && laserThread.IsAlive)
-                    laserThread.Abort();
+                if (lasersThread != null && lasersThread.IsAlive)
+                    lasersThread.Abort();
 
                 laserOnOffLabel.Text = "ON";
-                laserThread = InitLaserThread();
-                laserThread.Start();
+                lasersThread = InitLasersThread();
+                lasersThread.Start();
 
                 devicesSettings.Add("LASER", portName);
             }
@@ -912,26 +912,22 @@ namespace vlc_works015
                 laserOnOffLabel.Text = "OFF";
         }
 
-        private bool IsLaserIntersected() =>
-            laserValue > 2045;// (4090 / 2);
-
-        private Thread InitLaserThread() =>
+        private Thread InitLasersThread() =>
             new Thread(() => { while (true) {
                 Thread.Sleep(200);
 
                 ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
 
-                if (registers != null && registers.Length > 0) { Invoke(new Action(() => {
-                    laserValue = registers[0];
-                    laserValueLabel.Text = laserValue.ToString();
+                if (registers != null && registers.Length > 1) { Invoke(new Action(() => {
+                    laser1.SetValue(registers[0]);
 
-                    bool isLaserIntersected = IsLaserIntersected();
+                    bool isLaserIntersected = laser1.IsIntersected();
                     laserValueLabel.BackColor =
                         isLaserIntersected
                         ? Color.LightGreen
                         : Color.LightCoral;
 
-                    if (!lastIsLaserIntersected &&
+                    if (!lastIsLaser1Intersected &&
                         isLaserIntersected &&
                         clientForm.stage == Stage.IDLE
                         ) {
@@ -940,7 +936,7 @@ namespace vlc_works015
                         startGameBut_Click(null, EventArgs.Empty);
                     }
 
-                    lastIsLaserIntersected = isLaserIntersected;
+                    lastIsLaser1Intersected = isLaserIntersected;
                 }));}
             }});
 

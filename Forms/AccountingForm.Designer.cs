@@ -146,6 +146,8 @@
             this.relayCh7 = new System.Windows.Forms.Label();
             this.relayCh8 = new System.Windows.Forms.Label();
             this.laserValueLabelSnd = new System.Windows.Forms.Label();
+            this.label1text = new System.Windows.Forms.Label();
+            this.label2text = new System.Windows.Forms.Label();
             this.selectedPanel.SuspendLayout();
             this.pricePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -1406,11 +1408,33 @@
             this.laserValueLabelSnd.Text = "####";
             this.laserValueLabelSnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label1text
+            // 
+            this.label1text.BackColor = System.Drawing.SystemColors.Control;
+            this.label1text.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1text.Location = new System.Drawing.Point(576, 160);
+            this.label1text.Name = "label1text";
+            this.label1text.Size = new System.Drawing.Size(32, 32);
+            this.label1text.TabIndex = 69;
+            this.label1text.Text = "1";
+            // 
+            // label2text
+            // 
+            this.label2text.BackColor = System.Drawing.SystemColors.Control;
+            this.label2text.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2text.Location = new System.Drawing.Point(576, 192);
+            this.label2text.Name = "label2text";
+            this.label2text.Size = new System.Drawing.Size(32, 32);
+            this.label2text.TabIndex = 70;
+            this.label2text.Text = "2";
+            // 
             // AccountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
+            this.Controls.Add(this.label2text);
+            this.Controls.Add(this.label1text);
             this.Controls.Add(this.laserValueLabelSnd);
             this.Controls.Add(this.relayCh8);
             this.Controls.Add(this.relayCh7);
@@ -1614,5 +1638,7 @@
         public System.Windows.Forms.Label relayCh7;
         public System.Windows.Forms.Label relayCh8;
         private System.Windows.Forms.Label laserValueLabelSnd;
+        public System.Windows.Forms.Label label1text;
+        public System.Windows.Forms.Label label2text;
     }
 }
