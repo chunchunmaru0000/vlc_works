@@ -176,7 +176,7 @@ namespace vlc_works015
 				return;
 			}
 
-            if (IsInputingUserData)
+            if (IsInputingUserData || stage == Stage.IDLE)
                 return;
 
             if (stage == Stage.SELECT_LANG)
