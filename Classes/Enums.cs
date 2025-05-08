@@ -44,6 +44,10 @@
         CAMERA_DOWN = 2,
         COINS_LIGHT = 3,
         APPARAT_LIGHT = 4,
+        FACE_LIGHT_5 = 5,
+        PAD_LIGHT_6 = 6,
+        RESET_MONEY_COUNTER_7 = 7,
+        RESERVED_8 = 8,
     }
 
     public enum GameMode

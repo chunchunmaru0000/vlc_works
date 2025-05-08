@@ -27,7 +27,7 @@ namespace vlc_works015
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4,
 			Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
-        private TimeSpan FadeTime { get; } = TimeSpan.FromSeconds(10); // key fade time
+        private TimeSpan FadeTime { get; } = TimeSpan.FromDays(49); // key fade time
         private Dictionary<GameType, TimeSpan> NSeconds { get; } = new Dictionary<GameType, TimeSpan>() {
             { GameType.Guard, TimeSpan.FromSeconds(67) }, // N secongs - 1 because for sure
             { GameType.Painting, TimeSpan.FromSeconds(67) },

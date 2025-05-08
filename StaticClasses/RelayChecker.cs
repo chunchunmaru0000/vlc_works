@@ -25,6 +25,10 @@ namespace vlc_works015
 				{ 2, AccountingForm.relayCh2 }, // camera DOWN
 				{ 3, AccountingForm.relayCh3 }, // coins light on
 				{ 4, AccountingForm.relayCh4 }, // apparat light on
+				{ 5, AccountingForm.relayCh5 }, // face light
+				{ 6, AccountingForm.relayCh6 }, // pad light
+				{ 7, AccountingForm.relayCh7 }, // reset money counter
+				{ 8, AccountingForm.relayCh8 }, // ### reserved ###
 			};
 		}
 
