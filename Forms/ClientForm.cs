@@ -420,7 +420,9 @@ namespace vlc_works015
                 new Thread(() =>
 			    {
 				    RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // 5 seconds on to 2 channel
-				    Thread.Sleep(5000);
+				    Thread.Sleep(TimeSpan.FromSeconds(2));
+                    RelayChecker.Transmit(Channel.FACE_LIGHT, false);
+				    Thread.Sleep(TimeSpan.FromSeconds(3));
 				    RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // off
 			    }).Start();
             } catch (Exception e) {
@@ -617,7 +619,9 @@ namespace vlc_works015
 				RelayChecker.Transmit(Channel.APPARAT_LIGHT, false); // highligh off
 				Thread.Sleep(100);
 				RelayChecker.Transmit(Channel.CAMERA_UP, true); // 5 seconds on to 1 channel
-				Thread.Sleep(5000);
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+                RelayChecker.Transmit(Channel.FACE_LIGHT, true);
+				Thread.Sleep(TimeSpan.FromSeconds(4));
 				RelayChecker.Transmit(Channel.CAMERA_UP, false); // off
 			}).Start();
 		}

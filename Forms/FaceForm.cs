@@ -659,23 +659,35 @@ namespace vlc_works015
         #endregion
 
         #region REALY
-        private void upCamBut_Click(object sender, EventArgs e)
+        private void CamUp()
         {
-            new Thread(() => {
-                RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
-                Thread.Sleep(1000);
-                RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
-            }).Start();
+            RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
+            print("Channel.CAMERA_UP, true");
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            RelayChecker.Transmit(Channel.FACE_LIGHT, true);
+            print("Channel.FACE_LIGHT, true");
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+            RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
+            print("Channel.CAMERA_UP, false");
         }
 
-        private void downCamBut_Click(object sender, EventArgs e)
+        private void CamDown()
         {
-            new Thread(() => {
-                RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
-                Thread.Sleep(1000);
-                RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
-            }).Start();
+            RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
+            print("Channel.CAMERA_DOWN, true");
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            RelayChecker.Transmit(Channel.FACE_LIGHT, false);
+            print("Channel.FACE_LIGHT, false");
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+            RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
+            print("Channel.CAMERA_DOWN, false");
         }
+
+        private void upCamBut_Click(object sender, EventArgs e) => 
+            new Thread(CamUp).Start();
+
+        private void downCamBut_Click(object sender, EventArgs e) => 
+            new Thread(CamDown).Start();
         #endregion RELAY
 
         public void SetToRecognize(bool value)
@@ -685,35 +697,27 @@ namespace vlc_works015
             if (value) {
                 Invoke(new Action(() => {
                     // clear ol image if it was
-                    if (aiPictureBox.Image != null)
-                        aiPictureBox.Image.Dispose();
+                    aiPictureBox.Image?.Dispose();
                     aiPictureBox.Image = null;
-                    if (takenPhotoPictureBox.Image != null)
-                        takenPhotoPictureBox.Image.Dispose();
+                    takenPhotoPictureBox.Image?.Dispose();
                     takenPhotoPictureBox.Image = null;
                 }));
                 print($"BEGIN THREAD");
                 new Thread(() => {
-                    // ai device up
-                    print("Channel.CAMERA_UP, true");
-                    RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
-                    Thread.Sleep(2000);
-                    print("Channel.CAMERA_UP, false");
-                    RelayChecker.Transmit(Channel.CAMERA_UP, false); // camera UP off
+                    CamUp(); // ai device up
 
                     // wait photo recognization from ai device
+                    //for (long c = 0; c == 0 || toRecognize;) {
+                    //    Thread.Sleep(750);
+                    //    print($"WAIT RECOGNIZATION {c++} {toRecognize}");
+                    //}
                     long c = 0;
                     do {
                         Thread.Sleep(750);
                         print($"WAIT RECOGNIZATION {c++} {toRecognize}");
                     } while (toRecognize);
 
-                    // ai device down
-                    print("Channel.CAMERA_DOWN, true");
-                    RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
-                    Thread.Sleep(1000);
-                    print("Channel.CAMERA_DOWN, false");
-                    RelayChecker.Transmit(Channel.CAMERA_DOWN, false); // camera DOWN off
+                    CamDown(); // ai device down
                 }).Start();
             }
         }

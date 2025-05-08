@@ -926,7 +926,7 @@ namespace vlc_works015
                     if (isIntersected1 &&
                         !laser1.LastIsIntersected &&
                         !isIntersected2 &&
-                        !laser2.LastIsIntersected && // alas its unlikely
+                        !laser2.LastIsIntersected && // alas its unlikely to be
                         clientForm.stage == Stage.IDLE
                         ) {
                         if (Utils.IsFormAlive(faceForm))

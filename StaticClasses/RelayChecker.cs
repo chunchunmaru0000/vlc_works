@@ -47,6 +47,7 @@ namespace vlc_works015
 
             int ch = (int)channel;
 			SelectedRelay.WriteChannel(ch, state);
+            Console.WriteLine($"### [RelayChecker] {channel} {state}");
 
 			AccountingForm.Invoke(new Action(() => 
 			ChannelLabels[ch].BackColor = BoolToColor(state)));
@@ -56,7 +57,9 @@ namespace vlc_works015
         {
             new Thread(() => {
                 Transmit(Channel.CAMERA_DOWN, true);
-                Thread.Sleep(TimeSpan.FromSeconds(3));
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Transmit(Channel.FACE_LIGHT, false);
+                Thread.Sleep(TimeSpan.FromSeconds(2));
                 Transmit(Channel.CAMERA_DOWN, false);
             }).Start();
         }
