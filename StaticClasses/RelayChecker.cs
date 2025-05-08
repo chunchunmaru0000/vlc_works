@@ -56,11 +56,13 @@ namespace vlc_works015
         public static void CameraDownTrue()
         {
             new Thread(() => {
-                Transmit(Channel.CAMERA_DOWN, true);
+                Transmit(Channel.CAMERA_DOWN, true); // cam down on
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                Transmit(Channel.FACE_LIGHT, false);
-                Thread.Sleep(TimeSpan.FromSeconds(2));
-                Transmit(Channel.CAMERA_DOWN, false);
+                Transmit(Channel.FACE_LIGHT, false); // faace light off
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Transmit(Channel.PAD_LIGHT, false); // pad light off
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Transmit(Channel.CAMERA_DOWN, false); // cam down off
             }).Start();
         }
 	}

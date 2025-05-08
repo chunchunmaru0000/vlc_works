@@ -377,6 +377,7 @@ namespace vlc_works015
 		public void PlayGamePayed()
 		{
 			Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
+            RelayChecker.Transmit(Channel.PAD_LIGHT, true);
         }
 
 		private void DrawNum(Keys key)
@@ -593,8 +594,12 @@ namespace vlc_works015
 		public void PlayIdle()
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
-			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
             DeleteInput();
+            new Thread(() => { 
+    			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                RelayChecker.Transmit(Channel.PAD_LIGHT, false); // pad light off
+            }).Start();
 
             //gameInfo.ClearGameIndicesAndSetFirst(0);
             gameInfo.ClearCounters();
