@@ -46,7 +46,7 @@
         APPARAT_LIGHT = 4,
         FACE_LIGHT = 5,
         PAD_LIGHT = 6,
-        RESET_MONEY_COUNTER = 7,
+        RESET_MONEY_PLATE = 7,
         RESERVED_8 = 8,
     }
 

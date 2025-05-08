@@ -875,6 +875,15 @@ namespace vlc_works015
 				.CollectInfo()
 				.ToArray());
 		}
+
+        private void resetMoneyPlate_Click(object sender, EventArgs e)
+        {
+            new Thread(() => {
+                RelayChecker.Transmit(Channel.RESET_MONEY_PLATE, true);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                RelayChecker.Transmit(Channel.RESET_MONEY_PLATE, false);
+            }).Start();
+        }
         #endregion
 
         #region LASER

@@ -25,10 +25,7 @@ namespace vlc_works015
         public bool SetColor()
         {
             bool isIntersected = IsIntersected();
-            Label.BackColor =
-                isIntersected
-                ? Color.LightGreen
-                : Color.LightCoral;
+            Label.BackColor = Utils.BoolToColor(isIntersected);
             return isIntersected;
         }
 

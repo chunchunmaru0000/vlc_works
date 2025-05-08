@@ -131,5 +131,7 @@ namespace vlc_works015
 
         public static T[] EnumValues<T>() =>
             Enum.GetValues(typeof(T)).Cast<T>().ToArray();
-	}
+
+        public static Color BoolToColor(bool b) => b ? Color.LightGreen : Color.LightCoral;
+    }
 }

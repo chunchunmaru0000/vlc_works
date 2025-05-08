@@ -148,6 +148,7 @@
             this.laserValueLabelSnd = new System.Windows.Forms.Label();
             this.label1text = new System.Windows.Forms.Label();
             this.label2text = new System.Windows.Forms.Label();
+            this.resetMoneyPlate = new System.Windows.Forms.Button();
             this.selectedPanel.SuspendLayout();
             this.pricePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -766,7 +767,7 @@
             // giveCardBut
             // 
             this.giveCardBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.giveCardBut.Location = new System.Drawing.Point(704, 672);
+            this.giveCardBut.Location = new System.Drawing.Point(704, 640);
             this.giveCardBut.Name = "giveCardBut";
             this.giveCardBut.Size = new System.Drawing.Size(192, 64);
             this.giveCardBut.TabIndex = 31;
@@ -777,7 +778,7 @@
             // returnMoneyBut
             // 
             this.returnMoneyBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.returnMoneyBut.Location = new System.Drawing.Point(704, 768);
+            this.returnMoneyBut.Location = new System.Drawing.Point(704, 704);
             this.returnMoneyBut.Name = "returnMoneyBut";
             this.returnMoneyBut.Size = new System.Drawing.Size(192, 64);
             this.returnMoneyBut.TabIndex = 32;
@@ -1428,11 +1429,23 @@
             this.label2text.TabIndex = 70;
             this.label2text.Text = "2";
             // 
+            // resetMoneyPlate
+            // 
+            this.resetMoneyPlate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.resetMoneyPlate.Location = new System.Drawing.Point(704, 768);
+            this.resetMoneyPlate.Name = "resetMoneyPlate";
+            this.resetMoneyPlate.Size = new System.Drawing.Size(192, 64);
+            this.resetMoneyPlate.TabIndex = 71;
+            this.resetMoneyPlate.Text = "Сброс выдачи монет";
+            this.resetMoneyPlate.UseVisualStyleBackColor = true;
+            this.resetMoneyPlate.Click += new System.EventHandler(this.resetMoneyPlate_Click);
+            // 
             // AccountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
+            this.Controls.Add(this.resetMoneyPlate);
             this.Controls.Add(this.label2text);
             this.Controls.Add(this.label1text);
             this.Controls.Add(this.laserValueLabelSnd);
@@ -1640,5 +1653,6 @@
         private System.Windows.Forms.Label laserValueLabelSnd;
         public System.Windows.Forms.Label label1text;
         public System.Windows.Forms.Label label2text;
+        private System.Windows.Forms.Button resetMoneyPlate;
     }
 }

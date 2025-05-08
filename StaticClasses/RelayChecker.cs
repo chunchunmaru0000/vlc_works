@@ -27,7 +27,7 @@ namespace vlc_works015
 				{ 4, AccountingForm.relayCh4 }, // apparat light on
 				{ 5, AccountingForm.relayCh5 }, // face light
 				{ 6, AccountingForm.relayCh6 }, // pad light
-				{ 7, AccountingForm.relayCh7 }, // reset money counter
+				{ 7, AccountingForm.relayCh7 }, // reset money counter on plate
 				{ 8, AccountingForm.relayCh8 }, // ### reserved ###
 			};
 		}
@@ -37,8 +37,6 @@ namespace vlc_works015
 			if (IsOpen)
 				SelectedRelay.Dispose();
 		}
-
-		private static Color BoolToColor(bool b) => b ? Color.LightGreen : Color.LightCoral;
 
 		public static void Transmit(Channel channel, bool state)
 		{
@@ -50,7 +48,7 @@ namespace vlc_works015
             Console.WriteLine($"### [RelayChecker] {channel} {state}");
 
 			AccountingForm.Invoke(new Action(() => 
-			ChannelLabels[ch].BackColor = BoolToColor(state)));
+			ChannelLabels[ch].BackColor = Utils.BoolToColor(state)));
 		}
 
         public static void CameraDownTrue()
