@@ -170,8 +170,7 @@ namespace vlc_works015
 		{
 			Keys k = e.KeyCode;
 
-			if (k == Keys.F11)
-			{
+			if (k == Keys.F11) {
 				FullScreen();
 				return;
 			}
@@ -179,8 +178,7 @@ namespace vlc_works015
             if (IsInputingUserData || stage == Stage.IDLE)
                 return;
 
-            if (stage == Stage.SELECT_LANG)
-			{
+            if (stage == Stage.SELECT_LANG) {
 				ProceedSelectLang(k);
 				return;
 			}
@@ -200,6 +198,8 @@ namespace vlc_works015
 				}
 			}
 
+            if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 2)
+                return;
 			if (NumKeys.Contains(k))
 				DrawNum(k);
 			if (k == Keys.Enter)
@@ -338,9 +338,8 @@ namespace vlc_works015
 		{
 			print($"TRYED TO INPUT: {keysStreamtos()}");
 
-			if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 2) // til 3 errors
-			{
-				print(
+			if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 2) { // til 3 errors
+                print(
 					$"VLCChecker.blockInput {VideoChecker.blockInput} || " +
 					$"VLCChecker.gameEnded {VideoChecker.gameEnded} || " +
 					$"VLCChecker.errorsCount > 2 {VideoChecker.errorsCount > 2}"
