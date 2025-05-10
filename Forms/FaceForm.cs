@@ -41,7 +41,7 @@ namespace vlc_works015
 			InitListView();
         }
 
-		private void print(object obj)
+		private static void print(object obj)
 		{
 			string str = obj == null ? "" : obj.ToString();
 
