@@ -389,9 +389,10 @@ namespace vlc_works015
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Db.EndSQL();
+            allRelayOff_Click(null, EventArgs.Empty);
             RelayChecker.CameraDownTrue();
             RelayChecker.Close();
-			Environment.Exit(0);
+            Environment.Exit(0);
 		}
 		#endregion
 
@@ -884,12 +885,22 @@ namespace vlc_works015
                 RelayChecker.Transmit(Channel.RESET_MONEY_PLATE, false);
             }).Start();
         }
+
+        private void allRelayOff_Click(object sender, EventArgs e)
+        {
+            new Thread(FaceForm.CamDown).Start();
+            RelayChecker.Transmit(Channel.COINS_LIGHT, false);
+            RelayChecker.Transmit(Channel.PAD_LIGHT, false);
+            RelayChecker.Transmit(Channel.APPARAT_LIGHT, false);
+        }
         #endregion
 
         #region LASER
 
         public MODBUS modbus { get; set; }
         private Thread lasersThread { get; set; }
+        private System.Threading.Timer gameOffTimer { get; set; } = null;
+        private readonly object gameOffTimerLock = new object();
         private Laser laser1 { get; set; }
         private Laser laser2 { get; set; }
 
@@ -925,7 +936,6 @@ namespace vlc_works015
         private Thread InitLasersThread() =>
             new Thread(() => { while (true) {
                 Thread.Sleep(200);
-
                 ushort[] registers = modbus.ReadReg(1, 0, 2); // dont know why 1, 0, 2
 
                 if (registers != null && registers.Length > 1) { Invoke(new Action(() => {
@@ -946,14 +956,28 @@ namespace vlc_works015
                         !isIntersected2 &&
                         !laser2.LastIsIntersected &&
                         clientForm.stage != Stage.IDLE) {
-                        clientForm.PlayIdle();
-                    }
 
-                        laser1.LastIsIntersected = isIntersected1;
+                        lock(gameOffTimerLock) {
+                            if (gameOffTimer == null)
+                                gameOffTimer = new System.Threading.Timer(
+                                    (s) => {
+                                        clientForm.PlayIdle(); // does in here
+                                        gameOffTimer?.Dispose();
+                                        gameOffTimer = null;
+                                    },
+                                    null,
+                                    TimeSpan.FromSeconds(2),
+                                    InputKey.MinusOneMilisecond
+                                );
+                        }
+                    } 
+
+                    laser1.LastIsIntersected = isIntersected1;
                     laser2.LastIsIntersected = isIntersected2;
                 }));}
             }});
 
         #endregion LASER
+
     }
 }

@@ -599,6 +599,7 @@ namespace vlc_works015
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 RelayChecker.Transmit(Channel.PAD_LIGHT, false); // pad light off
             }).Start();
+            new Thread(FaceForm.CamDown).Start();
 
             //gameInfo.ClearGameIndicesAndSetFirst(0);
             gameInfo.ClearCounters();

@@ -671,7 +671,7 @@ namespace vlc_works015
             print("Channel.CAMERA_UP, false");
         }
 
-        private void CamDown()
+        public static void CamDown()
         {
             RelayChecker.Transmit(Channel.CAMERA_DOWN, true); // camera DOWN on
             print("Channel.CAMERA_DOWN, true");

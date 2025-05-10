@@ -149,6 +149,7 @@
             this.label1text = new System.Windows.Forms.Label();
             this.label2text = new System.Windows.Forms.Label();
             this.resetMoneyPlate = new System.Windows.Forms.Button();
+            this.allRelayOff = new System.Windows.Forms.Button();
             this.selectedPanel.SuspendLayout();
             this.pricePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -1306,7 +1307,7 @@
             this.scriptEdititorBut.BackColor = System.Drawing.Color.WhiteSmoke;
             this.scriptEdititorBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.scriptEdititorBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.scriptEdititorBut.Location = new System.Drawing.Point(0, 704);
+            this.scriptEdititorBut.Location = new System.Drawing.Point(0, 672);
             this.scriptEdititorBut.Name = "scriptEdititorBut";
             this.scriptEdititorBut.Size = new System.Drawing.Size(160, 96);
             this.scriptEdititorBut.TabIndex = 58;
@@ -1440,11 +1441,25 @@
             this.resetMoneyPlate.UseVisualStyleBackColor = true;
             this.resetMoneyPlate.Click += new System.EventHandler(this.resetMoneyPlate_Click);
             // 
+            // allRelayOff
+            // 
+            this.allRelayOff.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.allRelayOff.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.allRelayOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.allRelayOff.Location = new System.Drawing.Point(0, 768);
+            this.allRelayOff.Name = "allRelayOff";
+            this.allRelayOff.Size = new System.Drawing.Size(160, 64);
+            this.allRelayOff.TabIndex = 72;
+            this.allRelayOff.Text = "ОТКЛЮЧИТЬ ВСЕ РЕЛЕ";
+            this.allRelayOff.UseVisualStyleBackColor = false;
+            this.allRelayOff.Click += new System.EventHandler(this.allRelayOff_Click);
+            // 
             // AccountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
+            this.Controls.Add(this.allRelayOff);
             this.Controls.Add(this.resetMoneyPlate);
             this.Controls.Add(this.label2text);
             this.Controls.Add(this.label1text);
@@ -1654,5 +1669,6 @@
         public System.Windows.Forms.Label label1text;
         public System.Windows.Forms.Label label2text;
         private System.Windows.Forms.Button resetMoneyPlate;
+        private System.Windows.Forms.Button allRelayOff;
     }
 }
