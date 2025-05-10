@@ -942,35 +942,38 @@ namespace vlc_works015
                     bool isIntersected1 = laser1.SetValueAndColor(registers[0]);
                     bool isIntersected2 = laser2.SetValueAndColor(registers[1]);
 
-                    if (isIntersected1 &&
-                        !laser1.LastIsIntersected &&
-                        !isIntersected2 &&
-                        !laser2.LastIsIntersected && // alas its unlikely to be
-                        clientForm.stage == Stage.IDLE
-                        ) {
-                        if (Utils.IsFormAlive(faceForm))
-                            faceForm.SetToRecognize(true);
-                        startGameBut_Click(null, EventArgs.Empty);
-                    } else if (!isIntersected1 &&
-                        !laser1.LastIsIntersected &&
-                        !isIntersected2 &&
-                        !laser2.LastIsIntersected &&
-                        clientForm.stage != Stage.IDLE) {
+                    lock(gameOffTimerLock) {
+                        if (isIntersected1 &&
+                            !laser1.LastIsIntersected &&
+                            !isIntersected2 &&
+                            !laser2.LastIsIntersected && // alas its unlikely to be
+                            clientForm.stage == Stage.IDLE
+                            ) {
+                            if (Utils.IsFormAlive(faceForm))
+                                faceForm.SetToRecognize(true);
+                            startGameBut_Click(null, EventArgs.Empty);
+                        } else if (!isIntersected1 &&
+                            !laser1.LastIsIntersected &&
+                            !isIntersected2 &&
+                            !laser2.LastIsIntersected &&
+                            clientForm.stage != Stage.IDLE) {
 
-                        lock(gameOffTimerLock) {
-                            if (gameOffTimer == null)
-                                gameOffTimer = new System.Threading.Timer(
-                                    (s) => {
-                                        clientForm.PlayIdle(); // does in here
-                                        gameOffTimer?.Dispose();
-                                        gameOffTimer = null;
-                                    },
-                                    null,
-                                    TimeSpan.FromSeconds(2),
-                                    InputKey.MinusOneMilisecond
-                                );
+                                if (gameOffTimer == null)
+                                    gameOffTimer = new System.Threading.Timer(
+                                        (s) => {
+                                            clientForm.PlayIdle(); // does in here
+                                            gameOffTimer?.Dispose();
+                                            gameOffTimer = null;
+                                        },
+                                        null,
+                                        TimeSpan.FromSeconds(2),
+                                        InputKey.MinusOneMilisecond
+                                    );
+                        } else {
+                            gameOffTimer?.Dispose();
+                            gameOffTimer = null;
                         }
-                    } 
+                    }
 
                     laser1.LastIsIntersected = isIntersected1;
                     laser2.LastIsIntersected = isIntersected2;

@@ -211,7 +211,7 @@ namespace vlc_works015
 			gameEnded = true; // good ending
 			won = true;
 			print("GAME ENDED");
-
+            clientForm.DeleteInput();
 			clientForm.Play(currentLanguage.Victory.Uri, Stage.VICTORY);
 
 			// insert win in db and get coins out
