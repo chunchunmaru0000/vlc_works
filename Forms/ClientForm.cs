@@ -257,7 +257,7 @@ namespace vlc_works015
                 gameInfo.IncLostCounter();
         }
 
-		public void DoDataBaseGameRecord(bool DEBUG = false)
+		public void DoDataBaseGameRecord(bool playIdle = false, bool DEBUG = false)
 		{
             print("DOES DATABASE RECORD");
             long gameCLvl = SelectedGameTypeIs(GameType.Guard);
@@ -324,11 +324,15 @@ namespace vlc_works015
             gameInfo.GameBalance = accountingForm.GameBalance;
             gameInfo.IncGameBalanceCounter();
 
-            GameScript nextGameScript = gameInfo.CurrentScript;
-            accountingForm.SetGameScript(nextGameScript);
+            if (playIdle) 
+                PlayIdle();
+            else {
+                GameScript nextGameScript = gameInfo.CurrentScript;
+                accountingForm.SetGameScript(nextGameScript);
 
-            if (!DEBUG) {
-                VideoChecker.VlcChanged(nextGameScript);
+                if (!DEBUG) {
+                    VideoChecker.VlcChanged(nextGameScript);
+                }
             }
 
             Db.AppendBalanceSheet(unixTimeInt, won, priceInt, prizeInt, accountingForm.GameBalance);

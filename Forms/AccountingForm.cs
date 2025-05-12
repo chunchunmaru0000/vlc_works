@@ -960,11 +960,7 @@ namespace vlc_works015
 
                                 if (gameOffTimer == null)
                                     gameOffTimer = new System.Threading.Timer(
-                                        (s) => {
-                                            clientForm.PlayIdle(); // does in here
-                                            gameOffTimer?.Dispose();
-                                            gameOffTimer = null;
-                                        },
+                                        gameOffTimerCallback,
                                         null,
                                         TimeSpan.FromSeconds(2),
                                         InputKey.MinusOneMilisecond
@@ -979,6 +975,15 @@ namespace vlc_works015
                     laser2.LastIsIntersected = isIntersected2;
                 }));}
             }});
+
+        private void gameOffTimerCallback(object state) {
+            if (clientForm.stage == Stage.VICTORY || clientForm.stage == Stage.PLAY_AGAIN) {
+                clientForm.DoDataBaseGameRecord(playIdle: true);
+            } else
+                clientForm.PlayIdle(); // does in here
+            gameOffTimer?.Dispose();
+            gameOffTimer = null;
+        }
 
         #endregion LASER
 
