@@ -901,6 +901,7 @@ namespace vlc_works015
         private Thread lasersThread { get; set; }
         private System.Threading.Timer gameOffTimer { get; set; } = null;
         private readonly object gameOffTimerLock = new object();
+        private readonly TimeSpan GameOffDelay = TimeSpan.FromSeconds(5);
         private Laser laser1 { get; set; }
         private Laser laser2 { get; set; }
 
@@ -962,7 +963,7 @@ namespace vlc_works015
                                     gameOffTimer = new System.Threading.Timer(
                                         gameOffTimerCallback,
                                         null,
-                                        TimeSpan.FromSeconds(2),
+                                        GameOffDelay,
                                         InputKey.MinusOneMilisecond
                                     );
                         } else {

@@ -236,7 +236,7 @@ namespace vlc_works015
                     $"ПРОИЗОШЛА НЕОЖИДАННАЯ ОШИБКА ПРИ НАЖАТИИ КНОПКИ\n" +
                     $"РАБОТА ПИЛОЖЕНИЯ НЕ БУДЕТ ОСТАНОВЛЕНА НО ВОТ ТЕКСТ ОШИБКИ:\n" +
                     $"{exception.Message}"
-                    );
+                );
             }
         }
 
@@ -359,13 +359,18 @@ namespace vlc_works015
                     case "photo":
                         UpdatePlayerPhoto(rowIndex);
                         break;
+                    case "face": // just skip
+                        cell.Style = defaultStyle.Clone();
+                        break;
                     default:
+                        Console.WriteLine(cell.OwningColumn.Name);
                         Db.UpdatePlayerIntData(
                             rowPlayerId,
                             Convert.ToInt64(cell.Value),
                             columnNameToDbColumnName[cellColumnName]
                             );
                         cell.Style = defaultStyle.Clone();
+                        Console.WriteLine(cell.OwningColumn.Name.ToString() + " good");
                         break;
                 }
             }
@@ -413,7 +418,7 @@ namespace vlc_works015
                     enrollId,
                     photoBytes.Length,
                     ptrIndexFacePhoto
-                    )) || IS_DEBUG;
+                )) || IS_DEBUG;
         }
 
         private void UpdatePlayerPhoto(int rowIndex)
@@ -426,8 +431,8 @@ namespace vlc_works015
             }
 
             if (SetEnrollmentToAiDevice(
-                rowIndexToSelectedImage[rowIndex],
-                Convert.ToInt32(mainGrid.Rows[rowIndex].Cells["player_id"].Value)
+                    rowIndexToSelectedImage[rowIndex],
+                    Convert.ToInt32(mainGrid.Rows[rowIndex].Cells["player_id"].Value)
                 ))
                 mainGrid.Rows[rowIndex].Cells["photo"].Style = defaultStyle;
             else

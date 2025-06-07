@@ -31,4 +31,23 @@
     на форме бд, если выбрать фото 
     а потом обновить таблицу то
     фото больше не будет помечено как не сохраненное
+},
+{
+Подробная информация об использовании оперативной 
+(JIT) отладки вместо данного диалогового 
+окна содержится в конце этого сообщения.
+
+************** Текст исключения **************
+System.InvalidOperationException: В данный момент объект используется другим процессом.
+   в System.Drawing.Image.get_Width()
+   в System.Drawing.Image.get_Size()
+   в System.Windows.Forms.PictureBox.ImageRectangleFromSizeMode(PictureBoxSizeMode mode)
+   в System.Windows.Forms.PictureBox.OnPaint(PaintEventArgs pe)
+   в System.Windows.Forms.Control.PaintWithErrorHandling(PaintEventArgs e, Int16 layer)
+   в System.Windows.Forms.Control.WmPaint(Message& m)
+   в System.Windows.Forms.Control.WndProc(Message& m)
+   в System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   в System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   в System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+
 }
