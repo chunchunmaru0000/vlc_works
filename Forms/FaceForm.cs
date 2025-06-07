@@ -707,9 +707,9 @@ namespace vlc_works015
                     CamUp(); // ai device up
 
                     // wait photo recognization from ai device
-                    //for (long c = 0; c == 0 || toRecognize;) {
+                    //for (long c = 0; c == 0 || toRecognize; с++) {
                     //    Thread.Sleep(750);
-                    //    print($"WAIT RECOGNIZATION {c++} {toRecognize}");
+                    //    print($"WAIT RECOGNIZATION {c} {toRecognize}");
                     //}
                     long c = 0;
                     do {

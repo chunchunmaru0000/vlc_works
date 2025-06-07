@@ -38,6 +38,7 @@
             this.gi = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cs = new System.Windows.Forms.Label();
+            this.throwBut = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,6 +131,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.throwBut);
             this.panel1.Controls.Add(this.cs);
             this.panel1.Controls.Add(this.loseBut);
             this.panel1.Controls.Add(this.w);
@@ -154,6 +156,16 @@
             this.cs.Size = new System.Drawing.Size(512, 32);
             this.cs.TabIndex = 9;
             this.cs.Text = "current script";
+            // 
+            // throwBut
+            // 
+            this.throwBut.Location = new System.Drawing.Point(0, 64);
+            this.throwBut.Name = "throwBut";
+            this.throwBut.Size = new System.Drawing.Size(128, 32);
+            this.throwBut.TabIndex = 10;
+            this.throwBut.Text = "throw";
+            this.throwBut.UseVisualStyleBackColor = true;
+            this.throwBut.Click += new System.EventHandler(this.throwBut_Click);
             // 
             // DebugForm
             // 
@@ -181,5 +193,6 @@
         public System.Windows.Forms.Label gi;
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Label cs;
+        private System.Windows.Forms.Button throwBut;
     }
 }

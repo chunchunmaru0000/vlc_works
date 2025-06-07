@@ -323,8 +323,7 @@ namespace vlc_works015
 
         #region SetPlayer
 
-        private readonly Dictionary<string, string> columnNameToDbColumnName = new Dictionary<string, string>()
-        {
+        private readonly Dictionary<string, string> columnNameToDbColumnName = new Dictionary<string, string>() {
             { "player_id", "player_id_int" },
             { "C", "c_lvl_int" },
             { "K", "k_lvl_int" },

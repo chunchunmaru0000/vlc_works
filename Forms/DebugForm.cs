@@ -54,5 +54,10 @@ namespace vlc_works015
             }));
             print($"[[[ _END_ DEBUG LOSE ]]]");
         }
+
+        private void throwBut_Click(object sender, EventArgs e)
+        {
+            throw new Exception("эээ");
+        }
     }
 }
