@@ -324,9 +324,10 @@ namespace vlc_works015
             gameInfo.GameBalance = accountingForm.GameBalance;
             gameInfo.IncGameBalanceCounter();
 
-            if (playIdle) 
+            if (playIdle) {
                 PlayIdle();
-            else {
+                TabloPlayer.Write(TabloText.GuideToStart);
+            } else {
                 GameScript nextGameScript = gameInfo.CurrentScript;
                 accountingForm.SetGameScript(nextGameScript);
 
@@ -510,7 +511,12 @@ namespace vlc_works015
         #region FORM_CLOSED
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			Environment.Exit(0);
+            TabloPlayer.Write(TabloText.NotWorking);
+            Db.EndSQL();
+            accountingForm.allRelayOff_Click(null, EventArgs.Empty);
+            RelayChecker.CameraDownTrue();
+            RelayChecker.Close();
+            Environment.Exit(0);
 		}
 		#endregion
 		#region SHOW_GAME_PARAMS_TO_PLAYER
@@ -599,8 +605,6 @@ namespace vlc_works015
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
             DeleteInput();
 
-            TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
-
             new Thread(() => { 
     			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
                 Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -615,6 +619,7 @@ namespace vlc_works015
 		public void Stop()
 		{
 			PlayIdle();
+            TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
 			VideoChecker.SafeStop();
             RelayChecker.CameraDownTrue();
         }

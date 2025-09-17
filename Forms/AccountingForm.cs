@@ -397,6 +397,7 @@ namespace vlc_works015
 		#region FORM_CLOSED
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
+            TabloPlayer.Write(TabloText.NotWorking);
 			Db.EndSQL();
             allRelayOff_Click(null, EventArgs.Empty);
             RelayChecker.CameraDownTrue();
@@ -568,7 +569,8 @@ namespace vlc_works015
 		private void playIdleBut_Click(object sender, EventArgs e)
 		{
 			clientForm.Invoke(new Action(clientForm.PlayIdle));
-		}
+            TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
+        }
 
 		private void stopBut_Click(object sender, EventArgs e)
 		{
@@ -895,7 +897,7 @@ namespace vlc_works015
             }).Start();
         }
 
-        private void allRelayOff_Click(object sender, EventArgs e)
+        public void allRelayOff_Click(object sender, EventArgs e)
         {
             new Thread(FaceForm.CamDown).Start();
             RelayChecker.Transmit(Channel.COINS_LIGHT, false);
@@ -989,8 +991,10 @@ namespace vlc_works015
         private void gameOffTimerCallback(object state) {
             if (clientForm.stage == Stage.VICTORY || clientForm.stage == Stage.PLAY_AGAIN) {
                 clientForm.DoDataBaseGameRecord(playIdle: true);
-            } else
+            } else { // when was game and laser out so game canceled
                 clientForm.PlayIdle(); // does in here
+                TabloPlayer.Write(TabloText.GuideToStart);
+            }
             gameOffTimer?.Dispose();
             gameOffTimer = null;
         }

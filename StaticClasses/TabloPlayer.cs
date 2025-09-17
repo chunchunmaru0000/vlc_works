@@ -81,6 +81,13 @@ namespace vlc_works015
 
             string xml = File.ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8);
             PlayProgram(xml);
+
+            if (text == TabloText.GuideToStart)
+                StartGuideToStartTimer();
+            else if (IdleTextOffTimer != null) {
+                IdleTextOffTimer?.Dispose();
+                IdleTextOffTimer = null;
+            }
         }
 
         private static void ResolvedInfoReport(Device device, ResolveInfo ri)
@@ -94,6 +101,28 @@ namespace vlc_works015
         }
         #endregion INTERFACE
         #region PLAY_LOGIC
+        private static readonly object TimerLock = new object();
+        private static System.Threading.Timer IdleTextOffTimer { get; set; } = null;
+        private static TimeSpan IdleTextOffDelay { get; } = TimeSpan.FromMinutes(5);
+
+        private static void StartGuideToStartTimer()
+        {
+            lock (TimerLock) {
+                IdleTextOffTimer?.Dispose();
+                IdleTextOffTimer = new System.Threading.Timer(
+                    (s) => {
+                        Write(TabloText.IdleWelcomeAndGuideToStart);
+
+                        IdleTextOffTimer?.Dispose();
+                        IdleTextOffTimer = null;
+                    },
+                    null,
+                    IdleTextOffDelay,
+                    InputKey.MinusOneMilisecond
+                );
+            }
+        }
+
         private static void Report(string msg) => CommManager.ReportMsg(SelectedDevice, msg);
 
         private static string GET_ALL_PROGRAM_STRING { get; } = @"<?xml version = ""1.0"" encoding = ""utf-8"" ?>

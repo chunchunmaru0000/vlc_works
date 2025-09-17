@@ -292,6 +292,7 @@ namespace vlc_works015
 				clientForm.DoDataBaseGameRecord();
 
 			clientForm.PlayIdle();
+            TabloPlayer.Write(TabloText.GuideToStart);
 		}
 
 		private static void EndParamsShowVideo()
