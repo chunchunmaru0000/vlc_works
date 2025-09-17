@@ -324,6 +324,12 @@
     <Content Include="Related\Interop.FPCLOCK_SVRLib.dll" />
     <Content Include="Related\Interop.FP_CLOCKLib.dll" />
     <Content Include="Related\SDKLibrary.dll" />
+    <Content Include="Related\TabloXml\GameInProcess.xml.txt" />
+    <Content Include="Related\TabloXml\GuideToStart.xml.txt" />
+    <Content Include="Related\TabloXml\IdleWelcome.xml.txt" />
+    <Content Include="Related\TabloXml\IdleWelcomeAndGuideToStart.xml.txt" />
+    <Content Include="Related\TabloXml\NotWorking.xml.txt" />
+    <Content Include="Related\TabloXml\Win.xml.txt" />
     <Content Include="Related\TMPCCOMM.dll" />
     <Content Include="Related\todo.txt" />
     <Content Include="Related\videonames.txt" />
