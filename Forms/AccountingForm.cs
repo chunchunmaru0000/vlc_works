@@ -71,7 +71,7 @@ namespace vlc_works015
         {
             new Thread(() => {
                 TabloPlayer.Init((device, msg) => { });
-                TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
+                //TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
             }).Start();
         }
 

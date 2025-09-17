@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdk guid="##GUID">
+  <in method="AddProgram">
+    <screen>
+      <program type="normal" id="0" guid="8203708a-c129-49d7-af44-4803f1e76828" name="GameInProcess">
+        <backgroundMusic />
+        <playControl count="1" disabled="false" />
+        <area guid="7efe0034-c8cd-4189-8a4d-201487f3afea" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="1d7319f6-631a-45c6-bd82-b4d13ffeac00" name="" singleLine="false" background="#000000">
+              <style align="center" valign="middle" />
+              <string></string>
+              <font name="Arial" size="12" color="#000000" bold="false" italic="false" underline="false" />
+              <effect in="1" inSpeed="1" out="17" outSpeed="1" duration="200" />
+            </text>
+          </resources>
+        </area>
+        <area guid="40903ebf-a7dc-444c-8dc1-7894f5466add" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="5a37caf9-ac0c-4f32-8077-3500478e1b23" name="" singleLine="true">
+              <style align="center" valign="middle" />
+              <string>          The game is in progress, do not enter.</string>
+              <font name="Arial" size="26" color="#ff0000" bold="false" italic="false" underline="false" />
+              <effect in="26" inSpeed="4" out="25" outSpeed="4" duration="80" />
+            </text>
+          </resources>
+        </area>
+      </program>
+    </screen>
+  </in>
+</sdk>

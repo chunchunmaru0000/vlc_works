@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdk guid="##GUID">
+  <in method="AddProgram">
+    <screen>
+      <program type="normal" id="0" guid="a74563a9-8790-496c-bc93-8bab91b2322b" name="NotWorking">
+        <backgroundMusic />
+        <playControl count="1" disabled="false" />
+        <area guid="21a62467-e2ff-4e32-b149-5ecd70da5ce3" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="beb6f4a3-7504-4057-bf00-06b50276a8f9" name="" singleLine="false" background="#000000">
+              <style align="center" valign="middle" />
+              <string></string>
+              <font name="Arial" size="12" color="#000000" bold="false" italic="false" underline="false" />
+              <effect in="1" inSpeed="1" out="17" outSpeed="1" duration="200" />
+            </text>
+          </resources>
+        </area>
+        <area guid="8bb9613c-ac82-4a04-9484-a3c3ea2bcac8" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="0d281c86-4953-4857-93e0-9d498fce6072" name="" singleLine="true">
+              <style align="center" valign="middle" />
+              <string>          Sorry, but the skill machine is not working.</string>
+              <font name="Arial" size="26" color="#ffd700" bold="false" italic="false" underline="false" />
+              <effect in="26" inSpeed="4" out="25" outSpeed="4" duration="80" />
+            </text>
+          </resources>
+        </area>
+      </program>
+    </screen>
+  </in>
+</sdk>

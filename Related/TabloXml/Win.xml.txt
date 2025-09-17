@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdk guid="##GUID">
+  <in method="AddProgram">
+    <screen>
+      <program type="normal" id="0" guid="1da1676f-e708-4639-b667-763220a17112" name="Win">
+        <backgroundMusic />
+        <playControl count="1" disabled="false" />
+        <area guid="6ac44e2c-0375-4c0b-bf67-ad6df66ad58c" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="39c08083-3925-4718-88d7-744fa756fe38" name="" singleLine="false" background="#000000">
+              <style align="center" valign="middle" />
+              <string></string>
+              <font name="Arial" size="12" color="#000000" bold="false" italic="false" underline="false" />
+              <effect in="1" inSpeed="1" out="17" outSpeed="1" duration="200" />
+            </text>
+          </resources>
+        </area>
+        <area guid="68ccc494-a9d7-4eb2-92d4-f99633c8ad71" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="d060b1fa-979e-4c15-aacb-7d52bf0f748b" name="" singleLine="true">
+              <style align="center" valign="middle" />
+              <string>          You win, congratulations!!!</string>
+              <font name="Arial" size="26" color="#ffd700" bold="false" italic="false" underline="false" />
+              <effect in="26" inSpeed="4" out="25" outSpeed="4" duration="80" />
+            </text>
+          </resources>
+        </area>
+      </program>
+    </screen>
+  </in>
+</sdk>

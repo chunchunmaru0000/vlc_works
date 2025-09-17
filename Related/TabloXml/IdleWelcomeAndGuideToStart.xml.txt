@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdk guid="##GUID">
+  <in method="AddProgram">
+    <screen>
+      <program type="normal" id="0" guid="bb37d164-cf3b-4a97-8aaf-3a93cf7f6460" name="GuideToStart">
+        <backgroundMusic />
+        <playControl count="1" disabled="false" />
+        <area guid="d5600dda-765a-4180-9768-b5c6a8e319fe" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="cb356c67-ad22-476e-ac93-46a058ad73fe" name="" singleLine="false" background="#000000">
+              <style align="center" valign="middle" />
+              <string></string>
+              <font name="Arial" size="12" color="#000000" bold="false" italic="false" underline="false" />
+              <effect in="1" inSpeed="1" out="17" outSpeed="1" duration="200" />
+            </text>
+          </resources>
+        </area>
+        <area guid="d5d70f9c-3e28-42f9-8c5c-bafba8aed142" name="" alpha="255">
+          <rectangle x="0" y="0" width="192" height="32" />
+          <resources>
+            <text guid="52271935-10b9-4eaf-b3fa-50050e228443" name="" singleLine="true">
+              <style align="center" valign="middle" />
+              <string>          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck.                       </string>
+              <font name="Arial" size="26" color="#ffd700" bold="false" italic="false" underline="false" />
+              <effect in="26" inSpeed="4" out="25" outSpeed="4" duration="156" />
+            </text>
+            <text guid="52271935-10b9-43af-b3fa-50050e228443" name="" singleLine="true">
+              <style align="center" valign="middle" />
+              <string>To start the game, enter and stand in front of the skill machine.                       </string>
+              <font name="Arial" size="26" color="#00ff00" bold="false" italic="false" underline="false" />
+              <effect in="26" inSpeed="4" out="25" outSpeed="4" duration="88" />
+            </text>
+          </resources>
+        </area>
+      </program>
+    </screen>
+  </in>
+</sdk>

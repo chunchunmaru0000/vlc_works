@@ -74,20 +74,13 @@ namespace vlc_works015
             return (true, ex);
         }
 
-        private static Dictionary<TabloText, Action> WriteHandlers { get; } = new Dictionary<TabloText, Action>() {
-            { TabloText.IdleWelcome, PlayIdleWelcome },
-            { TabloText.GuideToStart, PlayGuideToStart },
-            { TabloText.IdleWelcomeAndGuideToStart, PlayIdleWelcomeAndGuideToStart },
-            { TabloText.GameInProcess, PlayGameInProcess },
-            { TabloText.Win, PlayWin },
-            { TabloText.NotWorking, PlayNotWorking },
-        };
         public static void Write(TabloText text) 
         {
             if (SelectedDevice == null || DeviceInfo == null)
                 return;
 
-            WriteHandlers[text]();
+            string xml = File.ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8);
+            PlayProgram(xml);
         }
 
         private static void ResolvedInfoReport(Device device, ResolveInfo ri)
@@ -124,7 +117,7 @@ namespace vlc_works015
         private static void StartDeleteAllProgramms() => 
             SelectedDevice.SendFromXml(GET_ALL_PROGRAM_STRING);
 
-        private static async Task PlayProgramAsync(HdScreen screen)
+        private static async Task PlayProgramAsync(string xml)
         {
             StartDeleteAllProgramms();
             while (AllProgramXml == null)
@@ -134,8 +127,9 @@ namespace vlc_works015
             Report($"\n{AllProgramXml}");
             Report($"\n##################### START DELETE ALL PROGRAMS #########################");
 
-            foreach (XElement e in XDocument.Parse(AllProgramXml).Descendants("Item")) {
-                string 
+            foreach (XElement e in XDocument.Parse(AllProgramXml).Descendants("Item"))
+            {
+                string
                     id = e.Attribute("Id")?.Value,
                     guid = e.Attribute("Guid")?.Value,
                     name = e.Attribute("Name")?.Value,
@@ -146,212 +140,20 @@ namespace vlc_works015
             }
 
             AllProgramXml = null;
-            Report($"\n{SelectedDevice.SendScreen(screen)}");
+            SelectedDevice.SendFromXml(xml);
+            Report($"\n{xml}");
         }
 
-        private static void PlayProgram(HdScreen screen)
+        private static void PlayProgram(string xml)
         {
             Task.Run(async () => {
                 try {
-                    await PlayProgramAsync(screen);
+                    await PlayProgramAsync(xml);
                 } catch (Exception ex) {
                 }
             });
         }
         #endregion PLAY_LOGIC
-        #region PLAY_TEXT
-        private static Random Rnd = new Random();
-        private static Dictionary<TabloText, string> TabloTextString { get; } = new Dictionary<TabloText, string>() {
-            { TabloText.IdleWelcome,   
-                "          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck." },
-            { TabloText.GuideToStart,  
-                "          To start the game, enter and stand in front of the skill machine." },
-            { TabloText.IdleWelcomeAndGuideToStart,  
-                "          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck." + 
-                "          To start the game, enter and stand in front of the skill machine." },
-            { TabloText.GameInProcess, 
-                "          The game is in progress, do not enter." },
-            { TabloText.Win,           
-                "          You win, congratulations!!!" },
-            { TabloText.NotWorking,    
-                "          Sorry, but the skill machine is not working." },
-        }; 
-
-        private static (HdScreen, HdProgram) GetScreenAndProgram(string programName)
-        {
-            HdScreen screen = new HdScreen(new ScreenParam() { isNewScreen = false });
-            HdProgram program = new HdProgram(new ProgramParam()
-            {
-                type = ProgramType.normal,
-                guid = Guid.NewGuid().ToString(),
-                name = programName,
-            });
-            screen.Programs.Add(program);
-            return (screen, program);
-        }
-
-        private static void AddBg(HdProgram program, Color color, int duration)
-        {
-            HdArea bgarea = program.AddArea(new AreaParam {
-                x = 0,
-                y = 0,
-                width = DeviceInfo.screenWidth,
-                height = DeviceInfo.screenHeight,
-                guid = Guid.NewGuid().ToString()
-            });
-            bgarea.AddText(new TextAreaItemParam {
-                guid = Guid.NewGuid().ToString(),
-                text = "",
-                useBackgroundColor = true,
-                color = color,
-                backgroundColor = color,
-                effect = new AreaItemEffect() {
-                    inEffet = EffectType.LEFT_PARALLEL_MOVE,
-                    outEffet = EffectType.FADE,
-                    inSpeed = 1,
-                    outSpeed = 1,
-                    duration = duration,
-                }
-            });
-        }
-
-        private static void AddText(HdProgram program, string text, Color color, string fontName, AreaItemEffect effect)
-        {
-            HdArea area = program.AddArea(new AreaParam {
-                x = 0,
-                y = 0,
-                width = DeviceInfo.screenWidth,
-                height = DeviceInfo.screenHeight,
-                guid = Guid.NewGuid().ToString(),
-            });
-            
-            area.AddText(new TextAreaItemParam {            
-                guid = Guid.NewGuid().ToString(),
-                fontName = fontName,
-                fontSize = 26,
-                text = text,
-                color = color,
-                effect = effect,
-            });
-        }
-
-        private static int IN_SPEED { get; } = 4;
-        private static int DURATION { get; } = 8;
-
-        private static void PlayIdleWelcome()
-        {
-            TabloText tabloText = TabloText.IdleWelcome;
-            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
-
-            AddBg(program, Color.Black, 20);
-            AddText(program,
-                TabloTextString[tabloText],
-                Color.Gold,
-                "Arial",
-                new AreaItemEffect() {
-                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
-                    inSpeed = IN_SPEED,
-                    duration = DURATION,
-                }
-            );
-            PlayProgram(screen);
-        }
-
-        private static void PlayGuideToStart()
-        {
-            TabloText tabloText = TabloText.GuideToStart;
-            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
-
-            AddBg(program, Color.Black, 20);
-            AddText(program,
-                TabloTextString[tabloText],
-                Color.Gold,
-                "Arial",
-                new AreaItemEffect() {
-                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
-                    inSpeed = IN_SPEED,
-                    duration = DURATION,
-                }
-            );
-            PlayProgram(screen);
-        }
-
-        private static void PlayIdleWelcomeAndGuideToStart()
-        {
-            TabloText tabloText = TabloText.IdleWelcomeAndGuideToStart;
-            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
-
-            AddBg(program, Color.Black, 20);
-            AddText(program,
-                TabloTextString[tabloText],
-                Color.Gold,
-                "Arial",
-                new AreaItemEffect() {
-                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
-                    inSpeed = IN_SPEED,
-                    duration = DURATION,
-                }
-            );
-            PlayProgram(screen);
-        }
-
-        private static void PlayGameInProcess()
-        {
-            TabloText tabloText = TabloText.GameInProcess;
-            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
-
-            AddBg(program, Color.Black, 20);
-            AddText(program,
-                TabloTextString[tabloText],
-                Color.Gold,
-                "Arial",
-                new AreaItemEffect() {
-                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
-                    inSpeed = IN_SPEED,
-                    duration = DURATION,
-                }
-            );
-            PlayProgram(screen);
-        }
-
-        private static void PlayWin()
-        {
-            TabloText tabloText = TabloText.Win;
-            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
-
-            AddBg(program, Color.Black, 20);
-            AddText(program,
-                TabloTextString[tabloText], 
-                Color.Gold,
-                "Arial", 
-                new AreaItemEffect() {
-                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
-                    inSpeed = IN_SPEED,
-                    duration = DURATION,
-                }
-            );
-            PlayProgram(screen);
-        }
-
-        private static void PlayNotWorking()
-        {
-            TabloText tabloText = TabloText.NotWorking;
-            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
-
-            AddBg(program, Color.Black, 20);
-            AddText(program,
-                TabloTextString[tabloText],
-                Color.Gold,
-                "Arial",
-                new AreaItemEffect() {
-                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
-                    inSpeed = IN_SPEED,
-                    duration = DURATION,
-                }
-            );
-            PlayProgram(screen);
-        }
-        #endregion PLAY_TEXT
     }
 }
 // FROM EXAMPLE
