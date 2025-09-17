@@ -13,6 +13,7 @@ namespace vlc_works015
     {
         IdleWelcome,
         GuideToStart,
+        IdleWelcomeAndGuideToStart,
         GameInProcess,
         Win,
         NotWorking,
@@ -75,6 +76,7 @@ namespace vlc_works015
         private static Dictionary<TabloText, Action> WriteHandlers { get; } = new Dictionary<TabloText, Action>() {
             { TabloText.IdleWelcome, PlayIdleWelcome },
             { TabloText.GuideToStart, PlayGuideToStart },
+            { TabloText.IdleWelcomeAndGuideToStart, PlayIdleWelcomeAndGuideToStart },
             { TabloText.GameInProcess, PlayGameInProcess },
             { TabloText.Win, PlayWin },
             { TabloText.NotWorking, PlayNotWorking },
@@ -153,11 +155,19 @@ namespace vlc_works015
         #region PLAY_TEXT
         private static Random Rnd = new Random();
         private static Dictionary<TabloText, string> TabloTextString { get; } = new Dictionary<TabloText, string>() {
-            { TabloText.IdleWelcome,   "          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck." },
-            { TabloText.GuideToStart,  "          To start the game, enter and stand in front of the skill machine." },
-            { TabloText.GameInProcess, "          The game is in progress, do not enter." },
-            { TabloText.Win,           "          You win, congratulations!!!" },
-            { TabloText.NotWorking,    "          Sorry, but the skill machine is not working." },
+            { TabloText.IdleWelcome,   
+                "          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck." },
+            { TabloText.GuideToStart,  
+                "          To start the game, enter and stand in front of the skill machine." },
+            { TabloText.IdleWelcomeAndGuideToStart,  
+                "          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck." + 
+                "          To start the game, enter and stand in front of the skill machine." },
+            { TabloText.GameInProcess, 
+                "          The game is in progress, do not enter." },
+            { TabloText.Win,           
+                "          You win, congratulations!!!" },
+            { TabloText.NotWorking,    
+                "          Sorry, but the skill machine is not working." },
         }; 
 
         private static (HdScreen, HdProgram) GetScreenAndProgram(string programName)
@@ -243,6 +253,25 @@ namespace vlc_works015
         private static void PlayGuideToStart()
         {
             TabloText tabloText = TabloText.GuideToStart;
+            var (screen, program) = GetScreenAndProgram(tabloText.ToString());
+
+            AddBg(program, Color.Black, 20);
+            AddText(program,
+                TabloTextString[tabloText],
+                Color.Gold,
+                "Arial",
+                new AreaItemEffect() {
+                    inEffet = EffectType.HT_LEFT_SERIES_MOVE,
+                    inSpeed = IN_SPEED,
+                    duration = DURATION,
+                }
+            );
+            PlayProgram(screen);
+        }
+
+        private static void PlayIdleWelcomeAndGuideToStart()
+        {
+            TabloText tabloText = TabloText.IdleWelcomeAndGuideToStart;
             var (screen, program) = GetScreenAndProgram(tabloText.ToString());
 
             AddBg(program, Color.Black, 20);
