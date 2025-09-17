@@ -598,6 +598,9 @@ namespace vlc_works015
 		{
 			Play(VideoChecker.idle.Uri, Stage.IDLE);
             DeleteInput();
+
+            TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
+
             new Thread(() => { 
     			RelayChecker.Transmit(Channel.APPARAT_LIGHT, true); // highligh on
                 Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -622,8 +625,9 @@ namespace vlc_works015
 
 			Play(VideoChecker.selectLang.Uri, Stage.SELECT_LANG);
 			DeleteInput();
+            TabloPlayer.Write(TabloText.GameInProcess);
 
-			new Thread(() =>
+            new Thread(() =>
 			{
 				RelayChecker.Transmit(Channel.APPARAT_LIGHT, false); // highligh off
 				Thread.Sleep(100);

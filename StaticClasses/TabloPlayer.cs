@@ -81,7 +81,13 @@ namespace vlc_works015
             { TabloText.Win, PlayWin },
             { TabloText.NotWorking, PlayNotWorking },
         };
-        public static void Write(TabloText text) => WriteHandlers[text]();
+        public static void Write(TabloText text) 
+        {
+            if (SelectedDevice == null || DeviceInfo == null)
+                return;
+
+            WriteHandlers[text]();
+        }
 
         private static void ResolvedInfoReport(Device device, ResolveInfo ri)
         {

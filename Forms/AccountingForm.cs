@@ -62,9 +62,18 @@ namespace vlc_works015
 
             faceControlBut_Click(this, EventArgs.Empty);
             InitDevices();
+            InitTablo();
         }
 
 		#region SOME_INITS
+
+        private void InitTablo()
+        {
+            new Thread(() => {
+                TabloPlayer.Init((device, msg) => { });
+                TabloPlayer.Write(TabloText.IdleWelcomeAndGuideToStart);
+            }).Start();
+        }
 
         private void InitDevices()
         {

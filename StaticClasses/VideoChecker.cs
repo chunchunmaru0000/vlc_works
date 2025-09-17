@@ -228,7 +228,9 @@ namespace vlc_works015
 				Thread.Sleep(TimeSpan.FromSeconds(30));
 				RelayChecker.Transmit(Channel.COINS_LIGHT, false); // off
 			}).Start();
-		}
+
+            TabloPlayer.Write(TabloText.Win);
+        }
 
 		#endregion PLAY_VIDEOS
 
@@ -326,8 +328,9 @@ namespace vlc_works015
 		{
 			//SafeStop();
 			won = true;
+            TabloPlayer.Write(TabloText.GameInProcess);
 			clientForm.PlayPlayAgain();
-		}
+        }
 
 		private static void EndGameVideo()
 		{
