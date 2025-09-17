@@ -154,7 +154,7 @@ namespace vlc_works015
         private static Random Rnd = new Random();
         private static Dictionary<TabloText, string> TabloTextString { get; } = new Dictionary<TabloText, string>() {
             { TabloText.IdleWelcome,   "          Welcome to the intellectual game GOLDinSAFE. In this game you can win money using your skills and attentiveness. Good luck." },
-            { TabloText.GuideToStart,  "          To start the game, enter and stand in front of the machine." },
+            { TabloText.GuideToStart,  "          To start the game, enter and stand in front of the skill machine." },
             { TabloText.GameInProcess, "          The game is in progress, do not enter." },
             { TabloText.Win,           "          You win, congratulations!!!" },
             { TabloText.NotWorking,    "          Sorry, but the skill machine is not working." },
