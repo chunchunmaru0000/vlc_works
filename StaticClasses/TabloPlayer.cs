@@ -39,6 +39,7 @@ namespace vlc_works015
         private static void InitServerInfo()
         {
             if (!File.Exists(SERVER_INFO_JSON_NAME)) {
+                Console.WriteLine($"#INFO. device info |{JsonSerializer.Serialize(ServerInfo)}|");
                 WriteDefaultJson();
                 return;
             }
