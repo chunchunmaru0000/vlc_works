@@ -53,6 +53,7 @@ namespace vlc_works015
         }
         #endregion SERVER_INFO
         #region INTERFACE
+        public static TabloText CurrentPlaying { get; set; } = TabloText.NotWorking;
         public static HDCommunicationManager CommManager { get; set; }
         public static Device SelectedDevice { get; private set; }
         public static DeviceInfo DeviceInfo { get; set; }
@@ -86,6 +87,7 @@ namespace vlc_works015
                 .ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8)
                 .HebrewTrim();
             PlayProgram(xml);
+            CurrentPlaying = text;
 
             if (text == TabloText.GuideToStart)
                 StartGuideToStartTimer();

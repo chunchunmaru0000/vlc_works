@@ -1659,7 +1659,7 @@
         private System.Windows.Forms.Label langLabel;
         private System.Windows.Forms.Button scriptEdititorBut;
         private System.Windows.Forms.ComboBox laserBox;
-        private System.Windows.Forms.Label laserOnOffLabel;
+        public System.Windows.Forms.Label laserOnOffLabel;
         private System.Windows.Forms.Label laserValueLabel;
         private System.Windows.Forms.Button debugBut;
         public System.Windows.Forms.Label relayCh5;

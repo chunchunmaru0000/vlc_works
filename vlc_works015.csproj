@@ -244,6 +244,7 @@
     <Compile Include="Forms\ScriptEditor.Designer.cs">
       <DependentUpon>ScriptEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="StaticClasses\App.cs" />
     <Compile Include="StaticClasses\COMPort.cs" />
     <Compile Include="StaticClasses\Db.cs" />
     <Compile Include="Classes\InputKey.cs" />

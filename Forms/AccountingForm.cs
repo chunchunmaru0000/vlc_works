@@ -874,7 +874,10 @@ namespace vlc_works015
 			RelayInfo relayInfo = relayBox.SelectedItem as RelayInfo;
 
 			RelayChecker.SelectedRelay = new Relay(relayInfo);
-			RelayChecker.SelectedRelay.Open();
+			if (!RelayChecker.SelectedRelay.Open()) {
+                App.SetLabelText(relayOffOnLabel, "OFF");
+                return;
+            }
 
 			relayOffOnLabel.Text = "ON";
             devicesSettings.Add("RELAY", RelayChecker.SelectedRelay.ToString());
@@ -936,14 +939,14 @@ namespace vlc_works015
                 if (lasersThread != null && lasersThread.IsAlive)
                     lasersThread.Abort();
 
-                laserOnOffLabel.Text = "ON";
+                App.SetLabelText(laserOnOffLabel, "ON");
                 lasersThread = InitLasersThread();
                 lasersThread.Start();
 
                 devicesSettings.Add("LASER", portName);
             }
             else
-                laserOnOffLabel.Text = "OFF";
+                App.SetLabelText(laserOnOffLabel, "OFF");
         }
 
         private Thread InitLasersThread() =>

@@ -108,10 +108,10 @@ namespace vlc_works015
 				port.Open();
 				print($"PORT IS OPENED: {port.IsOpen}");
 
-				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "ON"));
+                App.SetLabelText(App.Accounting.connectedLabel, "ON");
 				//Execute("Check income");
 			} catch {
-				accountingForm.Invoke(new Action(() => accountingForm.connectedLabel.Text = "Не подключилось"));
+                App.SetLabelText(App.Accounting.connectedLabel, "OFF");
 			}
 		}
 		#endregion PUBLIC_METHODS

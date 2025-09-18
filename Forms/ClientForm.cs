@@ -61,6 +61,7 @@ namespace vlc_works015
             accountingForm = new AccountingForm(this);
 			accountingForm.Show();
 			RelayChecker.Constructor(accountingForm);
+            App.Init(this, accountingForm);
 			// set vlcControl
 			vlcControl.EndReached += EndReached;
 			vlcControl.MediaChanged += MediaChanged;
@@ -73,6 +74,7 @@ namespace vlc_works015
 			DeleteInput();
 			SetFormFullScreen();
             SetUpInputLabel();
+
         }
 
         #region SCRIPT
