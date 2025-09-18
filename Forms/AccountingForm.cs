@@ -397,12 +397,6 @@ namespace vlc_works015
 		#region FORM_CLOSED
 		private void AccountingForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-            TabloPlayer.Write(TabloText.NotWorking);
-			Db.EndSQL();
-            allRelayOff_Click(null, EventArgs.Empty);
-            RelayChecker.CameraDownTrue();
-            RelayChecker.Close();
-            Environment.Exit(0);
 		}
 		#endregion
 
@@ -577,10 +571,17 @@ namespace vlc_works015
 			clientForm.Invoke(new Action(clientForm.Stop));
 		}
 
-		private void replayBut_Click(object sender, EventArgs e)
+		private void closeBut_Click(object sender, EventArgs e)
 		{
-			clientForm.Invoke(new Action(clientForm.Replay));
-		}
+            TabloPlayer.Write(TabloText.NotWorking);
+            Db.EndSQL();
+            allRelayOff_Click(null, EventArgs.Empty);
+            RelayChecker.CameraDownTrue();
+            RelayChecker.Close();
+
+            Thread.Sleep(TimeSpan.FromSeconds(3));
+            Environment.Exit(0);
+        }
 
 		private void startGameBut_Click(object sender, EventArgs e)
 		{

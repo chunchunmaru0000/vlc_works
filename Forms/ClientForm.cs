@@ -511,12 +511,6 @@ namespace vlc_works015
         #region FORM_CLOSED
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
-            TabloPlayer.Write(TabloText.NotWorking);
-            Db.EndSQL();
-            accountingForm.allRelayOff_Click(null, EventArgs.Empty);
-            RelayChecker.CameraDownTrue();
-            RelayChecker.Close();
-            Environment.Exit(0);
 		}
 		#endregion
 		#region SHOW_GAME_PARAMS_TO_PLAYER

@@ -94,7 +94,7 @@
             this.returnMoneyBut = new System.Windows.Forms.Button();
             this.playIdleBut = new System.Windows.Forms.Button();
             this.stopBut = new System.Windows.Forms.Button();
-            this.replayBut = new System.Windows.Forms.Button();
+            this.closeBut = new System.Windows.Forms.Button();
             this.startGameBut = new System.Windows.Forms.Button();
             this.skipStageBut = new System.Windows.Forms.Button();
             this.connectedLabel = new System.Windows.Forms.Label();
@@ -809,16 +809,17 @@
             this.stopBut.UseVisualStyleBackColor = true;
             this.stopBut.Click += new System.EventHandler(this.stopBut_Click);
             // 
-            // replayBut
+            // closeBut
             // 
-            this.replayBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.replayBut.Location = new System.Drawing.Point(1312, 192);
-            this.replayBut.Name = "replayBut";
-            this.replayBut.Size = new System.Drawing.Size(128, 64);
-            this.replayBut.TabIndex = 35;
-            this.replayBut.Text = "Повторить";
-            this.replayBut.UseVisualStyleBackColor = true;
-            this.replayBut.Click += new System.EventHandler(this.replayBut_Click);
+            this.closeBut.BackColor = System.Drawing.Color.LightCoral;
+            this.closeBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.closeBut.Location = new System.Drawing.Point(1312, 192);
+            this.closeBut.Name = "closeBut";
+            this.closeBut.Size = new System.Drawing.Size(128, 64);
+            this.closeBut.TabIndex = 35;
+            this.closeBut.Text = "Закрыть";
+            this.closeBut.UseVisualStyleBackColor = false;
+            this.closeBut.Click += new System.EventHandler(this.closeBut_Click);
             // 
             // startGameBut
             // 
@@ -1495,7 +1496,7 @@
             this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.skipStageBut);
             this.Controls.Add(this.startGameBut);
-            this.Controls.Add(this.replayBut);
+            this.Controls.Add(this.closeBut);
             this.Controls.Add(this.stopBut);
             this.Controls.Add(this.playIdleBut);
             this.Controls.Add(this.returnMoneyBut);
@@ -1604,7 +1605,7 @@
 		private System.Windows.Forms.Button returnMoneyBut;
 		private System.Windows.Forms.Button playIdleBut;
 		private System.Windows.Forms.Button stopBut;
-		private System.Windows.Forms.Button replayBut;
+		private System.Windows.Forms.Button closeBut;
 		private System.Windows.Forms.Button startGameBut;
 		private System.Windows.Forms.Button skipStageBut;
 		public System.Windows.Forms.Label connectedLabel;

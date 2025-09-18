@@ -45,7 +45,9 @@ namespace vlc_works015
             }
 
             try {
-                string jsonText = File.ReadAllText(SERVER_INFO_JSON_NAME, System.Text.Encoding.UTF8);
+                string jsonText = File
+                    .ReadAllText(SERVER_INFO_JSON_NAME, System.Text.Encoding.UTF8)
+                    .HebrewTrim();
                 ServerInfo = JsonSerializer.Deserialize<ServerInfo>(jsonText);
             } catch { WriteDefaultJson(); }
         }
@@ -76,10 +78,13 @@ namespace vlc_works015
 
         public static void Write(TabloText text) 
         {
+            Console.WriteLine($"#INFO. try TabloPlayer.Write|{text}|");
             if (SelectedDevice == null || DeviceInfo == null)
                 return;
 
-            string xml = File.ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8);
+            string xml = File
+                .ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8)
+                .HebrewTrim();
             PlayProgram(xml);
 
             if (text == TabloText.GuideToStart)
