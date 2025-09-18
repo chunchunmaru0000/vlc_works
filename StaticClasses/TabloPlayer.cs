@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Text.Json;
+using System.Linq;
 
 namespace vlc_works015
 {
@@ -83,9 +84,16 @@ namespace vlc_works015
             if (SelectedDevice == null || DeviceInfo == null)
                 return;
 
-            string xml = File
-                .ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8)
-                .HebrewTrim();
+            //string xml = File
+            //    .ReadAllText($"TabloXml\\{text}.xml.txt", System.Text.Encoding.UTF8)
+            //    .HebrewTrim();
+            string xml;
+            try {
+                xml = GetXmlFromShortText(text);
+            } catch (Exception ex) {
+                File.AppendAllText("TABLO_ERROR.txt", ex.Message + '\n');
+                return;
+            }
             PlayProgram(xml);
             CurrentPlaying = text;
 
@@ -190,6 +198,63 @@ namespace vlc_works015
             });
         }
         #endregion PLAY_LOGIC
+        #region SHORT
+        private static string GetXmlFromShortText(TabloText text)
+        {
+            Tuple<string, string>[] linesWithParts = 
+                File
+                .ReadAllText($"TabloShort\\{text}.xml.txt", System.Text.Encoding.UTF8)
+                .HebrewTrim()
+                .Replace("\r", "")
+                .Split('\n')
+                .Where(line => !string.IsNullOrWhiteSpace(line))
+                .Select(line => {
+                    string[] parts = line.Split('|').ToArray();
+                    return new Tuple<string, string> (
+                        parts[0].Trim(), 
+                        string.Join("|", parts.Skip(1))
+                    );
+                })
+                .ToArray();
+            string xml = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+<sdk guid=""##GUID"">
+  <in method=""AddProgram"">
+    <screen>
+      <program type=""normal"" id=""0"" guid=""{Guid.NewGuid()}"" name=""{text}"">
+        <backgroundMusic />
+        <playControl count=""1"" disabled=""false"" />
+        <area guid=""{Guid.NewGuid()}"" name="""" alpha=""255"">
+          <rectangle x=""0"" y=""0"" width=""192"" height=""32"" />
+          <resources>
+            <text guid=""{Guid.NewGuid()}"" name="""" singleLine=""false"" background=""#000000"">
+              <style align=""center"" valign=""middle"" />
+              <string></string>
+              <font name=""Arial"" size=""12"" color=""#000000"" bold=""false"" italic=""false"" underline=""false"" />
+              <effect in=""1"" inSpeed=""1"" out=""17"" outSpeed=""1"" duration=""200"" />
+            </text>
+          </resources>
+        </area>
+        <area guid=""{Guid.NewGuid()}"" name="""" alpha=""255"">
+          <rectangle x=""0"" y=""0"" width=""192"" height=""32"" />
+          <resources>
+            {string.Join("\n", linesWithParts
+            .Select(part => $@"
+            <text guid=""{Guid.NewGuid()}"" name="""" singleLine=""true"">
+              <style align=""center"" valign=""middle"" />
+              <string>{part.Item2}</string>
+              <font name=""Arial"" size=""26"" color=""{part.Item1}"" bold=""false"" italic=""false"" underline=""false"" />
+              <effect in=""26"" inSpeed=""4"" out=""25"" outSpeed=""4"" duration=""80"" />
+            </text>"
+            ))}
+          </resources>
+        </area>
+      </program>
+    </screen>
+  </in>
+</sdk>";
+            return xml;
+        }
+        #endregion SHORT
     }
 }
 // FROM EXAMPLE

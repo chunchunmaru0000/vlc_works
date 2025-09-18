@@ -32,7 +32,6 @@ namespace vlc_works015
             else
                 label.Text = text;
 
-            Console.WriteLine($"here {IsLabelOff(RelayOffOnLabel) || IsLabelOff(LaserOffOnLabel) || IsLabelOff(Rs232OffOnLabel)}");
             if (IsLabelOff(RelayOffOnLabel) ||
                 IsLabelOff(LaserOffOnLabel) ||
                 IsLabelOff(Rs232OffOnLabel)

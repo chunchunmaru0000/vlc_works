@@ -74,7 +74,6 @@ namespace vlc_works015
 			DeleteInput();
 			SetFormFullScreen();
             SetUpInputLabel();
-
         }
 
         #region SCRIPT
