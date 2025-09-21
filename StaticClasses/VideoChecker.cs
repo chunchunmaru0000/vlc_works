@@ -295,11 +295,28 @@ namespace vlc_works015
             TabloPlayer.Write(TabloText.GuideToStart);
 		}
 
-		private static void EndParamsShowVideo()
+        public static Thread ShowPriceWaitThread { get; set; }
+        public static void ShowPriceWaitThreadClear()
+        {
+            ShowPriceWaitThread?.Abort();
+            ShowPriceWaitThread = null;
+        }
+
+        private static void EndParamsShowVideo()
 		{
-            currentVideoPlayCount = 0;
-            clientForm.PlayHowToPay();
-		}
+            ShowPriceWaitThreadClear();
+
+            ShowPriceWaitThread = new Thread(() => {
+                currentVideoPlayCount = 0;
+
+                Thread.Sleep(TimeSpan.FromSeconds(10));
+
+                clientForm.PlayHowToPay();
+                ShowPriceWaitThread = null;
+            });
+
+            ShowPriceWaitThread.Start();
+        }
 
 		private static void EndDefeatVideo()
 		{

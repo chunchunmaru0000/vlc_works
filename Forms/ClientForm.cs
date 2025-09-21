@@ -381,6 +381,9 @@ namespace vlc_works015
 
 		public void PlayGamePayed()
 		{
+            if (VideoChecker.ShowPriceWaitThread != null && VideoChecker.ShowPriceWaitThread.IsAlive) 
+                VideoChecker.ShowPriceWaitThreadClear();
+
 			Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
             RelayChecker.Transmit(Channel.PAD_LIGHT, true);
         }
