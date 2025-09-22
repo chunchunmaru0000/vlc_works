@@ -1,12 +1,12 @@
 ﻿using SDKLibrary;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Text.Json;
 using System.Linq;
+using System.Diagnostics;
+using System.Threading;
 
 namespace vlc_works015
 {
@@ -53,6 +53,45 @@ namespace vlc_works015
             } catch { WriteDefaultJson(); }
         }
         #endregion SERVER_INFO
+        #region HDPlayer
+        private const string HDPLAYER_PATH_PATH = "HdPlayer_path.txt";
+
+        private static void InitHDPlayer()
+        {
+            if (App.ExitIfFileNotExists(HDPLAYER_PATH_PATH))
+                return;
+
+            string hdPlayerPath = 
+                File
+                .ReadAllText(HDPLAYER_PATH_PATH, System.Text.Encoding.UTF8)
+                .HebrewTrim()
+                .Replace("\r", "")
+                .Split('\n')
+                [0];
+
+            if (App.ExitIfFileNotExists(hdPlayerPath, HDPLAYER_PATH_PATH))
+                return;
+
+            try {
+                Process.Start(new ProcessStartInfo {
+                    FileName = hdPlayerPath,
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                });
+            } catch (Exception ex) {
+                App.Exit(ex.Message);
+            }
+        }
+
+        public static void KillHDPlayer()
+        {
+            new Thread(() => {
+                foreach (Process process in Process.GetProcessesByName("HDPlayer"))
+                    process.Kill();
+            }).Start();
+        }
+
+        #endregion HDPlayer
         #region INTERFACE
         public static TabloText CurrentPlaying { get; set; } = TabloText.NotWorking;
         public static HDCommunicationManager CommManager { get; set; }
@@ -62,6 +101,9 @@ namespace vlc_works015
         public static (bool, string) Init(MsgReportEventHandler msgReport)
         {
             InitServerInfo();
+
+            InitHDPlayer();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
 
             CommManager = new HDCommunicationManager();
             CommManager.MsgReport += msgReport;
@@ -194,6 +236,7 @@ namespace vlc_works015
                 try {
                     await PlayProgramAsync(xml);
                 } catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
                 }
             });
         }

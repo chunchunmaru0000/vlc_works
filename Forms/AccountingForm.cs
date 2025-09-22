@@ -571,9 +571,10 @@ namespace vlc_works015
 			clientForm.Invoke(new Action(clientForm.Stop));
 		}
 
-		private void closeBut_Click(object sender, EventArgs e)
+		public void closeBut_Click(object sender, EventArgs e)
 		{
             TabloPlayer.Write(TabloText.NotWorking);
+            TabloPlayer.KillHDPlayer();
             Db.EndSQL();
             allRelayOff_Click(null, EventArgs.Empty);
             RelayChecker.CameraDownTrue();

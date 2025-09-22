@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace vlc_works015
@@ -18,6 +19,24 @@ namespace vlc_works015
             Rs232OffOnLabel = Accounting.connectedLabel;
         }
 
+        #region EXIT
+        public static void Exit(string msg)
+        {
+            MessageBox.Show(msg);
+            Accounting.Invoke(new Action(() => Accounting.closeBut_Click(null, null)));
+        }
+
+        public static bool ExitIfFileNotExists(string path, string from = null)
+        {
+            bool isExit = !File.Exists(path);
+            if (isExit)
+                Exit(from == null 
+                    ? $"Файл {path} не найден"
+                    : $"Файл {path} из {from} не найден"
+                );
+            return isExit;
+        }
+        #endregion EXIT
         #region LABELS
         private static Label RelayOffOnLabel { get; set; }
         private static Label LaserOffOnLabel { get; set; }
