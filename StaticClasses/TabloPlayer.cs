@@ -60,6 +60,8 @@ namespace vlc_works015
         {
             if (App.ExitIfFileNotExists(HDPLAYER_PATH_PATH))
                 return;
+            if (Process.GetProcessesByName("HDPlayer").Length > 0)
+                return;
 
             string hdPlayerPath = 
                 File
@@ -78,6 +80,7 @@ namespace vlc_works015
                     UseShellExecute = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
                 });
+                Thread.Sleep(TimeSpan.FromSeconds(1));
             } catch (Exception ex) {
                 App.Exit(ex.Message);
             }
@@ -102,22 +105,31 @@ namespace vlc_works015
         {
             InitServerInfo();
 
-            InitHDPlayer();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            for (int times = 0; times < 10; ) {
+                Console.WriteLine($"InitHDPlayer try {times}");
+                InitHDPlayer();
 
-            CommManager = new HDCommunicationManager();
-            CommManager.MsgReport += msgReport;
-            CommManager.ResolvedInfoReport += ResolvedInfoReport;
+                //CommManager?.Dispose(); // TODO: проверить
+                CommManager = new HDCommunicationManager();
+                CommManager.MsgReport += msgReport;
+                CommManager.ResolvedInfoReport += ResolvedInfoReport;
 
-            SelectedDevice = CommManager.AddDevice(ServerInfo.host, out string ex);
+                SelectedDevice = CommManager.AddDevice(ServerInfo.host, out string ex);
 
-            if (ex.Length > 0)
-                return (false, $"Ошибка:\n - {ex}");
-            if (SelectedDevice == null)
-                return (false, $"Ошибка: устройство null");
+                // if (ex.Length > 0)
+                //    return (false, $"Ошибка:\n - {ex}");
+                if (SelectedDevice == null) {
+                    if (ex.Length > 0)
+                        Console.WriteLine(ex);
+                    times++;
+                    continue;
+                }
 
-            DeviceInfo = SelectedDevice.GetDeviceInfo();
-            return (true, ex);
+                DeviceInfo = SelectedDevice.GetDeviceInfo();
+                return (true, ex);
+            }
+
+            return (false, $"Ошибка: устройство null");
         }
 
         public static void Write(TabloText text) 
