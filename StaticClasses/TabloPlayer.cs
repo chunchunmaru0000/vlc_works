@@ -279,7 +279,7 @@ namespace vlc_works015
         <backgroundMusic />
         <playControl count=""1"" disabled=""false"" />
         <area guid=""{Guid.NewGuid()}"" name="""" alpha=""255"">
-          <rectangle x=""0"" y=""0"" width=""192"" height=""32"" />
+          <rectangle x=""0"" y=""0"" width=""{DeviceInfo.screenWidth}"" height=""{DeviceInfo.screenHeight}"" />
           <resources>
             <text guid=""{Guid.NewGuid()}"" name="""" singleLine=""false"" background=""#000000"">
               <style align=""center"" valign=""middle"" />
@@ -290,7 +290,7 @@ namespace vlc_works015
           </resources>
         </area>
         <area guid=""{Guid.NewGuid()}"" name="""" alpha=""255"">
-          <rectangle x=""0"" y=""0"" width=""192"" height=""32"" />
+          <rectangle x=""0"" y=""0"" width=""{DeviceInfo.screenWidth}"" height=""{DeviceInfo.screenHeight}"" />
           <resources>
             {string.Join("\n", linesWithParts
             .Select(part => $@"
