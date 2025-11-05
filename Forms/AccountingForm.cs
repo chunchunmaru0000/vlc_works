@@ -913,6 +913,7 @@ namespace vlc_works015
 
         #region LASER
 
+        private bool LaserAffects { get; set; } = true;
         public MODBUS modbus { get; set; }
         private Thread lasersThread { get; set; }
         private System.Threading.Timer gameOffTimer { get; set; } = null;
@@ -945,9 +946,15 @@ namespace vlc_works015
                 lasersThread.Start();
 
                 devicesSettings.Add("LASER", portName);
+                LaserAffects = true;
             }
-            else
+            else {
                 App.SetLabelText(laserOnOffLabel, "OFF");
+                LaserAffects = false;
+            }
+            LaserEffectSwitchButton.Invoke(new Action(() =>
+                LaserEffectSwitchButton.BackColor = 
+                    Utils.BoolToColor(LaserAffects)));
         }
 
         private Thread InitLasersThread() =>
@@ -960,19 +967,19 @@ namespace vlc_works015
                     bool isIntersected2 = laser2.SetValueAndColor(registers[1]);
 
                     lock(gameOffTimerLock) {
-                        if (isIntersected1 &&
-                            !laser1.LastIsIntersected &&
-                            !isIntersected2 &&
-                            !laser2.LastIsIntersected && // alas its unlikely to be
+
+                        if (LaserAffects &&
+                            isIntersected1 && !laser1.LastIsIntersected &&
+                            !isIntersected2 && !laser2.LastIsIntersected && // alas its unlikely to be
                             clientForm.stage == Stage.IDLE
                             ) {
                             if (Utils.IsFormAlive(faceForm))
                                 faceForm.SetToRecognize(true);
                             startGameBut_Click(null, EventArgs.Empty);
-                        } else if (!isIntersected1 &&
-                            !laser1.LastIsIntersected &&
-                            !isIntersected2 &&
-                            !laser2.LastIsIntersected &&
+                        } else if (
+                            LaserAffects &&
+                            !isIntersected1 && !laser1.LastIsIntersected &&
+                            !isIntersected2 && !laser2.LastIsIntersected &&
                             clientForm.stage != Stage.IDLE) {
 
                                 if (gameOffTimer == null)
@@ -994,17 +1001,25 @@ namespace vlc_works015
             }});
 
         private void gameOffTimerCallback(object state) {
-            if (clientForm.stage == Stage.VICTORY || clientForm.stage == Stage.PLAY_AGAIN) {
-                clientForm.DoDataBaseGameRecord(playIdle: true);
-            } else { // when was game and laser out so game canceled
-                clientForm.PlayIdle(); // does in here
-                TabloPlayer.Write(TabloText.GuideToStart);
+            if (LaserAffects) {
+                if (clientForm.stage == Stage.VICTORY || clientForm.stage == Stage.PLAY_AGAIN) {
+                    clientForm.DoDataBaseGameRecord(playIdle: true);
+                } else { // when was game and laser out so game canceled
+                    clientForm.PlayIdle(); // does in here
+                    TabloPlayer.Write(TabloText.GuideToStart);
+                }
             }
             gameOffTimer?.Dispose();
             gameOffTimer = null;
         }
 
+        private void LaserEffectSwitchButton_Click(object sender, EventArgs e)
+        {
+            LaserAffects = !LaserAffects;
+            LaserEffectSwitchButton.Invoke(new Action(() =>
+                LaserEffectSwitchButton.BackColor =
+                    Utils.BoolToColor(LaserAffects)));
+        }
         #endregion LASER
-
     }
 }

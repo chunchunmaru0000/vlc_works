@@ -150,6 +150,7 @@
             this.label2text = new System.Windows.Forms.Label();
             this.resetMoneyPlate = new System.Windows.Forms.Button();
             this.allRelayOff = new System.Windows.Forms.Button();
+            this.LaserEffectSwitchButton = new System.Windows.Forms.Button();
             this.selectedPanel.SuspendLayout();
             this.pricePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -790,9 +791,9 @@
             // playIdleBut
             // 
             this.playIdleBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.playIdleBut.Location = new System.Drawing.Point(1504, 96);
+            this.playIdleBut.Location = new System.Drawing.Point(1632, 96);
             this.playIdleBut.Name = "playIdleBut";
-            this.playIdleBut.Size = new System.Drawing.Size(224, 64);
+            this.playIdleBut.Size = new System.Drawing.Size(192, 64);
             this.playIdleBut.TabIndex = 33;
             this.playIdleBut.Text = "Включить заставку";
             this.playIdleBut.UseVisualStyleBackColor = true;
@@ -801,7 +802,7 @@
             // stopBut
             // 
             this.stopBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.stopBut.Location = new System.Drawing.Point(1312, 96);
+            this.stopBut.Location = new System.Drawing.Point(1472, 96);
             this.stopBut.Name = "stopBut";
             this.stopBut.Size = new System.Drawing.Size(128, 64);
             this.stopBut.TabIndex = 34;
@@ -813,7 +814,7 @@
             // 
             this.closeBut.BackColor = System.Drawing.Color.LightCoral;
             this.closeBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.closeBut.Location = new System.Drawing.Point(1312, 192);
+            this.closeBut.Location = new System.Drawing.Point(1472, 192);
             this.closeBut.Name = "closeBut";
             this.closeBut.Size = new System.Drawing.Size(128, 64);
             this.closeBut.TabIndex = 35;
@@ -824,7 +825,7 @@
             // startGameBut
             // 
             this.startGameBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.startGameBut.Location = new System.Drawing.Point(1056, 96);
+            this.startGameBut.Location = new System.Drawing.Point(1248, 96);
             this.startGameBut.Name = "startGameBut";
             this.startGameBut.Size = new System.Drawing.Size(192, 64);
             this.startGameBut.TabIndex = 36;
@@ -835,7 +836,7 @@
             // skipStageBut
             // 
             this.skipStageBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.skipStageBut.Location = new System.Drawing.Point(1056, 192);
+            this.skipStageBut.Location = new System.Drawing.Point(1248, 192);
             this.skipStageBut.Name = "skipStageBut";
             this.skipStageBut.Size = new System.Drawing.Size(192, 64);
             this.skipStageBut.TabIndex = 37;
@@ -883,9 +884,9 @@
             this.faceControlBut.FlatAppearance.BorderSize = 2;
             this.faceControlBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.faceControlBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.faceControlBut.Location = new System.Drawing.Point(1504, 192);
+            this.faceControlBut.Location = new System.Drawing.Point(1632, 192);
             this.faceControlBut.Name = "faceControlBut";
-            this.faceControlBut.Size = new System.Drawing.Size(224, 64);
+            this.faceControlBut.Size = new System.Drawing.Size(192, 64);
             this.faceControlBut.TabIndex = 41;
             this.faceControlBut.Text = "ФЭЙС КОНТРОЛЬ";
             this.faceControlBut.UseVisualStyleBackColor = false;
@@ -1455,11 +1456,23 @@
             this.allRelayOff.UseVisualStyleBackColor = false;
             this.allRelayOff.Click += new System.EventHandler(this.allRelayOff_Click);
             // 
+            // LaserEffectSwitchButton
+            // 
+            this.LaserEffectSwitchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LaserEffectSwitchButton.Location = new System.Drawing.Point(1024, 96);
+            this.LaserEffectSwitchButton.Name = "LaserEffectSwitchButton";
+            this.LaserEffectSwitchButton.Size = new System.Drawing.Size(192, 64);
+            this.LaserEffectSwitchButton.TabIndex = 73;
+            this.LaserEffectSwitchButton.Text = "Отключить датчики движения";
+            this.LaserEffectSwitchButton.UseVisualStyleBackColor = true;
+            this.LaserEffectSwitchButton.Click += new System.EventHandler(this.LaserEffectSwitchButton_Click);
+            // 
             // AccountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
+            this.Controls.Add(this.LaserEffectSwitchButton);
             this.Controls.Add(this.allRelayOff);
             this.Controls.Add(this.resetMoneyPlate);
             this.Controls.Add(this.label2text);
@@ -1671,5 +1684,6 @@
         public System.Windows.Forms.Label label2text;
         private System.Windows.Forms.Button resetMoneyPlate;
         private System.Windows.Forms.Button allRelayOff;
+        private System.Windows.Forms.Button LaserEffectSwitchButton;
     }
 }
