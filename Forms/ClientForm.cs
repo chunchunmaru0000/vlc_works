@@ -201,7 +201,9 @@ namespace vlc_works015
 
             if (VideoChecker.blockInput || VideoChecker.gameEnded || VideoChecker.errorsCount > 2)
                 return;
-			if (NumKeys.Contains(k))
+            if (IsInputingUserData) // for sure
+                return;
+            if (NumKeys.Contains(k))
 				DrawNum(k);
 			if (k == Keys.Enter)
 				ProceedInput();
