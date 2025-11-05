@@ -671,6 +671,10 @@ namespace vlc_works015
         #endregion DEBUG_FORM
 
         #region TEMPORAL_CONTROLS
+        private void EraseNumbersButton_Click(object sender, EventArgs e)
+        {
+            App.Client.Invoke(new Action(App.Client.DeleteInput));
+        }
 
         public void SetUserId(long id)
         {
