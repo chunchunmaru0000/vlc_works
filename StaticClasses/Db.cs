@@ -275,7 +275,7 @@ SELECT price_int from {TempPricesTableName}
 
 			if (wonBoolInt)
 				ExecuteNonQuery(InsertTempPrizesCommand(prizeInt));
-			ExecuteNonQuery(InsertTempPricesCommand(priceInt));
+			//ExecuteNonQuery(InsertTempPricesCommand(priceInt));
 		}
 
         private static string DateOfUnix(long seconds) => 
@@ -492,5 +492,8 @@ LIMIT {maxCounter + 1}";
                 }
             }
         }
+
+        public static void InsertTempPrices(long priceInt) => 
+            ExecuteNonQuery(InsertTempPricesCommand(priceInt));
     }
 }

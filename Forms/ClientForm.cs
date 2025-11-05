@@ -388,6 +388,9 @@ namespace vlc_works015
 
 			Play(VideoChecker.currentLanguage.GamePayed.Uri, Stage.GAME_PAYED);
             RelayChecker.Transmit(Channel.PAD_LIGHT, true);
+
+            Db.InsertTempPrices(DbCurrentRecord.SelectedPrice);
+            App.Accounting.Invoke(new Action(App.Accounting.StartTables));
         }
 
 		private void DrawNum(Keys key)
