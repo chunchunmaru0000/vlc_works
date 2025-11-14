@@ -168,6 +168,7 @@ namespace vlc_works015
             foreach(int rowIndex in rowIndexToSelectedImage.Keys) {
                 Image face = Utils.BytesToBitmap(rowIndexToSelectedImage[rowIndex]);
                 mainGrid.Rows[rowIndex].Cells["face"].Value = face;
+                FaceForm.print($"### SET PHOTO TO id={mainGrid.Rows[rowIndex].Cells["player_id"].Value} SUCCESS");
             }
         }
 

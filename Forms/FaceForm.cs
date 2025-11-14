@@ -11,6 +11,7 @@ using AForge.Video.DirectShow;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using FP_CLOCKLib;
 
 namespace vlc_works015
 {
@@ -41,13 +42,13 @@ namespace vlc_works015
 			InitListView();
         }
 
-		private static void print(object obj)
+		public static void print(object obj)
 		{
 			string str = obj == null ? "" : obj.ToString();
 
             Console.WriteLine(str);
 
-            //const string testFileName = "test__010__.txt";
+            //const string testFileName = "__TEST__015013__.txt";
             //File.AppendAllText(testFileName, str + "\n", encoding: System.Text.Encoding.UTF8);
         }
 
@@ -141,28 +142,27 @@ namespace vlc_works015
 ";
             byte[] serializedData = Convert.FromBase64String(stateStr);
 
-
 			using (MemoryStream ms = new MemoryStream(serializedData))
-			axFPCLOCK_Svr = new AxFPCLOCK_Svr() 
-			{
+			axFPCLOCK_Svr = new AxFPCLOCK_Svr()  {
 				Name = "axFPCLOCK_Svr", 
                 OcxState = new AxHost.State(ms, 1, false, null),
 				Location = new System.Drawing.Point(0, -100)
             };
-			axFPCLOCK_Svr.OnReceiveGLogData += axFPCLOCK_Svr1_OnReceiveGLogData;
 
+            print("# ADD LOGS BEFORE axFPCLOCK_Svr.OnReceiveGLogData += axFPCLOCK_Svr1_OnReceiveGLogData");
+			axFPCLOCK_Svr.OnReceiveGLogData += axFPCLOCK_Svr1_OnReceiveGLogData;
+            print("# ADD LOGS AFTER  axFPCLOCK_Svr.OnReceiveGLogData += axFPCLOCK_Svr1_OnReceiveGLogData");
 
             using (MemoryStream ms = new MemoryStream(serializedData))
-			axFP_CLOCK = new AxFP_CLOCK() 
-			{ 
+			axFP_CLOCK = new AxFP_CLOCK() { 
 				Name = "axFP_CLOCK",
 				OcxState = new AxHost.State(ms, 1, false, null),
                 Location = new System.Drawing.Point(0, -100)
             };
 
-
             Controls.Add(axFPCLOCK_Svr);
 			Controls.Add(axFP_CLOCK);
+            print("# ADDED TO CONTROLS");
 		}
 
 		private void InitListView()
@@ -182,27 +182,29 @@ namespace vlc_works015
 		#region BUTS
 		public void Connect_Click(object sender, EventArgs e)
 		{
-			if (int.TryParse(textPort.Text, out int port))
-			{
-				if (OpenAxFP_CLOCK())
-				{
-					connectBut.Enabled = false;
-					disconnectBut.Enabled = true;
-                    connectBut.BackColor = Color.LightGreen;
-                    disconnectBut.BackColor = Color.LightGreen;
-                    axFPCLOCK_Svr.OpenNetwork(port);
-
-                    accountingForm.devicesSettings.Add("LOCAL_PORT", textPort.Text);
-                    accountingForm.devicesSettings.Add("MACHINE_IP", ipAdressBox.Text);
-                    accountingForm.devicesSettings.Add("MACHINE_PORT", ipPortBox.Text);
-                    accountingForm.devicesSettings.Add("MACHINE_PASSWORD", passwordBox.Text);
-                    accountingForm.devicesSettings.Add("MACHINE_NUMBER", machineIdBox.Text);
-				}
-				else
-                    MessageBox.Show("НЕ ПОДКЛЮЧИЛОСЬ");
+			if (!int.TryParse(textPort.Text, out int port)) {
+                print("НЕВРНОЕ ЧИСЛО ДЛЯ ОТКРЫВАЕМОГО ПОРТА");
+                MessageBox.Show("НЕВРНОЕ ЧИСЛО ДЛЯ ОТКРЫВАЕМОГО ПОРТА");
+                return;
             }
-			else
-				MessageBox.Show("НЕВРНОЕ ЧИСЛО ДЛЯ ОТКРЫВАЕМОГО ПОРТА");
+			if (!OpenAxFP_CLOCK()) {
+                print("НЕ ПОДКЛЮЧИЛОСЬ");
+                MessageBox.Show("НЕ ПОДКЛЮЧИЛОСЬ");
+                return;
+            }
+			connectBut.Enabled = false;
+			disconnectBut.Enabled = true;
+            connectBut.BackColor = Color.LightGreen;
+            disconnectBut.BackColor = Color.LightGreen;
+
+            int someOpenNet = axFPCLOCK_Svr.OpenNetwork(port);
+            print($"### {someOpenNet} = axFPCLOCK_Svr.OpenNetwork({port})");
+
+            accountingForm.devicesSettings.Add("LOCAL_PORT", textPort.Text);
+            accountingForm.devicesSettings.Add("MACHINE_IP", ipAdressBox.Text);
+            accountingForm.devicesSettings.Add("MACHINE_PORT", ipPortBox.Text);
+            accountingForm.devicesSettings.Add("MACHINE_PASSWORD", passwordBox.Text);
+            accountingForm.devicesSettings.Add("MACHINE_NUMBER", machineIdBox.Text);
 		}
 
         private bool OpenAxFP_CLOCK()
@@ -211,6 +213,12 @@ namespace vlc_works015
             int nPort = Convert.ToInt32(ipPortBox.Text);
             int nPassword = Convert.ToInt32(passwordBox.Text);
             string strIP = ipAdressBox.Text;
+            print(string.Join("\n\t", new string[] { 
+                $"TRY OpenAxFP_CLOCK WITH:",
+                $"machineNumber: {machineNumber}",
+                $"nPassword: {nPassword}",
+                $"strIP: {strIP}",
+            }));
 
             axFP_CLOCK.OpenCommPort(machineNumber);
             if (!axFP_CLOCK.SetIPAddress(ref strIP, nPort, nPassword))
@@ -256,8 +264,7 @@ namespace vlc_works015
 		}
 
 		private void clearList_Click(object sender, EventArgs e)
-		{
-
+        {
 			nIndex = 0;
 			userDataListView.Items.Clear();
 		}
@@ -343,7 +350,7 @@ namespace vlc_works015
 					byte[] mbytCurEnrollData = new byte[imagelen];
 					Marshal.Copy(ptrIndexFacePhoto, mbytCurEnrollData, 0, imagelen);
 
-                    string imageName = e.anSEnrollNumber.ToString() + "_" + e.anLogDate.ToString("yy_MM_dd_HH_mm_ss") + ".png";
+                    //string imageName = e.anSEnrollNumber.ToString() + "_" + e.anLogDate.ToString("yy_MM_dd_HH_mm_ss") + ".png";
 					try
 					{
 						byte[] imageBytes = new byte[imagelen];
@@ -351,7 +358,9 @@ namespace vlc_works015
 
 						aiPictureBox.Image = new Bitmap(new MemoryStream(imageBytes)).Clone() as Bitmap;
 					} 
-					catch { }
+					catch (Exception ex) {
+                        print($"### ОШИБКА ПРИ СОЗДАННИ ИЗОБРАЖЕНИЯ:\n\t{ex.Message}");
+                    }
 
 					//File.WriteAllBytes(imageName, mbytCurEnrollData);
 				}
@@ -658,7 +667,7 @@ namespace vlc_works015
         }
         #endregion
 
-        #region REALY
+        #region RELAY
         private void CamUp()
         {
             RelayChecker.Transmit(Channel.CAMERA_UP, true); // camera UP on
